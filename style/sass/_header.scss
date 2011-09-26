@@ -65,7 +65,7 @@ header {
     padding: 4px 7px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    max-width: 140px;
+    max-width: 120px;
 
     &::-webkit-input-placeholder {
       color: lighten($blue, 10%);
@@ -74,7 +74,7 @@ header {
 
   input[type="submit"] {
     border: none;
-    padding: 5px 20px;
+    padding: 5px 10px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     background-color: #fff;
