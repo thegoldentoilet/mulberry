@@ -3,21 +3,16 @@
 $(function() {
   var $forms = $('form.signup-form').submit(function() {
 
-    var n = $('#entry_0').val(),
-        e = $('#entry_1').val(),
-        $this = $(this),
+    var $this = $(this),
         $signup = $this.closest('.signup'),
-        valid = true;
+        valid = true,
+        email = $this.find('.email').val();
 
     $('.error').empty().removeClass('error');
 
-    var $inputs = $signup.find('input.ss-q-short');
-
-    $inputs.each(function() {
-      if (!$.trim(this.value)) {
-        valid = false;
-      }
-    });
+    if (!$.trim(email) || !email.match('@')) {
+      valid = false;
+    }
 
     if (valid) {
       $this.fadeTo(100, 0.5);
@@ -28,13 +23,11 @@ $(function() {
     }
 
     $signup.siblings('.error-msg').find('.inner')
-      .text('Please fill out both fields')
+      .text('Please provide your email address')
       .fadeIn();
 
     return false;
-
   });
 });
 
 }(jQuery));
-
