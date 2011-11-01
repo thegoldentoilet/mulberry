@@ -50,7 +50,7 @@
   <header role="banner">
     <hgroup class=header>
   <a href="http://github.com/Toura/mulberry" class="fork-me"><img src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
-  <h1 class=logo><a href="">Toura Mulberry</a></h1>
+  <h1 class=logo><a href="http://mulberry.toura.com">Toura Mulberry</a></h1>
 </hgroup>
 
 
@@ -63,7 +63,7 @@
       <li><a href="/">Home</a></li>
       <li><a href="/overview/">Overview</a></li>
       <li><a href="/blog/">Blog</a></li>
-      <li><a href="/download/">Download</a></li>
+      <li><a href="/download/">Download <sub>beta</sub></a></li>
     </ul>
 
 
@@ -556,7 +556,19 @@ operating systems your app supports:</p>
 
 <aside class="sidebar">
   
-    <section>
+    <section class="mailing-list">
+  <h1>Stay in Touch</h1>
+
+  <form class="signup-form" method="POST"
+    action="http://github.us1.list-manage2.com/subscribe/post?u=55fc9d13f9b123630e693855b&amp;id=5eb483eb97">
+
+    <input id="email_1" type="text" name="EMAIL" value="" class="email" placeholder="Email Address">
+
+    <input type="submit" name="submit" value="Keep me posted">
+  </form>
+  <div class="extra-info">We won&rsquo;t sell your email, we promise.</div>
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -569,12 +581,13 @@ operating systems your app supports:</p>
 <section class="support">
   <h1>Support</h1>
   <ul>
-    <li><a class="google-group" href="https://groups.google.com/forum/#!forum/toura-mulberry">Google Group</a></li>
+    <li>Visit the <a class="google-group" href="https://groups.google.com/forum/#!forum/toura-mulberry">Google Group</a></li>
+    <li>Chat with other developers in the #touramulberry channel on <a href="http://webchat.freenode.net/">Freenode</a></li>
   </ul>
 </section>
 
 <section>
-  <h1>Latest Tweets</h1>
+  <h1>Mulberry on Twitter</h1>
   <ul id="tweets">
     <li class="loading">Status updating...</li>
   </ul>
@@ -589,18 +602,6 @@ operating systems your app supports:</p>
   
 </section>
 
-<section class="mailing-list">
-  <h1>Stay in Touch</h1>
-
-  <form class="signup-form" method="POST"
-    action="http://github.us1.list-manage2.com/subscribe/post?u=55fc9d13f9b123630e693855b&amp;id=5eb483eb97">
-
-    <input id="email_1" type="text" name="EMAIL" value="" class="email" placeholder="Email Address">
-
-    <input type="submit" name="submit" value="Keep me posted">
-  </form>
-  <div class="extra-info">We won&rsquo;t sell your email, we promise.</div>
-</section>
 
   
 </aside>
@@ -626,6 +627,20 @@ $.domReady(function() {
 
 </footer>
   
+
+<script type="text/javascript">
+    
+      var disqus_shortname = 'touramulberry';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 <div id="fb-root"></div>
