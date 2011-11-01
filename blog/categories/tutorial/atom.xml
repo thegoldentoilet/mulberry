@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tutorial | Toura Mulberry]]></title>
+  <link href="http://mulberry.toura.com/blog/categories/tutorial/atom.xml" rel="self"/>
+  <link href="http://mulberry.toura.com/"/>
+  <updated>2011-10-31T20:00:15-04:00</updated>
+  <id>http://mulberry.toura.com/</id>
+  <author>
+    <name><![CDATA[Toura Dev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Creating Custom Functionality with Mulberry]]></title>
+    <link href="http://mulberry.toura.com/blog/2011/10/30/custom-functionality/"/>
+    <updated>2011-10-30T14:10:00-04:00</updated>
+    <id>http://mulberry.toura.com/blog/2011/10/30/custom-functionality</id>
+    <content type="html"><![CDATA[<p>Out of the box, Mulberry's great at making simple content-driven apps, but one
+of the things we heard loud and clear during the closed alpha was that
+developers want to use Mulberry to make more complex, data-driven apps as well.
+No worries -- Mulberry has that covered too.</p>
+
+<p>In this post, we'll take a look at what's involved in creating a Twitter app --
+Twitter is the new "hello world", after all. In the process, we'll learn about
+creating <strong>custom components, templates, interactions, and routes</strong>. You can
+follow along by <a href="http://mulberry.toura.com/download">downloading Mulberry</a> and
+heading to the <code>demos/twitter</code> directory.</p>
+
+<p>To start, we'll create a new Mulberry project named "twitter". Once you've
+downloaded Mulberry and added the location of the binary to your <code>$PATH</code>, you
+can run the following command from any location on your filesystem where you
+have write permission:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry scaffold twitter</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This will create a new directory named <code>twitter</code>; you'll want to <code>cd twitter</code>
+so you're inside the project as you follow along.</p>
+
+<h2>An Overview of the App</h2>
+
+<p>The app we're building will have two pages:</p>
+
+<ul>
+<li>A home page that shows a list of people, and allows users to choose from the
+list; choosing a person from the list will show a map of the city where that
+person lives, their latest tweet, and their Twitter bio with a link to see
+all of their tweets.</li>
+<li>A secondary page that shows a person's 10 latest tweets.</li>
+</ul>
+
+
+<h2>Creating the Data</h2>
+
+<p>Since this is a data-driven app, the first thing we need to do is provide it
+with some seed data to drive it. We'll run this command from the root of our
+Mulberry project:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create_data users</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This creates a data file named <code>users.yml</code> in the <code>assets/data/</code> directory
+inside your project. It's an empty file, so we'll add some information about
+our users to the file, in the <a href="http://yaml.org/">YAML</a> format:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/assets/data/users.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users</span>
+</span><span class='line'><span class="l-Scalar-Plain">users</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Paul Irish&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;pre&gt;&lt;code&gt;twitter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">paul_irish</span>
+</span><span class='line'><span class="l-Scalar-Plain">location</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lat</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">37.7749295</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lng</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-122.4194155</span>
+</span><span class='line'><span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://twimg0-a.akamaihd.net/profile_images/1326877605/greenavatar_crop_normal.jpg</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;ul&gt;</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;li&gt;name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Alex Sexton</span>
+</span><span class='line'><span class="l-Scalar-Plain">twitter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">SlexAxton</span>
+</span><span class='line'><span class="l-Scalar-Plain">location</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lat</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">30.267153</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lng</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-97.7430608</span>
+</span><span class='line'><span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://twimg0-a.akamaihd.net/profile_images/1384837213/SlexAxtonAvatar_normal.jpg&lt;/li&gt;</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;li&gt;name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Adam Sontag</span>
+</span><span class='line'><span class="l-Scalar-Plain">twitter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ajpiano</span>
+</span><span class='line'><span class="l-Scalar-Plain">location</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lat</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">40.7143528</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lng</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-74.0059731</span>
+</span><span class='line'><span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://twimg0-a.akamaihd.net/profile_images/1396366703/twitpic_pool_normal.png&lt;/li&gt;</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;li&gt;name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Rebecca Murphey</span>
+</span><span class='line'><span class="l-Scalar-Plain">twitter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">rmurphey</span>
+</span><span class='line'><span class="l-Scalar-Plain">location</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lat</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">35.9940329</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">lng</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-78.898619</span>
+</span><span class='line'><span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://twimg0-a.akamaihd.net/profile_images/1447727594/IMG_8534_normal.jpg</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+
+<p>Note that there are two pieces to this data: a <code>type</code> property, and a <code>users</code>
+array that contains the actual data. The <code>type</code> property will help us locate
+the data later; its presence means that a page can have easy access to many
+different kinds of data.</p>
+
+<p>Now that we've added this data to our project, we can move on to setting up the
+home page.</p>
+
+<h2>Creating the Home Page</h2>
+
+<p>When you scaffold a Mulberry app, a home page is automatically created in your
+project's <code>pages/</code> directory. By default, this page uses the <code>home-tablet</code> and
+<code>home-phone</code> templates, but we'll want to change that, as well as tell the page
+that it should have access to the data we created. Here's what our <code>pages.md</code>
+file looks like when we're done:</p>
+
+<h2><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/pages/home.md  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">&lt;/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Home</span>
+</span><span class='line'><span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">twitter</span>
+</span><span class='line'><span class="l-Scalar-Plain">data:&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h2&gt;  - users.yml&lt;/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Next, let's take a closer look at the mockup of the home page. There are four
+distinct pieces of functionality on the page, and in Mulberry we refer to these
+pieces of functionality as "components":</p>
+
+<p><img src="/images/twitter-demo-components.png" alt="Breaking the home page into components" /></p>
+
+<p>Mulberry has a GoogleMap component built in, but we'll need to create custom
+components for the rest:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create_component LatestTweet UserInfo UserList</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Running this command creates skeleton files in the project's
+<code>javascript/components</code> directory for each of the components, and adds
+<code>dojo.require</code> statements to the project's <code>javascript/base.js</code> file so that
+the components will automatically be available to the rest of your code.</p>
+
+<h3>Writing Our Custom Components</h3>
+
+<p>Components in Mulberry have three jobs:</p>
+
+<ul>
+<li>receiving data from an external source</li>
+<li>rendering that data</li>
+<li>announcing user interaction with the component, if applicable</li>
+</ul>
+
+
+<p>Mulberry automatically provides every component on a page with the information
+associated with that page; it puts that information into a component's
+<code>baseObj</code> property. This means that our components will automatically get
+access to the user data we associated with the home page.</p>
+
+<p>Because we remembered to add a <code>type</code> property to that data, fetching the array
+of people in the <code>users.yml</code> file from inside a component is easy:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">baseObj</span><span class="p">.</span><span class="nx">getData</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">).</span><span class="nx">users</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Let's look at the UserList component as an example. Its job is to receive data
+(in this case, a list of people); render that data (in this case, as an
+unordered list), and then announce user interaction (in this case, when a user
+selects a person from the list).</p>
+
+<p>Here's what our UserList component ends up looking like:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/javascript/components/UserList.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">dojo</span><span class="p">.</span><span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;client.components.UserList&#39;</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">mulberry</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">&#39;UserList&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">componentTemplate</span> <span class="o">:</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">cache</span><span class="p">(</span><span class="s1">&#39;client.components&#39;</span><span class="p">,</span> <span class="s1">&#39;UserList/UserList.haml&#39;</span><span class="p">),</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">prep</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">this</span><span class="p">.</span><span class="nx">users</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">baseObj</span><span class="p">.</span><span class="nx">getData</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">).</span><span class="nx">users</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">this</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">domNode</span><span class="p">,</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="s1">&#39;_handleClick&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_handleClick</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="p">(</span><span class="nx">target</span> <span class="o">!==</span> <span class="k">this</span><span class="p">.</span><span class="nx">domNode</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">target</span><span class="p">.</span><span class="nx">parentNode</span> <span class="o">!==</span> <span class="k">this</span><span class="p">.</span><span class="nx">domNode</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">target</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nx">nodeName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">!==</span> <span class="s1">&#39;li&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">dojo</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="s1">&#39;selected&#39;</span><span class="p">))</span> <span class="p">{</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s1">&#39;.selected&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;selected&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">dojo</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="s1">&#39;selected&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">onSelect</span><span class="p">(</span><span class="nx">dojo</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="s1">&#39;data-twitter-username&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">onSelect</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="c1">// stub for connection</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The <code>prep</code> and <code>init</code> methods are called automatically; the <code>prep</code> method is
+called before the component's DOM structure is created, and the <code>init</code> method
+is called after its DOM structure is created.</p>
+
+<p>In the case of the UserList component, we use the <code>prep</code> method to prepare the
+data associated with the page. Then, in the <code>init</code> method, we tell the component to
+listen for user interaction -- in this case, a click on the component's root
+DOM node. A click on that node will result in the component's <code>_handleClick</code>
+method being called; if <code>_handleClick</code> decides that the click was on a list
+item, then it will call the component's <code>onSelect</code> method, passing it the
+username of the person who was selected.</p>
+
+<p>Note that the <code>onSelect</code> method doesn't <em>do</em> anything. Later in this post,
+we'll see how we can "connect" to that method from another part of our code,
+but it's important to understand this key concept in Mulberry apps: components
+should <em>never</em> directly affect other pieces of the application. Their job is to
+receive, render, and announce -- nothing more.</p>
+
+<p>Some of the components in our app will need to receive data once they're
+already on the page. We can use "setter methods" to make this possible. For
+example, the UserInfo component should be able to display a different user
+without having to re-create the component from scratch. To allow this, we
+create a <code>_setUserAttr</code> method on the UserInfo component</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/javascript/components/UserInfo.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">dojo</span><span class="p">.</span><span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;client.components.UserInfo&#39;</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">mulberry</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">&#39;UserInfo&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">componentTemplate</span> <span class="o">:</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">cache</span><span class="p">(</span><span class="s1">&#39;client.components&#39;</span><span class="p">,</span> <span class="s1">&#39;UserInfo/UserInfo.haml&#39;</span><span class="p">),</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_setUserAttr</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">this</span><span class="p">.</span><span class="nx">nameNode</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">twitterLinkNode</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="s1">&#39;#/twitter/&#39;</span> <span class="o">+</span> <span class="nx">user</span><span class="p">.</span><span class="nx">twitter</span><span class="p">;</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">bioNode</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">bio</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This means that any code that has access to an instance of the UserInfo
+component can do the following:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">myUserInfoInstance</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="nx">userObject</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Whenever the <code>set</code> method is called on a component instance, the component
+looks for a setter method that matches the property name passed as the first
+argument to <code>set</code>. If it finds a corresponding method, it calls it; if it does
+not find a corresponding method, then it simply sets the value of a property on
+the component instance.</p>
+
+<p>(This functionality is based entirely on Dojo's <code>dijit._WidgetBase</code> --
+<a href="http://jsfiddle.net/rmurphey/76C76/">see how it works here</a>.)</p>
+
+<p>In the UserInfo component, we refer to several properties that do not seem to
+be defined anywhere: <code>this.nameNode</code>, <code>this.bioNode</code>, etc. These properties get
+set automatically by the component's template using "attach points." Here's the
+UserInfo template, located at <code>javascript/components/UserInfo/UserInfo.haml</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/javascript/components/UserInfo/UserInfo.haml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.component.user-info</span>
+</span><span class='line'>  <span class="nt">%h1</span><span class="p">{</span> <span class="n">dojoAttachPoint</span> <span class="p">:</span> <span class="s1">&#39;nameNode&#39;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nt">%p</span><span class="nc">.bio</span><span class="p">{</span> <span class="n">dojoAttachPoint</span> <span class="p">:</span> <span class="s1">&#39;bioNode&#39;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nt">%p</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;%a{ dojoAttachPoint : &#39;twitterLinkNode&#39; } View all tweets
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Using attach points greatly reduces the need for querying the DOM; you can
+create an attach point on any node, and then refer to that node from inside
+your component by using the attach point's name:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">myAttachPointName</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Creating the Page Template</h2>
+
+<p>Once we've created our components (see the demo in the repo for details on how
+the rest of the components are set up), it's time to assemble them into a page
+template. Earlier, we told our home page to use the <code>twitter</code> template; now,
+we'll ask Mulberry to create that template for us:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create_template twitter</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This creates a file at <code>templates/twitter.yml</code> that contains the skeleton of a
+template. We'll fill it out with the details about how we want our page to
+look:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/templates/twitter.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">twitter</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">screens:&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;pre&gt;&lt;code&gt;- name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">index</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">regions</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">size</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fixed</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">custom.LatestTweet</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">size</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fixed</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">GoogleMap</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">containerType</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">column</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">regions</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">className</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">user-list</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">size</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fixed</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">custom.UserList</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">className</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">user-info</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">size</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">flex</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">custom.UserInfo</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Again, we use YAML here, this time to say that we want a page template named
+"twitter" that has one screen named "index" (page templates can have more than
+one screen, with the intention that only one screen is visible at any time, but
+the details of that are beyond the scope of this post). That screen is broken
+down into regions:</p>
+
+<ul>
+<li>The first region will be a fixed height, and it will contain our custom
+LatestTweet component.</li>
+<li>The second region will be a fixed height, and it will contain the built-in
+GoogleMap component.</li>
+<li>The third region will be split into two sub-regions, which will be displayed
+as columns (that is, side-by-side). The first sub-region will contain the
+custom UserList component, and will get the class name <code>user-list</code> so that we
+can target it with CSS; the second sub-region will contain the custom
+UserInfo component, and will get the class name <code>user-info</code>. The sub-region
+that contains UserList will be fixed-width; the UserInfo sub-region will flex
+to fill the remaining size.</li>
+</ul>
+
+
+<p>At this point, we should be able to serve our application using the Mulberry
+development server:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry serve</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>If you navigate to the <a href="http://localhost:3001/ios/tablet/#/home">home page</a>,
+you'll see that all of the components display in the proper arrangement, but
+not much is happening yet. We need some data.</p>
+
+<h2>Loading the External Data</h2>
+
+<p>We want to create an interface to the Twitter data we'll need in order to
+populate our pages. For our home page, we'll need a user's latest tweet, as
+well as their bio; for our secondary page, we'll need a users 10 most recent
+tweets. We can start by asking Mulberry to create a skeleton file for our
+datasource:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create_datasource Twitter</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This creates a file at <code>javascript/data/Twitter.js</code>, and adds a <code>dojo.require</code>
+statement to our project's <code>javascript/base.js</code> file. There's not much here
+(we're working on a more elaborate API for remote data sources), so for now
+it's up to us to fill in the details:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/javascript/data/Twitter.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">dojo</span><span class="p">.</span><span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;client.data.Twitter&#39;</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">mulberry</span><span class="p">.</span><span class="nx">datasource</span><span class="p">(</span><span class="s1">&#39;Twitter&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">getLatest</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_get</span><span class="p">(</span><span class="nx">username</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">dojo</span><span class="p">.</span><span class="nx">hitch</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;_getLatest&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">getAll</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_get</span><span class="p">(</span><span class="nx">username</span><span class="p">,</span> <span class="mi">10</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">dojo</span><span class="p">.</span><span class="nx">hitch</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;_getAll&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_get</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">username</span><span class="p">,</span> <span class="nx">count</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://twitter.com/status/user_timeline/${username}.json?count=&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">count</span> <span class="o">||</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">script</span><span class="p">.</span><span class="nx">get</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">url</span> <span class="o">:</span> <span class="nx">toura</span><span class="p">.</span><span class="nx">tmpl</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span> <span class="nx">username</span> <span class="o">:</span> <span class="nx">username</span> <span class="p">}),</span>
+</span><span class='line'>  <span class="nx">callbackParamName</span> <span class="o">:</span> <span class="s1">&#39;callback&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_getLatest</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">data</span> <span class="o">||</span> <span class="o">!</span><span class="nx">data</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_formatTweet</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_getAll</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_formatTweet</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_formatTweet</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">tweet</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">text</span> <span class="o">:</span> <span class="nx">tweet</span><span class="p">.</span><span class="nx">text</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">date</span> <span class="o">:</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">date</span><span class="p">.</span><span class="nx">locale</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">tweet</span><span class="p">.</span><span class="nx">created_at</span><span class="p">)),</span>
+</span><span class='line'>  <span class="nx">bio</span> <span class="o">:</span> <span class="nx">tweet</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">description</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>There's not much that's interesting here, except that this code takes advantage
+of the fact that all async methods in Dojo -- such as <code>dojo.io.script.get</code> --
+return a "promise." Promises are incredibly useful structures that greatly
+facilitate the development of asynchronous processes. A promise is, quite
+literally, a promise: a promise object is a guarantee that when the async operation
+is completed, the promise will execute any function that was passed to it via
+the promise's <code>then</code> method.</p>
+
+<p>In this example, the <code>getLatest</code> method receives the promise returned by the
+<code>_get</code> method, then attaches a callback to it using the <code>then</code> method of the
+promise. The <code>then</code> method ultimately returns another promise, which is resolved
+with the return value of the <code>_getLatest</code> method. This means that another piece
+of code with access to an instance of the Twitter datasource can do this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">myTwitterInstance</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;rmurphey&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">tweets</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;these are the tweets&#39;</span><span class="p">,</span> <span class="nx">tweets</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The code inside the function will run once the tweets have been fetched.</p>
+
+<h2>Connecting the Components</h2>
+
+<p>We have our page template, we have our components, and we have our data -- now
+it's time to glue it all together. Mulberry uses "capabilities" to broker
+communication between components and datasources. We'll ask Mulberry to create
+a capability that we'll use to encapsulate the functionality of our Twitter
+page:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create_capability Twitter</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This creates a skeleton file at <code>javascript/capabilities/Twitter.js</code>, and
+adds a <code>dojo.require</code> statement to our project's <code>javascript/base.js</code> file.</p>
+
+<p>Capabilities have a <code>requirements</code> object that indicates the components that it
+expects to be present. It assigns those components names that will be used to
+reference the components inside the capability. Capabilities also have a
+<code>connects</code> array, which contains zero or more arrays that describe how the
+capability will react when a certain method on a component is called. Remember
+how we had an empty <code>onSelect</code> method in our UserList component? Our Twitter
+capability connects to it, and describes how the rest of the page should react.
+Finally, capabilities have an <code>init</code> method, where you can do initial setup of
+components that might be page-dependent.</p>
+
+<p>Here's the Twitter capability in its entirety; you can see how all of the
+pieces we've talked about above come together:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>demos/twitter/javascript/capabilities/Twitter.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">dojo</span><span class="p">.</span><span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;client.capabilities.Twitter&#39;</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">mulberry</span><span class="p">.</span><span class="nx">capability</span><span class="p">(</span><span class="s1">&#39;Twitter&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">requirements</span> <span class="o">:</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">latestTweet</span>   <span class="o">:</span> <span class="s1">&#39;custom.LatestTweet&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">map</span>           <span class="o">:</span> <span class="s1">&#39;GoogleMap&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">userList</span>      <span class="o">:</span> <span class="s1">&#39;custom.UserList&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">userInfo</span>      <span class="o">:</span> <span class="s1">&#39;custom.UserInfo&#39;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">connects</span> <span class="o">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="p">[</span> <span class="s1">&#39;userList&#39;</span><span class="p">,</span> <span class="s1">&#39;onSelect&#39;</span><span class="p">,</span> <span class="s1">&#39;_onUserSelect&#39;</span> <span class="p">],</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;map&#39;</span><span class="p">,</span> <span class="s1">&#39;onMapBuilt&#39;</span><span class="p">,</span> <span class="s1">&#39;_onMapBuilt&#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">],</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">this</span><span class="p">.</span><span class="nx">users</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">baseObj</span><span class="p">.</span><span class="nx">getData</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">).</span><span class="nx">users</span><span class="p">;</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">twitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">client</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Twitter</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">users</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">userInfo</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">_loadUser</span><span class="p">(</span><span class="nx">user</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_onMapBuilt</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">this</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">users</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">location</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_onUserSelect</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">users</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">u</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">u</span><span class="p">.</span><span class="nx">twitter</span> <span class="o">===</span> <span class="nx">username</span>
+</span><span class='line'><span class="p">})[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">_loadUser</span><span class="p">(</span><span class="nx">user</span><span class="p">);</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">location</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">_loadUser</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">twitter</span><span class="p">.</span><span class="nx">getLatest</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">twitter</span><span class="p">);</span>
+</span><span class='line'><span class="nx">req</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">dojo</span><span class="p">.</span><span class="nx">hitch</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">latestTweet</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">,</span> <span class="s1">&#39;tweet&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="nx">req</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">dojo</span><span class="p">.</span><span class="nx">hitch</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">tweet</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">user</span><span class="p">.</span><span class="nx">bio</span> <span class="o">=</span> <span class="nx">tweet</span><span class="p">.</span><span class="nx">bio</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">userInfo</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+</span><span class='line'><span class="p">}));</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Adding a Custom Route for the User Tweets Page</h2>
+
+<p>Our last task before our Twitter app is complete is to create the secondary
+page, which shows a specific person's recent tweets. We already know how to set
+up a page template and a new component, and how to fetch the Twitter data using
+the datasource we created, but how do we get the page to figure out which
+person's Tweets to load?</p>
+
+<p>For the sake of this discussion, let's assume that we've created another page
+template named <code>user</code>, and that the page template includes a custom component
+named <code>Tweets</code>. (You can see this page template and the custom component in the
+demo in the repo.)</p>
+
+<p>In the UserInfo component, we indicated that we want to access the page by
+visiting <code>#/twitter/&lt;username&gt;</code>. We need to define a custom route that will run
+when a user navigates to this kind of page; the route will need to capture the
+username from the URL's hash, and then get the proper data to the components on
+the page. We can add the following to our project's <code>javascript/base.js</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">dojo</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s1">&#39;/routes/loaded&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="nx">mulberry</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Router</span><span class="p">.</span><span class="nx">registerRoute</span><span class="p">(</span><span class="s1">&#39;/twitter/:username&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">twitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">client</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Twitter</span><span class="p">(),</span>
+</span><span class='line'>    <span class="nx">page</span> <span class="o">=</span> <span class="nx">mulberry</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">PageFactory</span><span class="p">.</span><span class="nx">createPage</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">pageController</span> <span class="o">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">tweets</span> <span class="o">:</span> <span class="nx">twitter</span><span class="p">.</span><span class="nx">getAll</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">username</span><span class="p">),</span>
+</span><span class='line'>      <span class="nx">name</span> <span class="o">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">username</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">mulberry</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">showPage</span><span class="p">(</span><span class="nx">page</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">});</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This code tells the Mulberry router to be on the lookout for a URL hash that looks
+like <code>/twitter/:username</code>. When the router sees this hash, it should run the
+provided function. The provided function receives a <code>params</code> object, which
+contains any parameters that were included in the hash. So, in this case, our
+<code>params</code> object would have a <code>username</code> property, containing whichever username
+was in the URL hash.</p>
+
+<p>Inside the function, we create an instance of our Twitter datasource, and then
+we ask the Mulberry PageFactory to create a page for us by passing it an
+object. This object will be available to all components on the page; it also
+<em>must</em> have a <code>pageController</code> property, which the PageFactory will use to
+determine which page template to use in creating the page.</p>
+
+<p>The object that we pass to the PageFactory's <code>createPage</code> method also has a
+<code>tweets</code> property, and here we see the power of promises again. We use the
+<code>tweets</code> property to pass the promise that's returned by the Twitter
+datasource; by doing this, we allow the Tweets component to receive data
+<em>without interacting directly with the datasource</em>. The Tweets component simply
+attaches a callback to the promise using the promise's <code>then</code> method. When the
+promise resolves, it provides an array of tweets to any callbacks that were
+attached; the Tweets component uses that array to populate itself.</p>
+
+<h2>Conclusion</h2>
+
+<p>Mulberry's built-in components and page templates are focused on facilitating
+the rapid creation of static content apps, but the underlying patterns, tools,
+and architecture provide powerful tools for building all kinds of apps. If you
+build something interesting, we hope you'll <a href="mailto:mulberry@toura.com">let us know</a>!</p>
+]]></content>
+  </entry>
+  
+</feed>

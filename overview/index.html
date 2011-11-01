@@ -1,0 +1,666 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Mulberry Toolchain - Toura Mulberry</title>
+  <meta name="author" content="Toura Dev">
+
+  
+  <meta name="description" content="        The Mulberry Toolchain          Mulberry smooths over the bumps that web developers often encounter when theyapply web technologies to a na...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mulberry.toura.com/overview/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Toura Mulberry" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25683438-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+
+<body   >
+  <header role="banner">
+    <hgroup class=header>
+  <a href="http://github.com/Toura/mulberry" class="fork-me"><img src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+  <h1 class=logo><a href="">Toura Mulberry</a></h1>
+</hgroup>
+
+
+  </header>
+
+  <nav role="navigation">
+    <nav class="main">
+  <div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/overview/">Overview</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/download/">Download</a></li>
+    </ul>
+
+
+    <form action="http://google.com/search" method="get">
+      <fieldset role="search">
+        <input type="hidden" name="q" value="site:mulberry.toura.com" />
+        <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+      </fieldset>
+    </form>
+
+    <!--
+    <ul class="subscription" data-subscription="rss">
+      <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+      
+    </ul>
+    -->
+  </div>
+</nav>
+
+
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <article role="article">
+  
+  <header>
+    <h1 class="entry-title">The Mulberry Toolchain</h1>
+    
+  </header>
+  
+  <p>Mulberry smooths over the bumps that web developers often encounter when they
+apply web technologies to a native platform. It handles things like:</p>
+
+<ul>
+  <li>Over-the-air data updates</li>
+  <li>Data persistence</li>
+  <li>Full offline functionality</li>
+  <li>Application architecture &amp; organization</li>
+  <li>Differences in PhoneGap features across platforms</li>
+</ul>
+
+<p>It separates the app development process into a few simple steps:</p>
+
+<h2 id="scaffold">Scaffold</h2>
+
+<p>Creating the structure for a new application takes just a moment:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry scaffold capitoljs</span></code></pre></td></tr></table></div></figure>
+
+<p class="img"><img src="/images/scaffold.png" title="Scaffolded directory structure"></p>
+
+<h2 id="configure">Configure</h2>
+
+<p>A <a href="http://yaml.org/">YAML</a> file gives Mulberry basic configuration
+information, including settings for the base theme:</p>
+
+<figure class='code'><figcaption><span>config.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="c1"># Enter your application name here (required!)</span>
+</span><span class='line'><span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">CapitolJS</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Presently there is only one theme, the default theme. We need to document how</span>
+</span><span class='line'><span class="c1"># to create additional themes.</span>
+</span><span class='line'><span class="l-Scalar-Plain">theme</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">settings</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">font-scheme</span><span class="p-Indicator">:</span>        <span class="s">&#39;dark&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">link-color</span><span class="p-Indicator">:</span>         <span class="s">&#39;#0000ff&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">background-color</span><span class="p-Indicator">:</span>   <span class="s">&#39;#fff&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">child-nav-color</span><span class="p-Indicator">:</span>    <span class="s">&#39;#fff&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">os</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="c1"># Specify the operating systems to target</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ios</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="c1"># Specify the form factors to target;</span>
+</span><span class='line'>  <span class="c1"># note that Android currently only supports phones</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phone</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Dojo is included by default, but if you want access</span>
+</span><span class='line'><span class="c1"># to jQuery functionality, set this to true</span>
+</span><span class='line'><span class="l-Scalar-Plain">jquery</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># enter your facebook api key here in order to enable facebook features</span>
+</span><span class='line'><span class="l-Scalar-Plain">facebook_api_key</span><span class="p-Indicator">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># your twitter api key must be authorized for xauth for twitter features</span>
+</span><span class='line'><span class="c1"># to work. see https://dev.twitter.com/docs/oauth/xauth</span>
+</span><span class='line'><span class="l-Scalar-Plain">twitter_customer_key</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="l-Scalar-Plain">twitter_customer_secret</span><span class="p-Indicator">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># You must replace these with your own app id</span>
+</span><span class='line'><span class="c1"># for each targeted os/device type</span>
+</span><span class='line'><span class="l-Scalar-Plain">app_id</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">android</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">phone</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">com.toura.app2_fake</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ios</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">phone</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">com.toura.app2.fake.phone</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">tablet</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">com.toura.app2.fake.tablet</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Enter your Urban Airship account details here</span>
+</span><span class='line'><span class="l-Scalar-Plain">urban_airship</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app_key</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">dev_app_key</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app_secret</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">dev_app_secret</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app_key</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">prod_app_key</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app_secret</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">prod_app_secret</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">android</span><span class="p-Indicator">:</span>
+</span><span class='line'>     <span class="l-Scalar-Plain">transport</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">c2dm</span>
+</span><span class='line'>     <span class="l-Scalar-Plain">c2dm_sender</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">c2dmsender@mail.com</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Enter your flurry api keys here</span>
+</span><span class='line'><span class="l-Scalar-Plain">flurry</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="l-Scalar-Plain">ios</span><span class="p-Indicator">:</span>
+</span><span class='line'>   <span class="l-Scalar-Plain">api_key</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">flurry_ios_api_key</span>
+</span><span class='line'> <span class="l-Scalar-Plain">android</span><span class="p-Indicator">:</span>
+</span><span class='line'>   <span class="l-Scalar-Plain">api_key</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">flurry_android_api_key</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2 id="construct">Construct</h2>
+
+<p class="img"><img src="/images/page-montage.png" title="A simple page using an existing template"></p>
+
+<p>Specify the structure of your application via the sitemap:</p>
+
+<figure class='code'><figcaption><span>sitemap.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">home</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">speakers</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">schedule</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">points-of-interest</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">twitter</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">feed</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sponsors</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">about</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create your pages &hellip;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create_page speakers</span></code></pre></td></tr></table></div></figure>
+
+<p>&hellip; then organize your content and metadata using YAML, Markdown, and
+your filesystem:</p>
+
+<figure class='code'><figcaption><span>page/speakers.md  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Speakers</span>
+</span><span class='line'><span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">phone</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">images-and-text-phone</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">tablet</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">images-and-text-tablet</span>
+</span><span class='line'><span class="l-Scalar-Plain">images</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pamela-fox.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">alex-sexton.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">brendan-eich.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">alex-russell.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">nicholas-zakas.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">jed-schmidt.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mike-taylor.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">douglas-crockford.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">rebecca-murphey.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">joe-mccann.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ben-combee.png</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mikeal-rogers.png</span>
+</span><span class='line'><span class="nn">---</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span>assets/images/captions/alex-sexton.md  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Alex Sexton</span>
+</span><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="c1">## [Alex Sexton](http://alexsexton.com/)</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">Alex Sexton is a Labs Engineer at Bazaarvoice in Austin, TX. He is the creator</span>
+</span><span class='line'><span class="l-Scalar-Plain">of yepnope.js and is a developer on the Modernizr core team. He is the current</span>
+</span><span class='line'><span class="l-Scalar-Plain">organizer of TXJS, a co-host on the yayQuery podcast as well as a volunteer</span>
+</span><span class='line'><span class="l-Scalar-Plain">bug-triager for the jQuery project. He has a passion for third party</span>
+</span><span class='line'><span class="l-Scalar-Plain">applications and application structure, so naturally he likes working on large</span>
+</span><span class='line'><span class="l-Scalar-Plain">third-party apps. He tweets at @slexaxton and blogs at http://alexsexton.com/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p class="img"><img src="/images/images.png" title="The images directory"></p>
+
+<h2 id="customize">Customize</h2>
+
+<p>You can define your own page layouts in YAML and take advantage of built-in components &hellip;</p>
+
+<figure class='code'><figcaption><span>templates.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">audio-with-images-phone</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">node</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">screens</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">index</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">backgroundImage</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">regions</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">size</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fixed</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">PageNav</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ImageGallery</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">size</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fixed</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">AudioPlayer</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">regions</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">AudioList</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ChildNodes</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">AudioCaption</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">BodyText</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">scrollable</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>&hellip; or create your own components to integrate with the framework:</p>
+
+<p class="img"><img src="/images/twitter-page.png" title="A custom page using a custom component"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create_component Twitter</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span>javascript/components/Twitter.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">mulberry</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">&#39;Twitter&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">componentTemplate</span> <span class="o">:</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">cache</span><span class="p">(</span><span class="s1">&#39;client.components&#39;</span><span class="p">,</span> <span class="s1">&#39;Twitter/Twitter.haml&#39;</span><span class="p">),</span>
+</span><span class='line'>  <span class="nx">tweetTemplate</span> <span class="o">:</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">cache</span><span class="p">(</span><span class="s1">&#39;client.components&#39;</span><span class="p">,</span> <span class="s1">&#39;Twitter/Tweet.haml&#39;</span><span class="p">),</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">baseObj</span><span class="p">.</span><span class="nx">getData</span><span class="p">(</span><span class="s1">&#39;twitter&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="s1">&#39;http://search.twitter.com/search.json?q=&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">term</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">dataType</span> <span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">success</span> <span class="o">:</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;_onLoad&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_onLoad</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">tweets</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">results</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">tpl</span> <span class="o">=</span> <span class="nx">mulberry</span><span class="p">.</span><span class="nx">haml</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">tweetTemplate</span><span class="p">),</span>
+</span><span class='line'>        <span class="nx">html</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">tweets</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">tweet</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">tweet</span><span class="p">.</span><span class="nx">link</span> <span class="o">=</span> <span class="s1">&#39;http://twitter.com/capitoljs/status/&#39;</span> <span class="o">+</span> <span class="nx">tweet</span><span class="p">.</span><span class="nx">id_str</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">tweet</span><span class="p">.</span><span class="nx">created_at</span> <span class="o">=</span> <span class="nx">dojo</span><span class="p">.</span><span class="nx">date</span><span class="p">.</span><span class="nx">locale</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">tweet</span><span class="p">.</span><span class="nx">created_at</span><span class="p">),</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nx">datePattern</span> <span class="o">:</span> <span class="s1">&#39;EEE&#39;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">timePattern</span> <span class="o">:</span> <span class="s1">&#39;h:m a&#39;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>          <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">tweet</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">tweet</span><span class="p">.</span><span class="nx">text</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span>
+</span><span class='line'>            <span class="sr">/@(\S+)/g</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;&amp;lt;a href=&#39;http://twitter.com/#!/$1&#39;&gt;@$1&amp;lt;/a&gt;&quot;</span>
+</span><span class='line'>          <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">tpl</span><span class="p">(</span><span class="nx">tweet</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">$domNode</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">region</span><span class="p">.</span><span class="nx">refreshScroller</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Mulberry&rsquo;s customization opportunities go far beyond components. Mulberry
+provides a robust JavaScript framework for building your applications,
+including a powerful router, clear patterns for specifying interactions between
+components, and low-level components that you can mix in with your own code to
+rapidly build more complex functionality.</p>
+
+<p>Mulberry&rsquo;s JavaScript framework is built on top of the powerful <a
+href="http://dojotoolkit.org">Dojo Toolkit</a>, but no knowledge of Dojo is
+required, and <a href="http://jquery.com">jQuery</a> is included in the
+default configuration.</p>
+
+<h2 id="develop">Develop</h2>
+
+<p class="img"><img src="/images/develop.png" title="Developing on a local server"></p>
+
+<p>For rapid iteration, Mulberry includes a server that simulates the device
+experience. You can run your app in a desktop WebKit browser and get access
+to your standard development tools:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry serve</span></code></pre></td></tr></table></div></figure>
+
+<h2 id="test">Test</h2>
+
+<p>Nothing matches the knowledge you gain by testing your application on
+device. Mulberry provides a one-liner to generate simulator and device<a
+href="#device-disclaimer">*</a> builds for iOS and Android, including
+integration with weinre on debug.phonegap.com: </p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry test</span></code></pre></td></tr></table></div></figure>
+
+<p class="img"><img src="/images/debug.png" title="Debug tools on device"></p>
+
+<a id="device-disclaimer"></a>
+<p><small>* <em>You must have an Apple developer certificate and have a
+properly provisioned device in order for device builds to work on
+iOS.</em></small></pre>
+
+<h2 id="deploy">Deploy</h2>
+
+<p>Run a simple command to create binaries for the various form factors and
+operating systems your app supports:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry deploy</span></code></pre></td></tr></table></div></figure>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mulberry.toura.com/overview/index.html" data-via="touradev" data-counturl="http://mulberry.toura.com/overview/index.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+
+
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2011/10/30/custom-functionality/">Creating Custom Functionality with Mulberry</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="support">
+  <h1>Support</h1>
+  <ul>
+    <li><a class="google-group" href="https://groups.google.com/forum/#!forum/toura-mulberry">Google Group</a></li>
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("touradev", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/touradev" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @touradev</a>
+  
+</section>
+
+<section class="mailing-list">
+  <h1>Stay in Touch</h1>
+
+  <form class="signup-form" method="POST"
+    action="http://github.us1.list-manage2.com/subscribe/post?u=55fc9d13f9b123630e693855b&amp;id=5eb483eb97">
+
+    <input id="email_1" type="text" name="EMAIL" value="" class="email" placeholder="Email Address">
+
+    <input type="submit" name="submit" value="Keep me posted">
+  </form>
+  <div class="extra-info">We won&rsquo;t sell your email, we promise.</div>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Toura Dev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script>
+$.domReady(function() {
+  $('section.support a').bind('click', function(e) {
+    e.preventDefault();
+    _gaq && _gaq.push([ '_trackEvent', 'Support Click', this.innerHTML ]);
+    window.location.href = this.href;
+  });
+});
+</script>
+
+</footer>
+  
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
