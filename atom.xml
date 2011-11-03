@@ -4,7 +4,7 @@
   <title><![CDATA[Toura Mulberry]]></title>
   <link href="http://mulberry.toura.com/atom.xml" rel="self"/>
   <link href="http://mulberry.toura.com/"/>
-  <updated>2011-11-03T10:15:03-04:00</updated>
+  <updated>2011-11-03T18:50:09-04:00</updated>
   <id>http://mulberry.toura.com/</id>
   <author>
     <name><![CDATA[Toura Dev]]></name>
@@ -137,7 +137,7 @@ home page.</p>
 <p>When you scaffold a Mulberry app, a home page is automatically created in your
 project&#8217;s <code>pages/</code> directory. By default, this page uses the <code>home-tablet</code> and
 <code>home-phone</code> templates, but we&#8217;ll want to change that, as well as tell the page
-that it should have access to the data we created. Here&#8217;s what our <code>pages.md</code>
+that it should have access to the data we created. Here&#8217;s what our <code>home.md</code>
 file looks like when we&#8217;re done:</p>
 
 <figure class='code'><figcaption><span>demos/twitter/pages/home.md  </span></figcaption>
