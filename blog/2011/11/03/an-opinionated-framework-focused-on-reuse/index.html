@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: tutorial - Toura Mulberry</title>
+  <title>An Opinionated Framework, Focused on Reuse - Toura Mulberry</title>
   <meta name="author" content="Toura Dev">
 
   
-  <meta name="description" content="Category: tutorial">
+  <meta name="description" content="One of the questions that’s come up several times in talking to otherdevelopers about Mulberry is this: How is Mulberry any different from all ofth...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mulberry.toura.comblog/categories/tutorial/">
+  <link rel="canonical" href="http://mulberry.toura.com/blog/2011/11/03/an-opinionated-framework-focused-on-reuse/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css?_c=2011-11-04T09:24:57-04:00" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -84,39 +84,147 @@
 
   <div id="main">
     <div id="content">
-      <article role="article">
+      <div>
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Tutorial</h1>
+    
+      <h1 class="entry-title">An Opinionated Framework, Focused on Reuse</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+  
+
+<time datetime="2011-11-03T20:31:00-04:00" pubdate>Nov 3<span>rd</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+      <p class="meta author">
+        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Rebecca Murphey</span></span>
+
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>One of the questions that’s come up several times in talking to other
+developers about Mulberry is this: How is Mulberry any different from all of
+the other mobile app development frameworks that are out there?</p>
 
-  
-  <h2>2011</h2>
+<p>At Toura, we’ve been developing and using the technology behind Mulberry for
+more than a year, creating apps for clients that range from museums to major
+media companies. Because our core business is centered on the rapid creation of
+content-rich apps, we focused our development efforts on reuse from the start.
+That focus led us to an <a href="http://stackoverflow.com/questions/802050/what-is-opinionated-software/802093#802093">opinionated</a>
+framework, one that makes some assumptions about the kinds of applications
+developers will build with it and about how those applications will be built.</p>
 
-<article>
-  
-<h1><a href="/blog/2011/10/30/custom-functionality/">Creating Custom Functionality with Mulberry</a></h1>
-<time datetime="2011-10-30T14:10:00-04:00" pubdate><span class='month'>Oct</span> <span class='day'>30</span> <span class='year'>2011</span></time>
+<p>Being opinionated results in a framework that dramatically reduces the effort
+that’s required to develop an app, and subsequent similar apps are easier
+still, because it’s vastly more likely that functionality developed for one app
+can be reused down the road.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/tutorial/'>tutorial</a></span>
-</footer>
+<p>While many JavaScript developers have come to think of DOM nodes as their
+building blocks, in Mulberry, the fundamental building block of an app is
+a component. The functionality of an app is described by how components,
+arranged on a page, display the app’s content and interact with each other.</p>
 
+<p>Mulberry comes with lots of <a href="https://github.com/Toura/mulberry/wiki/Components">components</a>
+and <a href="https://github.com/Toura/mulberry/wiki/Page-Templates">page layouts</a> that use those components
+— making it easy to create content-rich applications that incorporate images,
+videos, map locations, and more — and it also provides simple APIs for creating
+custom components and adding them to the underlying framework. Custom and
+built-in components can be arranged into pages, and those pages can be enabled
+with pre-defined or custom interactions between components. Components neatly
+encapsulate their DOM structure, behavior, and state, and expose predictable
+interfaces that make them easy to integrate into applications. Mulberry apps
+aren’t about wiring up buttons and lists and grids — they’re about defining the
+interactions between far richer components, and then customizing the
+presentation layer to create a unique experience.</p>
 
-</article>
+<p>For Toura, all of this means that creating a particular kind of app has become
+a reliably repeatable process; more importantly, adding custom functionality to
+individual apps is also a reliably repeatable process <em>whose results can be
+readily reused across multiple applications and platforms</em>. Units of
+functionality — a Twitter feed component, say, or a component that displays
+a location’s name, address, phone number, web site, and map — take the place of
+DOM nodes as the building blocks for applications, and they can be mixed and
+matched and connected in any combination that makes sense.</p>
 
+<p>We’ve placed a lot of value on being able to define new functionality, creating
+APIs like <code>mulberry.component</code> and <code>mulberry.capability</code> that let us set up new
+components and interactions without impacting existing functionality. We’ve
+also been diligent about keeping our presentation layer very loosely coupled
+with the behavior and data layers. All of this means that we can dramatically
+alter the “look and feel” of an app while leaving the underlying functionality
+largely intact, and create new experiences with shockingly little code.</p>
+
+<p>Mulberry embraces a view of how we should be building apps that moves away from
+some of the DOM-centric habits that JavaScript developers have learned over the
+last few years — habits that have presented challenges as those same developers
+transition from building websites to building full-fledged apps. By rethinking
+the nature of apps to emphasize patterns that facilitate smart reuse, Mulberry
+makes app development and customization a simple, repeatable, and scalable
+endeavor.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Rebecca Murphey</span></span>
+
+      
+
+
+
+
+  
+
+<time datetime="2011-11-03T20:31:00-04:00" pubdate>Nov 3<span>rd</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mulberry.toura.com/blog/2011/11/03/an-opinionated-framework-focused-on-reuse/" data-via="touradev" data-counturl="http://mulberry.toura.com/blog/2011/11/03/an-opinionated-framework-focused-on-reuse/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/30/custom-functionality/" title="Previous Post: Creating Custom Functionality with Mulberry">&laquo; Creating Custom Functionality with Mulberry</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
-
+</div>
 
 <aside class="sidebar">
   
@@ -217,7 +325,10 @@ $.domReady(function() {
       var disqus_shortname = 'touramulberry';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mulberry.toura.com/blog/2011/11/03/an-opinionated-framework-focused-on-reuse/';
+        var disqus_url = 'http://mulberry.toura.com/blog/2011/11/03/an-opinionated-framework-focused-on-reuse/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
