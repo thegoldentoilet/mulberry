@@ -1144,7 +1144,7 @@ td {
 /* line 1, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_global.scss */
 body {
   font-family: Lucida Grande, Arial, "sans serif";
-  color: #504646;
+  color: #322828;
 }
 
 /* line 6, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_global.scss */
@@ -1341,7 +1341,7 @@ nav.main > div form input {
 }
 /* line 60, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
 nav.main > div form input[type="text"] {
-  color: #504646;
+  color: #322828;
   border: 1px solid #ccc;
   padding: 4px 7px;
   -webkit-box-shadow: 0 1px 2px #ccc inset;
@@ -1374,83 +1374,106 @@ nav.main > div form input[type="text"]::-webkit-input-placeholder {
 }
 /* line 6, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article h1 {
+  color: black;
   margin: 40px 0 0 0;
   font-size: 40px;
 }
-/* line 11, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 12, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article h2 {
   color: black;
   font-size: 30px;
   margin: 60px 0 10px 0;
 }
-/* line 17, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 18, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main article h3 {
+  color: black;
+  font-size: 24px;
+  margin: 40px 0 8px 0;
+}
+/* line 24, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main article h4 {
+  color: black;
+  font-size: 18px;
+  margin: 40px 0 8px 0;
+}
+/* line 30, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article p.img {
   text-align: center;
   padding: 0;
   margin: 0;
 }
-/* line 23, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 36, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article .filename + div {
   margin-bottom: 50px;
 }
-/* line 27, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 40, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article p {
   font-size: 15px;
   line-height: 24px;
 }
-/* line 32, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 45, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article li {
   font-size: 15px;
   line-height: 24px;
 }
-/* line 37, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 50, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article p.filename {
   margin: 30px 0 0 0;
   font-family: Helvetica, Arial, sans-serif;
   color: #ccc;
   font-size: 90%;
 }
-/* line 44, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 57, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article p.filename + div {
   margin-top: 5px;
 }
-/* line 48, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 61, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article pre + p {
   margin-top: 30px;
 }
-/* line 52, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 65, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main article p.small {
   font-size: 90%;
 }
-/* line 58, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 71, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight {
   overflow: auto;
 }
-/* line 61, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 74, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 65, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 78, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight pre {
   margin-top: 0;
 }
-/* line 69, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 82, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight .line {
   white-space: pre !important;
 }
-/* line 75, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 88, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main #twitter {
   margin: 40px 0 0 0;
   padding-top: 40px;
   border-top: 1px solid #ccc;
 }
-/* line 81, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 94, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main #tour {
   margin-bottom: 1em;
 }
-/* line 85, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 98, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main .sharing {
   margin-top: 50px;
+}
+/* line 102, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main p.date {
+  font-style: italic;
+  font-size: 13px;
+}
+/* line 107, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main span.location {
+  padding: 0 0 0 10px;
+  color: #0076a3;
 }
 
 /* line 2, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
@@ -1492,12 +1515,12 @@ aside #tweets p.date {
 }
 /* line 38, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
 aside #tweets p.date a {
-  color: #9e9191;
+  color: #876c6c;
   text-decoration: underline;
 }
 /* line 47, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
 aside .mailing-list input[type="text"] {
-  color: #504646;
+  color: #322828;
   border: 1px solid #ccc;
   padding: 4px 7px;
   -webkit-box-shadow: 0 1px 2px #ccc inset;
