@@ -20,7 +20,7 @@
   
   <link rel="canonical" href="http://mulberry.toura.com/docs/Creating-Custom-Components.html">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css?_c=2011-11-29T10:44:19-05:00" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/screen.css?_c=2011-11-29T10:55:16-05:00" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
@@ -170,7 +170,7 @@ then the default is <code>%div</code>.</li>
 <li><code>setupConnections</code>: You should bind to DOM events (<code>click</code>, <code>focus</code>, etc.) here using <code>this.connect</code>. More information on creating connections is available in the <a href="http://dojotoolkit.org/reference-guide/dojo/connect.html">Dojo documentation</a>.</li>
 <li><code>setupSubscriptions</code>: If you need your component to subscribe to a topic, this is where you should add that subscription using <code>this.connect</code>. This is the last lifecycle method to execute before the component is added to the page. More information on creating subscriptions is available in the <a href="http://dojotoolkit.org/reference-guide/dojo/subscribe.html">Dojo documentation</a>. See also <a href="http://dojotoolkit.org/reference-guide/dojo/publish.html">dojo.publish</a>.</li>
 <li><code>init</code>: Once the component has been placed on the page, you can do any setup that&#8217;s required in this method. Like <code>prep</code>, <code>init</code> is a method on the default generated component.</li>
-<li><code>teardown</code>: Perform anything that needs to be done when a component instance is no longer needed. In particular, this is the place to clean up objects that might remain in memory when the component is destroyed. <code>tearDown</code> is called right before the component instance is destroyed, which in practice is usually when the user navigates away from the page containing the component. Note that any subscriptions or event connections that you</li>
+<li><code>teardown</code>: Perform anything that needs to be done when a component instance is no longer needed. In particular, this is the place to clean up objects that might remain in memory when the component is destroyed. <code>tearDown</code> is called right before the component instance is destroyed, which in practice is usually when the user navigates away from the page containing the component. Note that any subscriptions or event connections that you create using <code>this.connect</code> or <code>this.subscribe</code> do not have to be torn down; they will be torn down automatically.</li>
 </ul>
 
 
