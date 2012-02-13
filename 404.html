@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Capabilities - Toura Mulberry</title>
+  <title>Not Found - Toura Mulberry</title>
   <meta name="author" content="Toura Dev">
 
   
-  <meta name="description" content="        Capabilities          Capabilities describe how two or more components that are present on a page should interact with each other. Capabili...">
+  <meta name="description" content="        Not Found          The page you&#8217;re looking for isn&#8217;t here anymore, but you can probably find it ifyou go to the home page.You m...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,9 +18,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mulberry.toura.com/docs/Capabilities.html">
+  <link rel="canonical" href="http://mulberry.toura.com/404/">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css?_c=2012-02-10T16:52:05-05:00" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/screen.css?_c=2012-02-13T09:39:58-05:00" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
@@ -64,7 +64,7 @@
       <li><a href="/download/">Download</a></li>
       <li><a href="/getting-started/">Getting Started</a></li>
       <li><a href="/blog/">Blog</a></li>
-      <li><a href="/docs/">Docs</a></li>
+      <li><a href="https://github.com/Toura/mulberry/wiki">Docs</a></li>
       <li><a href="/support/">Support</a></li>
       <li><a href="/upcoming_events/">Upcoming Events</a></li>
     </ul>
@@ -87,100 +87,28 @@
       <article role="article">
   
   <header>
-    <h1 class="entry-title">Capabilities</h1>
+    <h1 class="entry-title">Not Found</h1>
     
   </header>
   
 
-  <p>Capabilities describe how two or more components that are present on a page should interact with each other. Capabilities have names, which allows them to be referenced in a plain-text template configuration, and also allows them to be reused in multiple template configurations.</p>
+  <p>The page you&#8217;re looking for isn&#8217;t here anymore, but you can probably find it if
+you go to the <a href="/">home page</a>.</p>
 
-<p>Here is an example of a capability that defines the interaction between an Image Gallery and an Image Caption component:</p>
-
-<pre><code>mulberry.capability("ImageGallery_ImageCaption", {
-  requirements : {
-    imageGallery : 'ImageGallery',
-    imageCaption : 'ImageCaption'
-  },
-
-  connects : [
-    [ 'imageGallery', 'onScrollEnd', '_setCaption' ]
-  ],
-
-  _setCaption : function(imageIndex) {
-    var image = this.node.images[imageIndex];
-    this.imageCaption.set('content', image &amp;&amp; image.caption || '');
-  }
-});
-</code></pre>
-
-<p>A capability indicates the components that it requires, and then indicates the function that should run when a component announces an event. In the example above, the capability indicates that it requires an ImageGallery and ImageCaption component, and that the <code>_setCaption</code> method defined in the capability&#8217;s configuration should run when the <code>onScrollEnd</code> method of the Image Gallery instance is called.</p>
-
-<p>To add a capability to a custom page template, specify the capability&#8217;s name
-and the involved component(s) in the template definition. Note that each
-involved component should be prefixed by the name of the screen on which it
-appears &#8211; this allows the same component to be used on multiple screens
-without confusion.</p>
-
-<pre><code>ImageGallery
-  screens:
-    -
-      name: index
-      regions:
-        -
-          size: fixed
-          scrollable: false
-          components:
-            - PageNav
-        -
-          size: flex
-          scrollable: true
-          components:
-            - ImageGallery
-            - ImageCaption
-    capabilities:
-      -
-        name: ImageGallery_ImageCaption
-        components:
-          - index:ImageGallery
-          - index:ImageCaption
-</code></pre>
+<p>You may also want to visit <a href="https://github.com/Toura/mulberry/wiki">the docs</a>.</p>
 
 
   
-    <footer>
-      
-      
-        <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://mulberry.toura.com/docs/Capabilities.html" data-via="touradev" data-counturl="http://mulberry.toura.com/docs/Capabilities.html" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
 
-      
-    </footer>
   
 </article>
 
 
+
+
 <aside class="sidebar">
   
-    <section class="mailing-list">
-  <h1>Stay in Touch</h1>
-
-  <form class="signup-form" method="POST"
-    action="http://github.us1.list-manage2.com/subscribe/post?u=55fc9d13f9b123630e693855b&amp;id=5eb483eb97">
-
-    <input id="email_1" type="text" name="EMAIL" value="" class="email" placeholder="Email Address">
-
-    <input type="submit" name="submit" value="Keep me posted">
-  </form>
-  <div class="extra-info">We won&rsquo;t sell your email, we promise.</div>
-</section>
-<section>
+    <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -211,13 +139,7 @@ without confusion.</p>
     
   </ul>
 </section>
-<section class="support">
-  <h1>Support</h1>
-  <ul>
-    <li>Visit the <a class="google-group" href="https://groups.google.com/forum/#!forum/toura-mulberry">Google Group</a></li>
-    <li>Chat with other developers in the #touramulberry channel on <a href="http://webchat.freenode.net/">Freenode</a></li>
-  </ul>
-</section>
+
 
 <section>
   <h1>Mulberry on Twitter</h1>
@@ -235,18 +157,10 @@ without confusion.</p>
   
 </section>
 
-<section class="logos">
-  <p class="logos">
-    <a href="http://www.w3.org/html/logo/"> <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-multimedia-semantics-storage.png" width="261" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, Multimedia, Semantics, and Offline &amp; Storage" title="HTML5 Powered with CSS3 / Styling, Device Access, Multimedia, Semantics, and Offline &amp; Storage"> </a>
-  </p>
-  <p>
-    <a href="http://phonegap.com"><img src="/images/phonegap.png" height="75"> </a>
-  </p>
-</section>
+
 
   
 </aside>
-
 
 
     </div>

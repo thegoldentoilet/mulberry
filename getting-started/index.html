@@ -9,7 +9,7 @@
   <meta name="author" content="Toura Dev">
 
   
-  <meta name="description" content="        Getting Started With Mulberry          Mulberry smooths over the bumps that web developers often encounter whenthey apply web technologies ...">
+  <meta name="description" content="        Getting Started With Mulberry          Once you have downloaded Mulberry, follow the instructions in theREADME to installthe Mulberry toolk...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +20,7 @@
   
   <link rel="canonical" href="http://mulberry.toura.com/getting-started/">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css?_c=2012-02-10T16:52:05-05:00" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/screen.css?_c=2012-02-13T09:39:58-05:00" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
@@ -64,7 +64,7 @@
       <li><a href="/download/">Download</a></li>
       <li><a href="/getting-started/">Getting Started</a></li>
       <li><a href="/blog/">Blog</a></li>
-      <li><a href="/docs/">Docs</a></li>
+      <li><a href="https://github.com/Toura/mulberry/wiki">Docs</a></li>
       <li><a href="/support/">Support</a></li>
       <li><a href="/upcoming_events/">Upcoming Events</a></li>
     </ul>
@@ -91,306 +91,47 @@
     
   </header>
   
-  <p>Mulberry smooths over the bumps that web developers often encounter when
-they apply web technologies to a native platform using <a href="http://www.phonegap.com">PhoneGap</a>.  It separates the app
-development process into a few simple steps.</p>
 
-<p>If you want to follow along, <a href="/download/">download the Mulberry toolkit</a> and
-follow the instructions in the README for getting it set up on your computer.</p>
+  <p>Once you have <a href="/download/">downloaded Mulberry</a>, follow the instructions in the
+<a href="https://github.com/Toura/mulberry/blob/master/README.md">README</a> to install
+the Mulberry toolkit.</p>
 
-<h2 id="scaffold">Scaffold</h2>
+<p>Then, move to a directory where you&#8217;d like to create your app and run the
+following commands to create a new app and view it in your browser:</p>
 
-<p>Creating the structure for a new application takes just a moment:</p>
+<pre><code>mulberry scaffold my_app
+cd my_app
+mulberry serve
+</code></pre>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry scaffold capitoljs</span></code></pre></td></tr></table></div></figure>
-<p class="screenshot"><img src="/images/scaffold.png" title="Scaffolded directory structure"></p>
+<p>You can now use the Mulberry <a href="https://github.com/Toura/mulberry/wiki/Command-Line-Interface">command line tools</a>
+to create
+your app, and use the Mulberry <a href="https://github.com/Toura/mulberry/wiki/Javascript-API">JavaScript API</a> and
+<a href="https://github.com/Toura/mulberry/wiki/Creating-Custom-Components">create custom components</a>
+to add functionality.</p>
 
-<h2 id="configure">Configure</h2>
+<p>When you&#8217;re ready to try your app out on a simulator or a properly provisioned
+device, you can run:</p>
 
-<p>A <a href="http://yaml.org/">YAML</a> file gives Mulberry basic configuration
-information, including settings for the base theme:</p>
+<pre><code>mulberry test
+</code></pre>
 
-<figure class='code'><figcaption><span>config.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="c1"># Enter your application name here (required!)</span>
-</span><span class='line'><span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">CapitolJS</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">theme</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">os</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="c1"># Specify the operating systems to target</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ios</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="c1"># Specify the form factors to target;</span>
-</span><span class='line'>  <span class="c1"># note that Android currently only supports phones</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phone</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Dojo is included by default, but if you want access</span>
-</span><span class='line'><span class="c1"># to jQuery functionality, set this to true</span>
-</span><span class='line'><span class="l-Scalar-Plain">jquery</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
-</span><span class='line'>
-</span><span class='line'><span class="nn">...</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Finally, you can create production-ready deploys by running:</p>
 
-<h2 id="construct">Construct</h2>
+<pre><code>mulberry deploy
+</code></pre>
 
-<p class="img"><img src="/images/page-montage.png" title="A simple page using an existing template"></p>
+<p>Want to know more?</p>
 
-<p>Specify the structure of your application via the sitemap:</p>
+<ul>
+<li><a href="https://github.com/Toura/mulberry/wiki">Visit the documentation</a></li>
+<li><a href="/blog/">Read the Toura Dev blog</a></li>
+<li><a href="http://mobile.tutsplus.com/tutorials/mobile-web-apps/getting-started-with-mulberry/">Read about creating content apps with Mulberry</a></li>
+</ul>
 
-<figure class='code'><figcaption><span>sitemap.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">home</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">speakers</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">schedule</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">points-of-interest</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">twitter</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">feed</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sponsors</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">about</span>
-</span></code></pre></td></tr></table></div></figure>
 
-<p>Create your pages &hellip;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry create page speakers</span></code></pre></td></tr></table></div></figure>
-
-<p>&hellip; then organize your content and metadata using YAML, Markdown, and
-your filesystem:</p>
-
-<figure class='code'><figcaption><span>page/speakers.md  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
-</span><span class='line'><span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Speakers</span>
-</span><span class='line'><span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">phone</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">images-and-text-phone</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">tablet</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">images-and-text-tablet</span>
-</span><span class='line'><span class="l-Scalar-Plain">images</span><span class="p-Indicator">:</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pamela-fox.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">alex-sexton.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">brendan-eich.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">alex-russell.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">nicholas-zakas.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">jed-schmidt.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mike-taylor.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">douglas-crockford.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">rebecca-murphey.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">joe-mccann.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ben-combee.png</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mikeal-rogers.png</span>
-</span><span class='line'><span class="nn">---</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<figure class='code'><figcaption><span>assets/images/captions/alex-sexton.md  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
-</span><span class='line'><span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Alex Sexton</span>
-</span><span class='line'><span class="nn">---</span>
-</span><span class='line'><span class="c1">## [Alex Sexton](http://alexsexton.com/)</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">Alex Sexton is a Labs Engineer at Bazaarvoice in Austin, TX. He is the creator</span>
-</span><span class='line'><span class="l-Scalar-Plain">of yepnope.js and is a developer on the Modernizr core team. He is the current</span>
-</span><span class='line'><span class="l-Scalar-Plain">organizer of TXJS, a co-host on the yayQuery podcast as well as a volunteer</span>
-</span><span class='line'><span class="l-Scalar-Plain">bug-triager for the jQuery project. He has a passion for third party</span>
-</span><span class='line'><span class="l-Scalar-Plain">applications and application structure, so naturally he likes working on large</span>
-</span><span class='line'><span class="l-Scalar-Plain">third-party apps. He tweets at @slexaxton and blogs at http://alexsexton.com/</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p class="screenshot"><img src="/images/images.png"></a>
-<h2 id="customize">Customize</h2>
-
-<p>You can define your own page definitions in YAML and take advantage of built-in components &hellip;</p>
-
-<figure class='code'><figcaption><span>audio-with-images-phone.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">audio-with-images-phone</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">node</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">screens</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">index</span>
-</span><span class='line'>      <span class="l-Scalar-Plain">backgroundImage</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
-</span><span class='line'>      <span class="l-Scalar-Plain">regions</span><span class="p-Indicator">:</span>
-</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">className</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">page-nav</span>
-</span><span class='line'>        <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
-</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">PageNav</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">className</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">image-gallery</span>
-</span><span class='line'>        <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
-</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ImageGallery</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">className</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">audio-gallery</span>
-</span><span class='line'>        <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
-</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">AudioPlayer</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">className</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">bottom</span>
-</span><span class='line'>        <span class="l-Scalar-Plain">scrollable</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
-</span><span class='line'>        <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
-</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">AudioList</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>and style them in Sass&#8230;<p>
-
-<figure class='code'><figcaption><span>_audio-with-images-phone.scss </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nc">.page.audio-with-images-phone</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nc">.screen.index</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">@include</span><span class="nd"> flex-row-container</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nc">.region.page-nav</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">@include</span><span class="nd"> fixed-flex-region</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nc">.region.audio-gallery</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">@include</span><span class="nd"> fixed-flex-region</span><span class="p">;</span>
-</span><span class='line'>      <span class="na">height</span><span class="o">:</span> <span class="mi">40</span><span class="kt">px</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>&hellip; or <a href="/docs/creating-custom-components.html">create your own components</a> to integrate with the framework.</p>
-
-<p>Mulberry&rsquo;s customization opportunities go far beyond components. Mulberry
-provides a robust JavaScript framework for building your applications,
-including a powerful router, clear patterns for specifying interactions between
-components, and low-level components that you can mix in with your own code to
-rapidly build more complex functionality.</p>
-
-<p>Mulberry&rsquo;s JavaScript framework is built on top of the powerful <a
-href="http://dojotoolkit.org">Dojo Toolkit</a>, but no knowledge of Dojo is
-required, and <a href="http://jquery.com">jQuery</a> is included in the
-default configuration.</p>
-
-<h2 id="develop">Develop</h2>
-
-<p class="img"><img src="/images/develop.png" title="Developing on a local server"></p>
-
-<p>For rapid iteration, Mulberry includes a server that simulates the device
-experience. You can run your app in a desktop WebKit browser and get access
-to your standard development tools:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry serve</span></code></pre></td></tr></table></div></figure>
-
-<h2 id="test">Test</h2>
-
-<p>Nothing matches the knowledge you gain by testing your application on
-device. Mulberry provides a one-liner to generate simulator and device<a
-href="#device-disclaimer">*</a> builds for iOS and Android, including
-integration with weinre on debug.phonegap.com: </p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry test</span></code></pre></td></tr></table></div></figure>
-
-<p class="img"><img src="/images/debug.png" title="Debug tools on device"></p>
-
-<a id="device-disclaimer"></a>
-<p><small>* <em>You must have an Apple developer certificate and have a
-properly provisioned device in order for device builds to work on
-iOS.</em></small></pre>
-
-<h2 id="deploy">Deploy</h2>
-
-<p>Run a simple command to create binaries for the various form factors and
-operating systems your app supports:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mulberry deploy</span></code></pre></td></tr></table></div></figure>
-
-<h2>Open technologies, open source</h2> <p>Mulberry is built on open
-technology by people who believe in open technology. It is released under
-a <a href="/license/">permissive license</a>.</p>
-
+  
 
   
     <footer>
@@ -416,19 +157,7 @@ a <a href="/license/">permissive license</a>.</p>
 
 <aside class="sidebar">
   
-    <section class="mailing-list">
-  <h1>Stay in Touch</h1>
-
-  <form class="signup-form" method="POST"
-    action="http://github.us1.list-manage2.com/subscribe/post?u=55fc9d13f9b123630e693855b&amp;id=5eb483eb97">
-
-    <input id="email_1" type="text" name="EMAIL" value="" class="email" placeholder="Email Address">
-
-    <input type="submit" name="submit" value="Keep me posted">
-  </form>
-  <div class="extra-info">We won&rsquo;t sell your email, we promise.</div>
-</section>
-<section>
+    <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -459,13 +188,7 @@ a <a href="/license/">permissive license</a>.</p>
     
   </ul>
 </section>
-<section class="support">
-  <h1>Support</h1>
-  <ul>
-    <li>Visit the <a class="google-group" href="https://groups.google.com/forum/#!forum/toura-mulberry">Google Group</a></li>
-    <li>Chat with other developers in the #touramulberry channel on <a href="http://webchat.freenode.net/">Freenode</a></li>
-  </ul>
-</section>
+
 
 <section>
   <h1>Mulberry on Twitter</h1>
@@ -483,14 +206,7 @@ a <a href="/license/">permissive license</a>.</p>
   
 </section>
 
-<section class="logos">
-  <p class="logos">
-    <a href="http://www.w3.org/html/logo/"> <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-multimedia-semantics-storage.png" width="261" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, Multimedia, Semantics, and Offline &amp; Storage" title="HTML5 Powered with CSS3 / Styling, Device Access, Multimedia, Semantics, and Offline &amp; Storage"> </a>
-  </p>
-  <p>
-    <a href="http://phonegap.com"><img src="/images/phonegap.png" height="75"> </a>
-  </p>
-</section>
+
 
   
 </aside>

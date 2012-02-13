@@ -1325,6 +1325,7 @@ nav.main > div > ul li a {
 }
 /* line 29, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
 nav.main > div > ul li a[href*=download] {
+  text-decoration: none;
   background-color: #ff9600;
   color: #fff;
   padding: 5px 10px;
@@ -1334,25 +1335,25 @@ nav.main > div > ul li a[href*=download] {
   -moz-box-shadow: 0 1px 1px #00546e;
   white-space: nowrap;
 }
-/* line 40, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
+/* line 55, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_mixins.scss */
 nav.main > div > ul li a[href*=download]:hover {
   color: #fff;
   background-color: #0dbcf2;
 }
-/* line 46, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
+/* line 35, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
 nav.main > div > ul li a:hover {
   color: #0dbcf2;
 }
-/* line 52, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
+/* line 41, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
 nav.main > div form {
   width: 262px;
   float: right;
 }
-/* line 56, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
+/* line 45, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
 nav.main > div form input {
   font-size: 14px;
 }
-/* line 60, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
+/* line 49, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
 nav.main > div form input[type="text"] {
   color: #322828;
   border: 1px solid #ccc;
@@ -1368,7 +1369,7 @@ nav.main > div form input[type="text"]::-webkit-input-placeholder {
   color: #d6cec2;
 }
 @media screen and (max-device-width: 480px) {
-  /* line 66, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
+  /* line 55, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_navigation.scss */
   nav.main > div form {
     display: none;
   }
@@ -1448,45 +1449,101 @@ nav.main > div form input[type="text"]::-webkit-input-placeholder {
 #main article p.small {
   font-size: 90%;
 }
-/* line 71, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 70, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main article a.download {
+  text-decoration: none;
+  background-color: #ff9600;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-shadow: none;
+  -webkit-box-shadow: 0 1px 1px #00546e;
+  -moz-box-shadow: 0 1px 1px #00546e;
+  white-space: nowrap;
+  font-size: 150%;
+  font-weight: bold;
+}
+/* line 55, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_mixins.scss */
+#main article a.download:hover {
+  color: #fff;
+  background-color: #0dbcf2;
+}
+/* line 77, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main article ul {
+  margin: 0 0 30px 0;
+}
+/* line 83, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight {
   overflow: auto;
 }
-/* line 74, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 86, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 78, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 90, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight pre {
   margin-top: 0;
 }
-/* line 82, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 94, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main figure.code .highlight .line {
   white-space: pre !important;
 }
-/* line 88, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 100, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main #twitter {
   margin: 40px 0 0 0;
   padding-top: 40px;
   border-top: 1px solid #ccc;
 }
-/* line 94, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 106, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main #tour {
   margin-bottom: 1em;
 }
-/* line 98, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 110, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main .sharing {
   margin-top: 50px;
 }
-/* line 102, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 114, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main p.date {
   font-style: italic;
   font-size: 13px;
 }
-/* line 107, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+/* line 119, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
 #main span.location {
   padding: 0 0 0 10px;
   color: #0076a3;
+}
+/* line 125, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main .mailing-list input[type="text"] {
+  color: #322828;
+  border: 1px solid #ccc;
+  padding: 4px 7px;
+  -webkit-box-shadow: 0 1px 2px #ccc inset;
+  -moz-box-shadow: 0 1px 2px #ccc inset;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  max-width: 100px;
+}
+/* line 29, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_mixins.scss */
+#main .mailing-list input[type="text"]::-webkit-input-placeholder {
+  color: #d6cec2;
+}
+/* line 131, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main .mailing-list input[type="text"]::-webkit-input-placeholder {
+  color: #d6cec2;
+}
+/* line 135, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main .mailing-list input[type="submit"] {
+  border: 1px solid #b3d9e6;
+  padding: 5px 10px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  background-color: #ecf6f9;
+  color: #00546e;
+  font-weight: bold;
+}
+/* line 139, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_main.scss */
+#main .mailing-list .extra-info {
+  padding: 10px 0;
 }
 
 /* line 2, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
@@ -1532,39 +1589,6 @@ aside #tweets p.date a {
   text-decoration: underline;
 }
 /* line 47, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
-aside .mailing-list input[type="text"] {
-  color: #322828;
-  border: 1px solid #ccc;
-  padding: 4px 7px;
-  -webkit-box-shadow: 0 1px 2px #ccc inset;
-  -moz-box-shadow: 0 1px 2px #ccc inset;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  max-width: 100px;
-}
-/* line 29, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_mixins.scss */
-aside .mailing-list input[type="text"]::-webkit-input-placeholder {
-  color: #d6cec2;
-}
-/* line 53, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
-aside .mailing-list input[type="text"]::-webkit-input-placeholder {
-  color: #d6cec2;
-}
-/* line 57, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
-aside .mailing-list input[type="submit"] {
-  border: 1px solid #b3d9e6;
-  padding: 5px 10px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  background-color: #ecf6f9;
-  color: #00546e;
-  font-weight: bold;
-}
-/* line 61, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
-aside .mailing-list .extra-info {
-  padding: 10px 0;
-}
-/* line 67, /Users/rmurphey/projects/mulberry-octopress/sass/custom/mulberry/_asides.scss */
 aside .subscription li.rss {
   background: url(/images/feed-icon-28x28.png) 0 50% no-repeat;
   padding: 10px 0 0 35px;
