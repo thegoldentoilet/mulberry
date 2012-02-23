@@ -4,7 +4,7 @@
   <title><![CDATA[Toura Mulberry]]></title>
   <link href="http://mulberry.toura.com/atom.xml" rel="self"/>
   <link href="http://mulberry.toura.com/"/>
-  <updated>2012-02-13T09:39:58-05:00</updated>
+  <updated>2012-02-23T17:22:04-05:00</updated>
   <id>http://mulberry.toura.com/</id>
   <author>
     <name><![CDATA[Toura Dev]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mulberry at RioJS]]></title>
+    <link href="http://mulberry.toura.com/blog/2012/02/21/mulberry-at-riojs/"/>
+    <updated>2012-02-21T15:10:00-05:00</updated>
+    <id>http://mulberry.toura.com/blog/2012/02/21/mulberry-at-riojs</id>
+    <content type="html"><![CDATA[<p>We were all surprised to find that one of our Mulberry friends from Brazil,
+<a href="https://twitter.com/#!/nprincigalli">Nuba Princigalli</a>, had presented at
+<a href="http://www.riojs.org/">RioJS</a> about Mulberry and Dojo (Mulberry uses Dojo as a foundation)!</p>
+
+<p>His talk was recorded and uploaded to YouTube here: <a href="http://www.youtube.com/watch?v=jC_3G-m_hx8">http://www.youtube.com/watch?v=jC_3G-m_hx8</a></p>
+
+<p>Nuba is working on getting his slides translated into English and once he does,
+we&#8217;ll link to them from here. Mulberry&#8217;s march across the world continues!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[0.3 Brings New Tools for Interactive Apps]]></title>
