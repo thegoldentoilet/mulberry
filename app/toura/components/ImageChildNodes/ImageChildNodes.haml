@@ -1,0 +1,6 @@
+%ul.component.image-child-nodes
+  :each c in children
+    %li
+      %a{ href : '#/node/' + c.id }
+        .image{ dojoType : 'mulberry.ui.BackgroundImage', imageUrl : c.featuredImage.small.url, loadOnInit: true }
+        %span.nameText= c.name

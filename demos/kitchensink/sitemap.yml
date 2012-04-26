@@ -1,4 +1,11 @@
 - home:
+  - image_list:
+    - grid_child_five
+    - grid_child_two
+    - grid_child_three
+    - grid_child_four
+    - grid_child_five
+    - grid_child_six
   - audio_list:
     - single_image_gallery
     - generic_child_page
