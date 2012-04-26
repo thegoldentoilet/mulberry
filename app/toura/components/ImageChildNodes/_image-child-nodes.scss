@@ -1,35 +1,36 @@
-.image-child-nodes li {
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#6e6e6e), color-stop(0.5, #505050), to(#505050));
-    -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
-  }
+.component.image-child-nodes {
 
-   .component.image-child-nodes li a {
-    color: white;
-    line-height: 1.6em;
-    display: block;
-    margin: 0 0 1px 0;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    li {
+      background-color: #6e6e6e;
+      margin-bottom: 5px;
+    }
+
+   li a {
+     color: white;
+     line-height: 1.6em;
+     display: block;
+     margin: 0 0 1px 0;
+     font-weight: bold;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     background-image: url("resources/icons/light/chevron.png");
+     padding: 6px 50px 6px 10px;
+     -webkit-box-sizing: padding-box;
+     background-repeat: no-repeat;
+     background-position: 98% center;
+     background-size: 8px 20px;
    }
 
-   .component.image-child-nodes a {
-    background-image: url("resources/icons/light/chevron.png");
-    padding: 6px 50px 6px 10px;
-    -webkit-box-sizing: padding-box;
-    background-repeat: no-repeat;
-    background-position: 98% center;
-    background-size: 8px 20px;
-   }
-
-  .image-child-nodes li .image {
-    width: 100px;
-    height: 75px;
+  li .image {
+    width: 64px;
+    height: 48px;
     display: inline-block;
   }
 
-  .image-child-nodes li a .nameText {
-    line-height: 75px;
+  li a .nameText {
+    line-height: 48px;
     vertical-align: top;
+    padding: 0px 50px 0px 10px;
   }
+}
