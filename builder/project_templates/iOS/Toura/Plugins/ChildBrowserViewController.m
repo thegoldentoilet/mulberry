@@ -1,12 +1,8 @@
-//
-//  ChildBrowserViewController.m
-//
-//  Created by Jesse MacFadyen on 21/07/09.
-//  Copyright 2009 Nitobi. All rights reserved.
-//
+///  Created by Jesse MacFadyen on 10-05-29.
+//  Copyright 2010 Nitobi. All rights reserved.
+//  Copyright 2012, Randy McMillan
 
 #import "ChildBrowserViewController.h"
-
 
 @implementation ChildBrowserViewController
 
@@ -29,13 +25,13 @@
 {
 	NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
 	BOOL isLessThaniOS4 = ([systemVersion compare:@"4.0" options:NSNumericSearch] == NSOrderedAscending);
-
+	
 	// the iPad image (nor retina) differentiation code was not in 3.x, and we have to explicitly set the path
 	if (isLessThaniOS4)
 	{
         return [NSString stringWithFormat:@"%@.png", resource];
 	}
-
+	
 	return resource;
 }
 
@@ -43,16 +39,16 @@
 - (ChildBrowserViewController*)initWithScale:(BOOL)enabled
 {
     self = [super init];
-
-
+	
+	
 	scaleEnabled = enabled;
-
-	return self;
+	
+	return self;	
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 
 	refreshBtn.image = [UIImage imageNamed:[[self class] resolveImageResource:@"ChildBrowser.bundle/but_refresh"]];
 	backBtn.image = [UIImage imageNamed:[[self class] resolveImageResource:@"ChildBrowser.bundle/arrow_left"]];
@@ -65,13 +61,10 @@
 	NSLog(@"View did load");
 }
 
-
-
-
-
 - (void)didReceiveMemoryWarning {
+
 	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+	[super didReceiveMemoryWarning];
 
 	// Release any cached data, images, etc that aren't in use.
 }
@@ -86,7 +79,7 @@
 - (void)dealloc {
 
 	webView.delegate = nil;
-
+	
 	[webView release];
 	[closeBtn release];
 	[refreshBtn release];
@@ -101,21 +94,17 @@
 
 -(void)closeBrowser
 {
-
+	
 	if(delegate != NULL)
 	{
-		[delegate onClose];
+		[delegate onClose];		
 	}
-
-  // pulled the code below from https://github.com/RandyMcMillan/MediaBrowser/blob/master/ChildBrowserViewController.m
-  if ([self respondsToSelector:@selector(presentingViewController)]) { //Reference UIViewController.h Line:179 for update to iOS 5 difference - @RandyMcMillan
-
-      [[super presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-
-  } else {
-
-      [[super parentViewController] dismissModalViewControllerAnimated:YES];
-  }
+    if ([self respondsToSelector:@selector(presentingViewController)]) { 
+        //Reference UIViewController.h Line:179 for update to iOS 5 difference - @RandyMcMillan
+        [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [[self parentViewController] dismissModalViewControllerAnimated:YES];
+    }
 }
 
 -(IBAction) onDoneButtonPress:(id)sender
@@ -129,12 +118,12 @@
 
 -(IBAction) onSafariButtonPress:(id)sender
 {
-
+	
 	if(delegate != NULL)
 	{
-		[delegate onOpenInSafari];
+		[delegate onOpenInSafari];		
 	}
-
+	
 	if(isImage)
 	{
 		NSURL* pURL = [ [NSURL alloc] initWithString:imageURL ];
@@ -146,10 +135,10 @@
 		[[UIApplication sharedApplication] openURL:request.URL];
 	}
 
-
+	 
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation 
 {
 	BOOL autoRotate = [self.supportedOrientations count] > 1; // autorotate if only more than 1 orientation supported
 	if (autoRotate)
@@ -159,7 +148,7 @@
 			return YES;
 		}
     }
-
+	
 	return NO;
 }
 
@@ -169,11 +158,11 @@
 - (void)loadURL:(NSString*)url
 {
 	NSLog(@"Opening Url : %@",url);
-
-	if( [url hasSuffix:@".png" ]  ||
-	    [url hasSuffix:@".jpg" ]  ||
-		[url hasSuffix:@".jpeg" ] ||
-		[url hasSuffix:@".bmp" ]  ||
+	 
+	if( [url hasSuffix:@".png" ]  || 
+	    [url hasSuffix:@".jpg" ]  || 
+		[url hasSuffix:@".jpeg" ] || 
+		[url hasSuffix:@".bmp" ]  || 
 		[url hasSuffix:@".gif" ]  )
 	{
 		[ imageURL release ];
@@ -183,7 +172,7 @@
 		htmlText = [ htmlText stringByReplacingOccurrencesOfString:@"IMGSRC" withString:url ];
 
 		[webView loadHTMLString:htmlText baseURL:[NSURL URLWithString:@""]];
-
+		
 	}
 	else
 	{
@@ -200,12 +189,12 @@
 	addressLabel.text = @"Loading...";
 	backBtn.enabled = webView.canGoBack;
 	fwdBtn.enabled = webView.canGoForward;
-
+	
 	[ spinner startAnimating ];
-
+	
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)sender
+- (void)webViewDidFinishLoad:(UIWebView *)sender 
 {
 	NSURLRequest *request = webView.request;
 	NSLog(@"New Address is : %@",request.URL.absoluteString);
@@ -213,13 +202,31 @@
 	backBtn.enabled = webView.canGoBack;
 	fwdBtn.enabled = webView.canGoForward;
 	[ spinner stopAnimating ];
-
+	
 	if(delegate != NULL)
 	{
-		[delegate onChildLocationChange:request.URL.absoluteString];
+		[delegate onChildLocationChange:request.URL.absoluteString];		
 	}
 
 }
+
+/*- (void)webView:(UIWebView *)wv didFailLoadWithError:(NSError *)error {
+    NSLog (@"webView:didFailLoadWithError");
+    [spinner stopAnimating];
+    addressLabel.text = @"Failed";
+    if (error != NULL) {
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: [error localizedDescription]
+                                   message: [error localizedFailureReason]
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+    }
+}
+*/
+
 
 
 @end

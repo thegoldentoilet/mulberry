@@ -1,18 +1,13 @@
-//
-
-// 
-//
 //  Created by Jesse MacFadyen on 10-05-29.
 //  Copyright 2010 Nitobi. All rights reserved.
-//
+//  Copyright 2012, Randy McMillan
 
 #import "ChildBrowserCommand.h"
 
-#ifdef PHONEGAP_FRAMEWORK
-	#import <PhoneGap/PhoneGapViewController.h>
-	
-#else
-	#import "PhoneGapViewController.h"
+#ifdef CORDOVA_FRAMEWORK
+#import <Cordova/CDVViewController.h>
+#else 
+#import "Cordova/CDVViewController.h"
 #endif
 
 
@@ -32,16 +27,22 @@
 	NSString* strOrientations = [ options objectForKey:@"supportedOrientations"];
 	NSArray* supportedOrientations = [strOrientations componentsSeparatedByString:@","];
 */
-
-	PhoneGapViewController* cont = (PhoneGapViewController*)[ super appViewController ];
+    
+#ifdef CORDOVA_FRAMEWORK
+    CDVViewController* cont = (CDVViewController*)[ super viewController ];
 	childBrowser.supportedOrientations = cont.supportedOrientations;
 	[ cont presentModalViewController:childBrowser animated:YES ];
-	
+#endif
+    
 	NSString *url = (NSString*) [arguments objectAtIndex:0];
 	
 
 	[childBrowser loadURL:url  ];
 
+}
+- (void) getPage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+	NSString *url = (NSString*) [arguments objectAtIndex:0];
+	[childBrowser loadURL:url  ];
 }
 
 -(void) close:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options // args: url
