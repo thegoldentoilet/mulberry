@@ -1,25 +1,10 @@
 .component.image-child-nodes {
 
-    li {
-      background-color: #6e6e6e;
-      margin-bottom: 5px;
-    }
-
-   li a {
-     color: white;
-     line-height: 1.6em;
-     display: block;
-     margin: 0 0 1px 0;
-     font-weight: bold;
-     white-space: nowrap;
-     overflow: hidden;
-     text-overflow: ellipsis;
-     background-image: url("resources/icons/light/chevron.png");
-     padding: 6px 50px 6px 10px;
-     -webkit-box-sizing: padding-box;
-     background-repeat: no-repeat;
-     background-position: 98% center;
-     background-size: 8px 20px;
+   li {
+     a {
+       @include child-node-link;
+        @include list-component-link;
+     }
    }
 
   li .image {
