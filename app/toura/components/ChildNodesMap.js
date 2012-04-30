@@ -12,7 +12,11 @@ dojo.declare('toura.components.ChildNodesMap', [toura.components.ChildNodes, tou
     toura.components.ChildNodes.prototype.prepareData.apply(this, arguments);
     
     dojo.forEach(this.children, dojo.hitch(this, function(item) {
-      this.node.googleMapPins.push(item.googleMapPins[0]);
+      var pin = new toura.models.GoogleMapPin(
+        toura.Data._store,
+        (item.googleMapPins[0])
+      );
+      this.node.googleMapPins.push(pin);
     }));
     
     toura.components.GoogleMap.prototype.prepareData.apply(this, arguments);
