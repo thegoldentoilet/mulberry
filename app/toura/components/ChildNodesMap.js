@@ -13,12 +13,17 @@ dojo.declare('toura.components.ChildNodesMap', [toura.components.ChildNodes, tou
     
     dojo.forEach(this.children, dojo.hitch(this, function(item) {
       var pin = new toura.models.GoogleMapPin(
-        toura.Data._store,
+        item._S,
         (item.googleMapPins[0])
       );
+      pin.node = item;
       this.node.googleMapPins.push(pin);
     }));
     
     toura.components.GoogleMap.prototype.prepareData.apply(this, arguments);
+  },
+  
+  _showInfo : function (/** google.maps.Marker */ marker, /** toura.models.GoogleMapPin */ pin) {
+    window.location.hash = '#/node/node-' + pin.node.node_name[0];
   }
 });

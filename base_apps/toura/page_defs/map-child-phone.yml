@@ -5,6 +5,6 @@ map-child-phone:
     - className: page-nav
       components:
       - PageNav
-    - scrollable: true
+    - className: google-map
       components:
       - ChildNodesMap
