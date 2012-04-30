@@ -1,14 +1,27 @@
 .component.image-child-nodes {
   li {
-      
+      /*line-height: 48px;
+      vertical-align: top;*/
     a {
       @include child-node-link;
       @include list-component-link;
+      white-space: normal;
 
       span {
-        line-height: 48px;
-        vertical-align: top;
+       /* line-height: 48px;*/
+        /*vertical-align: top;
+
+        overflow : hidden;
+        text-overflow: ellipsis;
+        text-overflow: -o-ellipsis-lastline;*/
         padding: 0px 50px 0px 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+       /* display: -moz-box;
+        -moz-box-orient: vertical;
+        -moz-line-clamp:2;
+        line-clamp:2;*/
       }
     }
 
