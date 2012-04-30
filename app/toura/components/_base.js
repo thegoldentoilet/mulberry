@@ -36,3 +36,4 @@ dojo.require('toura.components.VideoPlayer');
 dojo.require('toura.components.VideoCaption');
 dojo.require('toura.components.ZoomableImageGallery');
 dojo.require('toura.components.ImageChildNodes');
+dojo.require('toura.components.ChildNodesMap');

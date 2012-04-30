@@ -111,7 +111,7 @@ dojo.require('toura.URL');
 
       this.onMapBuilt();
     },
-
+    
     _showInfo : function (/** google.maps.Marker */ marker, /** toura.models.GoogleMapPin */ pin) {
       var infoWindow;
 
