@@ -1,24 +1,25 @@
 .component.image-child-nodes {
-
   li {
+      
     a {
       @include child-node-link;
       @include list-component-link;
+
+      span {
+        line-height: 48px;
+        vertical-align: top;
+        padding: 0px 50px 0px 10px;
+      }
     }
+
     &:nth-child(2n) a {
       background-color: transparentize(darken($child-nav-color, 15%), .5);
     }
-  }
 
-  li .image {
-    width: 64px;
-    height: 48px;
-    display: inline-block;
-  }
-
-  li a .nameText {
-    line-height: 48px;
-    vertical-align: top;
-    padding: 0px 50px 0px 10px;
+    .image {
+      width: 64px;
+      height: 48px;
+      display: inline-block;
+    }
   }
 }
