@@ -6,10 +6,10 @@
       @include list-component-link;
       @include flex-column-container;
       white-space: normal;
-      line-height: 1.45em;
+      -webkit-box-align: center;
 
       span {
-        margin-top: 10px;
+       
         padding: 0px 50px 0px 0px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
