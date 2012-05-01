@@ -2,10 +2,10 @@
   - image_list:
     - grid_child_five
     - grid_child_two
+    - grid_child_six
     - grid_child_three
     - grid_child_four
     - grid_child_five
-    - grid_child_six
   - product-test:
     - product-about-copy
   - audio_list:
