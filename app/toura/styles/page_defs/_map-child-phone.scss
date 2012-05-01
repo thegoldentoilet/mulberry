@@ -1,9 +1,14 @@
 .page.map-child-phone {
-  .screen.index {
+  .screen.map {
     @include standard-screen;
 
     .region.google-map {
       @include flex-row-container;
     }
   }
+  
+  // defunct for now
+//  .screen.list {
+//    @include standard-screen;
+//  }
 }

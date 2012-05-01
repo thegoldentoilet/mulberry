@@ -8,15 +8,14 @@ dojo.declare('toura.components.ChildNodesMap', [toura.components.ChildNodes, tou
   handleClicks : true,
   
   prepareData : function() {
+    this.node.populateChildren();
+
     // TODO: cleanup hackyness
     toura.components.ChildNodes.prototype.prepareData.apply(this, arguments);
     
     dojo.forEach(this.children, dojo.hitch(this, function(item) {
       if( item.googleMapPins.length === 0 ) return false;
-      var pin = new toura.models.GoogleMapPin(
-        item._S,
-        (item.googleMapPins[0])
-      );
+      var pin = item.googleMapPins[0];
       pin.node = item;
       this.node.googleMapPins.push(pin);
     }));
@@ -25,6 +24,6 @@ dojo.declare('toura.components.ChildNodesMap', [toura.components.ChildNodes, tou
   },
   
   _showInfo : function (/** google.maps.Marker */ marker, /** toura.models.GoogleMapPin */ pin) {
-    window.location.hash = '#/node/node-' + pin.node.node_name[0];
+    mulberry.app.Router.go(pin.node.url);
   }
 });

@@ -1,6 +1,6 @@
 map-child-phone:
   screens:
-  - name: index
+  - name: map
     regions:
     - className: page-nav
       components:
@@ -8,11 +8,3 @@ map-child-phone:
     - className: google-map
       components:
       - ChildNodesMap
-  - name: list
-    regions:
-    - className: page-nav
-      components:
-      - PageNav
-    - className: child-list
-      components:
-      - ChildNodes
