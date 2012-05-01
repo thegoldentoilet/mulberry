@@ -89,7 +89,12 @@ describe("toura.components.Favorites", function() {
         node : { favorites : f }
       });
 
-      deleteBtn = c._supportingWidgets[0];
+      dojo.filter(c._supportingWidgets, function(widget){
+        if(widget.isInstanceOf(toura.components.buttons.DeleteButton)){
+          deleteBtn = widget;
+        }
+      });
+
       deleteBtn.deleting = true;
       click = getEventHandlers(deleteBtn, 'touchstart', deleteBtn.domNode)[0];
       click(fakeEventObj);
