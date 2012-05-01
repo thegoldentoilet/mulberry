@@ -1,8 +1,8 @@
 ---
-title: map_child
+title: Child Nodes Map
 page_def:
   phone: map-child-phone
-  tablet: default
+  tablet: map-child-tablet
 
 # each of these properties can contain an array of filenames
 images:

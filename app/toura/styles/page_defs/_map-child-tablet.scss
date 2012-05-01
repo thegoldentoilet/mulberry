@@ -1,0 +1,15 @@
+.page.map-child-tablet {
+  .screen.map {
+    @include standard-screen;
+    
+    .region.column-set {
+      @include flex-column-container;
+
+      .region.google-map {
+        @include flex-row-container;
+        -webkit-box-flex: 3;
+      }
+    }
+    
+  }
+}

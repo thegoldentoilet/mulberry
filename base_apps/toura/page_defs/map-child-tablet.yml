@@ -1,0 +1,15 @@
+map-child-tablet:
+  screens:
+  - name: map
+    regions:
+    - className: page-nav
+      components:
+      - PageNav
+    - className: column-set
+      regions:
+      - className: google-map
+        components:
+        - ChildNodesMap
+      - className: child-list
+        components:
+        - ChildNodes
