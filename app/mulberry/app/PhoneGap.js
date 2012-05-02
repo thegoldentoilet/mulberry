@@ -16,8 +16,7 @@ dojo.require('mulberry.app.PhoneGap.accelerometer');
   mulberry.app.PhoneGap.registerAPI = function(name, module) {
     var s = dojo.subscribe('/app/deviceready', function() {
       var device = mulberry.Device,
-          phonegapPresent = mulberry.app.PhoneGap.present = window.device && window.device.phonegap;
-
+          phonegapPresent = mulberry.app.PhoneGap.present = !!window.cordova;
       mulberry.app.PhoneGap[name] = module(phonegapPresent, device);
       dojo.unsubscribe(s);
     });
