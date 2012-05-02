@@ -10,9 +10,6 @@ mulberry.app.Notifications = {
   },
 
   init: function() {
-    console.log("Notifications.init()!")
-    console.log("mulberry.app.PhoneGap.present:" + mulberry.app.PhoneGap.present);
-    console.log("window.plugins.pushNotification:" + window.plugins.pushNotification);
     if (!mulberry.app.PhoneGap.present) { return; }
 
     window.plugins.pushNotification.startNotify();
