@@ -44,7 +44,7 @@ dojo.require('toura.URL');
       this.callbackName = 'GoogleMapCallback' + (++callbackUuid);
       window[this.callbackName] = dojo.hitch(this, '_buildMap');
       dojo.io.script.get({ url: this.apiURL + this.callbackName });
-      
+
       window.recenterMap = dojo.hitch(this, this._recenter);
     },
 
@@ -84,7 +84,7 @@ dojo.require('toura.URL');
 
         return marker;
       }, this);
-      
+
       if (this.pins.length > 1) {
         this.map.fitBounds(bounds);
         this.center = bounds.getCenter();
@@ -95,14 +95,14 @@ dojo.require('toura.URL');
           this.map.setZoom(15);
         }
       }
-            
+
       google.maps.event.addListener(this.map, 'dragend', dojo.hitch(this, function() {
         this.center = this.map.getCenter() || this.map.getBounds().getCenter();
       }));
-      
+
       this.isBuilt = true;
       this._doQueue();
-      
+
       dojo.subscribe('/window/resize', dojo.hitch(this, function() {
         // this timeout is necessary because google maps doesn't seem
         // to catch on to the resize event immediately. using a timeout
@@ -110,7 +110,7 @@ dojo.require('toura.URL');
         // stack instead of running immediately
         setTimeout(dojo.hitch(this, this._recenter), 0);
       }));
-      
+
       this.onMapBuilt();
     },
 
@@ -141,7 +141,7 @@ dojo.require('toura.URL');
       this.map.setCenter(this.center);
       this.map.setZoom(15);
     },
-    
+
     _recenter: function() {
       this.map.setCenter(this.center);
     },
