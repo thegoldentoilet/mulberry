@@ -16,6 +16,7 @@ dojo.require('toura.URL');
 
     mapType : 'roadmap',
     apiURL : mulberry.app.URL.protocol() + '://maps.google.com/maps/api/js?v=3.4&sensor=false&callback=',
+    center: null,
 
     prepareData : function() {
       // TODO: different behavior if the network isn't reachable?
@@ -43,6 +44,8 @@ dojo.require('toura.URL');
       this.callbackName = 'GoogleMapCallback' + (++callbackUuid);
       window[this.callbackName] = dojo.hitch(this, '_buildMap');
       dojo.io.script.get({ url: this.apiURL + this.callbackName });
+      
+      window.recenterMap = dojo.hitch(this, this._recenter);
     },
 
     _buildMap : function () {
@@ -81,18 +84,33 @@ dojo.require('toura.URL');
 
         return marker;
       }, this);
-
+      
       if (this.pins.length > 1) {
         this.map.fitBounds(bounds);
+        this.center = bounds.getCenter();
       } else {
         if (this.pins[0]) {
-          this.map.setCenter(new google.maps.LatLng(this.pins[0].lat, this.pins[0].lon));
+          this.center = new google.maps.LatLng(this.pins[0].lat, this.pins[0].lon);
+          this.map.setCenter(this.center);
           this.map.setZoom(15);
         }
       }
-
+            
+      google.maps.event.addListener(this.map, 'dragend', dojo.hitch(this, function() {
+        this.center = this.map.getCenter() || this.map.getBounds().getCenter();
+      }));
+      
       this.isBuilt = true;
       this._doQueue();
+      
+      dojo.subscribe('/window/resize', dojo.hitch(this, function() {
+        // this timeout is necessary because google maps doesn't seem
+        // to catch on to the resize event immediately. using a timeout
+        // of 0 ms just ensures it gets tacked on the end of the execution
+        // stack instead of running immediately
+        setTimeout(dojo.hitch(this, this._recenter), 0);
+      }));
+      
       this.onMapBuilt();
     },
 
@@ -119,9 +137,13 @@ dojo.require('toura.URL');
     },
 
     _setCenterAttr : function(center) {
-      center = new google.maps.LatLng(center.lat, center.lng);
-      this.map.setCenter(center);
+      this.center = new google.maps.LatLng(center.lat, center.lng);
+      this.map.setCenter(this.center);
       this.map.setZoom(15);
+    },
+    
+    _recenter: function() {
+      this.map.setCenter(this.center);
     },
 
     _setPinAttr : function(pinId) {
