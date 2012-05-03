@@ -44,8 +44,6 @@ dojo.require('toura.URL');
       this.callbackName = 'GoogleMapCallback' + (++callbackUuid);
       window[this.callbackName] = dojo.hitch(this, '_buildMap');
       dojo.io.script.get({ url: this.apiURL + this.callbackName });
-
-      window.recenterMap = dojo.hitch(this, this._recenter);
     },
 
     _buildMap : function () {
