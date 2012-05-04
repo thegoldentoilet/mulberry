@@ -36,6 +36,7 @@ then
 else
 	echo "Installing RVM..."
 	bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
+	source ~/.rvm/scripts/rvm
 fi
 
 
