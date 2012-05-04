@@ -43,6 +43,9 @@ echo -e "\n\nexport PATH=\$PATH:${DIR}/cli/bin" >> ~/.bash_profile
 # Set it for this console session
 export PATH=$PATH:$DIR/cli/bin
 
+echo "Downloading Android packages and tools"
+android update sdk --no-ui -t tools,platform-tools,android-15,android-13,android-10,android-8,sysimg-15
+
 echo "Configuring builder/project_templates/android/local.properties"
 android update project -p builder/project_templates/android/
 

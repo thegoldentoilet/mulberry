@@ -3,7 +3,7 @@ The following are required for installation:
 1. XCode (for gcc and other unix tools)
 2. Ruby 1.9.3 (although other rubies ought to work)
 3. Rubygems / Bundler
-4. Android SDK
+4. Android SDK, Android platforms 4.03, 3.2, 2.3, 2.2, Platform tools
 5. PhoneGap/Cordova
 6. Placement of the Mulberry executable in your $PATH
 
