@@ -53,11 +53,8 @@ dojo.declare('mulberry._Capability', null, {
     this.domNode = this.page.domNode;
     this.node = this.page.node;
 
-    this.involved = this._loadInvolvedComponents();
-
     if (!this._checkRequirements()) {
       console.error('Did not find required components for capability', this.declaredClass);
-      console.error('These are the components I know about', this.involved);
       throw("Did not find required components for capability " + this.declaredClass);
     }
 
@@ -78,35 +75,6 @@ dojo.declare('mulberry._Capability', null, {
 
   /**
    * @private
-   * Iterates over the components array provided in the config and populates
-   * the `this.involved` object with references to the components.
-   *
-   * @returns {Object} An object where the property names are the name of the
-   * component, and the values are the component associated with that name.
-   */
-  _loadInvolvedComponents : function() {
-    var involved = {};
-
-    dojo.forEach(this.components || [], function(c) {
-      var tmp = c.split(':'),
-          screenName = tmp[0],
-          componentName = tmp[1],
-
-          screen = this.page.getScreen(screenName),
-          component = screen.getComponent(componentName);
-
-      if (!component) {
-        console.error('Capability', this.declaredClass, 'did not find component for', componentName, 'on the', screenName, 'screen');
-      }
-
-      involved[componentName] = component;
-    }, this);
-
-    return involved;
-  },
-
-  /**
-   * @private
    * Checks whether the components that are specified as required in the
    * capability definition are present
    *
@@ -117,15 +85,53 @@ dojo.declare('mulberry._Capability', null, {
     var requirementsMet = true;
 
     dojo.forIn(this.requirements, function(propName, requiredComponentName) {
-      var foundComponent = !!this.involved[requiredComponentName] || this.page.getComponent(requiredComponentName);
+      var foundComponent;
+      
+      foundComponent = this._getComponent(requiredComponentName);
       requirementsMet = requirementsMet && foundComponent;
 
       if (!foundComponent) {
         console.warn('did not find', requiredComponentName);
       }
+      
     }, this);
 
     return requirementsMet;
+  },
+  
+  /**
+   * @private
+   * fetches a component based on its name; allows fetching by screen with the
+   * colon-separated syntax
+   *
+   * @returns {Component OR null} Either returns the component, or a null value
+   * on failure
+   */
+  _getComponent : function(componentName) {
+    var component, screen,
+        processedName = componentName.split(':');
+    
+    if (processedName.length === 2) {
+      screen = this.page.getScreen(processedName[0]);
+
+      if (!screen) {
+        console.error('Capability', this.declaredClass, 'did not find the screen', processedName[0], 'on the page');
+        return null;
+      }
+    }
+    
+    if (screen) {
+      component = screen.getComponent(processedName[1]);
+    } else {
+      component = this.page.getComponent(componentName);
+    }
+    
+    if (!component) {
+      console.error('Capability', this.declaredClass, 'did not find component for', processedName[1], 'on the', processedName[0], 'screen');
+      return null;
+    }
+    
+    return component;
   },
 
   /**
@@ -136,7 +142,7 @@ dojo.declare('mulberry._Capability', null, {
    */
   _doLookups : function() {
     dojo.forIn(this.requirements, function(propName, componentName) {
-      this[propName] = this.involved[componentName] || this.page.getComponent(componentName);
+      this[propName] = this._getComponent(componentName);
     }, this);
   },
 
