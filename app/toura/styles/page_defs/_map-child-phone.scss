@@ -13,8 +13,16 @@
   
   .component.page-nav {
     .toggle {
-      border: 1px solid #ccc;
+      border: 1px solid $border-color;
       border-width: 0 1px;
+      
+      .screen.map & {
+        // stub still
+      }
+      
+      .screen.list & {
+        // stub still
+      }
     }
   }
   

@@ -11,18 +11,21 @@ dojo.declare('toura.capabilities.MapChildNodesViews', mulberry._Capability, {
 
   connects : [
     ['page', 'init', '_showList'],
-    ['pageNav', 'layoutToggle', '_toggle']
+    ['pageNav', 'toggleLayout', '_toggle']
   ],
   
   _toggle : function() {
+    console.log("HOLY CARP YOU CAN DO YOUR TOGGLE NOW OMG OMG OMG IT WORKED!");
     debugger;
   },
   
   _showList : function() {
+    console.log("listerine!");
     this.page.showScreen('list');
   },
   
   _showMap : function() {
+    console.log("mapportunity!");
     this.page.showScreen('map');
   }
 });

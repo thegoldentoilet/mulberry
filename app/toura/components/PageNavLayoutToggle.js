@@ -11,12 +11,12 @@ dojo.declare('toura.components.PageNavLayoutToggle', toura.components.PageNav, {
   
   setupConnections : function() {
     if (this.layoutToggle) {
-      this.connect(this.layoutToggleButton, 'onClick', 'layoutToggle');
+      this.connect(this.layoutToggleButton, 'onClick', 'toggleLayout');
     }
   },
   
-  layoutToggle : function() {
-    debugger;
+  toggleLayout : function() {
     // stub for component
+    console.log("MR. STUBBY IS RUNNING!");
   }
-});
+}); 
