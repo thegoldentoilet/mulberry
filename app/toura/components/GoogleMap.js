@@ -83,17 +83,10 @@ dojo.require('toura.URL');
         return marker;
       }, this);
 
-      if (this.pins.length > 1) {
-        this.map.fitBounds(bounds);
-        this.center = bounds.getCenter();
-      } else {
-        if (this.pins[0]) {
-          this.center = new google.maps.LatLng(this.pins[0].lat, this.pins[0].lon);
-          this.map.setCenter(this.center);
-          this.map.setZoom(15);
-        }
-      }
-
+      this.bounds = bounds;
+      
+      this.positionInit();
+      
       google.maps.event.addListener(this.map, 'dragend', dojo.hitch(this, function() {
         this.center = this.map.getCenter() || this.map.getBounds().getCenter();
       }));
@@ -110,6 +103,19 @@ dojo.require('toura.URL');
       }));
 
       this.onMapBuilt();
+    },
+    
+    positionInit : function() {
+      if (this.pins.length > 1) {
+        this.map.fitBounds(this.bounds);
+        this.center = this.bounds.getCenter();
+      } else {
+        if (this.pins[0]) {
+          this.center = new google.maps.LatLng(this.pins[0].lat, this.pins[0].lon);
+          this.map.setCenter(this.center);
+          this.map.setZoom(15);
+        }
+      }
     },
 
     _showInfo : function (/** google.maps.Marker */ marker, /** toura.models.GoogleMapPin */ pin) {
