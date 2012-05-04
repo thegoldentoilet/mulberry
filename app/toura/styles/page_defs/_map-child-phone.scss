@@ -7,8 +7,11 @@
     }
   }
   
-  // defunct for now
-//  .screen.list {
-//    @include standard-screen;
-//  }
+  .component.body-text {
+    padding: 10px;
+  }
+  
+  .screen.list {
+    @include standard-screen;
+  }
 }

@@ -1,10 +1,23 @@
 map-child-phone:
+  capabilities:
+  - MapChildNodesViews
+  
   screens:
+  - name: list
+    regions:
+    - className: page-nav
+      components:
+      - PageNavLayoutToggle
+    - className: child-nodes
+      scrollable: true
+      components:
+      - BodyText
+      - ChildNodes
   - name: map
     regions:
     - className: page-nav
       components:
-      - PageNav
+      - PageNavLayoutToggle
     - className: google-map
       components:
       - ChildNodesMap

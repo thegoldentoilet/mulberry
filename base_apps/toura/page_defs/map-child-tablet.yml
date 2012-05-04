@@ -1,6 +1,6 @@
 map-child-tablet:
   screens:
-  - name: map
+  - name: index
     regions:
     - className: page-nav
       components:
@@ -11,5 +11,7 @@ map-child-tablet:
         components:
         - ChildNodesMap
       - className: child-list
+        scrollable: true
         components:
+        - BodyText
         - ChildNodes
