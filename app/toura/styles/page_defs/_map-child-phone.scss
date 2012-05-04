@@ -7,11 +7,18 @@
     }
   }
   
-  .component.body-text {
-    padding: 10px;
-  }
-  
   .screen.list {
     @include standard-screen;
+  }
+  
+  .component.page-nav {
+    .toggle {
+      border: 1px solid #ccc;
+      border-width: 0 1px;
+    }
+  }
+  
+  .component.body-text {
+    padding: 10px;
   }
 }

@@ -24,6 +24,11 @@
 
       %h1
         %span{ dojoAttachPoint : 'titleElement' }= title
+      
+      
+      :if layoutToggle
+        .toggle
+          %a{ dojoType : 'toura.components.buttons.LayoutToggleButton', dojoAttachPoint : 'layoutToggleButton' }
 
       :if shareable
         .more
