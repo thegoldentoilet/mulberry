@@ -17,6 +17,5 @@ dojo.declare('toura.components.PageNavLayoutToggle', toura.components.PageNav, {
   
   toggleLayout : function() {
     // stub for component
-    console.log("MR. STUBBY IS RUNNING!");
   }
 }); 
