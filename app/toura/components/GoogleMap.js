@@ -194,6 +194,7 @@ dojo.require('toura.URL');
     },
 
     teardown : function () {
+      if (!this.isBuilt) return false;
       if (window.google && window.google.maps && window.google.maps.event) {
         dojo.forEach(this.markers, function (marker) {
           google.maps.event.clearInstanceListeners(marker);
