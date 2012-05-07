@@ -44,9 +44,13 @@ describe("containers screen", function() {
   });
   
   it("should correctly select a component attached to it", function() {
-    dojo.provide('my.Component', mulberry._Component, {
+    dojo.provide('my.Component');
+    
+    dojo.declare('my.Component', mulberry._Component, {
       templateString : "<div></div>"
     });
+    
+    debugger;
     
     var componentA = new my.Component(),
         componentB = new my.Component();
