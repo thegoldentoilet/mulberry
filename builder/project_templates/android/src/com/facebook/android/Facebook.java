@@ -20,6 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import org.apache.cordova.DroidGap;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -35,12 +37,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.CookieSyncManager;
 
-/**
- * PhoneGap plugin def
- */
 import com.phonegap.api.Plugin;
-import com.phonegap.DroidGap;
-import android.util.Log;
 
 /**
  * Main Facebook object for interacting with the Facebook developer API.
@@ -91,7 +88,7 @@ public class Facebook {
 	 * Added for Phonegap compatibility
 	 */
 	private Plugin plugin = null;
-	
+
 	public Facebook(String applicationId) {
 		if (applicationId == null) {
 			throw new IllegalArgumentException(
@@ -100,11 +97,11 @@ public class Facebook {
 		}
 		mAppId = applicationId;
 	}
-	
+
 	/**
 	 * Added for Phonegap compatibility
 	 */
-	
+
 	public void setPlugin(Plugin plugin){
 		this.plugin = plugin;
 	}
@@ -248,7 +245,7 @@ public class Facebook {
             } else {
                 activity.startActivityForResult(intent, activityCode);
             }
-            
+
         } catch (ActivityNotFoundException e) {
             didSucceed = false;
         }
@@ -702,7 +699,7 @@ public class Facebook {
 	public String getAppId() {
 		return mAppId;
 	}
-	
+
 	public void setAppId(String appId) {
 		mAppId = appId;
 	}

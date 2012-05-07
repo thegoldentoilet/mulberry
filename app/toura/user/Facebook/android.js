@@ -34,7 +34,6 @@ toura.user.Facebook.android = {
        */
       cordova.addConstructor(function() {
         cordova.addPlugin("facebook", new Facebook());
-        PluginManager.addService("FacebookAuth", "com.phonegap.plugins.facebook.FacebookAuth");
       });
 
     }());
