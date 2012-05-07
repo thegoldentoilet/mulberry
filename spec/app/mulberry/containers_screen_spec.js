@@ -3,6 +3,7 @@ describe("containers screen", function() {
 
   beforeEach(function() {
     dojo.require('mulberry.containers.Screen');
+    dojo.require('mulberry._Component');
 
     if (c) { c.destroy(); }
     C = function(config) {
@@ -40,6 +41,24 @@ describe("containers screen", function() {
     expect(regionArgs.baseObj).toBe('fake node');
     expect(regionArgs.device).toBe('fake device');
     expect(regionArgs.screen).toBe(c);
+  });
+  
+  it("should correctly select a component attached to it", function() {
+    dojo.provide('my.Component', mulberry._Component, {
+      templateString : "<div></div>"
+    });
+    
+    var componentA = new my.Component(),
+        componentB = new my.Component();
+    
+    cA = C({ config: {} });
+    cB = C({ config: {} });
+    
+    cA.registerComponent(componentA);
+    cB.registerComponent(componentB);
+    
+    expect(cA.getComponent('Component')).toBe(componentA);
+    expect(cB.getComponent('Component')).toBe(componentB);
   });
 
 });
