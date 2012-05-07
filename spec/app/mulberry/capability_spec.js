@@ -1,5 +1,6 @@
 describe("capabilities", function() {
   var t, c, C, page, flag, components;
+  
 
   beforeEach(function() {
     dojo.require('mulberry._Component');
@@ -17,13 +18,7 @@ describe("capabilities", function() {
         }
       },
       getScreen : function() {
-        return {
-          getComponent : function(name) {
-            if (name === 'FakeComponent') {
-              return new mulberry.components.FakeComponent();
-            }
-          }
-        };
+        return new my.FakeScreen();
       }
     };
 
@@ -35,6 +30,17 @@ describe("capabilities", function() {
       templateString : '<div></div>',
       fakeMethod : function() {
         console.log('called fake method');
+      }
+    });
+    
+    dojo.declare('my.FakeScreen', [], {
+      components : {},
+      registerComponent : function(name, comp) {
+        // intentionally piling on the prototype here, don't worry...
+        this.components[name] = comp;
+      },
+      getComponent : function(name) {
+        return this.components[name];
       }
     });
 
@@ -60,15 +66,18 @@ describe("capabilities", function() {
     expect(flag).toBeTruthy();
   });
 
-  it("should create properties from the components object", function() {
-    var component = new mulberry.components.FakeComponent().placeAt(dojo.byId('test')),
-        c = new my.FakeCapability({
-          page : page,
-          requirements : { foo : 'FakeComponent' },
-          components : [ 'screenName:FakeComponent' ]
-        });
+  it("should fetch components from a specific screen", function() {
+    var componentA = new mulberry.components.FakeComponent().placeAt(dojo.byId('test')),
+        componentB = new mulberry.components.FakeComponent().placeAt(dojo.byId('test')),
+        c;
+    page.getScreen().registerComponent('FakeComponent', componentA);
+    
+    c = new my.FakeCapability({
+      page : page,
+      requirements : { foo : 'screenName:FakeComponent' }
+    });
 
-    expect(c.foo).toBeDefined();
+    expect(c.foo).toBe(componentA);
   });
 
   it("should throw an error if a required component is not present", function() {
