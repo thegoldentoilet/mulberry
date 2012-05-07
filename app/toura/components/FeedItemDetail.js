@@ -83,16 +83,13 @@ dojo.declare('toura.components.FeedItemDetail', mulberry._Component, {
 
   _prepareImages : function() {
     dojo.forEach(this.domNode.querySelectorAll('img'), function(image){
-      dojo.query(image)
-          .wrap("<div class='replacedImage' dojotype=mulberry.ui.BackgroundImage imageUrl="+image.src+"></div>");
+      var bgImg  = new mulberry.ui.BackgroundImage(image);
 
-      image.parentNode.removeChild(image);
-    }, this);
-
-    dojo.forEach(this.domNode.querySelectorAll('.replacedImage'), function(node){
-      var bgImg = new mulberry.ui.BackgroundImage(node);
-      console.log(bgImg);
+      bgImg.imageUrl = image.src;
+      bgImg.height = image.height;
       bgImg.loadImage();
+
+      dojo.place(bgImg.domNode, image, "replace");
     }, this);
   },
 

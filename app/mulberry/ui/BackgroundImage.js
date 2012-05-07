@@ -5,7 +5,6 @@ dojo.require('dijit._Widget');
 dojo.declare('mulberry.ui.BackgroundImage', dijit._Widget, {
   // These attributes must be present on the dom element
   imageUrl : '',
-
   isLoaded : false,
   loadOnInit : false,
 
@@ -22,7 +21,8 @@ dojo.declare('mulberry.ui.BackgroundImage', dijit._Widget, {
 
     dojo.style(this.domNode, {
       'backgroundImage': 'url(' + this.imageUrl + ')',
-      'backgroundRepeat': 'no-repeat'
+      'backgroundRepeat': 'no-repeat',
+      'height': this.height ? this.height + 'px' : 'auto'
     });
 
     this.isLoaded = true;
