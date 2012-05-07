@@ -29,8 +29,6 @@ dojo.declare('toura.capabilities.MapChildNodesViews', mulberry._Capability, {
     this.page.showScreen('map');
     if (mapInit === false) {
       mapInit = true;
-      // still doesn't quiiiiite work.
-      setTimeout(dojo.hitch(this.map, this.map.positionInit), 50);
     }
   }
 });
