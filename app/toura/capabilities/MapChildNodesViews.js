@@ -7,6 +7,8 @@ dojo.declare('toura.capabilities.MapChildNodesViews', mulberry._Capability, {
   
   init : function() {
     mapInit = false;
+    this.mapPageNav.set('toggleClass', 'list');
+    this.listPageNav.set('toggleClass', 'map');
   },
   
   requirements : {

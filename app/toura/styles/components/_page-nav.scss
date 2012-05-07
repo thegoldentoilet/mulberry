@@ -25,8 +25,15 @@
 
   .phone & > .top {
     div {
+      @include page-nav-button(map);
+      @include page-nav-button(list);
       @include page-nav-button(back);
       @include page-nav-button(more);
+      
+      &.list a,
+      &.map a {
+        background-position: center;
+      }
     }
   }
 }

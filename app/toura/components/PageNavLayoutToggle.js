@@ -17,5 +17,11 @@ dojo.declare('toura.components.PageNavLayoutToggle', toura.components.PageNav, {
   
   toggleLayout : function() {
     // stub for component
+  },
+  
+  _setToggleClassAttr : function(className) {
+    // debugger;
+    this.layoutToggleButton.removeParentClass();
+    this.layoutToggleButton.addParentClass(className);
   }
 }); 
