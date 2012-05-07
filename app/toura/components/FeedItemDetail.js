@@ -83,7 +83,7 @@ dojo.declare('toura.components.FeedItemDetail', mulberry._Component, {
 
   _prepareImages : function() {
     dojo.forEach(this.domNode.querySelectorAll('img'), function(image){
-      var bgImg  = new mulberry.ui.BackgroundImage(image);
+      var bgImg  = this.adopt(mulberry.ui.BackgroundImage, image);
 
       bgImg.imageUrl = image.src;
       bgImg.height = image.height;
