@@ -5,7 +5,7 @@ dojo.require('toura.components.GoogleMap')
 
 dojo.declare('toura.components.ChildNodesMap', [toura.components.ChildNodes, toura.components.GoogleMap], {
   templateString : dojo.cache('toura.components', 'ChildNodesMap/ChildNodesMap.haml'),
-  handleClicks : true,
+  handleClicks : false,
   
   prepareData : function() {
     this.node.populateChildren();
