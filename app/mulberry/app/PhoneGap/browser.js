@@ -168,6 +168,9 @@ mulberry.app.PhoneGap.browser = function(pg, device){
           cordova.addConstructor(function() {
               cordova.addPlugin("childBrowser", new ChildBrowser());
           });
+
+          ChildBrowser.install();
+
         }
       };
 
