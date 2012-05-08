@@ -1,5 +1,6 @@
 dojo.provide('toura.components.FeedItemDetail');
 
+dojo.require('mulberry.ui.BackgroundImage');
 dojo.require('mulberry._Component');
 dojo.require('toura.components.VideoPlayer');
 dojo.require('dojo.date.locale');
@@ -71,11 +72,24 @@ dojo.declare('toura.components.FeedItemDetail', mulberry._Component, {
 
     dojo.attr(this.externalLink, 'href', this.item.link);
 
+    this._prepareImages();
     this._setupLinks();
 
     if (this.region) {
       this.region.refreshScroller();
     }
+  },
+
+  _prepareImages : function() {
+    dojo.forEach(this.domNode.querySelectorAll('img'), function(image){
+      var bgImg  = this.adopt(mulberry.ui.BackgroundImage, image);
+
+      bgImg.imageUrl = image.src;
+      bgImg.height = image.height;
+      bgImg.loadImage();
+
+      dojo.place(bgImg.domNode, image, "replace");
+    }, this);
   },
 
   _setupLinks : function() {
