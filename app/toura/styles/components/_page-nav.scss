@@ -30,9 +30,19 @@
       @include page-nav-button(back);
       @include page-nav-button(more);
       
-      &.list a,
-      &.map a {
-        background-position: center;
+      &.list,
+      &.map {
+        a {
+          background-position: center;
+        }
+      }
+      
+      &.toggleButton + div:last-child {
+        width: 45px;
+        
+        a {
+          background-position-x: center;
+        }
       }
     }
   }
