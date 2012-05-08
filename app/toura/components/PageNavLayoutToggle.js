@@ -10,6 +10,8 @@ dojo.declare('toura.components.PageNavLayoutToggle', toura.components.PageNav, {
   },
   
   setupConnections : function() {
+    this.inherited(arguments);
+    
     if (this.layoutToggle) {
       this.connect(this.layoutToggleButton, 'onClick', 'toggleLayout');
     }
