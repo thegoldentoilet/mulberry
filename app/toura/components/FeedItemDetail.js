@@ -4,7 +4,6 @@ dojo.require('mulberry.ui.BackgroundImage');
 dojo.require('mulberry._Component');
 dojo.require('toura.components.VideoPlayer');
 dojo.require('dojo.date.locale');
-dojo.require('dojo.NodeList-manipulate');
 
 dojo.declare('toura.components.FeedItemDetail', mulberry._Component, {
   templateString : dojo.cache('toura.components', 'FeedItemDetail/FeedItemDetail.haml'),
