@@ -21,9 +21,14 @@ dojo.declare('mulberry.ui.BackgroundImage', dijit._Widget, {
 
     dojo.style(this.domNode, {
       'backgroundImage': 'url(' + this.imageUrl + ')',
-      'backgroundRepeat': 'no-repeat',
-      'height': this.height ? this.height + 'px' : 'auto'
+      'backgroundRepeat': 'no-repeat'
     });
+
+    if (this.height) {
+      dojo.style(this.domNode, {
+        'height': this.height + 'px'
+      });
+    }
 
     this.isLoaded = true;
   },
