@@ -13,8 +13,12 @@ dojo.declare('toura.components.ChildNodesMap', [toura.components.ChildNodes, tou
     // TODO: cleanup hackyness
     toura.components.ChildNodes.prototype.prepareData.apply(this, arguments);
     
+    // this shouldn't be necessary, but there is some inheritance sloppiness
+    // buried deep in the node model that makes it so
+    this.node.googleMapPins = [];
+    
     dojo.forEach(this.children, dojo.hitch(this, function(item) {
-      if( item.googleMapPins.length === 0 ) return false;
+      if (item.googleMapPins.length === 0) return false;
       var pin = item.googleMapPins[0];
       pin.node = item;
       this.node.googleMapPins.push(pin);
