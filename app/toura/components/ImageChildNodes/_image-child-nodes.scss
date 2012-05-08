@@ -7,18 +7,15 @@
       @include flex-column-container;
       white-space: normal;
       -webkit-box-align: center;
+      padding: 10px 50px 10px 10px;
 
       span {
-       
         padding: 0px 50px 0px 0px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+        line-height: 1.65em;
       }
-    }
-
-    &:nth-child(2n) a {
-      background-color: transparentize(darken($child-nav-color, 15%), .5);
     }
 
     .image {
@@ -26,6 +23,7 @@
       height: 48px;
       @include fixed-flex-region;
       margin-right: 10px;
+      background-size: cover;
     }
   }
 }
