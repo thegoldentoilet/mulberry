@@ -21,7 +21,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     
     if (mulberry.Device.os === "browser") {
       this._fixHeight();
-      dojo.subscribe('/window/resize', dojo.hitch(this, this._fixHeight));
+      dojo.connect(window, 'onorientationchange', this, '_fixHeight');
     }
 
     this._containersSetup();
@@ -137,9 +137,16 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   
   // this is for mobile web *only*
   _fixHeight : function() {
-    var screenHigh = window.screen.availHeight;
-    dojo.style(document.body, 'height', screenHigh + "px");
+    var screenHigh = 0;
+    this._setBodyHeight(9999);    // larger than any reasonable screen
     window.scrollTo(0,1);
+    screenHigh = window.innerHeight;
+    this._setBodyHeight(screenHigh);
+  },
+  
+  _setBodyHeight : function(pixels) {
+    if (typeof pixels === "number") { pixels += "px"; }
+    dojo.style(document.body, 'height', pixels);
   }
 });
 
