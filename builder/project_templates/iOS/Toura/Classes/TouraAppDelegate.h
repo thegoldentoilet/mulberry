@@ -7,21 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#ifdef PHONEGAP_FRAMEWORK
-    #import <PhoneGap/PhoneGapDelegate.h>
+
+#ifdef CORDOVA_FRAMEWORK
+  #import <Cordova/CDVViewController.h>
 #else
-    #import "PhoneGapDelegate.h"
+  #import "CDVViewController.h"
 #endif
 
-@interface TouraAppDelegate : PhoneGapDelegate {
-    NSString *invokeString;
-    NSDictionary *launchNotification;
+@interface TouraAppDelegate : NSObject < UIApplicationDelegate > {
 }
 
-@property (copy)  NSString *invokeString;
-@property (nonatomic, retain) NSDictionary *launchNotification;
+// invoke string is passed to your app on launch, this is only valid if you
+// edit Toura-Info.plist to add a protocol
+// a simple tutorial can be found here :
+// http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
 
-- (BOOL)doesRequest:(NSURLRequest *)request comeFromWebView:(UIWebView *)webView;
+@property (nonatomic, retain) IBOutlet UIWindow* window;
+@property (nonatomic, retain) IBOutlet CDVViewController* viewController;
 
 @end
 

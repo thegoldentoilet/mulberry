@@ -18,23 +18,22 @@ toura.user.Facebook.android = {
        * @param callback      called when logged in
        */
       Facebook.prototype.authorize = function(app_id, callback) {
-        PhoneGap.exec(callback, null, "FacebookAuth", "authorize", [app_id]);
+        cordova.exec(callback, null, "FacebookAuth", "authorize", [app_id]);
       };
 
       Facebook.prototype.request = function(path, callback) {
-        PhoneGap.exec(callback, null, "FacebookAuth", "request", [path]);
+        cordova.exec(callback, null, "FacebookAuth", "request", [path]);
       };
 
       Facebook.prototype.getAccess = function(callback) {
-        PhoneGap.exec(callback, null, "FacebookAuth", "getAccess", []);
+        cordova.exec(callback, null, "FacebookAuth", "getAccess", []);
       };
 
       /**
        * Load Plugin
        */
-      PhoneGap.addConstructor(function() {
-        PhoneGap.addPlugin("facebook", new Facebook());
-        PluginManager.addService("FacebookAuth", "com.phonegap.plugins.facebook.FacebookAuth");
+      cordova.addConstructor(function() {
+        cordova.addPlugin("facebook", new Facebook());
       });
 
     }());
