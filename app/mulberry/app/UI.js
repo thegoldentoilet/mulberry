@@ -18,6 +18,11 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.body = dojo.body();
     this.hasTouch = 'ontouchstart' in window;
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
+    
+    if (mulberry.Device.os === "browser") {
+      this._fixHeight();
+      dojo.subscribe('/window/resize', dojo.hitch(this, this._fixHeight));
+    }
 
     this._containersSetup();
 
@@ -128,6 +133,13 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   hideSplash : function() {
     var splash = dojo.byId('splash');
     if (splash) { dojo.destroy(splash); }
+  },
+  
+  // this is for mobile web *only*
+  _fixHeight : function() {
+    var screenHigh = window.screen.availHeight;
+    dojo.style(document.body, 'height', screenHigh + "px");
+    window.scrollTo(0,1);
   }
 });
 
