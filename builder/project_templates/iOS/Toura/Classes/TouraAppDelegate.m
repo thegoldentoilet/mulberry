@@ -36,11 +36,11 @@
 	/** If you need to do any extra app-specific initialization, you can do it here
 	 *  -jm
 	 **/
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage]; 
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    
+
     [CDVURLProtocol registerURLProtocol];
-    
+
     return [super init];
 }
 
@@ -51,23 +51,23 @@
  */
 - (BOOL) application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-    
+
     application.applicationIconBadgeNumber = 0;
-    
+
     NSURL* url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
     NSString* invokeString = nil;
-    
+
     if (url && [url isKindOfClass:[NSURL class]]) {
         invokeString = [url absoluteString];
-		NSLog(@"Toura launchOptions = %@", url);
-    }    
-    
+        NSLog(@"Toura launchOptions = %@", url);
+    }
+
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
     self.window.autoresizesSubviews = YES;
-    
+
     CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
-    
+
     self.viewController = [[[MainViewController alloc] init] autorelease];
     self.viewController.useSplashScreen = YES;
     self.viewController.wwwFolderName = @"www";
@@ -77,16 +77,16 @@
     // cache notification, if any, until webview finished loading, then process it if needed
     // assume will not receive another message before webview loaded
     ((MainViewController*)self.viewController).launchNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    
+
     // check whether the current orientation is supported: if it is, keep it, rather than forcing a rotation
     BOOL forceStartupRotation = YES;
     UIDeviceOrientation curDevOrientation = [[UIDevice currentDevice] orientation];
-    
+
     if (UIDeviceOrientationUnknown == curDevOrientation) {
         // UIDevice isn't firing orientation notifications yet… go look at the status bar
         curDevOrientation = (UIDeviceOrientation)[[UIApplication sharedApplication] statusBarOrientation];
     }
-    
+
     if (UIDeviceOrientationIsValidInterfaceOrientation(curDevOrientation)) {
         for (NSNumber *orient in self.viewController.supportedOrientations) {
             if ([orient intValue] == curDevOrientation) {
@@ -94,8 +94,8 @@
                 break;
             }
         }
-    } 
-    
+    }
+
     if (forceStartupRotation) {
         NSLog(@"supportedOrientations: %@", self.viewController.supportedOrientations);
         // The first item in the supportedOrientations array is the start orientation (guaranteed to be at least Portrait)
@@ -103,29 +103,29 @@
         NSLog(@"AppDelegate forcing status bar to: %d from: %d", newOrient, curDevOrientation);
         [[UIApplication sharedApplication] setStatusBarOrientation:newOrient];
     }
-    
+
     [self.window addSubview:self.viewController.view];
     [self.window makeKeyAndVisible];
-    
+
     return YES;
 }
 
 // this happens while we are running ( in the background, or from within our own app )
 // only valid if Toura-Info.plist specifies a protocol to handle
-- (BOOL) application:(UIApplication*)application handleOpenURL:(NSURL*)url 
+- (BOOL) application:(UIApplication*)application handleOpenURL:(NSURL*)url
 {
-    if (!url) { 
-        return NO; 
+    if (!url) {
+        return NO;
     }
-    
+
 	// calls into javascript global function 'handleOpenURL'
     NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
     [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
-    
-    // all plugins will get the notification, and their handlers will be called 
+
+    // all plugins will get the notification, and their handlers will be called
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-    
-    return YES;    
+
+    return YES;
 }
 
 - (void) dealloc
@@ -149,13 +149,13 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"didReceiveNotification");
-    
+
     // Get application state for iOS4.x+ devices, otherwise assume active
     UIApplicationState appState = UIApplicationStateActive;
     if ([application respondsToSelector:@selector(applicationState)]) {
         appState = application.applicationState;
     }
-    
+
     // NOTE this is a 4.x only block -- TODO: add 3.x compatibility
     if (appState == UIApplicationStateActive) {
         PushNotification *pushHandler = [self.viewController.commandDelegate getCommandInstance:@"PushNotification"];
@@ -168,19 +168,19 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    
+
     NSLog(@"active");
-    
+
     //zero badge
     application.applicationIconBadgeNumber = 0;
-    
+
     MainViewController* mainViewController = (MainViewController*) self.viewController;
     if (![self.viewController.webView isLoading] && mainViewController.launchNotification) {
         PushNotification *pushHandler = [self.viewController.commandDelegate getCommandInstance:@"PushNotification"];
         pushHandler.notificationMessage = [mainViewController.launchNotification objectForKey:@"aps"];
-        
+
         mainViewController.launchNotification = nil;
-        
+
         [pushHandler performSelectorOnMainThread:@selector(notificationReceived) withObject:pushHandler waitUntilDone:NO];
     }
 }
@@ -191,16 +191,16 @@
 	NSString *error;
 	NSPropertyListFormat format;
 	id plist;
-    
+
 	NSString *localizedPath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"plist"];
 	plistData = [NSData dataWithContentsOfFile:localizedPath];
-    
+
 	plist = [NSPropertyListSerialization propertyListFromData:plistData mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&error];
 	if (!plist) {
 		NSLog(@"Error reading plist from file '%s', error = '%s'", [localizedPath UTF8String], [error UTF8String]);
 		[error release];
 	}
-    
+
 	return plist;
 }
 
