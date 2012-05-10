@@ -45,5 +45,21 @@
     .component.body-text {
       padding: 10px;
     }
+    
+    .component.child-node-text {
+      & > li {
+        overflow: visible;
+        
+        & > a {
+          @include list-component-link;
+          @include child-node-link;
+          margin: 0 -10px;
+        }        
+      }
+      
+      .child-node-body-text {
+        margin-bottom: .5em;
+      }
+    }
   }
 }

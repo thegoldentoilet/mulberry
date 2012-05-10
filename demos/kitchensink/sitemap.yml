@@ -8,6 +8,7 @@
     - grid_child_five
   - product-test:
     - product-about-copy
+    - empty_videos
   - audio_list:
     - single_image_gallery
     - generic_child_page
