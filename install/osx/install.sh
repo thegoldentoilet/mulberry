@@ -80,6 +80,8 @@ fi
 
 rvm use 1.9.3@mulberry
 
+#add rvmrc file
+echo 'rvm use 1.9.3@mulberry' > .rvmrc
 
 if [ "$BREWFILE" ]
 then
