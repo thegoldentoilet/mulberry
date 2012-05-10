@@ -10,6 +10,10 @@
     .region.book-image {
       @include fixed-flex-region;
       height: 400px;
+      
+      .component.image-gallery {
+        padding: 15px 10px;
+      }
     }
     
     .component.image-caption {
