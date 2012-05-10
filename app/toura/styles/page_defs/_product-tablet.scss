@@ -10,9 +10,11 @@
     .region.book-image {
       @include fixed-flex-region;
       height: 400px;
+      padding: 10px;
       
       .component.image-gallery {
         padding: 15px 10px;
+        box-sizing: border-box;
       }
     }
     

@@ -290,6 +290,14 @@ dojo.declare('mulberry._View', [ dijit._Widget, dijit._Templated, mulberry._Nls 
   
   height: function() {
     return dojo.position(this.domNode).h;
+  },
+  
+  innerWidth: function() {
+    return dojo.contentBox(this.domNode).w;
+  },
+  
+  innerHeight: function() {
+    return dojo.contentBox(this.domNode).h;
   }
 
 });
