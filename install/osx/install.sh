@@ -142,7 +142,7 @@ else
 	unzip -q phonegap.1.6.1.zip
 	cd ..
 
-	hdiutil mount tmp/callback-phonegap-b81151f/iOS/PhoneGap-1.6.1.dmg
+	hdiutil mount tmp/phonegap-phonegap-b4e695d/lib/ios/Cordova-1.6.1.dmg
 
-	open /Volumes/PhoneGap-1.6.1/PhoneGap-1.6.1.pkg
+	open /Volumes/Cordova-1.6.1/Cordova-1.6.1.pkg
 fi
