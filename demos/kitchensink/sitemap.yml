@@ -6,6 +6,9 @@
     - grid_child_three
     - grid_child_four
     - grid_child_five
+  - map_child:
+    - toura_hq
+    - city_hall
   - product-test:
     - product-about-copy
     - empty_videos

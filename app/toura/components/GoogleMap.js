@@ -25,13 +25,21 @@ dojo.require('toura.URL');
       this.googleTries = 0;
       this.pinCache = {};
       this.markerCache = {};
+      this.googleReady = false;
       this.isBuilt = false;
+      this.isVisible = true;
 
       this.pins = this.node.googleMapPins;
 
       dojo.forEach(this.pins, function(pin) {
         this.pinCache[pin.id] = pin;
       }, this);
+    },
+    
+    setupConnections : function() {
+      this.inherited(arguments);
+      
+      this.connect(this.page, 'showScreen', '_screenCheck');
     },
 
     // this intentionally still uses postcreate rather than a _Component
@@ -42,8 +50,25 @@ dojo.require('toura.URL');
       // The script that gets loaded here injects its own additional
       // scripts to the page, so we need to use a slightly custom callback mechanism
       this.callbackName = 'GoogleMapCallback' + (++callbackUuid);
-      window[this.callbackName] = dojo.hitch(this, '_buildMap');
+      window[this.callbackName] = dojo.hitch(this, '_buildCheck');
       dojo.io.script.get({ url: this.apiURL + this.callbackName });
+    },
+    
+    // this function makes sure we wait to set up the map
+    // until its parent screen is visible--otherwise the
+    // dimensions of the map will be fubared.
+    _screenCheck : function() {
+      this.isVisible = !this.screen.isHidden;
+      if( this.isVisible && this.googleReady) {
+        this._buildCheck();
+      } 
+    },
+    
+    _buildCheck : function () {
+      this.googleReady = true;
+      if (this.isVisible && !this.isBuilt) {
+        this._buildMap();
+      }
     },
 
     _buildMap : function () {
@@ -83,17 +108,10 @@ dojo.require('toura.URL');
         return marker;
       }, this);
 
-      if (this.pins.length > 1) {
-        this.map.fitBounds(bounds);
-        this.center = bounds.getCenter();
-      } else {
-        if (this.pins[0]) {
-          this.center = new google.maps.LatLng(this.pins[0].lat, this.pins[0].lon);
-          this.map.setCenter(this.center);
-          this.map.setZoom(15);
-        }
-      }
-
+      this.bounds = bounds;
+      
+      this.positionInit();
+      
       google.maps.event.addListener(this.map, 'dragend', dojo.hitch(this, function() {
         this.center = this.map.getCenter() || this.map.getBounds().getCenter();
       }));
@@ -110,6 +128,19 @@ dojo.require('toura.URL');
       }));
 
       this.onMapBuilt();
+    },
+    
+    positionInit : function() {
+      if (this.pins.length > 1) {
+        this.map.fitBounds(this.bounds);
+        this.center = this.bounds.getCenter();
+      } else {
+        if (this.pins[0]) {
+          this.center = new google.maps.LatLng(this.pins[0].lat, this.pins[0].lon);
+          this.map.setCenter(this.center);
+          this.map.setZoom(15);
+        }
+      }
     },
 
     _showInfo : function (/** google.maps.Marker */ marker, /** toura.models.GoogleMapPin */ pin) {
@@ -163,6 +194,7 @@ dojo.require('toura.URL');
     },
 
     teardown : function () {
+      if (!this.isBuilt) return false;
       if (window.google && window.google.maps && window.google.maps.event) {
         dojo.forEach(this.markers, function (marker) {
           google.maps.event.clearInstanceListeners(marker);

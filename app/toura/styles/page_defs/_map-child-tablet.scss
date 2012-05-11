@@ -1,0 +1,32 @@
+.page.map-child-tablet {
+  .screen.index {
+    @include standard-screen;
+    
+    .region.column-set {
+      @media (orientation: landscape) {
+        @include flex-column-container;
+        
+        .region.google-map {
+          border-right: 1px solid $border-color;
+        }
+      }
+      
+      @media (orientation: portrait) {
+        @include flex-row-container;
+        
+        .region.google-map {
+          border-bottom: 1px solid $border-color;
+        }
+      }
+
+      .region.google-map {
+        @include flex-row-container;
+        -webkit-box-flex: 3;
+      }
+    }
+    
+    .component.body-text {
+      padding: 10px;
+    }
+  }
+}

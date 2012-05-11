@@ -41,4 +41,8 @@ describe("google map component", function() {
       expect(c._doQueue).toHaveBeenCalled();
     });
   });
+  
+  // TODO: spec for deferring startup until the screen is visible
+  
+  // also TODO: make these specs remotely functional
 });
