@@ -52,13 +52,8 @@ dojo.declare('mulberry._Capability', null, {
 
     this.domNode = this.page.domNode;
     this.node = this.page.node;
-
-    if (!this._checkRequirements()) {
-      console.error('Did not find required components for capability', this.declaredClass);
-      throw("Did not find required components for capability " + this.declaredClass);
-    }
-
-    this._doLookups();
+    
+    this._doLookups();   
     this._doConnects();
 
     this.init();
@@ -71,32 +66,6 @@ dojo.declare('mulberry._Capability', null, {
    */
   init : function() {
     // stub for implementation
-  },
-
-  /**
-   * @private
-   * Checks whether the components that are specified as required in the
-   * capability definition are present
-   *
-   * @returns {Boolean} A boolean value indicating whether the requirements of
-   * the capability have been met.
-   */
-  _checkRequirements : function() {
-    var requirementsMet = true;
-
-    dojo.forIn(this.requirements, function(propName, requiredComponentName) {
-      var foundComponent;
-      
-      foundComponent = this._getComponent(requiredComponentName);
-      requirementsMet = requirementsMet && foundComponent;
-
-      if (!foundComponent) {
-        console.warn('did not find', requiredComponentName);
-      }
-      
-    }, this);
-
-    return requirementsMet;
   },
   
   /**
@@ -127,7 +96,13 @@ dojo.declare('mulberry._Capability', null, {
     }
     
     if (!component) {
-      console.error('Capability', this.declaredClass, 'did not find component for', processedName[1], 'on the', processedName[0], 'screen');
+      var errorMessage = 'Capability ' + this.declaredClass + ' did not find component for ';
+      if (screen) {
+        errorMessage += processedName[1] +' on the ' + processedName[0] + ' screen';
+      } else {
+        errorMessage += processedName[0];
+      }
+      console.error(errorMessage);
       return null;
     }
     
@@ -143,6 +118,10 @@ dojo.declare('mulberry._Capability', null, {
   _doLookups : function() {
     dojo.forIn(this.requirements, function(propName, componentName) {
       this[propName] = this._getComponent(componentName);
+      if (!this[propName]) {
+        console.error('Did not find required components for capability', this.declaredClass);
+        throw("Did not find required components for capability " + this.declaredClass);
+      }
     }, this);
   },
 
