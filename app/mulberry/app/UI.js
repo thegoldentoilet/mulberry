@@ -12,6 +12,8 @@ dojo.require('dojo.Stateful');
 dojo.declare('mulberry.app.UI', dojo.Stateful, {
   containers : {},
   currentPage : null,
+  heightFn : 'innerHeight',
+  widthFn : 'innerWidth',
 
   constructor : function(device) {
     this.device = device;
@@ -22,6 +24,12 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     if (mulberry.Device.os === "browser") {
       this._fixHeight();
       dojo.connect(window, 'onorientationchange', this, '_fixHeight');
+    }
+    
+    // Android innerHeight calculations are wrong
+    if (navigator.userAgent.match('/Android/i')) {
+      this.heightFn = 'outerHeight';
+      this.widthFn = 'outerWidth';
     }
 
     this._containersSetup();
@@ -140,7 +148,8 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     var screenHigh = 0;
     this._setBodyHeight(9999);    // larger than any reasonable screen
     window.scrollTo(0,1);
-    screenHigh = window.innerHeight;
+    screenHigh = window[this.heightFn];
+    console.log(screenHigh, window.outerHeight);
     this._setBodyHeight(screenHigh);
   },
   
