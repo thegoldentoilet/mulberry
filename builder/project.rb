@@ -209,7 +209,7 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
 
         www = File.join(android_dir, 'assets', 'www')
         FileUtils.mkdir_p www unless File.exists? www
-        FileUtils.mv(File.join(android_dir, 'cordova-1.6.1.js'), www)
+        FileUtils.mv(File.join(android_dir, 'cordova.js'), www)
       end
     end
 
