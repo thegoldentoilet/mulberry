@@ -1,3 +1,4 @@
+//This file is cordova 1.6.1
 // commit b2de4baa76a94ecb916619a536339ffee9ef6843
 
 // File generated at :: Mon Apr 16 2012 15:13:41 GMT-0700 (PDT)
