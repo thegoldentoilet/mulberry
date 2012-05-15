@@ -7,7 +7,7 @@ describe("image gallery component", function() {
     
     // we don't actually create a region, so we fake the property
     // that ImageGallery needs
-    spoofRegion = { width: function() { return 0; } };
+    spoofRegion = { innerWidth: function() { return 0; } };
     C = toura.components.ImageGallery;
     t = dojo.byId('test');
 
