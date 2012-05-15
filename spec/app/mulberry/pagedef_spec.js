@@ -15,7 +15,7 @@ describe("mulberry._PageDef", function() {
   });
 
   it("should create mulberry.pageDefs", function() {
-    expect(mulberry.pageDefs).toBeDefined();
+    expect(mulberry.pageDefss).toBeDefined();
   });
 
   it("should expose a method for adding entries to mulberry.pageDefs", function() {
