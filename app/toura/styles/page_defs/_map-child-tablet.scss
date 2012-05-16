@@ -17,6 +17,15 @@
         .region.google-map {
           border-bottom: 1px solid $border-color;
         }
+        
+        .region.child-list-inner {
+          @include flex-column-container;
+          
+          & > .region {
+            // I have no idea why this is necessary
+            width: 50%;
+          }
+        }
       }
 
       .region.google-map {
