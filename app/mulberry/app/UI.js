@@ -12,8 +12,12 @@ dojo.require('dojo.Stateful');
 dojo.declare('mulberry.app.UI', dojo.Stateful, {
   containers : {},
   currentPage : null,
-  heightFn : 'innerHeight',
-  widthFn : 'innerWidth',
+  iOS : {
+    heightFn : function() { return window.innerHeight; }
+  },
+  android : {
+    heightFn : function() { return window.outerHeight/window.devicePixelRatio; }
+  },
 
   constructor : function(device) {
     this.device = device;
@@ -22,16 +26,11 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
     
     if (mulberry.Device.os === "browser") {
-      this._fixHeight();
-      dojo.connect(window, 'onorientationchange', this, '_fixHeight');
+      this._checkBrowser();
+      setTimeout(dojo.hitch(this, this._fixHeight), 0);
+      dojo.connect(window, 'onorientationchange', dojo.hitch(this, function() { console.log("soooper sloooow"); setTimeout(dojo.hitch(this, this._fixHeight), 200); }));
     }
     
-    // Android innerHeight calculations are wrong
-    if (navigator.userAgent.match('/Android/i')) {
-      this.heightFn = 'outerHeight';
-      this.widthFn = 'outerWidth';
-    }
-
     this._containersSetup();
 
     this._watchers();
@@ -63,6 +62,16 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     };
 
     dojo.forIn(watchers, this.watch, this);
+  },
+  
+  _checkBrowser : function() {
+    this.device = 'iOS';    // default case
+    if(navigator.userAgent.match(/Android/i)) {
+      this.device = 'Android';
+    }
+    // if(navigator.userAgent.match(/[iPhone|iPod|iPad]/i)) {
+    //   this.device = 'iOS';
+    // }
   },
 
   _updateViewport : function() {
@@ -148,8 +157,8 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     var screenHigh = 0;
     this._setBodyHeight(9999);    // larger than any reasonable screen
     window.scrollTo(0,1);
-    screenHigh = window[this.heightFn];
-    console.log(screenHigh, window.outerHeight);
+    screenHigh = this[this.device].heightFn();
+    console.log(screenHigh, this.device, this[this.device].heightFn(), window.outerHeight, window.devicePixelRatio);
     this._setBodyHeight(screenHigh);
   },
   
