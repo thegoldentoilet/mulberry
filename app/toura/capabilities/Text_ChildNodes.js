@@ -12,6 +12,10 @@ dojo.declare('toura.capabilities.Text_ChildNodes', mulberry._Capability, {
     if (this.childNodes.children.length === 0) {
       dojo.addClass(this.childNodes.region.domNode, 'empty');
     }
+    
+    if (this.text.bodyText.length === 0) {
+      dojo.addClass(this.text.region.domNode, 'empty');
+    }
   }
 });
 

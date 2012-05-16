@@ -21,9 +21,8 @@
         .region.child-list {
           @include flex-column-container;
           
-          & > .region {
-            // I have no idea why this is necessary
-            width: 50%;
+          .region.body-text-container.empty {
+            -webkit-box-flex: 0;
           }
         }
       }

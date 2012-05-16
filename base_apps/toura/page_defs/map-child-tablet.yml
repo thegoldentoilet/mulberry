@@ -1,4 +1,7 @@
 map-child-tablet:
+  capabilities:
+  - Text_ChildNodes
+
   screens:
   - name: index
     regions:
