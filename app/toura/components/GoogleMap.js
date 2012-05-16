@@ -61,7 +61,7 @@ dojo.require('toura.URL');
       this.isVisible = !this.screen.isHidden;
       if( this.isVisible && this.googleReady) {
         this._buildCheck();
-      } 
+      }
     },
     
     _buildCheck : function () {
@@ -194,7 +194,7 @@ dojo.require('toura.URL');
     },
 
     teardown : function () {
-      if (!this.isBuilt) return false;
+      if (!this.isBuilt) { return false; }
       if (window.google && window.google.maps && window.google.maps.event) {
         dojo.forEach(this.markers, function (marker) {
           google.maps.event.clearInstanceListeners(marker);
