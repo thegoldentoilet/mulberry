@@ -6,10 +6,6 @@ dojo.provide('toura.Analytics');
  */
 (function(){
 
-var analytics = {
-  log : function() { /* noop pending Google Analytics integration */ }
-};
-
 dojo.declare('toura.Analytics', null, {
   /**
    * @constructor
@@ -37,14 +33,16 @@ dojo.declare('toura.Analytics', null, {
    * to the analytics service.
    */
   _trackEvent : function(eventType, data) {
-    analytics.log(eventType, { data : data });
+    // analytics.log(eventType, { data : data });
   },
 
   /**
    * @param {String} hash  The hash for the pageview
    */
   _trackPageview : function(hash) {
-    analytics.log('/tour/' + mulberry.app.Config.get('app').id + hash);
+    // analytics.log('/tour/' + mulberry.app.Config.get('app').id + hash);
+    console.log("tracking page view: " + hash)
+    mulberry.app.PhoneGap.analytics.trackPageview(hash);
   },
 
   /**
@@ -55,10 +53,17 @@ dojo.declare('toura.Analytics', null, {
   _trackSearch : function(term) {
     term = term ? dojo.trim(term) : false;
     if (!term) { return; }
-    analytics.log('Search', { searchTerm : term });
+    // analytics.log('Search', { searchTerm : term });
   }
 });
 
 toura.Analytics = new toura.Analytics();
+
+dojo.subscribe('/app/ready', function() {
+  var analytics = mulberry.app.PhoneGap.analytics;
+  analytics.startTracker('UA-31816441-1');
+  analytics.setCustomVariable(1, "deviceType", mulberry.Device.type, 1);
+  analytics.setCustomVariable(2, "deviceOs", mulberry.Device.os, 1);
+});
 
 }());

@@ -44,6 +44,12 @@
 		645123E31548834300025F11 /* PushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 645123DE1548834300025F11 /* PushNotification.m */; };
 		645123E61548835400025F11 /* TouraAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 645123E51548835400025F11 /* TouraAppDelegate.m */; };
 		645123E81548835F00025F11 /* UrbanAirship.plist in Resources */ = {isa = PBXBuildFile; fileRef = 645123E71548835F00025F11 /* UrbanAirship.plist */; };
+		6491114D1564058A00357F2E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6491114C1564058A00357F2E /* libsqlite3.0.dylib */; };
+		649111921564496100357F2E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 649111911564496100357F2E /* CFNetwork.framework */; };
+		649111A815644CF600357F2E /* GoogleAnalyticsPlugin.js in Sources */ = {isa = PBXBuildFile; fileRef = 649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */; };
+		649111A915644CF600357F2E /* GoogleAnalyticsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */; };
+		649111AA15644CF600357F2E /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 649111A615644CF600357F2E /* libGoogleAnalytics.a */; };
+		649111AB15644CF600357F2E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 649111A715644CF600357F2E /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +99,14 @@
 		645123E41548835400025F11 /* TouraAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouraAppDelegate.h; path = Classes/TouraAppDelegate.h; sourceTree = "<group>"; };
 		645123E51548835400025F11 /* TouraAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TouraAppDelegate.m; path = Classes/TouraAppDelegate.m; sourceTree = "<group>"; };
 		645123E71548835F00025F11 /* UrbanAirship.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UrbanAirship.plist; sourceTree = "<group>"; };
+		6491114C1564058A00357F2E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		649111911564496100357F2E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework; sourceTree = "<absolute>"; };
+		649111A115644CF600357F2E /* GoogleAnalyticsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAnalyticsPlugin.h; sourceTree = "<group>"; };
+		649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GoogleAnalyticsPlugin.js; sourceTree = "<group>"; };
+		649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAnalyticsPlugin.m; sourceTree = "<group>"; };
+		649111A515644CF600357F2E /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
+		649111A615644CF600357F2E /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
+		649111A715644CF600357F2E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6491114D1564058A00357F2E /* libsqlite3.0.dylib in Frameworks */,
 				645122FB154880FD00025F11 /* Foundation.framework in Frameworks */,
 				645122FD154880FD00025F11 /* UIKit.framework in Frameworks */,
 				645122FF154880FD00025F11 /* CoreGraphics.framework in Frameworks */,
@@ -114,6 +129,8 @@
 				64512311154880FD00025F11 /* MobileCoreServices.framework in Frameworks */,
 				64512313154880FD00025F11 /* CoreMedia.framework in Frameworks */,
 				6451231E154880FD00025F11 /* Cordova.framework in Frameworks */,
+				649111921564496100357F2E /* CFNetwork.framework in Frameworks */,
+				649111AA15644CF600357F2E /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +147,7 @@
 		645122E8154880FD00025F11 = {
 			isa = PBXGroup;
 			children = (
+				6491114C1564058A00357F2E /* libsqlite3.0.dylib */,
 				6451235C1548817000025F11 /* www */,
 				64512314154880FD00025F11 /* Toura */,
 				645122F9154880FD00025F11 /* Frameworks */,
@@ -168,6 +186,7 @@
 		64512314154880FD00025F11 /* Toura */ = {
 			isa = PBXGroup;
 			children = (
+				649111911564496100357F2E /* CFNetwork.framework */,
 				6451231D154880FD00025F11 /* Cordova.framework */,
 				6451231F154880FD00025F11 /* Resources */,
 				64512340154880FD00025F11 /* Classes */,
@@ -270,6 +289,7 @@
 		64512349154880FE00025F11 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				649111A015644CF600357F2E /* GoogleAnalytics */,
 				645123D61548834300025F11 /* ChildBrowser.bundle */,
 				645123D71548834300025F11 /* ChildBrowserCommand.h */,
 				645123D81548834300025F11 /* ChildBrowserCommand.m */,
@@ -290,6 +310,28 @@
 			);
 			name = push;
 			path = Plugins/push;
+			sourceTree = "<group>";
+		};
+		649111A015644CF600357F2E /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				649111A115644CF600357F2E /* GoogleAnalyticsPlugin.h */,
+				649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */,
+				649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */,
+				649111A415644CF600357F2E /* GoogSDK */,
+				649111A715644CF600357F2E /* README.md */,
+			);
+			name = GoogleAnalytics;
+			path = Plugins/GoogleAnalytics;
+			sourceTree = "<group>";
+		};
+		649111A415644CF600357F2E /* GoogSDK */ = {
+			isa = PBXGroup;
+			children = (
+				649111A515644CF600357F2E /* GANTracker.h */,
+				649111A615644CF600357F2E /* libGoogleAnalytics.a */,
+			);
+			path = GoogSDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,6 +374,7 @@
 				es,
 				de,
 				se,
+				English,
 			);
 			mainGroup = 645122E8154880FD00025F11;
 			productRefGroup = 645122F7154880FD00025F11 /* Products */;
@@ -365,6 +408,7 @@
 				645123DF1548834300025F11 /* ChildBrowser.bundle in Resources */,
 				645123E21548834300025F11 /* ChildBrowserViewController.xib in Resources */,
 				645123E81548835F00025F11 /* UrbanAirship.plist in Resources */,
+				649111AB15644CF600357F2E /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +441,8 @@
 				645123E11548834300025F11 /* ChildBrowserViewController.m in Sources */,
 				645123E31548834300025F11 /* PushNotification.m in Sources */,
 				645123E61548835400025F11 /* TouraAppDelegate.m in Sources */,
+				649111A815644CF600357F2E /* GoogleAnalyticsPlugin.js in Sources */,
+				649111A915644CF600357F2E /* GoogleAnalyticsPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,7 +554,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/Shared/Cordova/Frameworks,
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Toura/Toura-Prefix.pch";
@@ -519,6 +568,12 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Toura/Toura-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/usr/local/src/phonegap-plugins/iOS/GoogleAnalytics/GoogSDK\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A\"",
+					"\"$(SRCROOT)/Toura/Plugins/GoogleAnalytics/GoogSDK\"",
+				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
@@ -541,7 +596,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/Shared/Cordova/Frameworks,
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Toura/Toura-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -551,6 +609,12 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Toura/Toura-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/usr/local/src/phonegap-plugins/iOS/GoogleAnalytics/GoogSDK\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A\"",
+					"\"$(SRCROOT)/Toura/Plugins/GoogleAnalytics/GoogSDK\"",
+				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
