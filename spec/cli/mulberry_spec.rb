@@ -214,7 +214,7 @@ describe Mulberry::App do
       test_should_publish do
         FakeWeb.register_uri(:get, //,  :status => "404")
         FakeWeb.register_uri(:post, //, :body => "{\"version\": 1}")
-        @app.device_build :skip_js_build => true
+        @app.device_build :skip_js_build => false
       end
     end
 
@@ -223,7 +223,7 @@ describe Mulberry::App do
         FakeWeb.register_uri(:get, //,  :body => "{\"version\": 1}")
         FakeWeb.register_uri(:post, //, :body => "{\"version\": 2}")
 
-        @app.device_build :skip_js_build => true, :publish_ota => true
+        @app.device_build :skip_js_build => false, :publish_ota => true
       end
     end
 
