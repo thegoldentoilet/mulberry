@@ -11,13 +11,12 @@ map-child-tablet:
         components:
         - ChildNodesMap
       - className: child-list
-        scrollable: true
         regions:
-        - className: child-list-inner
-          regions:
-          - className: body-text-container
-            components:
-            - BodyText
-          - className: child-nodes-container
-            components:
-            - ChildNodes
+        - className: body-text-container
+          scrollable: true
+          components:
+          - BodyText
+        - className: child-nodes-container
+          scrollable: true
+          components:
+          - ChildNodes
