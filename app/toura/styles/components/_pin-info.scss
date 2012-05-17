@@ -25,6 +25,12 @@
         border-top: 1px solid $border-color;
         margin-top: 15px;
         padding: 15px 2px 2px 0;
+        
+        .tablet & {
+          // background color is always white on tablet
+          // so text must always be dark
+          color: #000;
+        }
 
         header {
           margin-bottom: 1em;
