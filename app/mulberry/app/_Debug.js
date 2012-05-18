@@ -30,6 +30,8 @@ mulberry.app._Debug = function(el) {
   var tools = new mulberry.app._Debug.Tools().placeAt(el, 'first'),
       msg = new mulberry.app._Debug.Message().placeAt(el, 'first'),
       tpl = 'Debug &#64; {url} code: {hash}'.replace('{url}', weinreServer);
+  
+  mulberry.app._Debug.weinre.weinreMsg = msg;  
 
   dojo.connect(tools, 'onWeinre', function(hash) {
     msg.set('content', tpl.replace('{hash}', hash.slice(1)));
@@ -53,6 +55,8 @@ mulberry.app._Debug.weinre = {
 
     return hash;
   },
+  
+  weinreVisible : null,
 
   script : weinreServer + 'target/target-script-min.js',
   client : function(hash) {
@@ -98,6 +102,16 @@ dojo.declare('mulberry.app._Debug.Tools', mulberry._Component, {
   },
 
   _weinre : function() {
+    if (mulberry.app._Debug.weinre.weinreVisible === true) {
+      mulberry.app._Debug.weinre.weinreMsg.hide();
+      mulberry.app._Debug.weinre.weinreVisible = false;
+    } else {
+      if (mulberry.app._Debug.weinre.weinreVisible === false) {
+        mulberry.app._Debug.weinre.weinreMsg.show();
+        mulberry.app._Debug.weinre.weinreVisible = true;
+      }
+    }
+    
     if (this.hasWeinre) { return; }
 
     var hash = mulberry.app._Debug.weinre.init();
@@ -125,6 +139,8 @@ dojo.declare('mulberry.app._Debug.Message', mulberry._Component, {
     dojo.place(this.msgNode, this.domNode);
 
     this.hide();
+    
+    mulberry.app._Debug.weinre.weinreVisible = true;
   },
 
   _setContentAttr : function(msg) {
