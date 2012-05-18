@@ -4,6 +4,7 @@ map-child-phone:
   
   screens:
   - name: list
+    backgroundImage: true
     regions:
     - className: page-nav
       components:

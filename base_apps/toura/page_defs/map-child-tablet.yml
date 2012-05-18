@@ -4,6 +4,7 @@ map-child-tablet:
 
   screens:
   - name: index
+    backgroundImage: true
     regions:
     - className: page-nav
       components:
