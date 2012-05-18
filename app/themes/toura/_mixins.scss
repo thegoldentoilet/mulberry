@@ -224,6 +224,15 @@
   }
 }
 
+@mixin feature-multiline-childnode {
+  // TODO: Kludge for Wiley. Make this a parameter exported from MAP
+  .feature-multiLineChildNodes & {
+    overflow: visible;
+    white-space: normal;
+    -webkit-box-orient: initial;
+  }
+}
+
 @mixin list-component-link {
   line-height: 1.6em;
   display: block;
@@ -235,16 +244,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  // TODO: Kludge for Wiley. Make this a parameter exported from MAP
-  .feature-multiLineChildNodes & {
-    overflow: visible;
-    white-space: normal;
-  }
+  @include feature-multiline-childnode;
 
   @if ($child-node-text-shadow == true) {
     text-shadow: 1px 1px 0 rgba(0,0,0, .2);
   }
 }
+
+
 
 @mixin child-node-link {
   padding: 6px 50px 6px 10px;

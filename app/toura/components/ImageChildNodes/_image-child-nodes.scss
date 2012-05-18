@@ -15,6 +15,7 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         line-height: 1.65em;
+        @include feature-multiline-childnode;
       }
     }
 
