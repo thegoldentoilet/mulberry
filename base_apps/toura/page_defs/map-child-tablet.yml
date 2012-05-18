@@ -1,6 +1,10 @@
 map-child-tablet:
+  capabilities:
+  - Text_ChildNodes
+
   screens:
   - name: index
+    backgroundImage: true
     regions:
     - className: page-nav
       components:
@@ -12,6 +16,10 @@ map-child-tablet:
         - ChildNodesMap
       - className: child-list
         scrollable: true
-        components:
-        - BodyText
-        - ChildNodes
+        regions:
+        - className: body-text-container
+          components:
+          - BodyText
+        - className: child-nodes-container
+          components:
+          - ChildNodes

@@ -17,6 +17,18 @@
         .region.google-map {
           border-bottom: 1px solid $border-color;
         }
+        
+        .region.child-list .inner {
+          @include flex-column-container;
+          
+          > .region {
+            width: 50%;
+          }
+          
+          .region.body-text-container.empty {
+            -webkit-box-flex: 0;
+          }
+        }
       }
 
       .region.google-map {

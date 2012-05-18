@@ -26,4 +26,4 @@ dojo.declare('toura.components.PageNavLayoutToggle', toura.components.PageNav, {
     this.layoutToggleButton.removeParentClass();
     this.layoutToggleButton.addParentClass(className);
   }
-}); 
+});
