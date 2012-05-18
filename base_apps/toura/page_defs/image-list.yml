@@ -2,7 +2,7 @@ image-list:
   type: node
   screens:
   - name: index
-    backgroundImage: false
+    backgroundImage: true
     regions:
     - className: page-nav
       components:
