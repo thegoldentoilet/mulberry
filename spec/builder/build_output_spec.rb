@@ -76,7 +76,7 @@ describe Builder::Build do
     it "should include phonegap for device builds" do
       b = Builder::Build.new(config)
       b.build
-      html_contents(b).should include 'phonegap'
+      html_contents(b).should include 'cordova'
       b.cleanup
     end
 

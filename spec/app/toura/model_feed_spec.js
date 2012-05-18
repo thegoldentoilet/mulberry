@@ -86,7 +86,7 @@ describe("feed model", function() {
       items = data;
     });
 
-    waitsFor(function() { return items; }, 2000);
+    waitsFor(function() { return items; }, 5000);
 
     runs(function() {
       expect(dojo.isArray(items)).toBeTruthy();

@@ -5,10 +5,12 @@ dojo.require('mulberry.containers.Region');
 
 dojo.declare('mulberry.containers.Screen', mulberry.containers._LayoutBox, {
   templateString : dojo.cache('mulberry.containers', 'Screen/Screen.haml'),
-  components : {},
+  components : null,
 
   postCreate : function() {
     this.inherited(arguments);
+    
+    this.components = {};
 
     this.addClass(this.config.name);
 
@@ -29,7 +31,7 @@ dojo.declare('mulberry.containers.Screen', mulberry.containers._LayoutBox, {
   registerComponent : function(c) {
     var componentParts = c.declaredClass.split('.'),
         componentName = componentParts[componentParts.length - 1];
-
+    
     this.components[componentName] = c;
   },
 

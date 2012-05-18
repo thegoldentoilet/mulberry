@@ -1,23 +1,14 @@
 package com.toura.www;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Properties;
-import java.net.URL;
-
+import org.apache.cordova.DroidGap;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.text.TextUtils;
 
-import com.phonegap.DroidGap;
 import com.toura.www.push.IntentReceiver;
 
 public class TouraMainActivity extends DroidGap {
@@ -80,6 +71,6 @@ public class TouraMainActivity extends DroidGap {
   }
 
   private String createShowAlertScript(String message) {
-    return "toura.app.Notifications.notify({alert:'" + message.replace("'", "\\'") + "'});";
+    return "mulberry.app.Notifications.notify({alert:'" + message.replace("'", "\\'") + "'});";
   }
 }

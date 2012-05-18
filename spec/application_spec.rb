@@ -66,7 +66,7 @@ describe Mulberry::Framework do
       end
 
       {
-        :include_phonegap     => 'phonegap.js',
+        :include_phonegap     => 'cordova.js',
         :include_jquery       => 'jquery.js',
         :include_dev_config   => 'DevConfig.js'
       }.each do |prop, file|

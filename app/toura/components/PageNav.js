@@ -5,12 +5,14 @@ dojo.require('toura.components.MoreDrawer');
 dojo.require('toura.components.buttons.MoreDrawerButton');
 dojo.require('toura.components.buttons.HomeButton');
 dojo.require('toura.components.buttons.BackButton');
+dojo.require('toura.components.buttons.LayoutToggleButton');
 dojo.require('toura.URL');
 
 dojo.declare('toura.components.PageNav', mulberry._Component, {
   templateString : dojo.cache('toura.components', 'PageNav/PageNav.haml'),
   widgetsInTemplate : true,
   shareable : true,
+  layoutToggle : false,
 
   prepareData : function() {
     this.searchUrl = toura.URL.search();

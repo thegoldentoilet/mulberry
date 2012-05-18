@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.toura.www" android:versionName="{android.versionName}" android:versionCode="{android.versionCode}">
+    package="com.toura.www" android:versionName="{android.versionName}" android:versionCode="{android.versionCode}"
+	android:installLocation="auto">
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -71,6 +72,6 @@
         <receiver android:name="com.toura.www.push.IntentReceiver" />
 
     </application>
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" android:maxSdkVersion="10"/>
 
 </manifest>

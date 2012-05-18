@@ -80,6 +80,8 @@ fi
 
 rvm use 1.9.3@mulberry
 
+#add rvmrc file
+echo 'rvm use 1.9.3@mulberry' > .rvmrc
 
 if [ "$BREWFILE" ]
 then
@@ -131,19 +133,18 @@ else
 	brew install android-sdk
 fi
 
-if [[ $(cat ~/Documents/PhoneGapLib/VERSION ) =~ '1.3.0' ]]
+if [[ $(cat ~/Documents/PhoneGapLib/VERSION ) =~ '1.6.1' ]]
 then
-	echo "PhoneGap 1.3.0 is installed."
+	echo "PhoneGap 1.6.1 is installed."
 else
-	echo "Downloading PhoneGap 1.3.0 to tmp/callback-phonegap-b81151f..."
+	echo "Downloading PhoneGap 1.6.1 to tmp/callback-phonegap-b81151f..."
 
 	cd tmp
-	curl https://nodeload.github.com/callback/phonegap/zipball/1.3.0 --O phonegap.1.3.0.zip
-
-	unzip -q phonegap.1.3.0.zip
+	curl https://github.com/phonegap/phonegap/zipball/1.6.1 -L --O phonegap.1.6.1.zip
+	unzip -q phonegap.1.6.1.zip
 	cd ..
 
-	hdiutil mount tmp/callback-phonegap-b81151f/iOS/PhoneGap-1.3.0.dmg
+	hdiutil mount tmp/phonegap-phonegap-b4e695d/lib/ios/Cordova-1.6.1.dmg
 
-	open /Volumes/PhoneGap-1.3.0/PhoneGap-1.3.0.pkg
+	open /Volumes/Cordova-1.6.1/Cordova-1.6.1.pkg
 fi

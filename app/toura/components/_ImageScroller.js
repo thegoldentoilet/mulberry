@@ -58,7 +58,7 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
   },
 
   _setWidth : function() {
-    var regionWidth = this.region.width(),
+    var regionWidth = this.region.innerWidth(),
         scrollerWidth = this.images.length * regionWidth;
 
     this.scrollerNode.style.width = scrollerWidth + 'px';

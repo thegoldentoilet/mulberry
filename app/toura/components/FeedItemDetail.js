@@ -84,11 +84,13 @@ dojo.declare('toura.components.FeedItemDetail', mulberry._Component, {
     dojo.forEach(this.domNode.querySelectorAll('img'), function(image){
       var bgImg  = this.adopt(mulberry.ui.BackgroundImage, image);
 
-      bgImg.imageUrl = image.src;
-      bgImg.height = image.height;
-      bgImg.loadImage();
+      dojo.connect(image, "onload", function(){
+        bgImg.imageUrl = image.src;
+        bgImg.height = image.height;
+        bgImg.loadImage();
 
-      dojo.place(bgImg.domNode, image, "replace");
+        dojo.place(bgImg.domNode, image, "replace");
+      });
     }, this);
   },
 

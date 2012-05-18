@@ -18,3 +18,4 @@ dojo.require('toura.capabilities.VideoList_VideoCaption');
 dojo.require('toura.capabilities.Page_Search');
 dojo.require('toura.capabilities.Text_ChildNodes');
 dojo.require('toura.capabilities.Text_ChildNodes_VideoList');
+dojo.require('toura.capabilities.MapChildNodesViews');

@@ -76,7 +76,7 @@ dojo.declare('toura.models.Feed', null, {
             callbackParamName : 'callback',
             load : dojo.hitch(this, '_onLoad', dfd),
             error : dojo.hitch(this, '_onError', dfd),
-            timeout : 2000
+            timeout : 5000
           });
         }));
     }
@@ -130,7 +130,31 @@ dojo.declare('toura.models.Feed', null, {
     this.items = dojo.map(
       mulberry.app.DeviceStorage.get(this.id) || [],
       function(item) {
-        item.pubDate = new Date(item.pubDate);
+        /*
+         * Convert from: 2012-01-12T01:37:42.000Z
+         *         to:   2009,9,26,13,37,42
+         *
+         * This method is necessary due to a date parsing bug in
+         * Safari 4. Once we drop support for iOS 4, this processing
+         * can be replaced with a simple
+         *
+         * item.pubDate = new Date(item.pubDate)
+         */
+
+        var offsetHours,
+            dateStr = item.pubDate,
+            year = dateStr.substring(0,4),
+            month = dateStr.substring(5,7),
+            day = dateStr.substring(8,10),
+            hours = dateStr.substring(11,13),
+            minutes = dateStr.substring(14,16),
+            seconds = dateStr.substring(17,19);
+
+        month = month > 0 ? month - 1 : month;  // JS Date months start at 0
+        item.pubDate = new Date(year, month, day, hours, minutes, seconds);
+        offsetHours = hours - (item.pubDate.getTimezoneOffset() / 60);
+        item.pubDate = new Date(year, month, day, offsetHours, minutes, seconds);
+
         return item;
       }
     );
