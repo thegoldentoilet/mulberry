@@ -59,6 +59,10 @@ module Mulberry
     get '/' do
       redirect "/ios/phone/"
     end
+    
+    get "/:os/:type" do
+      redirect "/#{params[:os]}/#{params[:type]}/"
+    end
 
     get "/:os/:type/" do
       haml @index_template, :locals => {
