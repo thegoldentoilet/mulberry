@@ -10,8 +10,9 @@ package com.phonegap.plugins.analytics;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.phonegap.api.Plugin;
-import com.phonegap.api.PluginResult;
+import org.apache.cordova.api.Plugin;
+import org.apache.cordova.api.PluginResult;
+import org.apache.cordova.api.PluginResult.Status;
 
 public class GoogleAnalyticsTracker extends Plugin {
 	public static final String START = "start";
@@ -32,32 +33,32 @@ public class GoogleAnalyticsTracker extends Plugin {
 		if (START.equals(action)) {
 			try {
 				start(data.getString(0));
-				result = new PluginResult(PluginResult.Status.OK);
+				result = new PluginResult(Status.OK);
 			} catch (JSONException e) {
-				result = new PluginResult(PluginResult.Status.JSON_EXCEPTION);
+				result = new PluginResult(Status.JSON_EXCEPTION);
 			}
 		} else if (TRACK_PAGE_VIEW.equals(action)) {
 			try {
 				trackPageView(data.getString(0));
-				result = new PluginResult(PluginResult.Status.OK);
+				result = new PluginResult(Status.OK);
 			} catch (JSONException e) {
-				result = new PluginResult(PluginResult.Status.JSON_EXCEPTION);
+				result = new PluginResult(Status.JSON_EXCEPTION);
 			}
 		} else if (TRACK_EVENT.equals(action)) {
 			try {
 				trackEvent(data.getString(0), data.getString(1), data.getString(2), data.getInt(3));
-				result = new PluginResult(PluginResult.Status.OK);
+				result = new PluginResult(Status.OK);
 			} catch (JSONException e) {
-				result = new PluginResult(PluginResult.Status.JSON_EXCEPTION);
+				result = new PluginResult(Status.JSON_EXCEPTION);
 			}
 		} else if (SET_CUSTOM_VARIABLE.equals(action)){
 			try {
 				setCustomVar(data.getInt(0), data.getString(1), data.getString(2), data.getInt(3));
 			} catch (JSONException e) {
-				result = new PluginResult(PluginResult.Status.JSON_EXCEPTION);
+				result = new PluginResult(Status.JSON_EXCEPTION);
 			}
 		} else {
-			result = new PluginResult(PluginResult.Status.INVALID_ACTION);
+			result = new PluginResult(Status.INVALID_ACTION);
 		}
 		return result;
 	}
