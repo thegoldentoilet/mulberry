@@ -70,6 +70,7 @@ dojo.declare('toura.components.SearchInput', mulberry._Component, {
   search : function(q) {
     // stub for connections, so we can announce
     // the search to other components
+    dojo.publish('/search', [ q ]);
   },
 
   initializeStrings : function() {

@@ -55,6 +55,10 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
             getPlugin().trackPageview(pageUri);
           }
 
+          wrapper.trackEvent = function(category, action, label, value) {
+            getPlugin().trackEvent(category, action, label, value);
+          }
+
           wrapper.setCustomVariable = function(index, name, value) {
             getPlugin().setCustomVariable(index, name, value);
           }
@@ -162,6 +166,10 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
             getPlugin().trackPageView(pageUri);
           }
 
+          wrapper.trackEvent = function(category, action, label, value) {
+            getPlugin().trackEvent(category, action, label, value);
+          }
+
           wrapper.setCustomVariable = function(index, name, value) {
             getPlugin().setCustomVar(index, name, value);
           }
@@ -170,6 +178,13 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
 
   if (pg && init[os]) {
     init[os]();
+  } else {
+    function noop() {}
+    dojo.forEach([
+      'startTracker', 'trackPageview', 'trackEvent', 'setCustomVariable'
+      ], function(name) {
+        wrapper[name] = noop;
+      });
   }
 
   return wrapper;
