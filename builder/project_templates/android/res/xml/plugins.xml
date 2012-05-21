@@ -36,4 +36,5 @@
     <plugin name="Battery" value="org.apache.cordova.BatteryListener"/>
     <plugin name="FacebookAuth" value="com.phonegap.plugins.facebook.FacebookAuth"/>
     <plugin name="ChildBrowser" value="com.phonegap.plugins.childBrowser.ChildBrowser"/>
+    <plugin name="GoogleAnalyticsTracker" value="com.phonegap.plugins.analytics.GoogleAnalyticsTracker" />
 </plugins>

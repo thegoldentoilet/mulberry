@@ -41,7 +41,7 @@ dojo.declare('toura.Analytics', null, {
    */
   _trackPageview : function(hash) {
     // analytics.log('/tour/' + mulberry.app.Config.get('app').id + hash);
-    console.log("tracking page view: " + hash)
+    console.log("tracking page view: " + hash);
     mulberry.app.PhoneGap.analytics.trackPageview(hash);
   },
 
