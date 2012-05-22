@@ -26,7 +26,7 @@ if [ "$XCODEFILE" ] || [ -x "/Developer/usr/bin/xed" ]
 then
 	echo "XCode is installed..."
 else
-	echo "XCode is not installed. Please install XCode 4.3+ from http://itunes.apple.com/us/app/xcode/id448457090?mt=12"
+	echo "XCode is not installed. Please install XCode 4.3+ from http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12"
 	exit 1
 fi
 
