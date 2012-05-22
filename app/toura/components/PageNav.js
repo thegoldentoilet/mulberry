@@ -13,6 +13,7 @@ dojo.declare('toura.components.PageNav', mulberry._Component, {
   widgetsInTemplate : true,
   shareable : true,
   layoutToggle : false,
+  restrictBack: false,
 
   prepareData : function() {
     this.searchUrl = toura.URL.search();
@@ -20,6 +21,10 @@ dojo.declare('toura.components.PageNav', mulberry._Component, {
 
     this.title = this.node ? this.node.name : this.title;
     this.shareable = this.node && this.node.shareable;
+	if(("standalone" in navigator) && !navigator.standalone) {
+	  this.restrictBack = true;
+	}
+	console.log("standalone: ", this.restrictBack);
   },
 
   setupConnections : function() {
