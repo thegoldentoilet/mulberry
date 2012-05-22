@@ -157,7 +157,7 @@ module Mulberry
     end
 
     def html_vars
-      { :google_analytics => @config['google_analytics'] }
+      { 'google_analytics' => @config['google_analytics'] }
     end
 
     private
