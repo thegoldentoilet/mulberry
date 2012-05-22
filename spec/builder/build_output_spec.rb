@@ -134,6 +134,23 @@ describe Builder::Build do
         @config_contents.should include 'toura.skipVersionCheck = true;'
       end
     end
+
+    describe 'google analytics' do
+      it 'should include tracking id in app config' do
+        b = Builder::Build.new(@config.merge({
+          :build_helper   =>  @mulberry_helper,
+          :target_config  =>  {
+            'build_type'  =>  'browser',
+            'build'       =>  { 'config' => true }
+          }
+        }))
+
+        b.build
+        config = b.completed_steps[:build][:config]
+        config_contents = File.read(File.join(config[:location], 'AppConfig.js'))
+        config_contents.should match /"trackingId"\:\s*"a_tracking_id/
+      end
+    end
   end
 
   describe "device builds" do
