@@ -42,8 +42,21 @@ mulberry.util = {
         fromStyles[style]
       );
     });
-  }
+  },
 
+  supportedBrowser : function() {
+    /*
+     * Just checking for support of Webkit prefixes for now.
+     * Since this returns a boolean, we can just add whatever
+     * additional conditions we need to.
+     * */
+    var div = document.createElement("div"),
+        supportsWebkitPrefixes;
+
+    supportsWebkitPrefixes = typeof div.style.webkitTransform !== "undefined";
+
+    return supportsWebkitPrefixes;
+  }
 };
 
 mulberry.tmpl = function(str, data) {
