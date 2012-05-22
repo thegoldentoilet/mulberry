@@ -75,3 +75,7 @@ urban_airship:
 ads:
   phone:  http://toura.com/ad/ad.php
   tablet: http://toura.com/ad/ad.php
+
+# Enter your Google Analytics account info here
+google_analytics:
+  tracking_id: a_tracking_id

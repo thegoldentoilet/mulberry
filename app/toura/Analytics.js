@@ -69,7 +69,10 @@ dojo.declare('toura.Analytics', null, {
 toura.Analytics = new toura.Analytics();
 
 dojo.subscribe('/app/ready', function() {
-  mulberry.app.PhoneGap.analytics.startTracker('UA-31816441-1');
+  var gaConfig = mulberry.app.Config.get('googleAnalytics');
+  if (gaConfig) {
+    mulberry.app.PhoneGap.analytics.startTracker(gaConfig.trackingId);
+  }
 });
 
 }());
