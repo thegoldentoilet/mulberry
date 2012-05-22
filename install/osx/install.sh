@@ -2,6 +2,7 @@
 PACKAGES='git chromedriver android-sdk'
 
 XCODEFILE=$(which xed)
+MAKEFILE=$(which make)
 RVMFILE=$(which rvm)
 BREWFILE=$(which brew)
 GEMFILE=$(which gem)
@@ -25,6 +26,13 @@ function check_or_install_brew_pkg() {
 if [ "$XCODEFILE" ] || [ -x "/Developer/usr/bin/xed" ]
 then
 	echo "XCode is installed..."
+	if [ "$MAKEFILE" ]
+	then
+	    echo "Make is installed..."
+	else
+	    echo "Xcode command line developer tools need to be installed! https://developer.apple.com/downloads/index.action?name=for%20Xcode%20-#"
+	    exit 1
+	fi
 else
 	echo "XCode is not installed. Please install XCode 4.3+ from http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12"
 	exit 1
@@ -88,7 +96,7 @@ then
 	echo "Homebrew is installed..."
 else
 	echo "Installing Homebrew..."
-	ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
+	ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
 fi
 
 
@@ -133,7 +141,7 @@ else
 	brew install android-sdk
 fi
 
-if [[ $(cat ~/Documents/PhoneGapLib/VERSION ) =~ '1.6.1' ]]
+if [[ $(cat ~/Documents/CordovaLib/VERSION ) =~ '1.6.1' ]]
 then
 	echo "PhoneGap 1.6.1 is installed."
 else
