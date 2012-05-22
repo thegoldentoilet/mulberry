@@ -20,7 +20,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
     
     if (mulberry.Device.os === "browser") {
-      this._fixHeight();
+      // this._fixHeight();
       dojo.connect(window, 'onorientationchange', this, '_fixHeight');
     }
 
@@ -141,7 +141,9 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
       return this._iosFixHeight();
     }
     
-    if (mulberry.Device.browserOS === '')
+    if (mulberry.Device.browserOS === 'android') {
+      return this._androidFixHeight();
+    }
   },
   
   _iosFixHeight : function() {
@@ -153,8 +155,11 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   },
   
   _androidFixHeight : function() {
-    // uhhhh
-  }
+    var screenHigh = 0;
+    screenHigh = window.outerHeight/window.devicePixelRatio;
+    this._setBodyHeight(screenHigh);
+    window.scrollTo(0,1);
+  },
   
   _setBodyHeight : function(pixels) {
     if (typeof pixels === "number") { pixels += "px"; }
