@@ -125,7 +125,7 @@ module Mulberry
           'buildDate'           =>  settings['build_date'],
           'appVersion'          =>  settings['app_version'],
           'updateUrl'           =>  settings['update_url'],
-          'versionUrl'          =>  settings['version_url'],
+          'versionUrl'          =>  settings['version_url']
         }
 
         unless os.nil? or device_type.nil?
@@ -133,6 +133,13 @@ module Mulberry
           base_config['device'] = {
             'type'              =>  device_type,
             'os'                =>  os
+          }
+        end
+
+        google_analytics_settings = settings['google_analytics']
+        unless google_analytics_settings.nil?
+          base_config['googleAnalytics'] = {
+            'trackingId' => google_analytics_settings['tracking_id']
           }
         end
 
