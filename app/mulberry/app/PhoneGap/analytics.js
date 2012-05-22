@@ -2,7 +2,31 @@ dojo.provide('mulberry.app.PhoneGap.analytics');
 
 mulberry.app.PhoneGap.analytics = function(pg, device){
 
-  var wrapper = {
+  function getPlugin() {
+    return window.plugins[pluginName];
+  }
+
+  var pluginName,
+      pluginMethodNameMap,
+      wrapper = {
+        startTracker: function(accountId) {
+          getPlugin()[pluginMethodNameMap.startTracker](accountId);
+        },
+
+        trackPageview: function(pageUri) {
+          this.setCustomVariables();
+          getPlugin()[pluginMethodNameMap.trackPageview](pageUri);
+        },
+
+        trackEvent: function(category, action, label, value) {
+          this.setCustomVariables();
+          getPlugin()[pluginMethodNameMap.trackEvent](category, action, label, value);
+        },
+
+        setCustomVariable: function(index, name, value) {
+          getPlugin()[pluginMethodNameMap.setCustomVariable](index, name, value);
+        },
+
         setCustomVariables: function() {
           console.log("Setting custom variables: deviceType: " + mulberry.Device.type + ", deviceOs: " + mulberry.Device.os)
           this.setCustomVariable(1, "deviceType", mulberry.Device.type);
@@ -49,28 +73,13 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
             window.plugins.googleAnalyticsPlugin = new GoogleAnalyticsPlugin();
           });
 
-          function getPlugin() {
-            return window.plugins.googleAnalyticsPlugin;
-          }
-
-          wrapper.startTracker = function(accountId) {
-            getPlugin().startTrackerWithAccountID(accountId);
-          }
-
-          wrapper.trackPageview = function(pageUri) {
-            this.setCustomVariables();
-            getPlugin().trackPageview(pageUri);
-          }
-
-          wrapper.trackEvent = function(category, action, label, value) {
-            this.setCustomVariables();
-            getPlugin().trackEvent(category, action, label, value);
-          }
-
-          wrapper.setCustomVariable = function(index, name, value) {
-            getPlugin().setCustomVariable(index, name, value);
-          }
-
+          pluginName = 'googleAnalyticsPlugin';
+          pluginMethodNameMap = {
+            startTracker      : 'startTrackerWithAccountID',
+            trackPageview     : 'trackPageview',
+            trackEvent        : 'trackEvent',
+            setCustomVariable : 'setCustomVariable'
+          };
         },
 
         android : function() {
@@ -162,27 +171,14 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
           // 	PluginManager.addService("GoogleAnalyticsTracker", "com.phonegap.plugins.analytics.GoogleAnalyticsTracker");
           });
 
-          function getPlugin() {
-            return window.plugins.analytics;
-          }
+          pluginName = 'analytics';
+          pluginMethodNameMap = {
+            startTracker      : 'start',
+            trackPageview     : 'trackPageView',
+            trackEvent        : 'trackEvent',
+            setCustomVariable : 'setCustomVar'
+          };
 
-          wrapper.startTracker = function(accountId) {
-            getPlugin().start(accountId);
-          }
-
-          wrapper.trackPageview = function(pageUri) {
-            this.setCustomVariables();
-            getPlugin().trackPageView(pageUri);
-          }
-
-          wrapper.trackEvent = function(category, action, label, value) {
-            this.setCustomVariables();
-            getPlugin().trackEvent(category, action, label, value);
-          }
-
-          wrapper.setCustomVariable = function(index, name, value) {
-            getPlugin().setCustomVar(index, name, value);
-          }
         }
       };
 
