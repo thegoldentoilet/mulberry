@@ -137,6 +137,8 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   
   // this is for mobile web *only*
   _fixHeight : function() {
+    if (mulberry.Device.type !== 'phone') { return; }
+    
     if (mulberry.Device.browserOS === 'ios') {
       return this._iosFixHeight();
     }
