@@ -137,12 +137,24 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   
   // this is for mobile web *only*
   _fixHeight : function() {
+    if (mulberry.Device.browserOS === 'ios') {
+      return this._iosFixHeight();
+    }
+    
+    if (mulberry.Device.browserOS === '')
+  },
+  
+  _iosFixHeight : function() {
     var screenHigh = 0;
     this._setBodyHeight(9999);    // larger than any reasonable screen
     window.scrollTo(0,1);
     screenHigh = window.innerHeight;
     this._setBodyHeight(screenHigh);
   },
+  
+  _androidFixHeight : function() {
+    // uhhhh
+  }
   
   _setBodyHeight : function(pixels) {
     if (typeof pixels === "number") { pixels += "px"; }
