@@ -29,6 +29,7 @@
       @include page-nav-button(list);
       @include page-nav-button(back);
       @include page-nav-button(more);
+      @include page-nav-button(home);
       
       &.list,
       &.map {
