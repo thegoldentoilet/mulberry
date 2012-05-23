@@ -195,7 +195,12 @@
   }
 
   &.#{$type}:first-child a {
-    background-position-x: left;
+    @if $type == "home" {
+      background-position-x: 5px;
+    }
+    else {
+      background-position-x: left;
+    }
   }
 
   &.#{$type}:last-child a {
