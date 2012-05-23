@@ -21,15 +21,9 @@ dojo.declare('toura.components.PageNav', mulberry._Component, {
 
     this.title = this.node ? this.node.name : this.title;
     this.shareable = this.node && this.node.shareable;
-	if(navigator.standalone === false && this.device.os !== "ios") {
-	  this.restrictBack = true;
-        alert("restrictback "+navigator.standalone);
-        alert("os: "+this.device.os);
-        alert("type: "+this.device.type);
-        alert("appcodename: "+navigator.appCodeName);
-	}
-	console.log("standalone: ", this.device);
-      console.log("navigator: ", navigator);
+	  if(navigator.standalone === false && this.device.os !== "ios") {
+	    this.restrictBack = true;
+	  }
   },
 
   setupConnections : function() {
