@@ -30,7 +30,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
         setCustomVariables: function() {
           console.log("Setting custom variables: deviceType: " + mulberry.Device.type + ", deviceOs: " + mulberry.Device.os)
           this.setCustomVariable(1, "deviceType", mulberry.Device.type);
-          this.setCustomVariable(2, "deviceOs", mulberry.Device.os, 1);
+          this.setCustomVariable(2, "deviceOs", mulberry.Device.os);
         }
       },
       os = device.os,
