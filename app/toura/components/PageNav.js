@@ -21,7 +21,7 @@ dojo.declare('toura.components.PageNav', mulberry._Component, {
 
     this.title = this.node ? this.node.name : this.title;
     this.shareable = this.node && this.node.shareable;
-	  if(navigator.standalone === false && this.device.os !== "ios") {
+	  if(navigator.standalone === false && this.device.os === "browser") {
 	    this.restrictBack = true;
 	  }
   },
