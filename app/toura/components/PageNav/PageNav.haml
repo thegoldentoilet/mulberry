@@ -2,8 +2,9 @@
   .top
     :if tablet
       %ul
-        %li.back
-          %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }
+        :if !restrictBack
+          %li.back
+            %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }
         %li.home
           %a{ dojoType : 'toura.components.buttons.HomeButton', dojoAttachPoint : 'homeButton' }
 
@@ -19,9 +20,12 @@
           %a{ href : searchUrl }
 
     :if phone
-      .back
-        %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }
-
+      :if !restrictBack
+        .back
+          %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }
+      :if restrictBack
+        .home
+          %a{ dojoType : 'toura.components.buttons.HomeButton', dojoAttachPoint : 'homeButton' }
       %h1
         %span{ dojoAttachPoint : 'titleElement' }= title
       
