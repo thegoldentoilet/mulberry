@@ -82,7 +82,7 @@ toura.Sharing = {
         .then(dojo.hitch(this, function() {
           this.lastPost[svc] = params.msg;
           dojo.publish('/share', [
-            [ svc, node.id, params.msg ].join(': ')
+            svc, node.url.substring(1), params.msg.toString()
           ]);
           dfd.resolve();
         }));

@@ -44,7 +44,8 @@ module Mulberry
         'sibling_nav'       => false,
         'ads'               => !!@config['ads'],
         'sharing'           => !is_browser_build?,
-        'force_streaming'   => is_browser_build?
+        'force_streaming'   => is_browser_build?,
+        'google_analytics'  => @config['google_analytics']
       })
     end
 
@@ -156,7 +157,7 @@ module Mulberry
     end
 
     def html_vars
-      { :google_analytics => @config['google_analytics'] }
+      { 'google_analytics' => @config['google_analytics'] }
     end
 
     private

@@ -101,26 +101,6 @@ describe Builder::Build do
       b.cleanup
     end
 
-    it "should include google analytics code if specified" do
-      class GABuildHelper < FakeBuildHelper
-        def html_vars
-          { :google_analytics => 'googleanalytics' }
-        end
-      end
-
-      b = Builder::Build.new(config('browser').merge({
-        :build_helper => GABuildHelper.new
-      }))
-
-      b.build
-
-      html_contents(b).should include 'googleanalytics'
-      html_contents(b).should include 'google-analytics.com'
-      html_contents(b).should include '_gaq.push'
-
-      b.cleanup
-    end
-
     it "should include the manifest for device builds" do
       b = Builder::Build.new(config('device'))
       b.build
@@ -152,6 +132,23 @@ describe Builder::Build do
 
       it "should set skipVersionCheck to true" do
         @config_contents.should include 'toura.skipVersionCheck = true;'
+      end
+    end
+
+    describe 'google analytics' do
+      it 'should include tracking id in app config' do
+        b = Builder::Build.new(@config.merge({
+          :build_helper   =>  @mulberry_helper,
+          :target_config  =>  {
+            'build_type'  =>  'browser',
+            'build'       =>  { 'config' => true }
+          }
+        }))
+
+        b.build
+        config = b.completed_steps[:build][:config]
+        config_contents = File.read(File.join(config[:location], 'AppConfig.js'))
+        config_contents.should match /"trackingId"\:\s*"a_tracking_id/
       end
     end
   end

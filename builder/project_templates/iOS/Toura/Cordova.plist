@@ -58,6 +58,8 @@
 		<string>PushNotification</string>
 		<key>ChildBrowserCommand</key>
 		<string>ChildBrowserCommand</string>
+		<key>GoogleAnalyticsPlugin</key>
+		<string>GoogleAnalyticsPlugin</string>
     </dict>
 </dict>
 </plist>

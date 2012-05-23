@@ -19,13 +19,13 @@ describe 'Mulberry build helper' do
       config = File.join('testapp', 'config.yml')
       config_contents = File.read config
       File.open(config, 'w') do |f|
-        f.write config_contents.gsub('google_analytics:', 'google_analytics: googleanalytics')
+        f.write config_contents.gsub(/tracking_id:\s*\w+/, 'tracking_id: foo_id')
       end
 
       @app = Mulberry::App.new 'testapp'
       @build_helper = Mulberry::BuildHelper.new @app
 
-      @build_helper.html_vars[:google_analytics].should == 'googleanalytics'
+      @build_helper.html_vars['google_analytics']['tracking_id'].should == 'foo_id'
     end
   end
 
