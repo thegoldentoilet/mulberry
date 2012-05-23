@@ -2,7 +2,8 @@
   :if phone
     %section
       %menu
-        =helpers.homeButton
+        :if !mulberry.app.UI.isInBrowser
+          =helpers.homeButton
         =helpers.fontSizeButton
         =helpers.searchButton
 

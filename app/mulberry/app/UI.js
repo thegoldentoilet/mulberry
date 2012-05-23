@@ -18,6 +18,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.body = dojo.body();
     this.hasTouch = 'ontouchstart' in window;
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
+    this.isInBrowser = (this.device.os === 'browser');
 
     this._containersSetup();
 
