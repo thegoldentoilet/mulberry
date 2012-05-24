@@ -2,7 +2,8 @@
   :if isPhone
     %section
       %menu
-        =helpers.homeButton
+        :if !isNotStandalone
+          =helpers.homeButton
         =helpers.fontSizeButton
         =helpers.searchButton
 
