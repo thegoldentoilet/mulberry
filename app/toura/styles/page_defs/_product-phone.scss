@@ -10,20 +10,31 @@
   .region.book-display {
     @include flex-column-container;
     @include fixed-flex-region;
+    
     min-height: 150px;
     
-    .region.book-image {
+    .region {
       width: 50%;
       padding: 10px;
       
-      .component.image-gallery {
+      &.book-image {
         padding: 10px;
+      
+        .component.image-gallery {
+          padding: 10px;
+          box-sizing: border-box;
+        }
       }
     }
   }
   
   .region.book-caption {
     @include fixed-flex-region;
+    
+    .component.body-text p {
+      margin-right: 10px;
+    }
+    
     li {
       list-style: none;
       padding: 0;
