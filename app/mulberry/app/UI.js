@@ -14,11 +14,6 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   currentPage : null,
 
   constructor : function(device) {
-    if (mulberry.util.supportedBrowser()) {
-      this._unsupportedBrowser();
-      return;
-    }
-
     this.device = device;
     this.body = dojo.body();
     this.hasTouch = 'ontouchstart' in window;
@@ -37,10 +32,6 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     var c = new klass(opts);
     c.placeAt(this.body, position);
     return c;
-  },
-
-  _unsupportedBrowser : function() {
-    console.warn("Mulberry does not currently support this browser");
   },
 
   _watchers : function() {
