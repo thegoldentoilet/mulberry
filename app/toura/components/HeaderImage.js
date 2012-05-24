@@ -9,7 +9,7 @@ dojo.declare('toura.components.HeaderImage', mulberry._Component, {
     this.inherited(arguments);
 
     var deviceType = this.device.type,
-        imageType = this.phone ? 'gallery' : 'original';
+        imageType = this.isPhone ? 'gallery' : 'original';
 
     if (this.node.headerImage && this.node.headerImage[deviceType]) {
       this.image = this.node.headerImage[deviceType][imageType];

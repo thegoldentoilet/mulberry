@@ -13,7 +13,7 @@ dojo.declare('toura.components.NodeGallery', [ mulberry._Component, toura.compon
     this.images = dojo.map(this.children || [], function(child) {
       var img = child.images[0];
 
-      return dojo.mixin(img, this.phone ? {
+      return dojo.mixin(img, this.isPhone ? {
         url : img.gallery.url,
         height : img.gallery.height,
         width : img.gallery.width

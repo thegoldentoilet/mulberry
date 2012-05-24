@@ -146,7 +146,7 @@ dojo.require('toura.URL');
     _showInfo : function (/** google.maps.Marker */ marker, /** toura.models.GoogleMapPin */ pin) {
       var infoWindow;
 
-      if (this.tablet) {
+      if (this.isTablet) {
         infoWindow = new google.maps.InfoWindow({
           content : this.pinInfo.domNode
         });

@@ -1,5 +1,5 @@
 .component.more-drawer
-  :if phone
+  :if isPhone
     %section
       %menu
         =helpers.homeButton
@@ -11,7 +11,7 @@
         =helpers.favoriteButton
         =helpers.sharingButtons
 
-  :if tablet
+  :if isTablet
     %section
       %menu
         =helpers.fontSizeButton

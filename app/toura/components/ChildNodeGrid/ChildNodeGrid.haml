@@ -2,8 +2,8 @@
   :each c in children
     %li
       %a{ href : c.url }
-        :if tablet
+        :if isTablet
           .image{ dojoType : 'mulberry.ui.BackgroundImage', imageUrl : c.featuredImage.large.url, loadOnInit: true }
-        :if phone
+        :if isPhone
           .image{ dojoType : 'mulberry.ui.BackgroundImage', imageUrl : c.featuredImage.small.url, loadOnInit: true }
         %h3= c.name
