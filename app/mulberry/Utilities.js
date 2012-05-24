@@ -50,6 +50,7 @@ mulberry.util = {
      * Since this returns a boolean, we can just add whatever
      * additional conditions we need to.
      * */
+
     var div = document.createElement("div"),
         supportsWebkitPrefixes;
 
