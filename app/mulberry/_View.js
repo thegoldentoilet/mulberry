@@ -47,6 +47,7 @@ dojo.declare('mulberry._View', [ dijit._Widget, dijit._Templated, mulberry._Nls 
 
     this.phone = this.device.type === 'phone';
     this.tablet = this.device.type === 'tablet';
+    this.isNotStandalone = (this.device.os === 'browser' && !this.device.standalone);
   },
 
   _skipNodeCache : true,

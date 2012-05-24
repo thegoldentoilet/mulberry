@@ -195,7 +195,7 @@
   }
 
   &.#{$type}:first-child a {
-    background-position-x: left;
+    background-position-x: if($type == 'home', 5px, left);
   }
 
   &.#{$type}:last-child a {
