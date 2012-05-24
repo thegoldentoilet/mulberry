@@ -1,6 +1,6 @@
 %nav.component.page-nav
   .top
-    :if tablet
+    :if isTablet
       %ul
         :if !isNotStandalone
           %li.back
@@ -19,7 +19,7 @@
         %li.search
           %a{ href : searchUrl }
 
-    :if phone
+    :if isPhone
       :if !isNotStandalone
         .back
           %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }

@@ -14,7 +14,7 @@ dojo.declare('toura.components.ChildNodeGrid', toura.components.ChildNodes, {
       return child.featuredImage !== undefined;
     });
 
-    if (this.tablet) {
+    if (this.isTablet) {
       var num = this.children.length,
           size = num > 11 ? 'medium' : 'large';
 

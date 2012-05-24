@@ -10,7 +10,7 @@ dojo.declare('toura.components.NodeTitleBanner', mulberry._Component, {
   prepareData : function() {
     if (this.node.featuredImage) {
       this.image = this.node.featuredImage[
-        this.phone ? 'small' : 'large'
+        this.isPhone ? 'small' : 'large'
       ];
     } else {
       this.image = false;
