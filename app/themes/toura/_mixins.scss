@@ -195,12 +195,7 @@
   }
 
   &.#{$type}:first-child a {
-    @if $type == "home" {
-      background-position-x: 5px;
-    }
-    else {
-      background-position-x: left;
-    }
+    background-position-x: if($type == 'home', 5px, left);
   }
 
   &.#{$type}:last-child a {
