@@ -143,9 +143,10 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
       return this._iosFixHeight();
     }
     
-    if (mulberry.Device.browserOS === 'android') {
-      return setTimeout(dojo.hitch(this, this._androidFixHeight), 200);
-    }
+    // TODO: Android sizing handling
+    // if (mulberry.Device.browserOS === 'android') {
+    //   return setTimeout(dojo.hitch(this, this._androidFixHeight), 200);
+    // }
   },
   
   _iosFixHeight : function() {
@@ -157,13 +158,14 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   },
   
   _androidFixHeight : function() {
-    var screenHigh = 0;
-    this._setBodyHeight(9999);
-    setTimeout(dojo.hitch(this, function() {
-      window.scrollTo(0,1);
-      screenHigh = window.outerHeight/window.devicePixelRatio;
-      this._setBodyHeight(screenHigh);
-    }), 1000);
+    // TODO: actually make this work.
+    // var screenHigh = 0;
+    // this._setBodyHeight(9999);
+    // setTimeout(dojo.hitch(this, function() {
+    //   window.scrollTo(0,1);
+    //   screenHigh = window.outerHeight/window.devicePixelRatio;
+    //   this._setBodyHeight(screenHigh);
+    // }), 1000);
   },
   
   _setBodyHeight : function(pixels) {
