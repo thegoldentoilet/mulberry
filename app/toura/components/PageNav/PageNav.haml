@@ -2,7 +2,7 @@
   .top
     :if tablet
       %ul
-        :if !isInBrowser
+        :if !isNotStandalone
           %li.back
             %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }
         %li.home
@@ -20,10 +20,10 @@
           %a{ href : searchUrl }
 
     :if phone
-      :if !isInBrowser
+      :if !isNotStandalone
         .back
           %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }
-      :if isInBrowser
+      :if isNotStandalone
         .home
           %a{ dojoType : 'toura.components.buttons.HomeButton', dojoAttachPoint : 'homeButton' }
       %h1

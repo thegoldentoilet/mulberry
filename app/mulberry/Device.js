@@ -13,7 +13,8 @@ mulberry._loadDeviceConfig = function() {
 
   mulberry.Device = mulberry.app.Config.get('device') || {
     type : getDeviceType(),
-    os : 'browser'
+    os : 'browser',
+    standalone: !!navigator.standalone
   };
 
 };
