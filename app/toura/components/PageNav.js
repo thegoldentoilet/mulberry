@@ -23,7 +23,7 @@ dojo.declare('toura.components.PageNav', mulberry._Component, {
     this.shareable = this.node && this.node.shareable;
     if(navigator.standalone === false && this.device.os === "browser") {
       this.restrictBack = true;
-	  }
+    }
   },
 
   setupConnections : function() {
