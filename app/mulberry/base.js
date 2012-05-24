@@ -20,6 +20,10 @@ dojo.require('mulberry.app._base');
 dojo.requireLocalization('mulberry', 'mulberry');
 
 var readyFn = function() {
+  if (!mulberry.util.supportedBrowser()){
+    var loc = window.location;
+    window.location = loc.protocol + "//"  + loc.host + loc.pathname + "unsupported.html";
+  }
   // open up the database connection so we can work with it
   mulberry.app.DeviceStorage.init(mulberry.app.Config.get("id") || 'mulberry');
 
