@@ -46,20 +46,25 @@ mulberry.util = {
 
   supportedBrowser : function() {
     /*
-     * Just checking for support of Webkit prefixes for now.
-     * Since this returns a boolean, we can just add whatever
-     * additional conditions we need to.
+     * Currently checking:
+     * 1. That we're in a mobile web build (mulberry.Device.os is "browser").
+     * 2. Support for webkit prefixes, which rules out non-webkit browsers.
+     * 3. Support for touch events. This rules out pre-Froyo Android.
      * */
 
     var div = document.createElement("div"),
-        supportsWebkitPrefixes;
+        supportsWebkitPrefixes,
+        supportsTouch;
+
+    if (mulberry.Device.os != "browser") {
+      return true;
+    }
 
     supportsWebkitPrefixes = typeof div.style.webkitTransform !== "undefined";
     supportsTouch = 'ontouchstart' in document.documentElement;
 
-    supportsMulberry = mulberry.overrideCompatibilityCheck ||
-                       (supportsWebkitPrefixes &&
-                       supportsTouch);
+    supportsMulberry = supportsWebkitPrefixes &&
+                       supportsTouch;
 
     return supportsMulberry;
   }
