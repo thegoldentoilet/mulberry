@@ -60,6 +60,10 @@ mulberry.util = {
       return true;
     }
 
+    if (window.location.hostname === "localhost") {
+      return true;
+    }
+
     supportsWebkitPrefixes = typeof div.style.webkitTransform !== "undefined";
     supportsTouch = 'ontouchstart' in document.documentElement;
 
