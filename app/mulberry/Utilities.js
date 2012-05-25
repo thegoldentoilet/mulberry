@@ -55,8 +55,13 @@ mulberry.util = {
         supportsWebkitPrefixes;
 
     supportsWebkitPrefixes = typeof div.style.webkitTransform !== "undefined";
+    supportsTouch = 'ontouchstart' in document.documentElement;
 
-    return supportsWebkitPrefixes;
+    supportsMulberry = mulberry.overrideCompatibilityCheck ||
+                       (supportsWebkitPrefixes &&
+                       supportsTouch);
+
+    return supportsMulberry;
   }
 };
 
