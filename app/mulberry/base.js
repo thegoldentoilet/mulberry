@@ -19,6 +19,7 @@ dojo.require('mulberry._Model');
 dojo.require('mulberry._Capability');
 
 dojo.require('mulberry.Utilities');
+
 dojo.require('mulberry.app._base');
 
 dojo.requireLocalization('mulberry', 'mulberry');
