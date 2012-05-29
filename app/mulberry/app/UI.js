@@ -151,7 +151,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   _iosFixHeight : function() {
     var screenHigh = 0;
     this._setBodyHeight(9999);    // larger than any reasonable screen
-    window.scrollTo(0,1);
+    window.scrollTo(0,0);
     screenHigh = window.innerHeight;
     this._setBodyHeight(screenHigh);
   },
