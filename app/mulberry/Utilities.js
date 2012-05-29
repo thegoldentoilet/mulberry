@@ -43,6 +43,7 @@ mulberry.util = {
       );
     });
   }
+
 };
 
 mulberry.tmpl = function(str, data) {
