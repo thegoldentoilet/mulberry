@@ -7,6 +7,11 @@ dojo.require('mulberry.app.Config');
 
 dojo.require('mulberry.Device');
 
+if (!mulberry.Device.supportedBrowser()){
+  var loc = window.location;
+  window.location = loc.protocol + "//"  + loc.host + loc.pathname + "unsupported.html";
+}
+
 dojo.require('mulberry._Logging');
 dojo.require('mulberry._PageDef');
 dojo.require('mulberry._Store');
@@ -14,12 +19,6 @@ dojo.require('mulberry._Model');
 dojo.require('mulberry._Capability');
 
 dojo.require('mulberry.Utilities');
-
-if (!mulberry.util.supportedBrowser()){
-  var loc = window.location;
-  window.location = loc.protocol + "//"  + loc.host + loc.pathname + "unsupported.html";
-}
-
 dojo.require('mulberry.app._base');
 
 dojo.requireLocalization('mulberry', 'mulberry');
