@@ -53,6 +53,7 @@ mulberry.util = {
      * */
 
     var div = document.createElement("div"),
+        supportsMulberry,
         supportsWebkitPrefixes,
         supportsTouch;
 
