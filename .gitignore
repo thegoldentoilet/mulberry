@@ -27,3 +27,4 @@ builder/project_templates/iOS/Toura.xcodeproj/*.pbxuser
 builder/project_templates/iOS/Toura.xcodeproj/*.mode1v3
 builder/project_templates/iOS/*.xcodeproj/project.xcworkspace/
 builder/project_templates/iOS/*.xcodeproj/xcuserdata/
+builder/project_templates/android/local.properties
