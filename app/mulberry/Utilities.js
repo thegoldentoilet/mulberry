@@ -54,6 +54,7 @@ mulberry.util = {
 
     var div = document.createElement("div"),
         supportsMulberry,
+        supportsWebSql,
         supportsWebkitPrefixes,
         supportsTouch;
 
@@ -67,9 +68,11 @@ mulberry.util = {
 
     supportsWebkitPrefixes = typeof div.style.webkitTransform !== "undefined";
     supportsTouch = 'ontouchstart' in document.documentElement;
+    supportsWebSql = 'openDatabase' in window;
 
     supportsMulberry = supportsWebkitPrefixes &&
-                       supportsTouch;
+                       supportsTouch &&
+                       supportsWebSql;
 
     return supportsMulberry;
   }
