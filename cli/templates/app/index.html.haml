@@ -25,6 +25,8 @@
     - if defined? include_phonegap and include_phonegap # device only
       %script(src="cordova.js")
 
+    %script(src="javascript/mulberry/web.js")
+
     %script(src="javascript/dojo/dojo.js")
 
     - if defined? include_jquery and include_jquery
