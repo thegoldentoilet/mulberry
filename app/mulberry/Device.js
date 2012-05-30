@@ -21,7 +21,7 @@ mulberry._loadDeviceConfig = function() {
     }
   }, ua;
   
-  
+
   function getDeviceType() {
     var body = dojo.body(),
         minDim = Math.min(body.offsetWidth, body.offsetHeight);
