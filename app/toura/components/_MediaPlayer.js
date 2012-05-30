@@ -46,7 +46,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
       this.player.play();
     }
 
-    dojo.publish('/' + this.playerType + '/play', [ this.media.id ]);
+    dojo.publish('/' + this.playerType + '/play', [ this.media.name || this.media.id ]);
   },
 
   _pause : function() {
