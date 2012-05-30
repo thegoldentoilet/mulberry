@@ -152,8 +152,20 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     var screenHigh = 0;
     this._setBodyHeight(9999);    // larger than any reasonable screen
     window.scrollTo(0,0);
-    screenHigh = window.innerHeight;
+    
+    // this is a terrible, terrible hack
+    // but it is impossible to get a correct number in iOS < 5
+    // for portrait (landscape works fine, go figure)
+    var oldVersionPortraitCheck = window.innerHeight === 356 && mulberry.Device.browserVersion < 5;
+    
+    screenHigh = oldVersionPortraitCheck ? 416 : window.innerHeight;
     this._setBodyHeight(screenHigh);
+    
+    if (oldVersionPortraitCheck) {
+      setTimeout(function() {
+        window.scrollTo(0,0);
+      },0);
+    }
   },
   
   _androidFixHeight : function() {
