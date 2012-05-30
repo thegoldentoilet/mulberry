@@ -555,10 +555,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/Shared/Cordova/Frameworks,
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Toura/Toura-Prefix.pch";
@@ -594,10 +591,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/Shared/Cordova/Frameworks,
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Toura/Toura-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
