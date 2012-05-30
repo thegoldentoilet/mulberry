@@ -7,10 +7,6 @@ dojo.require('mulberry.app.Config');
 
 dojo.require('mulberry.Device');
 
-if (!mulberry.Device.supportedBrowser()){
-  var loc = window.location;
-  window.location = loc.protocol + "//"  + loc.host + loc.pathname + "unsupported.html";
-}
 
 dojo.require('mulberry._Logging');
 dojo.require('mulberry._PageDef');
@@ -25,6 +21,7 @@ dojo.require('mulberry.app._base');
 dojo.requireLocalization('mulberry', 'mulberry');
 
 var readyFn = function() {
+  try {
   // open up the database connection so we can work with it
   mulberry.app.DeviceStorage.init(mulberry.app.Config.get("id") || 'mulberry');
 
@@ -37,6 +34,12 @@ var readyFn = function() {
     mulberry.app.UI.hideSplash();
   });
 
+  } catch(e) {
+    alert( e);
+
+    var loc = window.location;
+    window.location = loc.protocol + "//"  + loc.host + loc.pathname + "unsupported.html";
+  }
 };
 
 document.addEventListener("deviceready", function() {
