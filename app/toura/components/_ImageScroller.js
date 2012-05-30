@@ -58,14 +58,18 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
   },
 
   _setWidth : function() {
-    var regionWidth = this.region.innerWidth(),
-        scrollerWidth = this.images.length * regionWidth;
+    var self = this;
+    setTimeout(function() {
+      var regionWidth = self.region.innerWidth(),
+        scrollerWidth = self.images.length * regionWidth;
 
-    this.scrollerNode.style.width = scrollerWidth + 'px';
-    this.query('.image').style('width', regionWidth + 'px');
-    if (!this.scrollerHandle) { return; }
-    this.scrollerHandle.refresh();
-    this.scrollToIndex(this.currentImageIndex);
+    console.log("in imageScroller_setWidth() region scroller: ", regionWidth + ' ' + scrollerWidth);
+    self.scrollerNode.style.width = scrollerWidth + 'px';
+    self.query('.image').style('width', regionWidth + 'px');
+    if (!self.scrollerHandle) { return; }
+    self.scrollerHandle.refresh();
+    self.scrollToIndex(self.currentImageIndex);
+  },20);
   },
 
   _setCurrentImageIndexAttr : function(imageIndex) {

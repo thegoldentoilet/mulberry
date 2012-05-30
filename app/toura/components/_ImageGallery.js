@@ -20,6 +20,7 @@ dojo.declare('toura.components._ImageGallery', null, {
   },
 
   _setWidth : function() {
+    console.log("in imagegallery setwidth");
     // TODO: get list items from dom instead of depending on class name
     this.widthItems = this.widthItems || this.query('.image');
     this.widthItems.style('width', mulberry.app.UI.viewport.width + 'px');
