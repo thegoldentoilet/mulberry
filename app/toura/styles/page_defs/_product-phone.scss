@@ -20,8 +20,12 @@
         padding: 10px;
       
         .component.image-gallery {
-          padding: 10px;
+          padding: 0 10px 10px;
           box-sizing: border-box;
+          
+          li .image {
+            background-position-y: top;
+          }
         }
       }
     }
