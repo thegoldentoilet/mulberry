@@ -7,9 +7,11 @@ build_type: browser
 development: false
 
 gather:
+    icons: true
+    load_screens: true
+    assets: true
     data: true
     page_defs: true
-    assets: true
 
 build:
     javascript:
@@ -24,4 +26,3 @@ build:
 
 close:
     bundle: true
-

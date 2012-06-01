@@ -50,7 +50,22 @@ module Mulberry
     end
 
     def icons(destination, report)
-      false
+      if build.target["build_type"] == "browser"
+        required = []
+
+        found = required.select do |icon|
+          File.exists? File.join(@assets_dir, 'icons', screen)
+        end
+
+        found.each do |icon|
+          FileUtils.cp(
+            File.join(@assets_dir, 'icons', screen),
+            destination
+          )
+        end
+      else
+        false
+      end
     end
 
     def load_screens(destination, report)

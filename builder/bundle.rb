@@ -95,28 +95,30 @@ module Builder
     end
 
     def icons_and_screens
+      is_mobile_web = @target['build_type'] == 'browser'
       is_phone = @target['device_type'] == 'phone'
 
       media_load_screens_dir = File.join(@www, 'media', 'load-screens')
       FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
 
-      FileUtils.cp_r(
-        File.join(
-          @load_screens[:location],
-          is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-        ),
-        File.join(media_load_screens_dir, 'portrait.png')
-      )
+      unless is_mobile_web
+        FileUtils.cp_r(
+          File.join(
+            @load_screens[:location],
+            is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
+          ),
+          File.join(media_load_screens_dir, 'portrait.png')
+        )
+      end
 
-      unless is_phone
+      unless is_phone || is_mobile_web
         FileUtils.cp_r(
           File.join(@load_screens[:location], 'tablet_landscape.png'),
           File.join(media_load_screens_dir, 'landscape.png')
         )
       end
 
-      case @target['device_os']
-      when 'ios'
+      if @target['device_os'] == 'ios' || is_mobile_web
         project_resources_dir = File.join(@project_dir, 'Toura', 'Resources')
 
         project_icons_dir = File.join(project_resources_dir, 'icons')
@@ -144,6 +146,16 @@ module Builder
           system %{convert #{File.join(@icons[:location], 'app_icon_tablet.png')} -resize 72x72! \
             #{icon_72_path}
           }
+        end
+
+        if is_mobile_web
+          icons_dir = File.join(@www, 'icons')
+          FileUtils.mkdir_p(icons_dir) unless File.exists?(icons_dir)
+
+          FileUtils.cp_r(
+            File.join(@icons[:location], '.'),
+            icons_dir
+          )
         end
 
         project_splash_dir = File.join(project_resources_dir, 'splash')
@@ -183,7 +195,7 @@ module Builder
           ) if File.exists? landscape_image
         end
 
-      when 'android'
+      elsif @target['device_os'] == 'android'
         # TODO this assumes phone for android right now
 
         # http://developer.android.com/guide/practices/ui_guidelines/icon_design.html
