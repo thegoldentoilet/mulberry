@@ -43,6 +43,8 @@ var readyFn = function() {
   } catch (e) {
     if (mulberry.Device.os === 'browser') {
       mulberry.handleUnsupportedBrowser();
+    } else {
+      throw e;
     }
   }
 };
