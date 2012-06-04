@@ -58,26 +58,25 @@ mulberry._loadDeviceConfig = function() {
      *    implementation of background-size: contain/cover in 2.1)
      * */
 
-    var div = document.createElement("div"),
+    var div = document.createElement('div'),
         device = mulberry.Device,
         supportsMulberry,
         supportsWebSql,
         supportsWebkitPrefixes,
         isOldAndroid;
 
-    if (this.os != "browser") {
+    if (this.os != 'browser') {
       return true;
     }
 
-    if (window.location.hostname === "localhost") {
+    if (window.location.hostname === 'localhost') {
       return true;
     }
 
-    supportsWebkitPrefixes = typeof div.style.webkitTransform !== "undefined";
+    supportsWebkitPrefixes = typeof div.style.webkitTransform !== 'undefined';
     supportsTouch = 'ontouchstart' in document.documentElement;
     supportsWebSql = 'openDatabase' in window;
     isOldAndroid = device.os === 'browser' && device.browserOS === 'android' && device.browserVersion < 2.2;
-    alert('isOldAndroid=' + isOldAndroid);
 
     supportsMulberry = supportsWebkitPrefixes &&
                        supportsTouch &&
