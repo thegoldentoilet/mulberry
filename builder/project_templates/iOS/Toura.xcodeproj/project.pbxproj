@@ -46,7 +46,6 @@
 		645123E81548835F00025F11 /* UrbanAirship.plist in Resources */ = {isa = PBXBuildFile; fileRef = 645123E71548835F00025F11 /* UrbanAirship.plist */; };
 		6491114D1564058A00357F2E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6491114C1564058A00357F2E /* libsqlite3.0.dylib */; };
 		649111921564496100357F2E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 649111911564496100357F2E /* CFNetwork.framework */; };
-		649111A815644CF600357F2E /* GoogleAnalyticsPlugin.js in Sources */ = {isa = PBXBuildFile; fileRef = 649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */; };
 		649111A915644CF600357F2E /* GoogleAnalyticsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */; };
 		649111AA15644CF600357F2E /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 649111A615644CF600357F2E /* libGoogleAnalytics.a */; };
 		649111AB15644CF600357F2E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 649111A715644CF600357F2E /* README.md */; };
@@ -102,7 +101,6 @@
 		6491114C1564058A00357F2E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		649111911564496100357F2E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework; sourceTree = "<absolute>"; };
 		649111A115644CF600357F2E /* GoogleAnalyticsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAnalyticsPlugin.h; sourceTree = "<group>"; };
-		649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GoogleAnalyticsPlugin.js; sourceTree = "<group>"; };
 		649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAnalyticsPlugin.m; sourceTree = "<group>"; };
 		649111A515644CF600357F2E /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
 		649111A615644CF600357F2E /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
@@ -316,7 +314,6 @@
 			isa = PBXGroup;
 			children = (
 				649111A115644CF600357F2E /* GoogleAnalyticsPlugin.h */,
-				649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */,
 				649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */,
 				649111A415644CF600357F2E /* GoogSDK */,
 				649111A715644CF600357F2E /* README.md */,
@@ -441,7 +438,6 @@
 				645123E11548834300025F11 /* ChildBrowserViewController.m in Sources */,
 				645123E31548834300025F11 /* PushNotification.m in Sources */,
 				645123E61548835400025F11 /* TouraAppDelegate.m in Sources */,
-				649111A815644CF600357F2E /* GoogleAnalyticsPlugin.js in Sources */,
 				649111A915644CF600357F2E /* GoogleAnalyticsPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -39,8 +39,9 @@
           %a{ dojoType : 'toura.components.buttons.MoreDrawerButton', dojoAttachPoint : 'moreDrawerButton' }
 
       :if !shareable
-        .home
-          %a{ dojoType : 'toura.components.buttons.BackButton', dojoAttachPoint : 'backButton' }
+        :if !isNotStandalone
+          .home
+            %a{ dojoType : 'toura.components.buttons.HomeButton', dojoAttachPoint : 'homeButton' }
 
   :if shareable
     %div{ dojoType : 'toura.components.MoreDrawer', dojoAttachPoint : 'moreDrawer' }
