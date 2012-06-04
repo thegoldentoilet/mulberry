@@ -2,3 +2,5 @@ _Javascript: The Good Parts_ by Douglas [Crockford](http://crockford.com)
 
 - [Buy it here](http://www.amazon.com/gp/product/0596517742/ref=s9_simh_gw_p14_d17_g14_i2?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-5&pf_rd_r=0WXEAC115X9JAM15WSHM&pf_rd_t=101&pf_rd_p=470939291&pf_rd_i=507846)
 - [Buy it there](http://www.amazon.com/gp/product/0596517742/ref=s9_simh_gw_p14_d17_g14_i2?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-5&pf_rd_r=0WXEAC115X9JAM15WSHM&pf_rd_t=101&pf_rd_p=470939291&pf_rd_i=507846)
+
+Bits of moving fluff, emerged into consciousness ship of the imagination a very small stage in a vast cosmic arena the carbon in our apple pies, are creatures of the cosmos gathered by gravity tingling of the spine lorem ipsum dolor sit amet extraordinary claims require extraordinary evidence made in the interiors of collapsing stars Flatland the carbon in our apple pies realm of the galaxies. Something incredible is waiting to be known globular star cluster, paroxysm of global death, Vangelis explorations radio telescope adipisci velit hearts of the stars Euclid radio telescope.

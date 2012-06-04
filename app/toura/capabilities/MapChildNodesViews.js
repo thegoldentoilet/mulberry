@@ -18,7 +18,7 @@ dojo.declare('toura.capabilities.MapChildNodesViews', mulberry._Capability, {
   },
 
   connects : [
-    ['page', 'init', '_showList'],
+    ['page', 'init', '_showMap'],
     ['mapPageNav', 'toggleLayout', '_showList'],
     ['listPageNav', 'toggleLayout', '_showMap']
   ],
