@@ -19,6 +19,7 @@ dojo.require('mulberry.app._base');
 dojo.requireLocalization('mulberry', 'mulberry');
 
 var fixPix = function() {
+  alert("in fixpix");
   var pix = (window.outerHeight-54) + "px";        
   dojo.style(document.body, 'height', pix);  
 };
@@ -35,8 +36,8 @@ var readyFn = function() {
     
     mulberry.app.Router.init();
     mulberry.app.UI.hideSplash();   
-    alert(mulberry.Device.os);
-    if(mulberry.Device.os === 'android'){
+    
+    if(mulberry.Device.os === 'browser' && mulberry.Device.browserOS === 'android'){
       fixPix();
       
       dojo.connect("onorientationchange", function() {
