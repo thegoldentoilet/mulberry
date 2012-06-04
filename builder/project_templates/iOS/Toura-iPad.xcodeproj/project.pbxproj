@@ -39,7 +39,6 @@
 		6496BA5E156A953B004D68F5 /* ChildBrowserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 6496BA4C156A953B004D68F5 /* ChildBrowserCommand.m */; };
 		6496BA5F156A953B004D68F5 /* ChildBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6496BA4E156A953B004D68F5 /* ChildBrowserViewController.m */; };
 		6496BA60156A953B004D68F5 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA4F156A953B004D68F5 /* ChildBrowserViewController.xib */; };
-		6496BA61156A953B004D68F5 /* GoogleAnalyticsPlugin.js in Sources */ = {isa = PBXBuildFile; fileRef = 6496BA52156A953B004D68F5 /* GoogleAnalyticsPlugin.js */; };
 		6496BA62156A953B004D68F5 /* GoogleAnalyticsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6496BA53156A953B004D68F5 /* GoogleAnalyticsPlugin.m */; };
 		6496BA63156A953B004D68F5 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496BA56156A953B004D68F5 /* libGoogleAnalytics.a */; };
 		6496BA64156A953B004D68F5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA57156A953B004D68F5 /* README.md */; };
@@ -94,7 +93,6 @@
 		6496BA4E156A953B004D68F5 /* ChildBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChildBrowserViewController.m; path = Plugins/ChildBrowserViewController.m; sourceTree = "<group>"; };
 		6496BA4F156A953B004D68F5 /* ChildBrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChildBrowserViewController.xib; path = Plugins/ChildBrowserViewController.xib; sourceTree = "<group>"; };
 		6496BA51156A953B004D68F5 /* GoogleAnalyticsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAnalyticsPlugin.h; sourceTree = "<group>"; };
-		6496BA52156A953B004D68F5 /* GoogleAnalyticsPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GoogleAnalyticsPlugin.js; sourceTree = "<group>"; };
 		6496BA53156A953B004D68F5 /* GoogleAnalyticsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAnalyticsPlugin.m; sourceTree = "<group>"; };
 		6496BA55156A953B004D68F5 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
 		6496BA56156A953B004D68F5 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				6496BA51156A953B004D68F5 /* GoogleAnalyticsPlugin.h */,
-				6496BA52156A953B004D68F5 /* GoogleAnalyticsPlugin.js */,
 				6496BA53156A953B004D68F5 /* GoogleAnalyticsPlugin.m */,
 				6496BA54156A953B004D68F5 /* GoogSDK */,
 				6496BA57156A953B004D68F5 /* README.md */,
@@ -442,7 +439,6 @@
 				6496BA39156A943A004D68F5 /* MainViewController.m in Sources */,
 				6496BA5E156A953B004D68F5 /* ChildBrowserCommand.m in Sources */,
 				6496BA5F156A953B004D68F5 /* ChildBrowserViewController.m in Sources */,
-				6496BA61156A953B004D68F5 /* GoogleAnalyticsPlugin.js in Sources */,
 				6496BA62156A953B004D68F5 /* GoogleAnalyticsPlugin.m in Sources */,
 				6496BA66156A953B004D68F5 /* PushNotification.m in Sources */,
 				6496BA6A156A955B004D68F5 /* TouraAppDelegate.m in Sources */,
