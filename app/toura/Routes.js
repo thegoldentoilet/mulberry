@@ -117,12 +117,20 @@ dojo.require('mulberry.Device');
         route : /\/node\/(.*)/,
         handler : function(params, route) {
           var splat = params.splat[0].split('/'),
-              nodeId = splat[0],
-              pageState = {
-                assetType : splat[1],
-                assetId : splat[2],
-                assetSubId : splat[3]
-              };
+              pageStateIndex = splat.indexOf('__pageState'),
+              nodeId,
+              pageState;
+
+          if (pageStateIndex > -1) {
+            nodeId = splat.slice(0, pageStateIndex).join('/'),
+            pageState = {
+              assetType : splat[pageStateIndex+1],
+              assetId : splat[pageStateIndex+2],
+              assetSubId : splat[pageStateIndex+3]
+            };
+          } else {
+            nodeId = splat.join('/');
+          }
 
           return nodeRoute(route, nodeId, pageState);
         }
