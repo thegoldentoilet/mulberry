@@ -122,7 +122,7 @@ dojo.require('mulberry.Device');
               pageState;
 
           if (pageStateIndex > -1) {
-            nodeId = splat.slice(0, pageStateIndex).join('/'),
+            nodeId = splat.slice(0, pageStateIndex).join('/');
             pageState = {
               assetType : splat[pageStateIndex+1],
               assetId : splat[pageStateIndex+2],
