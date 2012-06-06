@@ -18,9 +18,13 @@ dojo.require('mulberry.app._base');
 
 dojo.requireLocalization('mulberry', 'mulberry');
 
-var fixPix = function() {  
-  var pix = (window.outerHeight-54) + "px";        
-  dojo.style(document.body, 'height', pix);  
+var fixHeight = function(pixels) {
+  if(!pixels) {
+    var pixels = pixels ? pixels : (window.outerHeight-54) + "px";    
+    mulberry.Device.heightHash[window.orientation] = pixels;
+  }
+  
+  dojo.style(document.body, 'height', pixels);
 };
 
 var readyFn = function() {
@@ -31,17 +35,21 @@ var readyFn = function() {
   dojo.publish('/app/deviceready');
 
   // bootstrapping process must publish this topic
-  dojo.subscribe('/app/ready', function() {    
-    
+  dojo.subscribe('/app/ready', function() {
+
     mulberry.app.Router.init();
-    mulberry.app.UI.hideSplash();   
-    
+    mulberry.app.UI.hideSplash();
+    mulberry.Device.heightHash = {};
     if(mulberry.Device.os === 'browser' && mulberry.Device.browserOS === 'android'){
-      fixPix();
-      dojo.connect(window, "resize", function() {       
-        setTimeout(function() {
-          fixPix();
-        }, 250);
+      fixHeight();
+      dojo.connect(window, "resize", function() {
+        if(mulberry.Device.heightHash[window.orientation] ) {
+          fixHeight(mulberry.Device.heightHash[window.orientation]);
+        } else {
+          setTimeout(function() {
+            fixHeight();
+          }, 250);
+        }
       });
     }
   });
