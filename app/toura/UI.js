@@ -29,6 +29,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
     }
 
     this._setupAdTag();
+    // dojo.subscribe('/page/transition/end', this, '_setupAdTag');
   },
 
   _setupFeatureClasses : function() {
@@ -43,7 +44,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
     if (toura.features.ads && this.appConfig.ads && this.appConfig.ads[m.Device.type]) { return; }
 
     var currentPage = m.app.UI.currentPage;
-
+    
     this.siblingNav = m.app.UI.addPersistentComponent(toura.components.SiblingNav, {}, 'first');
     this.set('siblingNavVisible', false);
 
@@ -75,24 +76,26 @@ dojo.declare('toura.UI', dojo.Stateful, {
 
     if (isHomeNode) { return; }
 
-    mulberry.app.PhoneGap.network.isReachable()
-      .then(dojo.hitch(this, function(isReachable) {
-        if (!isReachable) { return; }
+    dojo.subscribe('/page/transition/end', this, function() {
+      mulberry.app.PhoneGap.network.isReachable()
+        .then(dojo.hitch(this, function(isReachable) {
+          if (!isReachable) { return; }
 
-        if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
-          if (currentPage) {
-            currentPage.addClass(adsClass);
+          if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
+            if (currentPage) {
+              currentPage.addClass(adsClass);
+            }
+
+            this.adTag = m.app.UI.addPersistentComponent(
+              toura.components.AdTag,
+              { adConfig : this.appConfig.ads[m.Device.type] },
+              'last'
+            );
+
+            this.adTag.startup();
           }
-
-          this.adTag = m.app.UI.addPersistentComponent(
-            toura.components.AdTag,
-            { adConfig : this.appConfig.ads[m.Device.type] },
-            'last'
-          );
-
-          this.adTag.startup();
-        }
-      }));
+        }));
+    });
   },
 
   _onSiblingNavVisible : function(k, old, visible) {
