@@ -18,10 +18,9 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.body = dojo.body();
     this.hasTouch = 'ontouchstart' in window;
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
-    
-    if (mulberry.Device.os === "browser") {
-      this._fixHeight();
-      dojo.connect(window, 'onorientationchange', this, '_fixHeight');
+
+    if (mulberry.Device.os === 'browser') {
+      this._mobileWebSetup();
     }
 
     this._containersSetup();
@@ -31,12 +30,6 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
 
     this._uiSetup();
     this._eventSetup();
-  },
-
-  addPersistentComponent : function(klass, opts, position) {
-    var c = new klass(opts);
-    c.placeAt(this.body, position);
-    return c;
   },
 
   _watchers : function() {
@@ -71,6 +64,9 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
 
     dojo.addClass(b, device.type);
     dojo.addClass(b, device.os);
+    if (device.os === "browser") {
+      dojo.addClass(b, device.browserOS);
+    }
     dojo.addClass(b, 'version-' + mulberry.app.PhoneGap.device.version);
 
     this.set('fontSize', mulberry.app.DeviceStorage.get('fontSize'));
@@ -114,6 +110,51 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     });
   },
 
+  _mobileWebSetup : function() {
+    var os = mulberry.Device.browserOS;
+
+    if (os === 'ios') {
+      this._iosFixHeight();
+      dojo.connect(window, 'orientationchange', this, '_iosFixHeight');
+    } else if (os == 'android'){
+      this._androidFixHeight();
+      dojo.connect(window, 'resize', this, '_androidFixHeight');
+    }
+  },
+
+  _iosFixHeight : function() {
+    var screenHigh = 0;
+    this._setBodyHeight(9999);    // larger than any reasonable screen
+    window.scrollTo(0,0);
+
+    // this is a terrible, terrible hack
+    // but it is impossible to get a correct number in iOS < 5
+    // for portrait (landscape works fine, go figure)
+    var oldVersionPortraitCheck = window.innerHeight === 356 && mulberry.Device.browserVersion < 5;
+
+    screenHigh = oldVersionPortraitCheck ? 416 : window.innerHeight;
+    this._setBodyHeight(screenHigh);
+
+    if (oldVersionPortraitCheck) {
+      setTimeout(function() {
+        window.scrollTo(0,0);
+      },0);
+    }
+  },
+
+  _androidFixHeight : function() {
+    var pixels = pixels ? pixels : (window.outerHeight / window.devicePixelRatio) - 54;
+
+    setTimeout(dojo.hitch(this, function() {
+      this._setBodyHeight(pixels);
+    }));
+  },
+
+  _setBodyHeight : function(pixels) {
+    if (typeof pixels === "number") { pixels += "px"; }
+    dojo.style(document.body, 'height', pixels);
+  },
+
   showPage : function(page, node) {
     if (!page) {
       throw new Error('mulberry.app.UI::showPage called without a page to show');
@@ -134,48 +175,13 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     var splash = dojo.byId('splash');
     if (splash) { dojo.destroy(splash); }
   },
-  
-  // this is for mobile web *only*
-  _fixHeight : function() {
-    if (mulberry.Device.type !== 'phone') { return; }
-    
-    if (mulberry.Device.browserOS === 'ios') {
-      return this._iosFixHeight();
-    }
-    
-    if (mulberry.Device.browserOS === 'android') {
-      return setTimeout(dojo.hitch(this, this._androidFixHeight), 100);
-    }
-  },
-  
-  _iosFixHeight : function() {
-    var screenHigh = 0;
-    this._setBodyHeight(9999);    // larger than any reasonable screen
-    window.scrollTo(0,0);
-    
-    // this is a terrible, terrible hack
-    // but it is impossible to get a correct number in iOS < 5
-    // for portrait (landscape works fine, go figure)
-    var oldVersionPortraitCheck = window.innerHeight === 356 && mulberry.Device.browserVersion < 5;
-    
-    screenHigh = oldVersionPortraitCheck ? 416 : window.innerHeight;
-    this._setBodyHeight(screenHigh);
-    
-    if (oldVersionPortraitCheck) {
-      setTimeout(function() {
-        window.scrollTo(0,0);
-      },0);
-    }
-  },
-  
-  _androidFixHeight : function() {
-    // stub
-  },
-  
-  _setBodyHeight : function(pixels) {
-    if (typeof pixels === "number") { pixels += "px"; }
-    dojo.style(document.body, 'height', pixels);
+
+  addPersistentComponent : function(klass, opts, position) {
+    var c = new klass(opts);
+    c.placeAt(this.body, position);
+    return c;
   }
+
 });
 
 dojo.subscribe('/app/ready', function() {

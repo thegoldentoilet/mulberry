@@ -20,7 +20,7 @@ mulberry._loadDeviceConfig = function() {
       }
     }
   }, ua;
-  
+
 
   function getDeviceType() {
     var body = dojo.body(),
@@ -34,14 +34,14 @@ mulberry._loadDeviceConfig = function() {
     os : 'browser',
     standalone: !!navigator.standalone
   };
-  
+
   if (mulberry.Device.os === 'browser') {
     ua = window.navigator.userAgent;
-        
+
     dojo.forIn(browserDevices, function(k, v) {
       if (ua.search(v.re) > -1) { mulberry.Device.browserOS = k; }
     });
-    
+
     if (mulberry.Device.browserOS) {
       mulberry.Device.browserVersion = browserDevices[mulberry.Device.browserOS].version(ua);
     }
@@ -53,34 +53,35 @@ mulberry._loadDeviceConfig = function() {
      * 1. That we're in a mobile web build (mulberry.Device.os is "browser").
      * 2. Support for webkit prefixes, which rules out non-webkit browsers.
      * 3. Support for touch events.
-     * 4. Support for the hashchange event. This rules out pre-Froyo Android.
-     * 5. Support for Web SQL.
+     * 4. Support for Web SQL.
+     * 5. If Android, support for >= 2.2 (we can't test for improper
+     *    implementation of background-size: contain/cover in 2.1)
      * */
 
-    var div = document.createElement("div"),
+    var div = document.createElement('div'),
+        device = mulberry.Device,
         supportsMulberry,
         supportsWebSql,
         supportsWebkitPrefixes,
-        supportsHashchange,
-        supportsFontFace;
+        isOldAndroid;
 
-    if (this.os != "browser") {
+    if (this.os != 'browser') {
       return true;
     }
 
-    if (window.location.hostname === "localhost") {
+    if (window.location.hostname === 'localhost') {
       return true;
     }
 
-    supportsWebkitPrefixes = typeof div.style.webkitTransform !== "undefined";
+    supportsWebkitPrefixes = typeof div.style.webkitTransform !== 'undefined';
     supportsTouch = 'ontouchstart' in document.documentElement;
     supportsWebSql = 'openDatabase' in window;
-    supportsHashchange = 'onhashchange' in window;
+    isOldAndroid = device.os === 'browser' && device.browserOS === 'android' && device.browserVersion < 2.2;
 
     supportsMulberry = supportsWebkitPrefixes &&
                        supportsTouch &&
-                       supportsHashchange &&
-                       supportsWebSql;
+                       supportsWebSql &&
+                       !isOldAndroid;
 
     return supportsMulberry;
   };
