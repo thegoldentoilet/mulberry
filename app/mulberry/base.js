@@ -21,7 +21,6 @@ dojo.requireLocalization('mulberry', 'mulberry');
 var fixHeight = function(pixels) {
   if (!pixels) {
     var pixels = pixels ? pixels : (window.outerHeight / window.devicePixelRatio) - 54;
-    mulberry.Device.heightHash[window.orientation] = pixels;
   }
 
   dojo.style(document.body, 'height', pixels + 'px');
@@ -38,17 +37,13 @@ var readyFn = function() {
   dojo.subscribe('/app/ready', function() {
     mulberry.app.Router.init();
     mulberry.app.UI.hideSplash();
-    mulberry.Device.heightHash = {};
-    if (mulberry.Device.os === 'browser' && mulberry.Device.browserOS === 'android'){
+
+    if (mulberry.Device.os === 'browser' && mulberry.Device.browserOS === 'android') {
       fixHeight();
       dojo.connect(window, "resize", function() {
-        if (mulberry.Device.heightHash[window.orientation] ) {
-          fixHeight(mulberry.Device.heightHash[window.orientation]);
-        } else {
-          setTimeout(function() {
-            fixHeight();
-          }, 250);
-        }
+        setTimeout(function() {
+          fixHeight();
+        }, 250);
       });
     }
   });
