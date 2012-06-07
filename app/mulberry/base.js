@@ -18,14 +18,6 @@ dojo.require('mulberry.app._base');
 
 dojo.requireLocalization('mulberry', 'mulberry');
 
-var fixHeight = function(pixels) {
-  if (!pixels) {
-    var pixels = pixels ? pixels : (window.outerHeight / window.devicePixelRatio) - 54;
-  }
-
-  dojo.style(document.body, 'height', pixels + 'px');
-};
-
 var readyFn = function() {
   // open up the database connection so we can work with it
   mulberry.app.DeviceStorage.init(mulberry.app.Config.get("id") || 'mulberry');
@@ -37,15 +29,6 @@ var readyFn = function() {
   dojo.subscribe('/app/ready', function() {
     mulberry.app.Router.init();
     mulberry.app.UI.hideSplash();
-
-    if (mulberry.Device.os === 'browser' && mulberry.Device.browserOS === 'android') {
-      fixHeight();
-      dojo.connect(window, "resize", function() {
-        setTimeout(function() {
-          fixHeight();
-        }, 250);
-      });
-    }
   });
 };
 

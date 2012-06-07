@@ -18,10 +18,17 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.body = dojo.body();
     this.hasTouch = 'ontouchstart' in window;
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
-    
+
     if (mulberry.Device.os === "browser") {
-      this._fixHeight();
-      dojo.connect(window, 'onorientationchange', this, '_fixHeight');
+      var os = mulberry.Device.browserOS;
+
+      if (os === 'ios') {
+        this._iosFixHeight();
+        dojo.connect(window, 'orientationchange', this, '_iosFixHeight');
+      } else if (os == 'android'){
+        this._androidFixHeight();
+        dojo.connect(window, 'resize', this, '_androidFixHeight');
+      }
     }
 
     this._containersSetup();
@@ -137,44 +144,35 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     var splash = dojo.byId('splash');
     if (splash) { dojo.destroy(splash); }
   },
-  
-  // this is for mobile web *only*
-  _fixHeight : function() {
-    if (mulberry.Device.type !== 'phone') { return; }
-    
-    if (mulberry.Device.browserOS === 'ios') {
-      return this._iosFixHeight();
-    }
-    
-    if (mulberry.Device.browserOS === 'android') {
-      return setTimeout(dojo.hitch(this, this._androidFixHeight), 100);
-    }
-  },
-  
+
   _iosFixHeight : function() {
     var screenHigh = 0;
     this._setBodyHeight(9999);    // larger than any reasonable screen
     window.scrollTo(0,0);
-    
+
     // this is a terrible, terrible hack
     // but it is impossible to get a correct number in iOS < 5
     // for portrait (landscape works fine, go figure)
     var oldVersionPortraitCheck = window.innerHeight === 356 && mulberry.Device.browserVersion < 5;
-    
+
     screenHigh = oldVersionPortraitCheck ? 416 : window.innerHeight;
     this._setBodyHeight(screenHigh);
-    
+
     if (oldVersionPortraitCheck) {
       setTimeout(function() {
         window.scrollTo(0,0);
       },0);
     }
   },
-  
+
   _androidFixHeight : function() {
-    // stub
+    var pixels = pixels ? pixels : (window.outerHeight / window.devicePixelRatio) - 54;
+
+    setTimeout(dojo.hitch(this, function() {
+      this._setBodyHeight(pixels);
+    }));
   },
-  
+
   _setBodyHeight : function(pixels) {
     if (typeof pixels === "number") { pixels += "px"; }
     dojo.style(document.body, 'height', pixels);
