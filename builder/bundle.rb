@@ -136,7 +136,7 @@ module Builder
         }
 
         icon_2x_path = File.join(project_icons_dir, 'icon@2x.png')
-        if is_phone
+        if is_phone || @is_mobile_web
           system %{convert #{File.join(@icons[:location], 'app_icon_phone.png')} -resize 114x114! \
             #{icon_2x_path}
           }
