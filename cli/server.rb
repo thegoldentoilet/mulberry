@@ -59,7 +59,7 @@ module Mulberry
     get '/' do
       redirect "/ios/phone/"
     end
-    
+
     get "/:os/:type" do
       redirect "/#{params[:os]}/#{params[:type]}/"
     end
@@ -78,6 +78,10 @@ module Mulberry
 
     get '/:os/:type/develop.html' do
       haml @iframe_template
+    end
+
+    get '/:os/:type/unsupported.html' do
+      send_file File.join(Mulberry::Framework::Directories.cli, 'templates', 'app', 'unsupported.html')
     end
 
     #####################
