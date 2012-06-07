@@ -19,16 +19,8 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.hasTouch = 'ontouchstart' in window;
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
 
-    if (mulberry.Device.os === "browser") {
-      var os = mulberry.Device.browserOS;
-
-      if (os === 'ios') {
-        this._iosFixHeight();
-        dojo.connect(window, 'orientationchange', this, '_iosFixHeight');
-      } else if (os == 'android'){
-        this._androidFixHeight();
-        dojo.connect(window, 'resize', this, '_androidFixHeight');
-      }
+    if (mulberry.Device.os === 'browser') {
+      this._mobileWebSetup();
     }
 
     this._containersSetup();
@@ -38,12 +30,6 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
 
     this._uiSetup();
     this._eventSetup();
-  },
-
-  addPersistentComponent : function(klass, opts, position) {
-    var c = new klass(opts);
-    c.placeAt(this.body, position);
-    return c;
   },
 
   _watchers : function() {
@@ -124,25 +110,16 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     });
   },
 
-  showPage : function(page, node) {
-    if (!page) {
-      throw new Error('mulberry.app.UI::showPage called without a page to show');
+  _mobileWebSetup : function() {
+    var os = mulberry.Device.browserOS;
+
+    if (os === 'ios') {
+      this._iosFixHeight();
+      dojo.connect(window, 'orientationchange', this, '_iosFixHeight');
+    } else if (os == 'android'){
+      this._androidFixHeight();
+      dojo.connect(window, 'resize', this, '_androidFixHeight');
     }
-
-    if (page.startup) {
-      var s = dojo.subscribe('/page/transition/end', function() {
-        page.startup();
-        dojo.unsubscribe(s);
-      });
-    }
-
-    this.containers.viewport.set('content', page);
-    this.currentPage = page;
-  },
-
-  hideSplash : function() {
-    var splash = dojo.byId('splash');
-    if (splash) { dojo.destroy(splash); }
   },
 
   _iosFixHeight : function() {
@@ -176,7 +153,35 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   _setBodyHeight : function(pixels) {
     if (typeof pixels === "number") { pixels += "px"; }
     dojo.style(document.body, 'height', pixels);
+  },
+
+  showPage : function(page, node) {
+    if (!page) {
+      throw new Error('mulberry.app.UI::showPage called without a page to show');
+    }
+
+    if (page.startup) {
+      var s = dojo.subscribe('/page/transition/end', function() {
+        page.startup();
+        dojo.unsubscribe(s);
+      });
+    }
+
+    this.containers.viewport.set('content', page);
+    this.currentPage = page;
+  },
+
+  hideSplash : function() {
+    var splash = dojo.byId('splash');
+    if (splash) { dojo.destroy(splash); }
+  },
+
+  addPersistentComponent : function(klass, opts, position) {
+    var c = new klass(opts);
+    c.placeAt(this.body, position);
+    return c;
   }
+
 });
 
 dojo.subscribe('/app/ready', function() {
