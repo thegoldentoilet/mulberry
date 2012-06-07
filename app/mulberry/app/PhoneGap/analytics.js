@@ -35,6 +35,32 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
       },
       os = device.os,
       init = {
+        browser : function() {
+          function Analytics() {}
+          
+          Analytics.prototype.startTracker: function(accountId) {
+             _gaq.push(['_setAccount', accountId]);
+          };
+  
+          Analytics.prototype.trackPageview: function(pageUri) {
+            _gaq.push(['_trackPageview', pageUri]);
+          };
+  
+          Analytics.prototype.trackEvent: function(category, action, label, value) {
+            _gaq.push(['_trackEvent', category, action, label, value]);
+          };
+  
+          Analytics.prototype.setCustomVariable: function(index, name, value) {
+            _gaq.push(['_setCustomVar', index, name, value]);
+          };  
+         
+          pluginMethodNameMap = {
+            startTracker      : 'startTracker',
+            trackPageview     : 'trackPageview',
+            trackEvent        : 'trackEvent',
+            setCustomVariable : 'setCustomVariable'
+          };
+        },
         ios : function() {
           function GoogleAnalyticsPlugin() {}
 
