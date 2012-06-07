@@ -81,7 +81,7 @@ dojo.require('mulberry.Device');
 
       // record node pageview if it is node-only
       if (nodeId && !pageState.assetType) {
-        dojo.publish('/node/view', [ route.hash ]);
+        dojo.publish('/node/view', [ nodeModel.url ]);
       }
 
       mulberry.endLogSection('NODE ROUTE');

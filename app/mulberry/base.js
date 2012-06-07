@@ -52,3 +52,4 @@ var readyFn = function() {
 document.addEventListener("deviceready", function() {
   dojo.ready(readyFn);
 }, false);
+

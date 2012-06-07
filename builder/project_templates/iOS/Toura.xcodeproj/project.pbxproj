@@ -24,9 +24,6 @@
 		6451231B154880FD00025F11 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6451231A154880FD00025F11 /* main.m */; };
 		6451231E154880FD00025F11 /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6451231D154880FD00025F11 /* Cordova.framework */; };
 		64512323154880FD00025F11 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64512321154880FD00025F11 /* Localizable.strings */; };
-		64512327154880FD00025F11 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64512325154880FD00025F11 /* Localizable.strings */; };
-		6451232B154880FD00025F11 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64512329154880FD00025F11 /* Localizable.strings */; };
-		6451232F154880FD00025F11 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6451232D154880FD00025F11 /* Localizable.strings */; };
 		64512332154880FD00025F11 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 64512331154880FD00025F11 /* icon.png */; };
 		64512334154880FD00025F11 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64512333154880FD00025F11 /* icon@2x.png */; };
 		64512339154880FD00025F11 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 64512338154880FD00025F11 /* Default.png */; };
@@ -46,7 +43,6 @@
 		645123E81548835F00025F11 /* UrbanAirship.plist in Resources */ = {isa = PBXBuildFile; fileRef = 645123E71548835F00025F11 /* UrbanAirship.plist */; };
 		6491114D1564058A00357F2E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6491114C1564058A00357F2E /* libsqlite3.0.dylib */; };
 		649111921564496100357F2E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 649111911564496100357F2E /* CFNetwork.framework */; };
-		649111A815644CF600357F2E /* GoogleAnalyticsPlugin.js in Sources */ = {isa = PBXBuildFile; fileRef = 649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */; };
 		649111A915644CF600357F2E /* GoogleAnalyticsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */; };
 		649111AA15644CF600357F2E /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 649111A615644CF600357F2E /* libGoogleAnalytics.a */; };
 		649111AB15644CF600357F2E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 649111A715644CF600357F2E /* README.md */; };
@@ -73,9 +69,6 @@
 		6451231C154880FD00025F11 /* Toura-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Toura-Prefix.pch"; sourceTree = "<group>"; };
 		6451231D154880FD00025F11 /* Cordova.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cordova.framework; path = /Users/Shared/Cordova/Frameworks/Cordova.framework; sourceTree = "<absolute>"; };
 		64512322154880FD00025F11 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		64512326154880FD00025F11 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6451232A154880FD00025F11 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6451232E154880FD00025F11 /* se */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = se; path = Resources/se.lproj/Localizable.strings; sourceTree = "<group>"; };
 		64512331154880FD00025F11 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
 		64512333154880FD00025F11 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
 		64512338154880FD00025F11 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
@@ -102,7 +95,6 @@
 		6491114C1564058A00357F2E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		649111911564496100357F2E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework; sourceTree = "<absolute>"; };
 		649111A115644CF600357F2E /* GoogleAnalyticsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAnalyticsPlugin.h; sourceTree = "<group>"; };
-		649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GoogleAnalyticsPlugin.js; sourceTree = "<group>"; };
 		649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAnalyticsPlugin.m; sourceTree = "<group>"; };
 		649111A515644CF600357F2E /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
 		649111A615644CF600357F2E /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
@@ -216,9 +208,6 @@
 			children = (
 				6451233C154880FD00025F11 /* Capture.bundle */,
 				64512320154880FD00025F11 /* en.lproj */,
-				64512324154880FD00025F11 /* es.lproj */,
-				64512328154880FD00025F11 /* de.lproj */,
-				6451232C154880FD00025F11 /* se.lproj */,
 				64512330154880FD00025F11 /* icons */,
 				64512337154880FD00025F11 /* splash */,
 			);
@@ -231,30 +220,6 @@
 				64512321154880FD00025F11 /* Localizable.strings */,
 			);
 			name = en.lproj;
-			sourceTree = "<group>";
-		};
-		64512324154880FD00025F11 /* es.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				64512325154880FD00025F11 /* Localizable.strings */,
-			);
-			name = es.lproj;
-			sourceTree = "<group>";
-		};
-		64512328154880FD00025F11 /* de.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				64512329154880FD00025F11 /* Localizable.strings */,
-			);
-			name = de.lproj;
-			sourceTree = "<group>";
-		};
-		6451232C154880FD00025F11 /* se.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				6451232D154880FD00025F11 /* Localizable.strings */,
-			);
-			name = se.lproj;
 			sourceTree = "<group>";
 		};
 		64512330154880FD00025F11 /* icons */ = {
@@ -316,7 +281,6 @@
 			isa = PBXGroup;
 			children = (
 				649111A115644CF600357F2E /* GoogleAnalyticsPlugin.h */,
-				649111A215644CF600357F2E /* GoogleAnalyticsPlugin.js */,
 				649111A315644CF600357F2E /* GoogleAnalyticsPlugin.m */,
 				649111A415644CF600357F2E /* GoogSDK */,
 				649111A715644CF600357F2E /* README.md */,
@@ -393,9 +357,6 @@
 			files = (
 				64512319154880FD00025F11 /* InfoPlist.strings in Resources */,
 				64512323154880FD00025F11 /* Localizable.strings in Resources */,
-				64512327154880FD00025F11 /* Localizable.strings in Resources */,
-				6451232B154880FD00025F11 /* Localizable.strings in Resources */,
-				6451232F154880FD00025F11 /* Localizable.strings in Resources */,
 				64512332154880FD00025F11 /* icon.png in Resources */,
 				64512334154880FD00025F11 /* icon@2x.png in Resources */,
 				64512339154880FD00025F11 /* Default.png in Resources */,
@@ -441,7 +402,6 @@
 				645123E11548834300025F11 /* ChildBrowserViewController.m in Sources */,
 				645123E31548834300025F11 /* PushNotification.m in Sources */,
 				645123E61548835400025F11 /* TouraAppDelegate.m in Sources */,
-				649111A815644CF600357F2E /* GoogleAnalyticsPlugin.js in Sources */,
 				649111A915644CF600357F2E /* GoogleAnalyticsPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -468,30 +428,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				64512322154880FD00025F11 /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		64512325154880FD00025F11 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				64512326154880FD00025F11 /* es */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		64512329154880FD00025F11 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6451232A154880FD00025F11 /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6451232D154880FD00025F11 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6451232E154880FD00025F11 /* se */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -554,10 +490,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/Shared/Cordova/Frameworks,
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Toura/Toura-Prefix.pch";
@@ -570,7 +503,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"/usr/local/src/phonegap-plugins/iOS/GoogleAnalytics/GoogSDK\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A\"",
 					"\"$(SRCROOT)/Toura/Plugins/GoogleAnalytics/GoogSDK\"",
 				);
@@ -596,10 +528,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/Shared/Cordova/Frameworks,
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Toura/Toura-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -611,7 +540,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"/usr/local/src/phonegap-plugins/iOS/GoogleAnalytics/GoogSDK\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A\"",
 					"\"$(SRCROOT)/Toura/Plugins/GoogleAnalytics/GoogSDK\"",
 				);
