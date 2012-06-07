@@ -39,7 +39,10 @@ module Builder
 
       # TODO: separate these. this is dumb, but i copied it
       # directly from build rake for now
-      if @load_screens and @icons
+
+      @is_mobile_web = @target['build_type'] == 'browser'
+
+      if @icons && (@load_screens || @is_mobile_web)
         icons_and_screens
       end
 
@@ -95,13 +98,12 @@ module Builder
     end
 
     def icons_and_screens
-      is_mobile_web = @target['build_type'] == 'browser'
       is_phone = @target['device_type'] == 'phone'
 
-      media_load_screens_dir = File.join(@www, 'media', 'load-screens')
-      FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
+      unless @is_mobile_web
+        media_load_screens_dir = File.join(@www, 'media', 'load-screens')
+        FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
 
-      unless is_mobile_web
         FileUtils.cp_r(
           File.join(
             @load_screens[:location],
@@ -111,17 +113,21 @@ module Builder
         )
       end
 
-      unless is_phone || is_mobile_web
+      unless is_phone || @is_mobile_web
         FileUtils.cp_r(
           File.join(@load_screens[:location], 'tablet_landscape.png'),
           File.join(media_load_screens_dir, 'landscape.png')
         )
       end
 
-      if @target['device_os'] == 'ios' || is_mobile_web
-        project_resources_dir = File.join(@project_dir, 'Toura', 'Resources')
+      if @target['device_os'] == 'ios' || @is_mobile_web
+        project_resources_dir = @is_mobile_web ?
+          @www :
+          File.join(@project_dir, 'Toura', 'Resources')
 
         project_icons_dir = File.join(project_resources_dir, 'icons')
+
+        FileUtils.mkdir_p project_icons_dir unless File.exist? project_icons_dir
 
         # sample the icons to the appropriate sizes
         # iPad needs the 2x icon, too, otherwise Apple complains.
@@ -138,9 +144,8 @@ module Builder
           FileUtils.remove_file icon_2x_path
         end
 
-
         icon_72_path = File.join(project_icons_dir, 'icon-72.png')
-        if is_phone
+        if is_phone && !@is_mobile_web
           FileUtils.remove_file icon_72_path
         else
           system %{convert #{File.join(@icons[:location], 'app_icon_tablet.png')} -resize 72x72! \
@@ -148,51 +153,43 @@ module Builder
           }
         end
 
-        if is_mobile_web
-          icons_dir = File.join(@www, 'icons')
-          FileUtils.mkdir_p(icons_dir) unless File.exists?(icons_dir)
+        unless @is_mobile_web
+          project_splash_dir = File.join(project_resources_dir, 'splash')
 
-          FileUtils.cp_r(
-            File.join(@icons[:location], '.'),
-            icons_dir
+          portrait_image = File.join(
+            @load_screens[:location],
+            is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
           )
-        end
 
-        project_splash_dir = File.join(project_resources_dir, 'splash')
+          default_2x_path = File.join(project_splash_dir, 'Default@2x.png')
+          if File.exists? portrait_image
+            if is_phone
+              # Force a downsample
+              system %{convert #{portrait_image} -resize 320x480! \
+                #{File.join(project_splash_dir, 'Default.png')}
+              }
 
-        portrait_image = File.join(
-          @load_screens[:location],
-          is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-        )
-
-        default_2x_path = File.join(project_splash_dir, 'Default@2x.png')
-        if File.exists? portrait_image
-          if is_phone
-            # Force a downsample
-            system %{convert #{portrait_image} -resize 320x480! \
-              #{File.join(project_splash_dir, 'Default.png')}
-            }
-
-            # The file from MAP should be high-res
-            FileUtils.cp(portrait_image, default_2x_path)
-          else
-            ['Default.png', 'Default-Portrait.png'].each do |screen_type|
-              FileUtils.cp(
-                portrait_image,
-                File.join(project_splash_dir, screen_type)
-              )
+              # The file from MAP should be high-res
+              FileUtils.cp(portrait_image, default_2x_path)
+            else
+              ['Default.png', 'Default-Portrait.png'].each do |screen_type|
+                FileUtils.cp(
+                  portrait_image,
+                  File.join(project_splash_dir, screen_type)
+                )
+              end
+              FileUtils.remove_file default_2x_path
             end
-            FileUtils.remove_file default_2x_path
           end
-        end
 
-        # Phone does not get landscape.
-        unless is_phone
-          landscape_image = File.join(@load_screens[:location], 'tablet_landscape.png')
-          FileUtils.cp(
-            landscape_image,
-            File.join(project_splash_dir, 'Default-Landscape.png')
-          ) if File.exists? landscape_image
+          # Phone does not get landscape.
+          unless is_phone
+            landscape_image = File.join(@load_screens[:location], 'tablet_landscape.png')
+            FileUtils.cp(
+              landscape_image,
+              File.join(project_splash_dir, 'Default-Landscape.png')
+            ) if File.exists? landscape_image
+          end
         end
 
       elsif @target['device_os'] == 'android'
