@@ -8,7 +8,6 @@ development: false
 
 gather:
     icons: true
-    load_screens: true
     assets: true
     data: true
     page_defs: true
