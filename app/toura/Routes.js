@@ -117,7 +117,7 @@ dojo.require('mulberry.Device');
         route : /\/node\/(.*)/,
         handler : function(params, route) {
           var splat = params.splat[0].split('/'),
-              pageStateIndex = splat.indexOf('__pageState'),
+              pageStateIndex = splat.indexOf('-'),
               nodeId,
               pageState;
 
