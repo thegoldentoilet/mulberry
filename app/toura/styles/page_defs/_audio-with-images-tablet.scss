@@ -79,6 +79,10 @@
           @media (orientation: portrait) {
             display: none;
           }
+
+          .component.body-text {
+            margin: 10px;
+          }
         }
 
         > .region.audio-container {
