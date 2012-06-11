@@ -17,41 +17,49 @@ audio-with-images-tablet:
         components:
         - PageNav
 
-      - className: image-container
+      - className: page-content
         regions:
-        - components:
-          - ImageGallery
-        - className: caption
-          components:
-          - ImageCaption
-
-      - className: non-image-content
-        regions:
-        - className: text-and-child-nodes
+        - className: image-container
           regions:
-          - className: body-text-container
-            scrollable: true
+          - components:
+            - ImageGallery
+          - className: caption
             components:
-            - BodyText
+            - ImageCaption
 
-          - className: child-nodes-container
+        - className: non-image-content
+          regions:
+          - className: text-and-child-nodes
+            regions:
+            - className: body-text-container
+              scrollable: true
+              components:
+              - BodyText
+
+            - className: child-nodes-container
+              scrollable: true
+              components:
+              - ChildNodes
+
+          - className: body-text-child-nodes-unified
             scrollable: true
             components:
             - ChildNodes
+            - BodyText
 
-        - className: audio-container
-          regions:
-          - className: audio-active-player
+          - className: audio-container
             regions:
-            - components:
-              - AudioPlayer
-            - components:
-              - AudioCaption
+            - className: audio-active-player
+              regions:
+              - components:
+                - AudioPlayer
+              - components:
+                - AudioCaption
 
-          - className: audio-list
-            scrollable: true
-            components:
-            - AudioList
+            - className: audio-list
+              scrollable: true
+              components:
+              - AudioList
 
     - name: detail
       regions:

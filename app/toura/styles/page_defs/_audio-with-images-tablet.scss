@@ -11,71 +11,101 @@
   .screen.index {
     @include standard-screen;
 
-    .region.image-container {
-      @include background-shadow;
-      @include flex-row-container;
-      @include fixed-flex-region;
-      padding-top: 10px;
-
-      .component.image-gallery {
-        @include fixed-height-gallery;
-      }
-
-      .region.caption {
-        @include fixed-flex-region;
-      }
-    }
-
-    .region.non-image-content {
+    .region.page-content {
       @include flex-row-container;
 
-      .region.body-text-container {
+      @media (orientation: landscape) {
         @include flex-column-container;
-
-        .child-nodes:not(.empty) {
-          padding-top: 10px;
-        }
-
-        .body-text:not(.empty) {
-          padding: 20px;
-        }
       }
 
-      > .region.text-and-child-nodes {
-        @include flex-column-container;
-        @media (min-width: 800px) {
-          @include portrait-column;
-        }
-
-        .region.child-nodes-container {
-          margin-top: 10px;                 // to line up with body text
-
-          &.empty {
-            -webkit-box-flex: .188889;      // 1/6 width
-          }
-        }
-      }
-
-      > .region.audio-container {
+      .region.image-container {
+        @include background-shadow;
+        @include flex-row-container;
         @include fixed-flex-region;
-        @include background-shadow(top);
-        @include flex-column-container;
+        padding-top: 10px;
+        min-width: 75%;
 
-        > * {
-          width: 100%;
+        @media (orientation: landscape) {
+          border-bottom: none;
+          @include background-shadow(right);
         }
 
-        .region.audio-active-player {
-          @include flex-row-container;
-
-          .region {
-            @include fixed-flex-region;
+        .component.image-gallery {
+          @media (orientation: portrait) {
+            @include fixed-height-gallery;
           }
         }
 
-        audio {
-          position: relative;
-          top: -5px;
+        .region.caption {
+          @include fixed-flex-region;
+        }
+      }
+
+      .region.non-image-content {
+        @include flex-row-container;
+
+        .region.body-text-container {
+          @include flex-column-container;
+
+          .child-nodes:not(.empty) {
+            padding-top: 10px;
+          }
+
+          .body-text:not(.empty) {
+            padding: 20px;
+          }
+        }
+
+        > .region.text-and-child-nodes {
+          @include flex-column-container;
+          @media (min-width: 800px) {
+            @include portrait-column;
+          }
+
+          @media (orientation: landscape) {
+            display: none;
+          }
+
+          .region.child-nodes-container {
+            margin-top: 10px;                 // to line up with body text
+
+            &.empty {
+              -webkit-box-flex: .188889;      // 1/6 width
+            }
+          }
+        }
+
+        > .region.body-text-child-nodes-unified {
+          @media (orientation: portrait) {
+            display: none;
+          }
+        }
+
+        > .region.audio-container {
+          @include fixed-flex-region;
+          @include background-shadow(top);
+          @include flex-column-container;
+
+          > * {
+            width: 100%;
+          }
+
+          .region.audio-active-player {
+            @include flex-row-container;
+
+            .region {
+              @include fixed-flex-region;
+            }
+          }
+
+          .region.audio-list {
+            display: none;  // for now
+          }
+
+          audio {
+            position: relative;
+            top: -5px;
+          }
         }
       }
     }
