@@ -11,7 +11,6 @@ audio-with-images-tablet:
 
   screens:
     - name: index
-      backgroundImage: true
       regions:
 
       - className: page-nav
@@ -26,32 +25,33 @@ audio-with-images-tablet:
           components:
           - ImageCaption
 
-      - type: row
-        className: text-and-child-nodes
+      - className: non-image-content
         regions:
-
-        - className: body-text-container
-          scrollable: true
-          components:
-          - BodyText
-
-        - className: child-nodes-container
-          scrollable: true
-          components:
-          - ChildNodes
-
-      - className: audio-container
-        regions:
-        - className: audio-active-player
+        - className: text-and-child-nodes
           regions:
-          - components:
-            - AudioPlayer
-          - components:
-            - AudioCaption
-        - className: audio-list
-          scrollable: true
-          components:
-          - AudioList
+          - className: body-text-container
+            scrollable: true
+            components:
+            - BodyText
+
+          - className: child-nodes-container
+            scrollable: true
+            components:
+            - ChildNodes
+
+        - className: audio-container
+          regions:
+          - className: audio-active-player
+            regions:
+            - components:
+              - AudioPlayer
+            - components:
+              - AudioCaption
+
+          - className: audio-list
+            scrollable: true
+            components:
+            - AudioList
 
     - name: detail
       regions:
