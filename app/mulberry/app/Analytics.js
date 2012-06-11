@@ -48,13 +48,13 @@ dojo.declare('mulberry.app.Analytics', null, {
 });
 
 (function(){
-mulberry.Analytics = new mulberry.app.Analytics();
+mulberry.app.Analytics = new mulberry.app.Analytics();
 
 dojo.subscribe('/app/ready', function() {
   var gaConfig = mulberry.app.Config.get('googleAnalytics');
   
   if (gaConfig) {
-    mulberry.Analytics.startTracker(gaConfig.trackingId);
+    mulberry.app.Analytics.startTracker(gaConfig.trackingId);
   }
 });
 
