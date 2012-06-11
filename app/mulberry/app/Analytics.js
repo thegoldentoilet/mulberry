@@ -20,24 +20,24 @@ dojo.declare('mulberry.app.Analytics', null, {
   },
 
   startTracker: function(accountId) {
-    console.log("starting tracker");
-    //_gaq.push(['_setAccount', accountId]);
+    console.log("starting tracker: ", accountId);
+    _gaq.push(['_setAccount', accountId]);
   },
 
   trackPageview: function(pageUri) {
     console.log("trackpageview tracker");
     this.setCustomVariables();
-    //_gaq.push(['_trackPageview', pageUri]);
+    _gaq.push(['_trackPageview', pageUri]);
   },
 
   trackEvent: function(category, action, label, value) {
     console.log("trackevent tracker");
     this.setCustomVariables();
-    //_gaq.push(['_trackEvent', category, action, label, value]);
+    _gaq.push(['_trackEvent', category, action, label, value]);
   },
 
   setCustomVariable: function(index, name, value) {
-    //_gaq.push(['_setCustomVar', index, name, value]);
+    _gaq.push(['_setCustomVar', index, name, value]);
   },
 
   setCustomVariables: function() {
