@@ -1,12 +1,13 @@
 dojo.provide('toura.Analytics');
-
+dojo.require('mulberry.app.Analytics');
 /**
  * listens for the broadcast of application events
  * and tracks them in analytics as appropriate.
  */
-(function(){
+
 
 dojo.declare('toura.Analytics', null, {
+  analytics: null,
   /**
    * @constructor
    * @param {String} id  The application ID to associate with analytics data
@@ -15,7 +16,7 @@ dojo.declare('toura.Analytics', null, {
    */
   constructor : function(id) {
     this.appId = id;
-
+    this.analytics = new mulberry.app.Analytics();
     dojo.subscribe('/video/play', dojo.hitch(this, '_trackEvent', 'Video', 'Play'));
     dojo.subscribe('/audio/play', dojo.hitch(this, '_trackEvent', 'Audio', 'Play'));
     dojo.subscribe('/image/view', dojo.hitch(this, '_trackEvent', 'Image', 'View'));
@@ -41,7 +42,7 @@ dojo.declare('toura.Analytics', null, {
    */
   _trackEvent : function(category, action, label, value) {
     console.log("tracking event: " + Array.prototype.join.call(arguments, ','));
-    mulberry.app.PhoneGap.analytics.trackEvent(category, action, label, value);
+    this.analytics.trackEvent(category, action, label, value);
   },
 
   /**
@@ -50,7 +51,7 @@ dojo.declare('toura.Analytics', null, {
   _trackPageview : function(hash) {
     // analytics.log('/tour/' + mulberry.app.Config.get('app').id + hash);
     console.log("tracking page view: " + hash);
-    mulberry.app.PhoneGap.analytics.trackPageview(hash);
+    this.analytics.trackPageview(hash);
   },
 
   /**
@@ -62,16 +63,26 @@ dojo.declare('toura.Analytics', null, {
     term = term ? dojo.trim(term) : false;
     if (!term) { return; }
     console.log("tracking search term: " + term);
-    mulberry.app.PhoneGap.analytics.trackPageview('/search?q=' + encodeURIComponent(term));
+    this.analytics.trackPageview('/search?q=' + encodeURIComponent(term));
+  },
+  /**
+  *
+  *
+  */
+  startTracker: function(id) {
+    console.log("wtfbbq: ", this.analytics);
+    this.analytics.startTracker(id);
   }
 });
 
+(function(){
 toura.Analytics = new toura.Analytics();
 
 dojo.subscribe('/app/ready', function() {
   var gaConfig = mulberry.app.Config.get('googleAnalytics');
+  
   if (gaConfig) {
-    mulberry.app.PhoneGap.analytics.startTracker(gaConfig.trackingId);
+    toura.Analytics.startTracker(gaConfig.trackingId);
   }
 });
 
