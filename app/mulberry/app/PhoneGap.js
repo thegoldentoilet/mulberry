@@ -13,7 +13,7 @@ dojo.require('mulberry.app.PhoneGap.geolocation');
 dojo.require('mulberry.app.PhoneGap.accelerometer');
 
 (function() {
-
+console.log('loading up phonegap');
   mulberry.app.PhoneGap.registerAPI = function(name, module) {
     var s = dojo.subscribe('/app/deviceready', function() {
       var device = mulberry.Device,

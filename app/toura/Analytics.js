@@ -6,8 +6,8 @@ dojo.require('mulberry.app.Analytics');
  */
 
 
-dojo.declare('toura.Analytics', null, {
-  analytics: null,
+dojo.declare('toura.Analytics', mulberry.app.Analytics, {
+  
   /**
    * @constructor
    * @param {String} id  The application ID to associate with analytics data
@@ -16,7 +16,7 @@ dojo.declare('toura.Analytics', null, {
    */
   constructor : function(id) {
     this.appId = id;
-    this.analytics = new mulberry.app.Analytics();
+    //this.analytics = new mulberry.app.Analytics();
     dojo.subscribe('/video/play', dojo.hitch(this, '_trackEvent', 'Video', 'Play'));
     dojo.subscribe('/audio/play', dojo.hitch(this, '_trackEvent', 'Audio', 'Play'));
     dojo.subscribe('/image/view', dojo.hitch(this, '_trackEvent', 'Image', 'View'));
@@ -41,8 +41,8 @@ dojo.declare('toura.Analytics', null, {
    * to the analytics service.
    */
   _trackEvent : function(category, action, label, value) {
-    console.log("tracking event: " + Array.prototype.join.call(arguments, ','));
-    this.analytics.trackEvent(category, action, label, value);
+    //console.log("tracking event: " + Array.prototype.join.call(arguments, ','));
+    this.trackEvent(category, action, label, value);
   },
 
   /**
@@ -51,7 +51,7 @@ dojo.declare('toura.Analytics', null, {
   _trackPageview : function(hash) {
     // analytics.log('/tour/' + mulberry.app.Config.get('app').id + hash);
     console.log("tracking page view: " + hash);
-    this.analytics.trackPageview(hash);
+    this.trackPageview(hash);
   },
 
   /**
@@ -63,15 +63,15 @@ dojo.declare('toura.Analytics', null, {
     term = term ? dojo.trim(term) : false;
     if (!term) { return; }
     console.log("tracking search term: " + term);
-    this.analytics.trackPageview('/search?q=' + encodeURIComponent(term));
+    this.trackPageview('/search?q=' + encodeURIComponent(term));
   },
   /**
   *
   *
   */
   startTracker: function(id) {
-    console.log("wtfbbq: ", this.analytics);
-    this.analytics.startTracker(id);
+    
+    this.inherited(arguments);
   }
 });
 

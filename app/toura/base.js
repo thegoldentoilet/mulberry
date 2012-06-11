@@ -2,7 +2,7 @@ dojo.provide('toura.base');
 
 dojo.require('toura.xhr');
 dojo.require('toura.UI');
-dojo.require('toura.Analytics');
+//dojo.require('toura.Analytics');
 dojo.require('toura.Bootstrapper');
 dojo.require('toura.Data');
 dojo.require('toura.Manifest');

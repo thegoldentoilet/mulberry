@@ -4,7 +4,8 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
 
   var os = device.os,
       init = {        
-        ios : function() {          
+        ios : function() {    
+        console.log("In phonegap analytics IOS");      
 
           mulberry.app.Analytics.prototype.startTracker = function(id) {
             PhoneGap.exec("GoogleAnalyticsPlugin.startTrackerWithAccountID",id);
@@ -43,7 +44,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
         },
 
         android : function() {         
-
+          console.log("In phonegap analytics ANDROID");
           /**
            * Initialize Google Analytics configuration
            *
@@ -130,14 +131,6 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
 
   if (pg && init[os]) {
     init[os]();
-  } else {
-    var noop = function () {};
-
-    dojo.forEach([
-      'startTracker', 'trackPageview', 'trackEvent', 'setCustomVariable'
-      ], function(name) {
-        mulberry.app.Analytics.prototype[name] = noop;
-      });
-  }
+  } 
 };
 
