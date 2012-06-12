@@ -179,20 +179,31 @@
 }
 
 
-@mixin page-nav-button($type) {
+@mixin nav-button-base($type, $invert: false) {
+  $std : 'dark';
+  $hover : 'light';
+
+  @if $invert {
+    $std : 'light';
+    $hover : 'dark';
+  }
 
   & a {
     -webkit-background-size: contain;
   }
 
   &.#{$type} a {
-    background: url(resources/icons/light/btn-page-nav-#{$type}.png) no-repeat;
+    background: url(resources/icons/#{$std}/btn-page-nav-#{$type}.png) no-repeat;
     background-position-y: center;
   }
 
   &.#{$type} a:active {
-    background-image: url(resources/icons/dark/btn-page-nav-#{$type}.png);
+    background-image: url(resources/icons/#{$hover}/btn-page-nav-#{$type}.png);
   }
+}
+
+@mixin page-nav-button($type) {
+  @include nav-button-base($type, true);
 
   &.#{$type}:first-child a {
     background-position-x: if($type == 'home', 5px, left);

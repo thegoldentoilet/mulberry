@@ -3,4 +3,5 @@
     %form
       %input{ type : 'button', class : 'play', dojoAttachPoint : 'controller' }
   :if showPlaylistButton
-    =helpers.playlistButton
+    %ul.ui-buttons
+      %li.list =helpers.playlistButton

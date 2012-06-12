@@ -17,6 +17,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     controls : true,
     autobuffer : true
   },
+  showPlaylistButton : true,
 
   prepareData : function() {
     this.medias = this.node.audios || [];
