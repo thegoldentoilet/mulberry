@@ -52,7 +52,7 @@ audio-with-images-tablet:
             - className: audio-active-player
               regions:
               - components:
-                - AudioPlayerWithPlaylistButton
+                - AudioPlayer
               - components:
                 - AudioCaption
 

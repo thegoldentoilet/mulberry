@@ -2,3 +2,5 @@
   :if !useHtml5Player
     %form
       %input{ type : 'button', class : 'play', dojoAttachPoint : 'controller' }
+  :if showPlaylistButton
+    =helpers.playlistButton

@@ -6,6 +6,10 @@ dojo.require('toura.components._MediaPlayer');
 dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   templateString : dojo.cache('toura.components', 'AudioPlayer/AudioPlayer.haml'),
 
+  helpers : {
+    playlistButton : dojo.cache('toura.components', 'AudioPlayer/_PlaylistButton.haml')
+  },
+
   playerType : 'audio',
   isPlaying : false,
   playerSettings : {
