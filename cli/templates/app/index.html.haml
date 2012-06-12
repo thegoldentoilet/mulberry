@@ -54,7 +54,10 @@
         window.localStorage && window.localStorage.clear();
     :javascript
       if(mulberry.Device.os === 'browser') {
-        var _gaq = _gaq || [];
+        var _gaq = _gaq || []; 
+
+        //NOTE: this MAY need to be removed for production use! 
+        _gaq.push(['_setDomainName', 'none']);
       
        (function() {
          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

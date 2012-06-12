@@ -5,8 +5,6 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
   var os = device.os,
       init = {        
         ios : function() {    
-        console.log("In phonegap analytics IOS");      
-
           mulberry.app.Analytics.prototype.startTracker = function(id) {
             PhoneGap.exec("GoogleAnalyticsPlugin.startTrackerWithAccountID",id);
           };
@@ -43,8 +41,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
           });                 
         },
 
-        android : function() {         
-          console.log("In phonegap analytics ANDROID");
+        android : function() {
           /**
            * Initialize Google Analytics configuration
            *
@@ -121,10 +118,6 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
            */
           PhoneGap.addConstructor(function() {
             PhoneGap.addPlugin('analytics', new mulberry.app.Analytics());
-
-          //	@deprecated: No longer needed in PhoneGap 1.0. Uncomment the addService code for earlier
-          //	PhoneGap releases.
-          //  PluginManager.addService("GoogleAnalyticsTracker", "com.phonegap.plugins.analytics.GoogleAnalyticsTracker");
           });               
         }
       };

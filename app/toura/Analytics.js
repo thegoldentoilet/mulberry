@@ -16,13 +16,18 @@ dojo.declare('toura.Analytics', mulberry.app.Analytics, {
    */
   constructor : function(id) {
     this.inherited(arguments);
-  },
-  setup: function() {
-    this.inherited(arguments);
     dojo.subscribe('/video/play', dojo.hitch(this, 'trackEvent', 'Video', 'Play'));
     dojo.subscribe('/audio/play', dojo.hitch(this, 'trackEvent', 'Audio', 'Play'));
     dojo.subscribe('/image/view', dojo.hitch(this, 'trackEvent', 'Image', 'View'));
     dojo.subscribe('/share', dojo.hitch(this, 'trackEvent', 'Share'));
+    dojo.subscribe('/search', this, 'trackSearch');
+  },
+
+  trackSearch : function(term) {
+    term = term ? dojo.trim(term) : false;
+    if (!term) { return; }
+    console.log("tracking search term: " + term);
+    this.trackPageview('/search?q=' + encodeURIComponent(term));
   }
 });
 
