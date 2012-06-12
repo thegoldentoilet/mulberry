@@ -103,19 +103,21 @@ module Builder
       media_load_screens_dir = File.join(@www, 'media', 'load-screens')
       FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
 
-      FileUtils.cp_r(
-        File.join(
-          @load_screens[:location],
-          is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-        ),
-        File.join(media_load_screens_dir, 'portrait.png')
-      )
-
-      unless is_phone
+      unless Dir.entries(@load_screens[:location]).join == "..." # kind of a convoluted way to check that this dir is empty
         FileUtils.cp_r(
-          File.join(@load_screens[:location], 'tablet_landscape.png'),
-          File.join(media_load_screens_dir, 'landscape.png')
+          File.join(
+            @load_screens[:location],
+            is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
+          ),
+          File.join(media_load_screens_dir, 'portrait.png')
         )
+
+        unless is_phone
+          FileUtils.cp_r(
+            File.join(@load_screens[:location], 'tablet_landscape.png'),
+            File.join(media_load_screens_dir, 'landscape.png')
+          )
+        end
       end
 
       if @target['device_os'] == 'ios' || @is_mobile_web
