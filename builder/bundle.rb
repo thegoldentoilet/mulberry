@@ -100,20 +100,18 @@ module Builder
     def icons_and_screens
       is_phone = @target['device_type'] == 'phone'
 
-      unless @is_mobile_web
-        media_load_screens_dir = File.join(@www, 'media', 'load-screens')
-        FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
+      media_load_screens_dir = File.join(@www, 'media', 'load-screens')
+      FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
 
-        FileUtils.cp_r(
-          File.join(
-            @load_screens[:location],
-            is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-          ),
-          File.join(media_load_screens_dir, 'portrait.png')
-        )
-      end
+      FileUtils.cp_r(
+        File.join(
+          @load_screens[:location],
+          is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
+        ),
+        File.join(media_load_screens_dir, 'portrait.png')
+      )
 
-      unless is_phone || @is_mobile_web
+      unless is_phone
         FileUtils.cp_r(
           File.join(@load_screens[:location], 'tablet_landscape.png'),
           File.join(media_load_screens_dir, 'landscape.png')
@@ -163,15 +161,7 @@ module Builder
         default_2x_path = File.join(project_splash_dir, 'Default@2x.png')
 
         if File.exists? portrait_image
-
-          if @is_mobile_web
-            Dir.entries(@load_screens[:location]).each do |f|
-              FileUtils.cp(
-                File.join(@load_screens[:location], f),
-                project_splash_dir
-              ) unless File.directory?(f)
-            end
-          elsif is_phone
+          if is_phone
             # Force a downsample
             system %{convert #{portrait_image} -resize 320x480! \
               #{File.join(project_splash_dir, 'Default.png')}
