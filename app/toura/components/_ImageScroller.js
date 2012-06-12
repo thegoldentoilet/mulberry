@@ -60,12 +60,13 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
   _setWidth : function() {
     var regionWidth = this.region.innerWidth(),
         scrollerWidth = this.images.length * regionWidth;
-
-    this.scrollerNode.style.width = scrollerWidth + 'px';
-    this.query('.image').style('width', regionWidth + 'px');
-    if (!this.scrollerHandle) { return; }
-    this.scrollerHandle.refresh();
-    this.scrollToIndex(this.currentImageIndex);
+    if (regionWidth) {
+      this.scrollerNode.style.width = scrollerWidth + 'px';
+      this.query('.image').style('width', regionWidth + 'px');
+      if (!this.scrollerHandle) { return; }
+      this.scrollerHandle.refresh();
+      this.scrollToIndex(this.currentImageIndex);
+    }
   },
 
   _setCurrentImageIndexAttr : function(imageIndex) {
