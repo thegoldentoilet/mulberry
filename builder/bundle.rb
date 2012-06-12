@@ -150,43 +150,45 @@ module Builder
           }
         end
 
-        project_splash_dir = File.join(project_resources_dir, 'splash')
-        FileUtils.mkdir_p project_splash_dir unless File.exist? project_splash_dir
+        unless @is_mobile_web
+          project_splash_dir = File.join(project_resources_dir, 'splash')
+          FileUtils.mkdir_p project_splash_dir unless File.exist? project_splash_dir
 
-        portrait_image = File.join(
-          @load_screens[:location],
-          is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-        )
+          portrait_image = File.join(
+            @load_screens[:location],
+            is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
+          )
 
-        default_2x_path = File.join(project_splash_dir, 'Default@2x.png')
+          default_2x_path = File.join(project_splash_dir, 'Default@2x.png')
 
-        if File.exists? portrait_image
-          if is_phone
-            # Force a downsample
-            system %{convert #{portrait_image} -resize 320x480! \
-              #{File.join(project_splash_dir, 'Default.png')}
-            }
+          if File.exists? portrait_image
+            if is_phone
+              # Force a downsample
+              system %{convert #{portrait_image} -resize 320x480! \
+                #{File.join(project_splash_dir, 'Default.png')}
+              }
 
-            # The file from MAP should be high-res
-            FileUtils.cp(portrait_image, default_2x_path)
-          else
-            ['Default.png', 'Default-Portrait.png'].each do |screen_type|
-              FileUtils.cp(
-                portrait_image,
-                File.join(project_splash_dir, screen_type)
-              )
+              # The file from MAP should be high-res
+              FileUtils.cp(portrait_image, default_2x_path)
+            else
+              ['Default.png', 'Default-Portrait.png'].each do |screen_type|
+                FileUtils.cp(
+                  portrait_image,
+                  File.join(project_splash_dir, screen_type)
+                )
+              end
+              FileUtils.remove_file default_2x_path
             end
-            FileUtils.remove_file default_2x_path
           end
-        end
 
-        # Phone does not get landscape.
-        unless is_phone
-          landscape_image = File.join(@load_screens[:location], 'tablet_landscape.png')
-          FileUtils.cp(
-            landscape_image,
-            File.join(project_splash_dir, 'Default-Landscape.png')
-          ) if File.exists? landscape_image
+          # Phone does not get landscape.
+          unless is_phone
+            landscape_image = File.join(@load_screens[:location], 'tablet_landscape.png')
+            FileUtils.cp(
+              landscape_image,
+              File.join(project_splash_dir, 'Default-Landscape.png')
+            ) if File.exists? landscape_image
+          end
         end
 
       elsif @target['device_os'] == 'android'
