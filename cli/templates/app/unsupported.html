@@ -33,9 +33,14 @@
       display: table;
     }
 
-    .sadphone {
-      background: url('css/resources/sadphone.png') no-repeat center center;
-      background-size: auto 95%;
+    .sadphone-wrap {
+      height: 1%;
+    }
+
+    .sadphone-wrap img {
+      display: block;
+      height: 40%;
+      margin: 10px auto;
     }
 
     .text {
@@ -65,8 +70,11 @@
 
       .sadphone-wrap {
         width: 30%;
-        background: url('css/resources/sadphone.png') no-repeat center center;
-        background-size: 95% auto;
+      }
+
+      .sadphone-wrap img {
+        height: auto;
+        width: 85%;
       }
 
       .text-wrap {
@@ -93,7 +101,7 @@
   <table class="master">
     <tbody class="landscaper">
       <tr class="wrap sadphone-wrap">
-        <td class="cell sadphone"></td>
+        <td class="cell sadphone"><img src="css/resources/sadphone.png" /></td>
       </tr>
       <tr class="wrap text-wrap">
         <td class="cell text">
