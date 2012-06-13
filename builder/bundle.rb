@@ -40,9 +40,9 @@ module Builder
       # TODO: separate these. this is dumb, but i copied it
       # directly from build rake for now
 
-      @is_mobile_web = @target['build_type'] == 'browser'
+      @is_browser = @target['build_type'] == 'browser'
 
-      if @icons && (@load_screens || @is_mobile_web)
+      if @icons && (@load_screens || @is_browser)
         icons_and_screens
       end
 
@@ -120,8 +120,8 @@ module Builder
         end
       end
 
-      if @target['device_os'] == 'ios' || @is_mobile_web
-        project_resources_dir = @is_mobile_web ?
+      if @target['device_os'] == 'ios' || @is_browser
+        project_resources_dir = @is_browser ?
           @www :
           File.join(@project_dir, 'Toura', 'Resources')
 
@@ -135,7 +135,7 @@ module Builder
         }
 
         icon_2x_path = File.join(project_icons_dir, 'icon@2x.png')
-        if is_phone || @is_mobile_web
+        if is_phone || @is_browser
           system %{convert #{File.join(@icons[:location], 'app_icon_phone.png')} -resize 114x114! \
             #{icon_2x_path}
           }
@@ -144,7 +144,7 @@ module Builder
         end
 
         icon_72_path = File.join(project_icons_dir, 'icon-72.png')
-        if is_phone && !@is_mobile_web
+        if is_phone && !@is_browser
           FileUtils.remove_file icon_72_path
         else
           system %{convert #{File.join(@icons[:location], 'app_icon_tablet.png')} -resize 72x72! \
@@ -152,7 +152,7 @@ module Builder
           }
         end
 
-        unless @is_mobile_web
+        unless @is_browser
           project_splash_dir = File.join(project_resources_dir, 'splash')
           FileUtils.mkdir_p project_splash_dir unless File.exist? project_splash_dir
 
