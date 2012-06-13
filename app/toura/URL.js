@@ -33,7 +33,7 @@ toura.URL = {
     var url = [ 'node', context.node ];
 
     if (context.type !== 'node') {
-      url.push(context.type, context.id);
+      url.push('-', context.type, context.id);
     }
 
     return '#/' + url.join('/');
