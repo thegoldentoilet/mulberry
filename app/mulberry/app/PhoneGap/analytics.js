@@ -3,8 +3,8 @@ dojo.provide('mulberry.app.PhoneGap.analytics');
 mulberry.app.PhoneGap.analytics = function(pg, device){
 
   var os = device.os,
-      init = {        
-        ios : function() {    
+      init = {
+        ios : function() {
           mulberry.app.Analytics.prototype.startTracker = function(id) {
             PhoneGap.exec("GoogleAnalyticsPlugin.startTrackerWithAccountID",id);
           };
@@ -38,7 +38,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
           PhoneGap.addConstructor(function() {
             if(!window.plugins) window.plugins = {};
             window.plugins.googleAnalyticsPlugin = new mulberry.app.Analytics();
-          });                 
+          });
         },
 
         android : function() {
@@ -118,12 +118,12 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
            */
           PhoneGap.addConstructor(function() {
             PhoneGap.addPlugin('analytics', new mulberry.app.Analytics());
-          });               
+          });
         }
       };
 
   if (pg && init[os]) {
     init[os]();
-  } 
+  }
 };
 
