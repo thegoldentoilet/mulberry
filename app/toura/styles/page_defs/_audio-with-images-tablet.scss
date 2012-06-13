@@ -103,7 +103,26 @@
           }
 
           .region.audio-list {
-            display: none;  // for now
+            //display: none;  // for now
+            background-color: white;
+            position: absolute;
+            border: 1px solid #ccc;
+
+            @media (orientation: portrait) {
+              bottom: 100%;
+              right: 0;
+              margin-bottom: 1px;
+              height: 200px;
+              border-width: 1px 0 0;
+            }
+
+            @media (orientation: landscape) {
+              bottom: 0;
+              right: 100%;
+              margin-right: 1px;
+              height: 300px;
+              border-width: 1px 0 0 1px;
+            }
           }
 
           audio {
