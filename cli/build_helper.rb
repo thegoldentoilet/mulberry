@@ -51,15 +51,15 @@ module Mulberry
 
     def icons(destination, report)
       if build.target["build_type"] == "browser"
-        required = []
+        required = ['app_icon_phone.png', 'app_icon_tablet.png']
 
         found = required.select do |icon|
-          File.exists? File.join(@assets_dir, 'icons', screen)
+          File.exists? File.join(@assets_dir, 'icons', icon)
         end
 
         found.each do |icon|
           FileUtils.cp(
-            File.join(@assets_dir, 'icons', screen),
+            File.join(@assets_dir, 'icons', icon),
             destination
           )
         end
