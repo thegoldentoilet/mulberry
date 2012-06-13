@@ -66,7 +66,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
   },
 
   _renderQueuedAdTag : function() {
-    if (this._queuedAdTag && 'apply' in this._queuedAdTag) {
+    if (this._queuedAdTag && dojo.isFunction(this._queuedAdTag)) {
       this._queuedAdTag();
       this._queuedAdTag = false;
     }
