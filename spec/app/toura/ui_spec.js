@@ -170,6 +170,7 @@ describe("toura ui", function() {
       ui = createUI();
 
       mulberry.app.UI.showPage();
+      dojo.publish('/page/transition/end');
 
       expect(spy.mostRecentCall.args[0]).toBe(toura.components.AdTag);
       expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeTruthy();
@@ -192,6 +193,8 @@ describe("toura ui", function() {
         ui = createUI();
 
         mulberry.app.UI.showPage();
+        dojo.publish('/page/transition/end');
+
         expect(spy.mostRecentCall.args[1].adConfig).toBe(appConfig.ads[d.type]);
       });
     });
@@ -205,6 +208,7 @@ describe("toura ui", function() {
       };
 
       mulberry.app.UI.showPage();
+      dojo.publish('/page/transition/end');
 
       expect(dojo.hasClass(dojo.body(), 'has-ads')).toBeFalsy();
       expect(document.querySelector('.component.ad-tag')).toBeFalsy();
@@ -222,6 +226,7 @@ describe("toura ui", function() {
 
       ui = createUI();
       mulberry.app.UI.showPage();
+      dojo.publish('/page/transition/end');
 
       expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeTruthy();
 
@@ -235,6 +240,7 @@ describe("toura ui", function() {
 
       ui = createUI();
       mulberry.app.UI.showPage();
+      dojo.publish('/page/transition/end');
 
       expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
       expect(document.querySelector('.component.ad-tag')).toBeFalsy();

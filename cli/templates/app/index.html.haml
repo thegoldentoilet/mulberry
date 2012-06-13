@@ -52,6 +52,7 @@
     - if defined? drop_storage and drop_storage
       :javascript
         window.localStorage && window.localStorage.clear();
+
     :javascript
       if(mulberry.Device.os === 'browser') {
         var _gaq = _gaq || []; 

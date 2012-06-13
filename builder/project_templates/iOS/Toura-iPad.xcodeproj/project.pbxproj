@@ -24,9 +24,6 @@
 		6496BA0E156A943A004D68F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6496BA0D156A943A004D68F5 /* main.m */; };
 		6496BA11156A943A004D68F5 /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6496BA10156A943A004D68F5 /* Cordova.framework */; };
 		6496BA16156A943A004D68F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA14156A943A004D68F5 /* Localizable.strings */; };
-		6496BA1A156A943A004D68F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA18156A943A004D68F5 /* Localizable.strings */; };
-		6496BA1E156A943A004D68F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA1C156A943A004D68F5 /* Localizable.strings */; };
-		6496BA22156A943A004D68F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA20156A943A004D68F5 /* Localizable.strings */; };
 		6496BA25156A943A004D68F5 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA24156A943A004D68F5 /* icon.png */; };
 		6496BA29156A943A004D68F5 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA28156A943A004D68F5 /* icon-72.png */; };
 		6496BA2C156A943A004D68F5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6496BA2B156A943A004D68F5 /* Default.png */; };
@@ -73,9 +70,6 @@
 		6496BA0F156A943A004D68F5 /* Toura-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Toura-Prefix.pch"; sourceTree = "<group>"; };
 		6496BA10156A943A004D68F5 /* Cordova.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cordova.framework; path = /Users/Shared/Cordova/Frameworks/Cordova.framework; sourceTree = "<absolute>"; };
 		6496BA15156A943A004D68F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6496BA19156A943A004D68F5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6496BA1D156A943A004D68F5 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6496BA21156A943A004D68F5 /* se */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = se; path = Resources/se.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6496BA24156A943A004D68F5 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
 		6496BA28156A943A004D68F5 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
 		6496BA2B156A943A004D68F5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
@@ -216,9 +210,6 @@
 			children = (
 				6496BA2F156A943A004D68F5 /* Capture.bundle */,
 				6496BA13156A943A004D68F5 /* en.lproj */,
-				6496BA17156A943A004D68F5 /* es.lproj */,
-				6496BA1B156A943A004D68F5 /* de.lproj */,
-				6496BA1F156A943A004D68F5 /* se.lproj */,
 				6496BA23156A943A004D68F5 /* icons */,
 				6496BA2A156A943A004D68F5 /* splash */,
 			);
@@ -231,30 +222,6 @@
 				6496BA14156A943A004D68F5 /* Localizable.strings */,
 			);
 			name = en.lproj;
-			sourceTree = "<group>";
-		};
-		6496BA17156A943A004D68F5 /* es.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				6496BA18156A943A004D68F5 /* Localizable.strings */,
-			);
-			name = es.lproj;
-			sourceTree = "<group>";
-		};
-		6496BA1B156A943A004D68F5 /* de.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				6496BA1C156A943A004D68F5 /* Localizable.strings */,
-			);
-			name = de.lproj;
-			sourceTree = "<group>";
-		};
-		6496BA1F156A943A004D68F5 /* se.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				6496BA20156A943A004D68F5 /* Localizable.strings */,
-			);
-			name = se.lproj;
 			sourceTree = "<group>";
 		};
 		6496BA23156A943A004D68F5 /* icons */ = {
@@ -392,9 +359,6 @@
 			files = (
 				6496BA0C156A943A004D68F5 /* InfoPlist.strings in Resources */,
 				6496BA16156A943A004D68F5 /* Localizable.strings in Resources */,
-				6496BA1A156A943A004D68F5 /* Localizable.strings in Resources */,
-				6496BA1E156A943A004D68F5 /* Localizable.strings in Resources */,
-				6496BA22156A943A004D68F5 /* Localizable.strings in Resources */,
 				6496BA25156A943A004D68F5 /* icon.png in Resources */,
 				6496BA29156A943A004D68F5 /* icon-72.png in Resources */,
 				6496BA2C156A943A004D68F5 /* Default.png in Resources */,
@@ -467,30 +431,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				6496BA15156A943A004D68F5 /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6496BA18156A943A004D68F5 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6496BA19156A943A004D68F5 /* es */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6496BA1C156A943A004D68F5 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6496BA1D156A943A004D68F5 /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6496BA20156A943A004D68F5 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6496BA21156A943A004D68F5 /* se */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

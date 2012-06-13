@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <title>Unsupported browser</title>
+  <style type="text/css">
+    body, h1, p, div {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+
+      background-color: #49c;
+      color: white;
+    }
+
+    a {
+      color: #024;
+    }
+
+    html, body, .master, .landscaper {
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Coding like it's 1997. */
+    .master, .landscaper {
+      border-collapse: collapse;
+      display: table;
+    }
+
+    .sadphone-wrap {
+      height: 1%;
+    }
+
+    .sadphone-wrap img {
+      display: block;
+      height: 40%;
+      margin: 10px auto;
+    }
+
+    .text {
+      padding: 10px;
+      height: 1%;
+      text-align: center;
+    }
+
+    p + p {
+      margin-top: 1em;
+    }
+
+    @media (orientation: landscape) {
+      .landscaper {
+        display: table-row;
+        height: 100%;
+      }
+
+      .wrap {
+        display: table-cell;
+        height: 100%;
+      }
+
+      .cell {
+        display: block;
+      }
+
+      .sadphone-wrap {
+        width: 30%;
+      }
+
+      .sadphone-wrap img {
+        height: auto;
+        width: 85%;
+      }
+
+      .text-wrap {
+        vertical-align: center;
+      }
+
+      .text {
+        display: inline;
+      }
+
+      .sadphone {
+        background-image: none;
+      }
+    }
+
+    @media (min-height: 700px) {
+      .text {
+        height: 30%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <table class="master">
+    <tbody class="landscaper">
+      <tr class="wrap sadphone-wrap">
+        <td class="cell sadphone"><img src="css/resources/sadphone.png" /></td>
+      </tr>
+      <tr class="wrap text-wrap">
+        <td class="cell text">
+          <h1>Sorry!</h1>
+          <p>Your device is unable to display this website.</p>
+          <p>We&rsquo;re always working to add support for more devices. <a href="http://support.toura.com/kb/mobile-web/device-os-and-browser-support">Follow this link</a> for more information about the devices we support.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -3,14 +3,19 @@ require "builder/task_base"
 module Builder
   class HTML < Builder::TaskBase
     HTML_FILENAME = 'index.html'
+    UNSUPPORTED_HTML_FILENAME = 'unsupported.html'
 
     public
     def build
-      @destination = File.join(@location, HTML_FILENAME)
+      @index_html = File.join(@location, HTML_FILENAME)
 
       if build_required
-        File.open(@destination, 'w') { |f| f.write html }
-        @files = [ HTML_FILENAME ]
+        File.open(@index_html, 'w') { |f| f.write html }
+        FileUtils.cp(
+          File.join(Mulberry::Framework::Directories.cli, 'templates', 'app', UNSUPPORTED_HTML_FILENAME),
+          @location
+        )
+        @files = [ HTML_FILENAME, UNSUPPORTED_HTML_FILENAME ]
         true
       else
         false
@@ -30,7 +35,7 @@ module Builder
     end
 
     def build_required
-      !File.exists? @destination
+      !File.exists? @index_html
     end
 
     def template_vars
