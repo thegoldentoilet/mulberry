@@ -15,7 +15,7 @@ dojo.declare('toura.Analytics', mulberry.app.Analytics, {
    * Subscribes to various application events.
    */
   constructor : function(id) {
-    this.inherited(arguments);
+    //this.inherited(arguments);
     dojo.subscribe('/video/play', dojo.hitch(this, 'trackEvent', 'Video', 'Play'));
     dojo.subscribe('/audio/play', dojo.hitch(this, 'trackEvent', 'Audio', 'Play'));
     dojo.subscribe('/image/view', dojo.hitch(this, 'trackEvent', 'Image', 'View'));
@@ -26,7 +26,6 @@ dojo.declare('toura.Analytics', mulberry.app.Analytics, {
   trackSearch : function(term) {
     term = term ? dojo.trim(term) : false;
     if (!term) { return; }
-    console.log("tracking search term: " + term);
     this.trackPageview('/search?q=' + encodeURIComponent(term));
   }
 });
