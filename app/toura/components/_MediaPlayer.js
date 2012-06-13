@@ -43,7 +43,6 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
   _play : function(media) {
     if (this.useHtml5Player) {
-      console.log("junk");
       this.player.play();
     } else {
       dojo.publish('/' + this.playerType + '/play', [ this.media.name || this.media.id ]);
@@ -95,10 +94,11 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
       if (!domNode) { return; }
       doIt();
     });
-
-    var p = dojo.connect(player, 'onplay', this, function(){
-      dojo.publish('/' + this.playerType + '/play', [ this.media.name || this.media.id ]);
-    });
+    if (this.useHtml5Player) {
+      dojo.connect(player, 'onplay', this, function(){
+        dojo.publish('/' + this.playerType + '/play', [ this.media.name || this.media.id ]);
+      });
+    }
     // iOS 4.1 fail
     setTimeout(function() {
       if (!c) { return; }
