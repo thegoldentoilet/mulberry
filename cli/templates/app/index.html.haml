@@ -20,8 +20,10 @@
     %link(rel="apple-touch-icon" sizes="72x72" href="icons/icon-72.png")
     %link(rel="apple-touch-icon" sizes="114X114" href="icons/icon@2x.png")
 
-    %link(rel="apple-touch-startup-image" href="media/load-screens/portrait.png")
-    %link(rel="apple-touch-startup-image" sizes="72x72" href="media/load-screens/landscape.png")
+    %link(rel="apple-touch-startup-image" href="media/load-screens/phone_portrait.png")
+    %link(rel="apple-touch-startup-image" href="media/load-screens/phone_landscape.png" media="screen and (orientation:landscape)")
+    %link(rel="apple-touch-startup-image" href="media/load-screens/tablet_portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)")
+    %link(rel="apple-touch-startup-image" href="media/load-screens/tablet_landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)")
 
     %link(href="css/base.css?device_type=#{device_type}" type="text/css" rel="stylesheet")
 

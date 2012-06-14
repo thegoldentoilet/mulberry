@@ -104,19 +104,27 @@ module Builder
       FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
 
       unless Dir.entries(@load_screens[:location]).join == "..." # kind of a convoluted way to check that this dir is empty
-        FileUtils.cp_r(
-          File.join(
-            @load_screens[:location],
-            is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-          ),
-          File.join(media_load_screens_dir, 'portrait.png')
-        )
-
-        unless is_phone
+        if @is_browser
+          ["phone_portrait.png", "phone_landscape.png",
+            "tablet_landscape.png", "tablet_portrait.png"].each do |load_screen|
+            load_screen = File.join(@load_screens[:location], load_screen)
+            FileUtils.cp(load_screen, media_load_screens_dir) if File.exists? load_screen
+          end
+        else
           FileUtils.cp_r(
-            File.join(@load_screens[:location], 'tablet_landscape.png'),
-            File.join(media_load_screens_dir, 'landscape.png')
+            File.join(
+              @load_screens[:location],
+              is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
+            ),
+            File.join(media_load_screens_dir, 'portrait.png')
           )
+
+          unless is_phone
+            FileUtils.cp_r(
+              File.join(@load_screens[:location], 'tablet_landscape.png'),
+              File.join(media_load_screens_dir, 'landscape.png')
+            )
+          end
         end
       end
 
