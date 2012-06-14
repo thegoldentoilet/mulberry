@@ -24,7 +24,7 @@
     background-image: url($splash-portrait);
   }
 
-  .browser & {
+  &.browser {
     @media (orientation:landscape) {
       background-image: url($mw-splash-phone-landscape);
     }

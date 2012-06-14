@@ -4,6 +4,7 @@
 - #   :include_phonegap - include phonegap js
 - #   :include_dev_config - include DevConfig.js
 - device_type ||= 'phone'
+- device_os   ||= 'browser'
 - body_onload ||= ''
 - title ||= 'Mulberry'
 - include_manifest ||= false
@@ -28,7 +29,7 @@
     %link(href="css/base.css?device_type=#{device_type}" type="text/css" rel="stylesheet")
 
   %body(onload=body_onload)
-    #splash
+    #splash(class=device_os)
       .spinner
 
     - if defined? include_phonegap and include_phonegap # device only
