@@ -39,7 +39,10 @@ module Builder
 
       # TODO: separate these. this is dumb, but i copied it
       # directly from build rake for now
-      if @load_screens and @icons
+
+      @is_browser = @target['build_type'] == 'browser'
+
+      if @icons && (@load_screens || @is_browser)
         icons_and_screens
       end
 
@@ -100,26 +103,38 @@ module Builder
       media_load_screens_dir = File.join(@www, 'media', 'load-screens')
       FileUtils.mkdir_p(media_load_screens_dir) unless File.exists?(media_load_screens_dir)
 
-      FileUtils.cp_r(
-        File.join(
-          @load_screens[:location],
-          is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-        ),
-        File.join(media_load_screens_dir, 'portrait.png')
-      )
+      unless Dir.entries(@load_screens[:location]).join == "..." # kind of a convoluted way to check that this dir is empty
+        if @is_browser
+          ["phone_portrait.png", "phone_landscape.png",
+            "tablet_landscape.png", "tablet_portrait.png"].each do |load_screen|
+            load_screen = File.join(@load_screens[:location], load_screen)
+            FileUtils.cp(load_screen, media_load_screens_dir) if File.exists? load_screen
+          end
+        else
+          FileUtils.cp_r(
+            File.join(
+              @load_screens[:location],
+              is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
+            ),
+            File.join(media_load_screens_dir, 'portrait.png')
+          )
 
-      unless is_phone
-        FileUtils.cp_r(
-          File.join(@load_screens[:location], 'tablet_landscape.png'),
-          File.join(media_load_screens_dir, 'landscape.png')
-        )
+          unless is_phone
+            FileUtils.cp_r(
+              File.join(@load_screens[:location], 'tablet_landscape.png'),
+              File.join(media_load_screens_dir, 'landscape.png')
+            )
+          end
+        end
       end
 
-      case @target['device_os']
-      when 'ios'
-        project_resources_dir = File.join(@project_dir, 'Toura', 'Resources')
+      if @target['device_os'] == 'ios' || @is_browser
+        project_resources_dir = @is_browser ?
+          @www :
+          File.join(@project_dir, 'Toura', 'Resources')
 
         project_icons_dir = File.join(project_resources_dir, 'icons')
+        FileUtils.mkdir_p project_icons_dir unless File.exist? project_icons_dir
 
         # sample the icons to the appropriate sizes
         # iPad needs the 2x icon, too, otherwise Apple complains.
@@ -128,7 +143,7 @@ module Builder
         }
 
         icon_2x_path = File.join(project_icons_dir, 'icon@2x.png')
-        if is_phone
+        if is_phone || @is_browser
           system %{convert #{File.join(@icons[:location], 'app_icon_phone.png')} -resize 114x114! \
             #{icon_2x_path}
           }
@@ -136,9 +151,8 @@ module Builder
           FileUtils.remove_file icon_2x_path
         end
 
-
         icon_72_path = File.join(project_icons_dir, 'icon-72.png')
-        if is_phone
+        if is_phone && !@is_browser
           FileUtils.remove_file icon_72_path
         else
           system %{convert #{File.join(@icons[:location], 'app_icon_tablet.png')} -resize 72x72! \
@@ -146,44 +160,48 @@ module Builder
           }
         end
 
-        project_splash_dir = File.join(project_resources_dir, 'splash')
+        unless @is_browser
+          project_splash_dir = File.join(project_resources_dir, 'splash')
+          FileUtils.mkdir_p project_splash_dir unless File.exist? project_splash_dir
 
-        portrait_image = File.join(
-          @load_screens[:location],
-          is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
-        )
+          portrait_image = File.join(
+            @load_screens[:location],
+            is_phone ? 'phone_portrait.png' : 'tablet_portrait.png'
+          )
 
-        default_2x_path = File.join(project_splash_dir, 'Default@2x.png')
-        if File.exists? portrait_image
-          if is_phone
-            # Force a downsample
-            system %{convert #{portrait_image} -resize 320x480! \
-              #{File.join(project_splash_dir, 'Default.png')}
-            }
+          default_2x_path = File.join(project_splash_dir, 'Default@2x.png')
 
-            # The file from MAP should be high-res
-            FileUtils.cp(portrait_image, default_2x_path)
-          else
-            ['Default.png', 'Default-Portrait.png'].each do |screen_type|
-              FileUtils.cp(
-                portrait_image,
-                File.join(project_splash_dir, screen_type)
-              )
+          if File.exists? portrait_image
+            if is_phone
+              # Force a downsample
+              system %{convert #{portrait_image} -resize 320x480! \
+                #{File.join(project_splash_dir, 'Default.png')}
+              }
+
+              # The file from MAP should be high-res
+              FileUtils.cp(portrait_image, default_2x_path)
+            else
+              ['Default.png', 'Default-Portrait.png'].each do |screen_type|
+                FileUtils.cp(
+                  portrait_image,
+                  File.join(project_splash_dir, screen_type)
+                )
+              end
+              FileUtils.remove_file default_2x_path
             end
-            FileUtils.remove_file default_2x_path
+          end
+
+          # Phone does not get landscape.
+          unless is_phone
+            landscape_image = File.join(@load_screens[:location], 'tablet_landscape.png')
+            FileUtils.cp(
+              landscape_image,
+              File.join(project_splash_dir, 'Default-Landscape.png')
+            ) if File.exists? landscape_image
           end
         end
 
-        # Phone does not get landscape.
-        unless is_phone
-          landscape_image = File.join(@load_screens[:location], 'tablet_landscape.png')
-          FileUtils.cp(
-            landscape_image,
-            File.join(project_splash_dir, 'Default-Landscape.png')
-          ) if File.exists? landscape_image
-        end
-
-      when 'android'
+      elsif @target['device_os'] == 'android'
         # TODO this assumes phone for android right now
 
         # http://developer.android.com/guide/practices/ui_guidelines/icon_design.html

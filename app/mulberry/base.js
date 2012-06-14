@@ -5,7 +5,7 @@ mulberry.version = '0.3';
 mulberry.handleUnsupportedBrowser = function () {
   var loc = window.location;
   window.location = loc.protocol + "//"  + loc.host + loc.pathname + "unsupported.html";
-}
+};
 
 dojo.require('mulberry.app.Config');
 

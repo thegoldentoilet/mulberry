@@ -4,6 +4,7 @@
 - #   :include_phonegap - include phonegap js
 - #   :include_dev_config - include DevConfig.js
 - device_type ||= 'phone'
+- device_os   ||= 'browser'
 - body_onload ||= ''
 - title ||= 'Mulberry'
 - include_manifest ||= false
@@ -16,10 +17,19 @@
     %meta(name="apple-mobile-web-app-capable" content="yes")
     %meta(name="apple-mobile-web-app-status-bar-style" content="black")
 
+    %link(rel="apple-touch-icon" href="icons/icon.png")
+    %link(rel="apple-touch-icon" sizes="72x72" href="icons/icon-72.png")
+    %link(rel="apple-touch-icon" sizes="114X114" href="icons/icon@2x.png")
+
+    %link(rel="apple-touch-startup-image" href="media/load-screens/phone_portrait.png")
+    %link(rel="apple-touch-startup-image" href="media/load-screens/phone_landscape.png" media="screen and (orientation:landscape)")
+    %link(rel="apple-touch-startup-image" href="media/load-screens/tablet_portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)")
+    %link(rel="apple-touch-startup-image" href="media/load-screens/tablet_landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)")
+
     %link(href="css/base.css?device_type=#{device_type}" type="text/css" rel="stylesheet")
 
   %body(onload=body_onload)
-    #splash
+    #splash(class=device_os)
       .spinner
 
     - if defined? include_phonegap and include_phonegap # device only

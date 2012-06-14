@@ -12,6 +12,14 @@ describe Builder::Build do
     end
 
     @app = Mulberry::App.new 'testapp'
+
+    ['load_screens', 'icons'].each do |dir|
+      FileUtils.cp_r(
+        File.join(FIXTURES_DIR, dir),
+        @app.assets_dir
+      )
+    end
+
     @fake_helper = FakeBuildHelper.new
     @mulberry_helper = Mulberry::BuildHelper.new @app
   end
@@ -43,6 +51,57 @@ describe Builder::Build do
     contents.should include 'Haml'
 
     b.cleanup
+  end
+
+  describe "icons and load screens" do
+    it "should copy load screens to the proper directory" do
+      config = @config.merge({
+        :device_type => 'tablet',
+        :build_helper   =>  @mulberry_helper,
+        :target => 'www'
+      })
+
+      b = Builder::Build.new(config)
+      b.build
+      load_screens = b.completed_steps[:gather][:load_screens][:location]
+
+      ['phone_portrait.png', 'tablet_portrait.png',
+       'phone_landscape.png', 'tablet_landscape.png'].each do |load_screen|
+        Dir.entries(load_screens).index(load_screen).should_not be_nil
+      end
+    end
+
+    it "should copy icons to the proper directory" do
+      config = @config.merge({
+        :device_type => 'tablet',
+        :build_helper   =>  @mulberry_helper,
+        :target => 'www'
+      })
+
+      b = Builder::Build.new(config)
+      b.build
+
+      icons = b.completed_steps[:gather][:icons][:location]
+      ['app_icon_phone.png', 'app_icon_tablet.png'].each do |icon|
+        Dir.entries(icons).index(icon).should_not be_nil
+      end
+    end
+
+    it "should process icons for different resolutions" do
+      config = @config.merge({
+        :device_type => 'tablet',
+        :build_helper   =>  @mulberry_helper,
+        :target => 'www'
+      })
+
+      b = Builder::Build.new(config)
+      b.build
+
+      icons = File.join(@app.source_dir, "builds", "browser", "www", "icons")
+      ['icon-72.png','icon.png','icon@2x.png'].each do |icon|
+        Dir.entries(icons).index(icon).should_not be_nil
+      end
+    end
   end
 
   describe "html" do
