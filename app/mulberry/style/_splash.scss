@@ -1,10 +1,10 @@
 #splash {
   $splash-portrait : "../media/load-screens/portrait.png";
   $splash-landscape : "../media/load-screens/landscape.png";
-  $mw-splash-phone-portrait : "../media/load-screens/phone_portrait.png";
-  $mw-splash-phone-landscape : "../media/load-screens/phone_landscape.png";
-  $mw-splash-tablet-portrait : "../media/load-screens/tablet_portrait.png";
-  $mw-splash-tablet-landscape : "../media/load-screens/tablet_landscape.png";
+  $mobile-web-splash-phone-portrait : "../media/load-screens/phone_portrait.png";
+  $mobile-web-splash-phone-landscape : "../media/load-screens/phone_landscape.png";
+  $mobile-web-splash-tablet-portrait : "../media/load-screens/tablet_portrait.png";
+  $mobile-web-splash-tablet-landscape : "../media/load-screens/tablet_landscape.png";
 
   -webkit-background-size: cover;
   height: 100%;
@@ -26,19 +26,19 @@
 
   &.browser {
     @media (orientation:landscape) {
-      background-image: url($mw-splash-phone-landscape);
+      background-image: url($mobile-web-splash-phone-landscape);
     }
 
     @media (orientation:portrait) {
-      background-image: url($mw-splash-phone-portrait);
+      background-image: url($mobile-web-splash-phone-portrait);
     }
 
     @media (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
-      background-image: url($mw-splash-tablet-landscape);
+      background-image: url($mobile-web-splash-tablet-landscape);
     }
 
     @media (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
-      background-image: url($mw-splash-tablet-portrait);
+      background-image: url($mobile-web-splash-tablet-portrait);
     }
   }
 }
