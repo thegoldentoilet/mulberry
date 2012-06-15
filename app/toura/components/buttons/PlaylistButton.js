@@ -6,6 +6,6 @@ dojo.declare('toura.components.buttons.PlaylistButton', toura.components.buttons
   "class" : "playlistToggle",
 
   onClick : function(e) {
-    e.preventDefault();
+    console.log("playlistButton fired");
   }
 });
