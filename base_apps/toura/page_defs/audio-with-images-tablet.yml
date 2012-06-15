@@ -56,6 +56,8 @@ audio-with-images-tablet:
                 - AudioPlayer
               - components:
                 - AudioCaption
+              - components:
+                - PlaylistButton
 
             - className: audio-list
               scrollable: true

@@ -27,6 +27,7 @@ dojo.require('toura.components.PageHeaderImage');
 dojo.require('toura.components.PageHeaderImage');
 dojo.require('toura.components.PageNav');
 dojo.require('toura.components.PinInfo');
+dojo.require('toura.components.PlaylistButton');
 dojo.require('toura.components.SearchInput');
 dojo.require('toura.components.SearchResults');
 dojo.require('toura.components.SiblingNav');
