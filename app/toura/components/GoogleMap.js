@@ -28,6 +28,7 @@ dojo.require('toura.URL');
       this.googleReady = false;
       this.isBuilt = false;
       this.isVisible = true;
+      this.openInfoWindow = undefined;
 
       this.pins = this.node.googleMapPins;
 
@@ -151,6 +152,10 @@ dojo.require('toura.URL');
           content : this.pinInfo.domNode
         });
 
+        if (this.openInfoWindow) {
+          this.openInfoWindow.close();
+        }
+        this.openInfoWindow = infoWindow;
         infoWindow.open(this.map, marker);
       }
 
