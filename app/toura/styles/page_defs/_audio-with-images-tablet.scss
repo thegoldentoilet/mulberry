@@ -84,66 +84,82 @@
             margin: 10px;
           }
         }
+      }
+    }
 
-        > .region.audio-container {
+    .region.audio-container {
+      @include fixed-flex-region;
+      @include background-shadow(top);
+      background-color: #333;
+      @include flex-column-container;
+
+      > * {
+        width: 100%;
+      }
+
+      .region.audio-active-player {
+        @include flex-column-container;
+        height: 64px;
+
+        > .region:not(.caption-container) {
           @include fixed-flex-region;
-          @include background-shadow(top);
-          @include flex-column-container;
+        }
+      }
 
-          > * {
-            width: 100%;
-          }
+      .component.audio-player {
+        width: 250px;
 
-          .region.audio-active-player {
-            @include flex-row-container;
+        audio {
+          width: 90%;
+        }
+      }
 
-            .region {
-              @include fixed-flex-region;
-            }
-          }
+      .component.playlist-button {
+        width: 64px;
+        height: 64px;
+        background-color: $narrow-button-color;
+        text-indent: -99em;
+        -webkit-mask: url('resources/icons/mask/icon_list_dark_64.png') no-repeat scroll;
 
-          .region.audio-list {
-            //display: none;  // for now
-            background-color: white;
-            position: absolute;
-            border: 1px solid #ccc;
+        &:active {
+          background-color: $narrow-button-highlight-color;
+        }
+      }
 
-            @media (orientation: portrait) {
-              bottom: 100%;
-              right: 0;
-              margin-bottom: 1px;
-              height: 200px;
-              border-width: 1px 0 0;
-            }
+      .region.audio-list {
+        background-color: white;
+        position: absolute;
+        border: 1px solid #ccc;
+        bottom: 100%;
+        right: 0;
+        margin-bottom: 1px;
+        height: 200px;
+        width: 65%;
+        border-width: 1px 0 0 1px;
 
-            @media (orientation: landscape) {
-              bottom: 0;
-              right: 100%;
-              margin-right: 1px;
-              height: 300px;
-              border-width: 1px 0 0 1px;
-            }
-          }
+        @media (orientation: landscape) {
+          height: 300px;
+          width: 55%
+        }
+      }
 
-          audio {
-            position: relative;
-            top: -5px;
-          }
+      audio {
+        position: relative;
+        top: -5px;
+      }
 
-          // here we'll just completely override the styles
-          // on the audio player component to make it work here
-          .ui-buttons {
-            float: left;
+      // here we'll just completely override the styles
+      // on the audio player component to make it work here
+      .ui-buttons {
+        float: left;
 
-            li {
-              @include nav-button-base(list);
+        li {
+          @include nav-button-base(list);
 
-              a {
-                display: block;
-                height: 44px;
-                width: 44px;
-              }
-            }
+          a {
+            display: block;
+            height: 44px;
+            width: 44px;
           }
         }
       }

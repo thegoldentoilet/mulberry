@@ -48,21 +48,22 @@ audio-with-images-tablet:
             - ChildNodes
             - BodyText
 
-          - className: audio-container
-            regions:
-            - className: audio-active-player
-              regions:
-              - components:
-                - AudioPlayer
-              - components:
-                - AudioCaption
-              - components:
-                - PlaylistButton
+      - className: audio-container
+        regions:
+        - className: audio-active-player
+          regions:
+          - components:
+            - AudioPlayer
+          - className: caption-container
+            components:
+            - AudioCaption
+          - components:
+            - PlaylistButton
 
-            - className: audio-list
-              scrollable: true
-              components:
-              - AudioList
+        - className: audio-list
+          scrollable: true
+          components:
+          - AudioList
 
     - name: detail
       regions:
