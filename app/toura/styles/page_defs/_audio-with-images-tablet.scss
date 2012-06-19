@@ -179,22 +179,6 @@
         position: relative;
         top: -5px;
       }
-
-      // here we'll just completely override the styles
-      // on the audio player component to make it work here
-      .ui-buttons {
-        float: left;
-
-        li {
-          @include nav-button-base(list);
-
-          a {
-            display: block;
-            height: 44px;
-            width: 44px;
-          }
-        }
-      }
     }
   }
 
