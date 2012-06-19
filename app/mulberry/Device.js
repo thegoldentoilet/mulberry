@@ -3,6 +3,16 @@ dojo.provide('mulberry.Device');
 dojo.require('mulberry.Utilities');
 dojo.require('mulberry.app.Config');
 
+/*mulberry.Device consists of:
+ - Device.os = iOS or Android regardless of native or web execution
+ - Device.osVersion = os version number
+ - Device.environment = browser or native //may not be neededok
+ - Device.type = phone or tablet
+ - Device.browser = browser user agent, if truthy, then app is mobile web
+ - Device.browserVersion = browser version number
+ - Device.standalone = true if running from home screen in iOS
+*/
+
 mulberry._loadDeviceConfig = function() {
   var browserDevices = {
     'ios' : {
@@ -19,9 +29,12 @@ mulberry._loadDeviceConfig = function() {
         return parseFloat(ua.match(/Android ([\d\.]+)/)[1]);
       }
     }
-  }, ua;
+  };
 
+  //holding place for sniffed UA attributes
+  var userAgentValues = {};
 
+  //determines dimensions of browser window to test tablet or phone layouts
   function getDeviceType() {
     var body = dojo.body(),
         minDim = Math.min(body.offsetWidth, body.offsetHeight);
@@ -29,23 +42,40 @@ mulberry._loadDeviceConfig = function() {
     return minDim > 640 ? 'tablet' : 'phone';
   }
 
-  mulberry.Device = mulberry.app.Config.get('device') || {
-    type : getDeviceType(),
-    os : 'browser',
-    standalone: !!navigator.standalone
-  };
-
-  if (mulberry.Device.os === 'browser') {
-    ua = window.navigator.userAgent;
-
-    dojo.forIn(browserDevices, function(k, v) {
-      if (ua.search(v.re) > -1) { mulberry.Device.browserOS = k; }
+  //uses the UA string to determine what browser, OS, and version
+  //sets to temporary object
+  (function sniff() {
+    var ua = window.navigator.userAgent;
+    dojo.forIn(browserDevices, function(osName, osObj) {
+     
+      if (ua.search(osObj.re) > -1) {
+        userAgentValues.os = osName;
+        userAgentValues.browserVersion = browserDevices[osName].version(ua);
+        userAgentValues.osVersion = userAgentValues.browserVersion;
+      }
     });
-
-    if (mulberry.Device.browserOS) {
-      mulberry.Device.browserVersion = browserDevices[mulberry.Device.browserOS].version(ua);
+    if(!userAgentValues.os) {
+      userAgentValues.os = 'desktop';
+      userAgentValues.browserVersion = 1;
+      userAgentValues.osVersion = 1;
     }
+    userAgentValues.type = getDeviceType();
+  })();
+
+  mulberry.Device = mulberry.app.Config.get('device') || {};
+  if(typeof mulberry.Device.os === "undefined" || mulberry.Device.os === 'browser') {
+    mulberry.Device.os = userAgentValues.os;
+    mulberry.Device.environment = 'browser';
+  } else {
+    mulberry.Device.environment = 'native';
   }
+  mulberry.Device.type = mulberry.Device.type || userAgentValues.type;
+  mulberry.Device.osVersion = userAgentValues.osVersion;
+  mulberry.Device.browserVersion = userAgentValues.browserVersion;
+  mulberry.Device.standalone = !!navigator.standalone;
+  //kind of a cop-out at this point, sniffing isn't in place to determine different browsers on android
+  mulberry.Device.browser = mulberry.Device.environment === 'browser';
+  
 
   mulberry.Device.supportedBrowser = function() {
     /*
@@ -65,7 +95,7 @@ mulberry._loadDeviceConfig = function() {
         supportsWebkitPrefixes,
         isOldAndroid;
 
-    if (this.os != 'browser') {
+    if (device.environment != 'browser') {
       return true;
     }
 
@@ -76,7 +106,7 @@ mulberry._loadDeviceConfig = function() {
     supportsWebkitPrefixes = typeof div.style.webkitTransform !== 'undefined';
     supportsTouch = 'ontouchstart' in document.documentElement;
     supportsWebSql = 'openDatabase' in window;
-    isOldAndroid = device.os === 'browser' && device.browserOS === 'android' && device.browserVersion < 2.2;
+    isOldAndroid = device.environment === 'browser' && device.os === 'android' && device.browserVersion < 2.2;
 
     supportsMulberry = supportsWebkitPrefixes &&
                        supportsTouch &&
