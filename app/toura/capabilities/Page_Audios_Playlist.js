@@ -26,7 +26,7 @@ dojo.declare('toura.capabilities.Page_Audios_Playlist', mulberry._Capability, {
     var contentRegion = dojo.query('.page-content')[0];
     this.coverDiv = document.createElement('div');
 
-    dojo.addClass(this.coverDiv, ['cover', 'hide']);
+    dojo.addClass(this.coverDiv, ['cover', 'hidden']);
     dojo.connect(this.coverDiv, 'click', this, function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -48,14 +48,14 @@ dojo.declare('toura.capabilities.Page_Audios_Playlist', mulberry._Capability, {
     this.playlistVisible = true;
     this.playlistButton.addClass('playlist-visible');
     this.audioList.region.show();
-    dojo.removeClass(this.coverDiv, 'hide');
+    dojo.removeClass(this.coverDiv, 'hidden');
   },
 
   _hidePlaylist : function() {
     this.playlistVisible = false;
     this.playlistButton.removeClass('playlist-visible');
     this.audioList.region.hide();
-    dojo.addClass(this.coverDiv, 'hide');
+    dojo.addClass(this.coverDiv, 'hidden');
   }
   
 });
