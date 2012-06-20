@@ -35,6 +35,8 @@
   "SEND" : "Send",
   "CANCEL" : "Cancel",
 
+  "PLAYLIST" : "Playlist",
+
   "STARTUP_NO_NETWORK" : "Some content in this application may not be accessible without an internet connection.",
   "NO_NETWORK" : "This feature requires internet access to work properly. Please connect to the internet and try again.",
 
