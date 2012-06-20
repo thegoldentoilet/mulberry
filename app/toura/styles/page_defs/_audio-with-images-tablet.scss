@@ -134,7 +134,11 @@
           height: 100%;
           background-color: $narrow-button-color;
           text-indent: -99em;
-          -webkit-mask: url('resources/icons/mask/icon_list_dark_64.png') no-repeat scroll;
+          -webkit-mask: url('resources/icons/mask/icon_list-dark-64.png') no-repeat scroll;
+
+          @media (-webkit-min-device-pixel-ratio: 2) {
+            -webkit-mask-image: url('resources/icons/mask/icon_list-dark-128.png');
+          }
 
           &:active {
             background-color: $narrow-button-highlight-color;
