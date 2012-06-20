@@ -28,7 +28,6 @@ mulberry._loadDeviceConfig = function() {
       re : /(Android)/,
       version: function(ua) {
         var vnum = parseFloat(ua.match(/Android ([\d\.]+)/)[1]);
-        alert("android: " + vnum);
         if (!vnum) { return -1; }
         return vnum;
       },
@@ -83,7 +82,6 @@ mulberry._loadDeviceConfig = function() {
       userAgentValues.browserVersion = -1;
       userAgentValues.osVersion = -1;
       userAgentValues.browser = 'unsupported';
-      alert("unsupported");
     }
     userAgentValues.type = getDeviceType();
   })();
@@ -100,9 +98,7 @@ mulberry._loadDeviceConfig = function() {
   mulberry.Device.browserVersion = userAgentValues.browserVersion;
   mulberry.Device.standalone = !!navigator.standalone;
   mulberry.Device.browser = userAgentValues.browser;
-  alert(mulberry.Device.type + ' ' + mulberry.Device.environment + ' ' + mulberry.Device.os + ' ' + mulberry.Device.osVersion + ' ' + mulberry.Device.browser + ' ' + mulberry.Device.browserVersion);
   
-
   mulberry.Device.supportedBrowser = function() {
     /*
      * Currently checking:
@@ -142,7 +138,6 @@ mulberry._loadDeviceConfig = function() {
     supportsMulberry = supportsWebkitPrefixes &&
                        supportsWebSql &&
                        !isOldAndroid;
-                       alert("supported? "+supportsMulberry);
 
     return supportsMulberry;
   };
