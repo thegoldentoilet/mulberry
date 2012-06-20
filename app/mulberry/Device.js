@@ -19,15 +19,38 @@ mulberry._loadDeviceConfig = function() {
       re : /(iPhone|iPod|iPad)/,
       version: function(ua) {
         var vnum = parseFloat(ua.match(/([\d_]+) like Mac OS X/)[1].replace('_', '.'));
-        if (!vnum) { return 1; }    // I am hoping this is right?
+        if (!vnum) { return -1; }
         return vnum;
-      }
+      },
+      browser: function() { return dojo.isWebKit || -1; }
     },
     'android' : {
       re : /(Android)/,
       version: function(ua) {
-        return parseFloat(ua.match(/Android ([\d\.]+)/)[1]);
-      }
+        var vnum = parseFloat(ua.match(/Android ([\d\.]+)/)[1]);
+        alert("android: " + vnum);
+        if (!vnum) { return -1; }
+        return vnum;
+      },
+      browser: function() { return dojo.isWebKit || -1; }
+    },
+    'mac' : {
+      re: /(Macintosh)/,
+      version: function(ua) {
+        var vnum = ua.match(/Mac OS X ([\d_]+)/)[1].replace(/_/g, '.');
+        if (!vnum) { return -1; }
+        return vnum;
+      },
+      browser: function() { return dojo.isWebKit || -1; }
+    },
+    'windows' : {
+      re: /(Windows)/,
+      version: function(ua) {
+        var vnum = parseFloatsws(ua.match(/Windows NT ([\d\.]+)/i)[1]);
+        if(!vnum) { return -1; }
+        return vnum;
+      },
+      browser: function(ua) { return dojo.isWebKit || -1; }
     }
   };
 
@@ -50,14 +73,17 @@ mulberry._loadDeviceConfig = function() {
      
       if (ua.search(osObj.re) > -1) {
         userAgentValues.os = osName;
-        userAgentValues.browserVersion = browserDevices[osName].version(ua);
-        userAgentValues.osVersion = userAgentValues.browserVersion;
+        userAgentValues.osVersion = browserDevices[osName].version(ua);
+        userAgentValues.browserVersion = browserDevices[osName].browser();
+        userAgentValues.browser = userAgentValues.browserVersion !== -1 ? 'webkit' : 'unsupported';
       }
     });
     if(!userAgentValues.os) {
-      userAgentValues.os = 'desktop';
-      userAgentValues.browserVersion = 1;
-      userAgentValues.osVersion = 1;
+      userAgentValues.os = 'unsupported';
+      userAgentValues.browserVersion = -1;
+      userAgentValues.osVersion = -1;
+      userAgentValues.browser = 'unsupported';
+      alert("unsupported");
     }
     userAgentValues.type = getDeviceType();
   })();
@@ -73,8 +99,8 @@ mulberry._loadDeviceConfig = function() {
   mulberry.Device.osVersion = userAgentValues.osVersion;
   mulberry.Device.browserVersion = userAgentValues.browserVersion;
   mulberry.Device.standalone = !!navigator.standalone;
-  //kind of a cop-out at this point, sniffing isn't in place to determine different browsers on android
-  mulberry.Device.browser = mulberry.Device.environment === 'browser';
+  mulberry.Device.browser = userAgentValues.browser;
+  alert(mulberry.Device.type + ' ' + mulberry.Device.environment + ' ' + mulberry.Device.os + ' ' + mulberry.Device.osVersion + ' ' + mulberry.Device.browser + ' ' + mulberry.Device.browserVersion);
   
 
   mulberry.Device.supportedBrowser = function() {
@@ -105,13 +131,18 @@ mulberry._loadDeviceConfig = function() {
 
     supportsWebkitPrefixes = typeof div.style.webkitTransform !== 'undefined';
     supportsTouch = 'ontouchstart' in document.documentElement;
+
+    //this check is to allow desktop browser support which don't have ontouchstart
+    if(!supportsTouch && (device.os === 'android' || device.os === 'ios')) {
+      return false; //android and ios devices need to support touch
+    }
     supportsWebSql = 'openDatabase' in window;
     isOldAndroid = device.environment === 'browser' && device.os === 'android' && device.browserVersion < 2.2;
 
     supportsMulberry = supportsWebkitPrefixes &&
-                       supportsTouch &&
                        supportsWebSql &&
                        !isOldAndroid;
+                       alert("supported? "+supportsMulberry);
 
     return supportsMulberry;
   };
