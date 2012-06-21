@@ -13,7 +13,7 @@ dojo.require('mulberry.app.Config');
  - Device.standalone = true if running from home screen in iOS
 */
 
-mulberry._loadDeviceConfig = function() {
+mulberry.loadDeviceConfig = function() {
   var browserDevices = {
     'ios' : {
       re : /(iPhone|iPod|iPad)/,
@@ -46,7 +46,7 @@ mulberry._loadDeviceConfig = function() {
       re: /(Windows)/,
       version: function(ua) {
         var vnum = parseFloatsws(ua.match(/Windows NT ([\d\.]+)/i)[1]);
-        if(!vnum) { return -1; }
+        if (!vnum) { return -1; }
         return vnum;
       },
       browser: function(ua) { return dojo.isWebKit || -1; }
@@ -69,7 +69,6 @@ mulberry._loadDeviceConfig = function() {
   (function sniff() {
     var ua = window.navigator.userAgent;
     dojo.forIn(browserDevices, function(osName, osObj) {
-     
       if (ua.search(osObj.re) > -1) {
         userAgentValues.os = osName;
         userAgentValues.osVersion = browserDevices[osName].version(ua);
@@ -77,7 +76,8 @@ mulberry._loadDeviceConfig = function() {
         userAgentValues.browser = userAgentValues.browserVersion !== -1 ? 'webkit' : 'unsupported';
       }
     });
-    if(!userAgentValues.os) {
+    
+    if (!userAgentValues.os) {
       userAgentValues.os = 'unsupported';
       userAgentValues.browserVersion = -1;
       userAgentValues.osVersion = -1;
@@ -87,7 +87,7 @@ mulberry._loadDeviceConfig = function() {
   })();
 
   mulberry.Device = mulberry.app.Config.get('device') || {};
-  if(typeof mulberry.Device.os === "undefined" || mulberry.Device.os === 'browser') {
+  if (typeof mulberry.Device.os === "undefined" || mulberry.Device.os === 'browser') {
     mulberry.Device.os = userAgentValues.os;
     mulberry.Device.environment = 'browser';
   } else {
@@ -128,8 +128,8 @@ mulberry._loadDeviceConfig = function() {
     supportsWebkitPrefixes = typeof div.style.webkitTransform !== 'undefined';
     supportsTouch = 'ontouchstart' in document.documentElement;
 
-    //this check is to allow desktop browser support which don't have ontouchstart
-    if(!supportsTouch && (device.os === 'android' || device.os === 'ios')) {
+    // this check is to allow desktop browser support which don't have ontouchstart
+    if (!supportsTouch && (device.os === 'android' || device.os === 'ios')) {
       return false; //android and ios devices need to support touch
     }
     supportsWebSql = 'openDatabase' in window;
@@ -143,4 +143,4 @@ mulberry._loadDeviceConfig = function() {
   };
 };
 
-mulberry._loadDeviceConfig();
+mulberry.loadDeviceConfig();
