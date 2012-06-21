@@ -17,7 +17,6 @@ dojo.declare('toura.capabilities.Page_Audios_Playlist', mulberry._Capability, {
 
   init : function() {
     this.playlistVisible = false;
-    this.audioList.region.hide();
   },
 
   _setup : function() {
@@ -47,14 +46,14 @@ dojo.declare('toura.capabilities.Page_Audios_Playlist', mulberry._Capability, {
   _showPlaylist : function() {
     this.playlistVisible = true;
     this.playlistButton.addClass('playlist-visible');
-    this.audioList.region.show();
+    this.audioList.region.addClass('playlist-visible');
     dojo.removeClass(this.coverDiv, 'hidden');
   },
 
   _hidePlaylist : function() {
     this.playlistVisible = false;
     this.playlistButton.removeClass('playlist-visible');
-    this.audioList.region.hide();
+    this.audioList.region.removeClass('playlist-visible');
     dojo.addClass(this.coverDiv, 'hidden');
   }
   

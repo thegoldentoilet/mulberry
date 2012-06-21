@@ -16,6 +16,10 @@
 
       > .cover {
         @include pullout;
+
+        &.hidden {
+          display: none;
+        }
       }
 
       @media (orientation: landscape) {
@@ -124,10 +128,13 @@
       .component.playlist-button {
         width: 64px;
         height: 64px;
+        -webkit-transition: background-color .35s linear;
+
         a {
           width: 100%;
           height: 100%;
           background-color: $narrow-button-color;
+          -webkit-transition: background-color .35s linear;
           text-indent: -99em;
           -webkit-mask: url('resources/icons/mask/icon_list-dark-64.png') no-repeat scroll;
 
@@ -160,11 +167,20 @@
         position: absolute;
         bottom: 100%;
         right: 0;
-        height: 9em;
+        height: 0;
         width: 55%;
         overflow: hidden;
 
+        opacity: 0;
+        -webkit-transition: height .25s ease-out, opacity .35s linear;
+
         font-size: 90%;
+
+        &.playlist-visible {
+          height: 9em;
+          opacity: 1;
+          visibility: visible;
+        }
 
         @media (orientation: landscape) {
           width: 40%
