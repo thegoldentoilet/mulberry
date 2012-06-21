@@ -7,6 +7,9 @@ describe("user interface controller", function() {
     dojo.require("mulberry.app.DeviceStorage");
 
     if (!pg) {
+      mulberry.app.Analytics = {};
+      mulberry.app.Analytics.prototype = {};
+
       dojo.publish('/app/deviceready');
       dojo.publish('/app/start');
       pg = true;
