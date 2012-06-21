@@ -8,7 +8,6 @@ dojo.require('mulberry.app.Config');
  - Device.osVersion = os version number
  - Device.environment = browser or native //may not be neededok
  - Device.type = phone or tablet
- - Device.browser = browser user agent, if truthy, then app is mobile web
  - Device.browserVersion = browser version number
  - Device.standalone = true if running from home screen in iOS
 */
