@@ -126,7 +126,6 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
   }
   else if(!pg && !'_gaq' in window) {
     //this fix is to prevent mulberry serve from barfing when running in "device mode" and not having the _gaq object
-    //a new fix should be devised when mulberry.Device gets refactored.
     var noop = function() {};
     dojo.forEach(['startTracker', 'trackPageview', 'trackEvent', 'setCustomVariable'
       ], function(name) {

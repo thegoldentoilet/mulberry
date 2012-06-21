@@ -22,7 +22,7 @@ var bootstrapper = function() {
     remoteVersionUrl : app.Config.get('versionUrl')
   });
 
-  if (mulberry.Device.os !== 'browser') {
+  if (mulberry.Device.environment === 'native') {
     // only do midstream OTAs on devices
     dojo.subscribe('/page/transition/end', function() {
       // how long has it been since we last checked for an update?

@@ -41,7 +41,7 @@ var readyFn = function() {
       mulberry.app.UI.hideSplash();
     });
   } catch (e) {
-    if (mulberry.Device.os === 'browser') {
+    if (mulberry.Device.environment === 'browser') {
       mulberry.handleUnsupportedBrowser();
     } else {
       throw e;

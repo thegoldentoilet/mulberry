@@ -4,11 +4,11 @@ dojo.require('mulberry.Utilities');
 dojo.require('mulberry.app.Config');
 
 /*mulberry.Device consists of:
- - Device.os = iOS or Android regardless of native or web execution
+ - Device.os = ios | android | mac | windows regardless of native or web execution
  - Device.osVersion = os version number
- - Device.environment = browser or native //may not be neededok
+ - Device.environment = browser or native
  - Device.type = phone or tablet
- - Device.browser = browser user agent, if truthy, then app is mobile web
+ - Device.browser = browser user agent
  - Device.browserVersion = browser version number
  - Device.standalone = true if running from home screen in iOS
 */
@@ -102,7 +102,7 @@ mulberry.loadDeviceConfig = function() {
   mulberry.Device.supportedBrowser = function() {
     /*
      * Currently checking:
-     * 1. That we're in a mobile web build (mulberry.Device.os is "browser").
+     * 1. That we're in a mobile web build (mulberry.Device.environment is "browser").
      * 2. Support for webkit prefixes, which rules out non-webkit browsers.
      * 3. Support for touch events.
      * 4. Support for Web SQL.
