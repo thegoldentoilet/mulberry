@@ -5,6 +5,8 @@ describe("PhoneGap bridge", function() {
     dojo.require('mulberry.app.PhoneGap');
     if (!pg) {
       mulberry.app.Analytics = {};
+      mulberry.app.Analytics.prototype = {};
+
       dojo.publish('/app/deviceready');
       pg = mulberry.app.PhoneGap;
     }
