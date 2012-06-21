@@ -168,8 +168,10 @@
         position: absolute;
         bottom: 100%;
         right: 0;
-        height: 0;
         width: 55%;
+        height: 9em;
+        opacity: 1 !important;
+        visibility: visible;
         overflow: hidden;
 
         opacity: 0;
@@ -177,10 +179,11 @@
 
         font-size: 90%;
 
-        &.playlist-visible {
-          height: 9em;
-          opacity: 1;
-          visibility: visible;
+        &.hidden {
+          display: block !important;
+          height: 0;
+          overflow: hidden;
+          opacity: 0 !important;
         }
 
         @media (orientation: landscape) {
