@@ -15,12 +15,20 @@ dojo.require('mulberry.app.Config');
 (function() {
   var device = function() {
     var uaParsers = dojo.clone(this.defaultUAParsers),
-        parser;
+        parser, deviceFill;
 
     dojo.mixin(this, mulberry.app.Config.get('device'));
 
     this.environment = this.os && this.os != "browser" ? 'native' : 'browser';
     this.standalone = !!navigator.standalone;
+
+    deviceFill = dojo.subscribe('/app/deviceready', dojo.hitch(this, function() {
+      if (this.environment == 'native') {
+        // PhoneGap writes device info straight to window
+        mulberry.Device.osVersion = window.device.version;
+      }
+      dojo.unsubscribe(deviceFill);
+    }));
 
     // we're all done
     if (this.os && this.os != "browser") { return; }
