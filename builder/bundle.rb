@@ -28,6 +28,8 @@ module Builder
 
       FileUtils.mkdir_p @www unless File.exists? @www
 
+      @is_browser = @target['build_type'] == 'browser'
+
       position_html if @html
       position_css if @css
       position_js if @javascript
@@ -35,12 +37,11 @@ module Builder
       position_data if @data
       position_assets if @assets && @assets[:dir]
       position_page_defs if @page_defs
+      position_submission_icons if @icons && !@is_browser
       position_www_icons if @www_icons
 
       # TODO: separate these. this is dumb, but i copied it
       # directly from build rake for now
-
-      @is_browser = @target['build_type'] == 'browser'
 
       if @icons && (@load_screens || @is_browser)
         icons_and_screens
@@ -69,6 +70,23 @@ module Builder
 
       @www_icons[:files].each do |icons|
         FileUtils.cp_r(File.join(@www_icons[:location], icons), icons_dir)
+      end
+    end
+
+    def position_submission_icons
+      # icons for submissions
+      @submission_icons_dir = File.join(File.join(@project[:location]), 'submit')
+      unless File.exist? @submission_icons_dir
+        FileUtils.mkdir_p @submission_icons_dir
+        [48, 57, 72, 114, 200, 512, 1024].each do |size|
+          ['phone', 'tablet'].each do |device|
+            prefix = device == "phone" ? "ph" : "tab"
+            system %{convert #{File.join(@icons[:location], "app_icon_#{device}.png")} -resize #{size}x#{size}! \
+              #{File.join(@submission_icons_dir, "#{prefix}_icon#{size}.png")}
+            }
+          end
+        end
+        FileUtils.cp_r(@submission_icons_dir, @build.build_helper.project_settings[:bundle])
       end
     end
 
