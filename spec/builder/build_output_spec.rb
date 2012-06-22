@@ -102,6 +102,20 @@ describe Builder::Build do
         Dir.entries(icons).index(icon).should_not be_nil
       end
     end
+
+    it "should process icons for different resolutions" do
+      config = @config.merge({
+        :device_type => 'tablet',
+        :build_helper   =>  @mulberry_helper,
+        :target => 'www'
+      })
+
+      b = Builder::Build.new(config)
+      b.build
+
+      require 'ruby-debug'; debugger
+      File.exists?(File.join(b.build_helper.source_dir, 'builds', 'submit')).should be_true
+    end
   end
 
   describe "html" do

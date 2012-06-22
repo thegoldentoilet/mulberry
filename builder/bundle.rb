@@ -75,18 +75,17 @@ module Builder
 
     def position_submission_icons
       # icons for submissions
-      @submission_icons_dir = File.join(File.join(@project[:location]), 'submit')
-      unless File.exist? @submission_icons_dir
-        FileUtils.mkdir_p @submission_icons_dir
+      destination_dir = File.join(@build.build_helper.project_settings[:bundle], 'submit')
+      unless File.exist? destination_dir
+        FileUtils.mkdir_p destination_dir
         [48, 57, 72, 114, 200, 512, 1024].each do |size|
           ['phone', 'tablet'].each do |device|
             prefix = device == "phone" ? "ph" : "tab"
             system %{convert #{File.join(@icons[:location], "app_icon_#{device}.png")} -resize #{size}x#{size}! \
-              #{File.join(@submission_icons_dir, "#{prefix}_icon#{size}.png")}
+              #{File.join(destination_dir, "#{prefix}_icon#{size}.png")}
             }
           end
         end
-        FileUtils.cp_r(@submission_icons_dir, @build.build_helper.project_settings[:bundle])
       end
     end
 
