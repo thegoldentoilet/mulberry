@@ -12,7 +12,7 @@ var adsClass = 'has-ads',
     siblingNavClass = 'has-sibling-nav',
     siblingNavOpenClass = 'sibling-nav-open';
 
-dojo.declare('toura.UI', [dojo.Stateful, mulberry._View], {
+dojo.declare('toura.UI', dojo.Stateful, {
   constructor : function() {
     this.body = dojo.body();
     this.appConfig = mulberry.app.Config.get('app');
