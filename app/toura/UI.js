@@ -24,8 +24,8 @@ dojo.declare('toura.UI', [dojo.Stateful, mulberry._View], {
     dojo.subscribe('/page/transition/end', this, this._renderQueuedAdTag);
 
     dojo.connect(m.app.UI, 'showPage', this, '_onShowPage');
-    dojo.connect(this.siblingNav, 'show', this, '_showSiblingNav');
-    dojo.connect(this.siblingNav, 'hide', this, '_hideSiblingNav');
+    dojo.connect(this.siblingNav, 'show', this, '_onShowSiblingNav');
+    dojo.connect(this.siblingNav, 'hide', this, '_onHideSiblingNav');
   },
 
   _onShowPage : function(page, node) {
@@ -50,7 +50,6 @@ dojo.declare('toura.UI', [dojo.Stateful, mulberry._View], {
     if (toura.features.ads && this.appConfig.ads && this.appConfig.ads[m.Device.type]) { return; }
 
     this.siblingNav = m.app.UI.addPersistentComponent(toura.components.SiblingNav, {}, 'first');
-    this._hideSiblingNav();
 
     // add/remove nudge classes when sibling nav opens/closes
     dojo.connect(this.siblingNav, 'open', this, function() {
@@ -64,11 +63,11 @@ dojo.declare('toura.UI', [dojo.Stateful, mulberry._View], {
     });
   },
 
-  _showSiblingNav : function (argument) {
+  _onShowSiblingNav : function (argument) {
     dojo.addClass(dojo.body(), siblingNavClass);
   },
 
-  _hideSiblingNav :  function(argument) {
+  _onHideSiblingNav :  function(argument) {
     dojo.removeClass(dojo.body(), siblingNavClass);
   },
 
