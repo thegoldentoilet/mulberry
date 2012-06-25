@@ -6,8 +6,12 @@
     border-bottom: 18px solid transparent;
   }
 
-  .sibling-nav-open & {
+  .phone.sibling-nav-open & {
     border-bottom: 77px solid transparent;
+  }
+
+  .tablet.sibling-nav-open & {
+    border-bottom: 125px solid transparent;
   }
 
   .phone &.has-ads {
