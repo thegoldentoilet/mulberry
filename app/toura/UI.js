@@ -8,6 +8,7 @@ dojo.require('toura.components.AdTag');
 (function(m) {
 
 var adsClass = 'has-ads',
+    // used to nudge the page up depending on state of sibling nav
     siblingNavClass = 'has-sibling-nav',
     siblingNavOpenClass = 'sibling-nav-open';
 
@@ -43,6 +44,7 @@ dojo.declare('toura.UI', [dojo.Stateful, mulberry._View], {
   },
 
   _setupSiblingNav : function() {
+    // don't display sibling nav for certain cases
     if (!toura.features.siblingNav) { return; }
     if (mulberry.Device.os === 'browser' && mulberry.Device.browserOS === 'ios' && !mulberry.Device.standalone) { return; }
     if (toura.features.ads && this.appConfig.ads && this.appConfig.ads[m.Device.type]) { return; }
@@ -50,6 +52,7 @@ dojo.declare('toura.UI', [dojo.Stateful, mulberry._View], {
     this.siblingNav = m.app.UI.addPersistentComponent(toura.components.SiblingNav, {}, 'first');
     this._hideSiblingNav();
 
+    // add/remove nudge classes when sibling nav opens/closes
     dojo.connect(this.siblingNav, 'open', this, function() {
       dojo.addClass(dojo.body(), siblingNavOpenClass);
       dojo.publish('/window/resize');
