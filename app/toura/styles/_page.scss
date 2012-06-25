@@ -2,7 +2,11 @@
   -webkit-box-sizing: border-box;
   border-bottom: 0 solid transparent;
 
-  &.sibling-nav-visible {
+  .feature-siblingNav & {
+    border-bottom: 18px solid transparent;
+  }
+
+  .sibling-nav-visible {
     border-bottom: 18px solid transparent;
   }
 
