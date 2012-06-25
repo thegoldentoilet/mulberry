@@ -180,6 +180,10 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     var c = new klass(opts);
     c.placeAt(this.body, position);
     return c;
+  },
+
+  _getCurrentPageAttr : function() {
+    return this.currentPage;
   }
 
 });

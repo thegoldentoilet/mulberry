@@ -8,9 +8,10 @@ dojo.require('toura.components.AdTag');
 (function(m) {
 
 var adsClass = 'has-ads',
-    siblingNavClass = 'sibling-nav-visible';
+    siblingNavClass = 'has-sibling-nav',
+    siblingNavOpenClass = 'sibling-nav-open';
 
-dojo.declare('toura.UI', dojo.Stateful, {
+dojo.declare('toura.UI', [dojo.Stateful, mulberry._View], {
   constructor : function() {
     this.body = dojo.body();
     this.appConfig = mulberry.app.Config.get('app');
@@ -22,12 +23,12 @@ dojo.declare('toura.UI', dojo.Stateful, {
     dojo.subscribe('/page/transition/end', this, this._renderQueuedAdTag);
 
     dojo.connect(m.app.UI, 'showPage', this, '_onShowPage');
-    this.watch('siblingNavVisible', dojo.hitch(this, '_onSiblingNavVisible'));
+    dojo.connect(this.siblingNav, 'show', this, '_showSiblingNav');
+    dojo.connect(this.siblingNav, 'hide', this, '_hideSiblingNav');
   },
 
   _onShowPage : function(page, node) {
     if (this.siblingNav) {
-      this.set('siblingNavVisible', true);
       this.siblingNav.set('node', node);
     }
 
@@ -47,17 +48,25 @@ dojo.declare('toura.UI', dojo.Stateful, {
     if (toura.features.ads && this.appConfig.ads && this.appConfig.ads[m.Device.type]) { return; }
 
     this.siblingNav = m.app.UI.addPersistentComponent(toura.components.SiblingNav, {}, 'first');
-    this.set('siblingNavVisible', false);
+    this._hideSiblingNav();
 
     dojo.connect(this.siblingNav, 'open', this, function() {
-      dojo.addClass(dojo.body(), siblingNavClass);
+      dojo.addClass(dojo.body(), siblingNavOpenClass);
       dojo.publish('/window/resize');
     });
 
     dojo.connect(this.siblingNav, 'close', this, function() {
-      dojo.removeClass(dojo.body(), siblingNavClass);
+      dojo.removeClass(dojo.body(), siblingNavOpenClass);
       dojo.publish('/window/resize');
     });
+  },
+
+  _showSiblingNav : function (argument) {
+    dojo.addClass(dojo.body(), siblingNavClass);
+  },
+
+  _hideSiblingNav :  function(argument) {
+    dojo.removeClass(dojo.body(), siblingNavClass);
   },
 
   _renderQueuedAdTag : function() {
@@ -100,18 +109,8 @@ dojo.declare('toura.UI', dojo.Stateful, {
           }
         }));
     });
-  },
-
-  _onSiblingNavVisible : function(k, old, visible) {
-    if (!this.siblingNav) { return; }
-
-    if (!this.siblingNav.siblings) {
-      this.siblingNav.hide();
-      return;
-    }
-
-    this.siblingNav[ visible ? 'show' : 'hide' ]();
   }
+
 });
 
 dojo.subscribe('/ui/ready', function() {
