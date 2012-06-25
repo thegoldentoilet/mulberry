@@ -24,8 +24,10 @@ dojo.require('mulberry.app.Config');
 
     if (this.environment == 'native') {
       deviceFill = dojo.subscribe('/app/deviceready', dojo.hitch(this, function() {
-        // PhoneGap writes device info straight to window
-        mulberry.Device.osVersion = window.device.version;
+        if ('device' in window) {
+          // PhoneGap writes device info straight to window
+          mulberry.Device.osVersion = window.device.version;
+        }
         dojo.unsubscribe(deviceFill);
       }));
     }
