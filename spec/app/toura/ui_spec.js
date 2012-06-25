@@ -90,29 +90,6 @@ describe("toura ui", function() {
       expect(spy).toHaveBeenCalledWith('node', 'bar');
     });
 
-    it("should allow setting the visibility of the sibling nav", function() {
-      toura.features.siblingNav = true;
-      ui = createUI();
-      ui.set('siblingNavVisible', false);
-      expect(ui.siblingNav.hasClass('hidden')).toBeTruthy();
-      expect(dojo.hasClass(dojo.body(), 'sibling-nav-visible')).toBeFalsy();
-
-      ui.siblingNav.show();
-      expect(ui.siblingNav.hasClass('hidden')).toBeFalsy();
-      expect(dojo.hasClass(dojo.body(), 'sibling-nav-visible')).toBeFalsy();
-    });
-
-    it("should not show the sibling nav if there are no siblings", function() {
-      toura.features.siblingNav = true;
-      ui = createUI();
-
-      ui.set('siblingNavVisible', false);
-      ui.siblingNav.siblings = false;
-      ui.set('siblingNavVisible', true);
-      expect(ui.siblingNav.domNode.className).toMatch('hidden');
-      expect(dojo.hasClass(dojo.body(), 'sibling-nav-visible')).toBeFalsy();
-    });
-
     it("should not show the sibling nav if there are ads", function() {
       var oldConfig = mulberry.app.Config.get('app');
 
@@ -137,8 +114,7 @@ describe("toura ui", function() {
     it("should show the sibling nav if there are no ads, even if toura.features.ads is true", function() {
       var oldConfig = mulberry.app.Config.get('app');
 
-      mulberry.app.Config.set('app', dojo.mixin(oldConfig, { ads : {
-      } }));
+      mulberry.app.Config.set('app', dojo.mixin(oldConfig, { ads : {} }));
 
       toura.features.siblingNav = true;
       toura.features.ads = true;
