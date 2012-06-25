@@ -227,13 +227,13 @@ describe("sibling nav component", function() {
       expect(dojo.hasClass(c.domNode, 'open')).toBeFalsy();
     });
 
-    it("should expose a setter that allows changing its state", function() {
+    it("should expose open/close methods", function() {
       c = C();
 
-      c.set('open', true);
+      c.open();
       expect(dojo.hasClass(c.domNode, 'open')).toBeTruthy();
 
-      c.set('open', false);
+      c.close();
       expect(dojo.hasClass(c.domNode, 'open')).toBeFalsy();
     });
 

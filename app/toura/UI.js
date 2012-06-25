@@ -55,8 +55,8 @@ dojo.declare('toura.UI', dojo.Stateful, {
     });
 
     dojo.connect(this.siblingNav, 'close', this, function() {
-        dojo.removeClass(dojo.body(), siblingNavClass);
-        dojo.publish('/window/resize');
+      dojo.removeClass(dojo.body(), siblingNavClass);
+      dojo.publish('/window/resize');
     });
   },
 
