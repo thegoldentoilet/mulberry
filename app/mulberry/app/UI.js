@@ -181,7 +181,6 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     c.placeAt(this.body, position);
     return c;
   }
-
 });
 
 dojo.subscribe('/app/ready', function() {

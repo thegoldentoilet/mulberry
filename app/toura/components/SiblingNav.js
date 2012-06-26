@@ -16,7 +16,17 @@ dojo.declare('toura.components.SiblingNav', mulberry._Component, {
   },
 
   toggle : function() {
-    this.set('open', !this.open);
+    var func = this.isOpen ? 'close' : 'open';
+    this[func]();
+    this.isOpen = !this.isOpen;
+  },
+
+  open : function () {
+    this.addClass('open');
+  },
+
+  close : function() {
+    this.removeClass('open');
   },
 
   _handleButton : function(dir) {
@@ -42,15 +52,10 @@ dojo.declare('toura.components.SiblingNav', mulberry._Component, {
     mulberry.app.Router.go(url, true);
   },
 
-  _setOpenAttr : function(open) {
-    dojo[ open ? 'addClass' : 'removeClass' ](this.domNode, 'open');
-    this.open = open;
-  },
-
   _setNodeAttr : function(node) {
     if (!node || !node.siblings || !node.siblings.length) {
       this.hide();
-      this.set('open', false);
+      this.close();
       this.siblings = false;
       return;
     }
