@@ -1,0 +1,40 @@
+.component.playlist-button {
+  width: 64px;
+  height: 64px;
+  -webkit-transition: background-color .35s linear;
+
+  a {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+    background-color: $narrow-button-color;
+    -webkit-transition: background-color .35s linear;
+    text-indent: -99em;
+    -webkit-mask: url('resources/icons/mask/icon-list-dark-64.png') no-repeat scroll;
+
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      -webkit-mask-image: url('resources/icons/mask/icon-list-dark-128.png');
+      -webkit-mask-size: 100%;
+    }
+
+    &:active {
+      background-color: $narrow-button-highlight-color;
+    }
+  }
+
+  &.playlist-visible {
+    background-color: $narrow-button-highlight-color;
+
+    a {
+      -webkit-mask-image: url('resources/icons/mask/icon-list-light-64.png');
+      -webkit-mask-position: center 1px;
+      background-color: $narrow-button-text-color;
+
+      @media (-webkit-min-device-pixel-ratio: 2) {
+        -webkit-mask-image: url('resources/icons/mask/icon-list-light-128.png');
+        -webkit-mask-size: 100%;
+      }
+    }
+  }
+}
