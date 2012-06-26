@@ -8,7 +8,9 @@ dojo.require('toura.components.AdTag');
 (function(m) {
 
 var adsClass = 'has-ads',
-    siblingNavClass = 'sibling-nav-visible';
+    // used to nudge the page up depending on state of sibling nav
+    siblingNavClass = 'has-sibling-nav',
+    siblingNavOpenClass = 'sibling-nav-open';
 
 dojo.declare('toura.UI', dojo.Stateful, {
   constructor : function() {
@@ -22,12 +24,12 @@ dojo.declare('toura.UI', dojo.Stateful, {
     dojo.subscribe('/page/transition/end', this, this._renderQueuedAdTag);
 
     dojo.connect(m.app.UI, 'showPage', this, '_onShowPage');
-    this.watch('siblingNavVisible', dojo.hitch(this, '_onSiblingNavVisible'));
+    dojo.connect(this.siblingNav, 'show', this, '_onShowSiblingNav');
+    dojo.connect(this.siblingNav, 'hide', this, '_onHideSiblingNav');
   },
 
   _onShowPage : function(page, node) {
     if (this.siblingNav) {
-      this.set('siblingNavVisible', true);
       this.siblingNav.set('node', node);
     }
 
@@ -42,28 +44,31 @@ dojo.declare('toura.UI', dojo.Stateful, {
   },
 
   _setupSiblingNav : function() {
+    // don't display sibling nav for certain cases
     if (!toura.features.siblingNav) { return; }
     if (mulberry.Device.environment === 'browser' && mulberry.Device.os === 'ios' && !mulberry.Device.standalone) { return; }
     if (toura.features.ads && this.appConfig.ads && this.appConfig.ads[m.Device.type]) { return; }
 
-    var currentPage = m.app.UI.currentPage;
-    
     this.siblingNav = m.app.UI.addPersistentComponent(toura.components.SiblingNav, {}, 'first');
-    this.set('siblingNavVisible', false);
 
-    dojo.connect(this.siblingNav, 'show', this, function() {
-      if (currentPage) {
-        currentPage.addClass(siblingNavClass);
-        dojo.publish('/window/resize');
-      }
+    // add/remove nudge classes when sibling nav opens/closes
+    dojo.connect(this.siblingNav, 'open', this, function() {
+      dojo.addClass(dojo.body(), siblingNavOpenClass);
+      dojo.publish('/window/resize');
     });
 
-    dojo.connect(this.siblingNav, 'hide', this, function() {
-      if (currentPage) {
-        currentPage.removeClass(siblingNavClass);
-        dojo.publish('/window/resize');
-      }
+    dojo.connect(this.siblingNav, 'close', this, function() {
+      dojo.removeClass(dojo.body(), siblingNavOpenClass);
+      dojo.publish('/window/resize');
     });
+  },
+
+  _onShowSiblingNav : function (argument) {
+    dojo.addClass(dojo.body(), siblingNavClass);
+  },
+
+  _onHideSiblingNav :  function(argument) {
+    dojo.removeClass(dojo.body(), siblingNavClass);
   },
 
   _renderQueuedAdTag : function() {
@@ -106,18 +111,8 @@ dojo.declare('toura.UI', dojo.Stateful, {
           }
         }));
     });
-  },
-
-  _onSiblingNavVisible : function(k, old, visible) {
-    if (!this.siblingNav) { return; }
-
-    if (!this.siblingNav.siblings) {
-      this.siblingNav.hide();
-      return;
-    }
-
-    this.siblingNav[ visible ? 'show' : 'hide' ]();
   }
+
 });
 
 dojo.subscribe('/ui/ready', function() {
