@@ -5,7 +5,6 @@ dojo.require('toura.components._MediaPlayer');
 
 dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   templateString : dojo.cache('toura.components', 'AudioPlayer/AudioPlayer.haml'),
-  widgetsInTemplate: true,
 
   playerType : 'audio',
   isPlaying : false,
@@ -13,10 +12,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     preload : 'auto',
     controls : true,
     autobuffer : true
-  },
-  
-  startup : function() {
-    this.inherited(arguments);
   },
 
   prepareData : function() {
@@ -69,11 +64,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       // we used the phonegap player
       mulberry.app.PhoneGap.audio.destroy();
     }
-  },
-  
-  _playlistClick : function() {
-    // event stub
-    console.log("audioplayer got the playlist click");
   }
 
 });
