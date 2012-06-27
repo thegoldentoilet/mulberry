@@ -314,23 +314,20 @@ module Builder
       i18n_dir        = File.join(mulberry_dir, 'nls')
       mulberry_file   = File.join(mulberry_dir, 'base.js.uncompressed.js')
       mulberry_orig   = File.read(mulberry_file)
-      @build.log("WTFFFFFF!!!!!!!!!!!!!!!!!!!!!!!!!!!! js: #{build_location} mulb: #{mulberry_dir} il8n: #{i18n_dir} file: #{mulberry_file}")
-      return unless File.exists? i18n_dir
-      @build.log("FFFFFFFFFFTTTTTTTWWWWWW!!!!!!!!!!!")
+      
+      return unless File.exists? i18n_dir      
 
       File.open(mulberry_file, 'w') do |dest|
         %w{ base_ROOT.js base_en.js base_en-us.js }.each do |f|
           dest.write File.read(File.join(i18n_dir, f))
         end
-
         dest.write mulberry_orig
       end
     end
 
     def position_js
       built = @javascript[:location]
-      @build.log("built: #{built}")
-
+      
       if (!File.exists?(built))
         @build.log("Didn't find any built JavaScript", 'warning')
         return
