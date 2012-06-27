@@ -101,6 +101,8 @@
       box-shadow: 0 -1px 5px rgba(0,0,0,.5);
       @include flex-column-container;
 
+      min-height: 64px;
+
       > * {
         width: 100%;
       }
@@ -137,7 +139,7 @@
         visibility: visible;
         overflow: hidden;
 
-        -webkit-transition: height .25s ease-out;
+        -webkit-transition: height .25s ease-out, opacity 150ms ease-out;
 
         font-size: 90%;
 
