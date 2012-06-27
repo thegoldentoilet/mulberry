@@ -64,6 +64,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
 
     dojo.addClass(b, device.type);
     dojo.addClass(b, device.os);
+    dojo.addClass(b, device.environment);
     dojo.addClass(b, 'version-' + mulberry.app.PhoneGap.device.version);
 
     this.set('fontSize', mulberry.app.DeviceStorage.get('fontSize'));
