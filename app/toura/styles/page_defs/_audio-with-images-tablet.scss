@@ -103,12 +103,19 @@
 
       min-height: 64px;
 
+      -webkit-box-align: center;
+
       > * {
         width: 100%;
       }
 
       .region.audio-active-player {
         @include flex-column-container;
+
+        > .region {
+          display: -webkit-box;
+          -webkit-box-align: center;
+        }
 
         > .region:not(.caption-container) {
           @include fixed-flex-region;
@@ -121,6 +128,8 @@
 
         audio {
           width: 90%;
+
+          padding-top: 0;
         }
       }
 
