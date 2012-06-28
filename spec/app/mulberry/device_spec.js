@@ -3,12 +3,4 @@ describe("device object", function() {
     expect(mulberry.Device.type).toBeDefined();
     expect(mulberry.Device.os).toBeDefined();
   });
-
-  it("should set default values if none are provided by mulberry.app.Config", function() {
-    mulberry.app.Config.set('device', null);
-   // mulberry.loadDeviceConfig();
-
-    expect(mulberry.Device.type).toBeDefined();
-    expect(mulberry.Device.environment).toBe('browser');
-  });
 });
