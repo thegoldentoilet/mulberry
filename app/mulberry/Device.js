@@ -104,7 +104,7 @@ dojo.require('mulberry.app.Config');
         }
       }
     },
-    
+
     setUAParsers : function(parsers) {
       dojo.forIn(this.userAgentParsers, dojo.hitch(this, function(osName, osObj) {
         if (this.ua.search(osObj.re) > -1) {

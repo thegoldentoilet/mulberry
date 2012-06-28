@@ -11,7 +11,7 @@
       .region.player-container {
         margin-top: 10px;
         @include fixed-flex-region;
-        
+
         .component.video-player {
           @include fixed-height-gallery;
         }
