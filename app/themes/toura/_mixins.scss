@@ -179,6 +179,36 @@
 }
 
 
+@mixin webkit-mask-icon($icon, $background: dark) {
+  $icondir : 'resources/icons/mask/';
+
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-attachment: scroll;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 100%;
+
+  .phone & {
+    height: 48px;
+    width: 48px;
+    -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{$background}-48.png");
+
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{background}-96.png");
+    }
+  }
+
+  .tablet & {
+    height: 64px;
+    width: 64px;
+    -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{$background}-64.png");
+
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{$background}-128.png");
+    }
+  }
+}
+
+
 @mixin nav-button-base($type, $invert: false) {
   $std : 'dark';
   $hover : 'light';

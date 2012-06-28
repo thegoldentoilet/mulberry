@@ -2,8 +2,16 @@
   -webkit-box-sizing: border-box;
   border-bottom: 0 solid transparent;
 
-  &.sibling-nav-visible {
+  .has-sibling-nav & {
     border-bottom: 18px solid transparent;
+  }
+
+  .phone.sibling-nav-open & {
+    border-bottom: 77px solid transparent;
+  }
+
+  .tablet.sibling-nav-open & {
+    border-bottom: 125px solid transparent;
   }
 
   .phone &.has-ads {

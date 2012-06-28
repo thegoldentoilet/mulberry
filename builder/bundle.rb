@@ -28,6 +28,8 @@ module Builder
 
       FileUtils.mkdir_p @www unless File.exists? @www
 
+      @is_browser = @target['build_type'] == 'browser'
+
       position_html if @html
       position_css if @css
       position_js if @javascript
@@ -35,12 +37,11 @@ module Builder
       position_data if @data
       position_assets if @assets && @assets[:dir]
       position_page_defs if @page_defs
+      position_submission_icons if @icons && !@is_browser
       position_www_icons if @www_icons
 
       # TODO: separate these. this is dumb, but i copied it
       # directly from build rake for now
-
-      @is_browser = @target['build_type'] == 'browser'
 
       if @icons && (@load_screens || @is_browser)
         icons_and_screens
@@ -69,6 +70,22 @@ module Builder
 
       @www_icons[:files].each do |icons|
         FileUtils.cp_r(File.join(@www_icons[:location], icons), icons_dir)
+      end
+    end
+
+    def position_submission_icons
+      # icons for submissions
+      destination_dir = File.join(@build.build_helper.project_settings[:bundle], 'submit')
+      unless File.exist? destination_dir
+        FileUtils.mkdir_p destination_dir
+        [48, 57, 72, 114, 200, 512, 1024].each do |size|
+          ['phone', 'tablet'].each do |device|
+            prefix = device == "phone" ? "ph" : "tab"
+            system %{convert #{File.join(@icons[:location], "app_icon_#{device}.png")} -resize #{size}x#{size}! \
+              #{File.join(destination_dir, "#{prefix}_icon#{size}.png")}
+            }
+          end
+        end
       end
     end
 
@@ -308,6 +325,23 @@ module Builder
       end
     end
 
+    def concat_i18n_files
+      build_location  = @javascript[:location]
+      mulberry_dir    = File.join(build_location, 'mulberry')
+      i18n_dir        = File.join(mulberry_dir, 'nls')
+      mulberry_file   = File.join(mulberry_dir, 'base.js.uncompressed.js')
+      mulberry_orig   = File.read(mulberry_file)
+
+      return unless File.exists? i18n_dir
+
+      File.open(mulberry_file, 'w') do |dest|
+        %w{ base_ROOT.js base_en.js base_en-us.js }.each do |f|
+          dest.write File.read(File.join(i18n_dir, f))
+        end
+        dest.write mulberry_orig
+      end
+    end
+
     def position_js
       built = @javascript[:location]
 
@@ -319,7 +353,7 @@ module Builder
       js_dir          = File.join(@www, 'javascript')
       mulberry_dir    = File.join(js_dir, 'mulberry')
       dojo_dir        = File.join(js_dir, 'dojo')
-
+      i18n_dir        = File.join(mulberry_dir, 'nls')
       client_dir      = File.join(js_dir, 'client')
       client_base     = File.join(built, 'client', 'base.js')
 
@@ -336,6 +370,8 @@ module Builder
         File.join(built, 'mulberry', 'base.js'),
         mulberry_dir
       )
+
+      concat_i18n_files
 
       if @target['development']
         FileUtils.cp_r(

@@ -4,11 +4,17 @@
 
     .region.video-container {
       @include flex-row-container;
+      @include fixed-flex-region;
       @include background-shadow;
       padding-bottom: 20px;
 
       .region.player-container {
         margin-top: 10px;
+        @include fixed-flex-region;
+
+        .component.video-player {
+          @include fixed-height-gallery;
+        }
       }
 
       .region.video-caption {
