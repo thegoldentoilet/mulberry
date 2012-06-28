@@ -6,7 +6,7 @@ describe("device object", function() {
 
   it("should set default values if none are provided by mulberry.app.Config", function() {
     mulberry.app.Config.set('device', null);
-    mulberry.loadDeviceConfig();
+   // mulberry.loadDeviceConfig();
 
     expect(mulberry.Device.type).toBeDefined();
     expect(mulberry.Device.environment).toBe('browser');
