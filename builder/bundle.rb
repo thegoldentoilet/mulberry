@@ -32,7 +32,7 @@ module Builder
 
       position_html if @html
       position_css if @css
-      position_js if @javascript
+      position_js if @javascript     
       position_config if @config
       position_data if @data
       position_assets if @assets && @assets[:dir]
@@ -325,9 +325,26 @@ module Builder
       end
     end
 
+    def concat_i18n_files
+      build_location  = @javascript[:location]     
+      mulberry_dir    = File.join(build_location, 'mulberry')
+      i18n_dir        = File.join(mulberry_dir, 'nls')
+      mulberry_file   = File.join(mulberry_dir, 'base.js.uncompressed.js')
+      mulberry_orig   = File.read(mulberry_file)
+      
+      return unless File.exists? i18n_dir      
+
+      File.open(mulberry_file, 'w') do |dest|
+        %w{ base_ROOT.js base_en.js base_en-us.js }.each do |f|
+          dest.write File.read(File.join(i18n_dir, f))
+        end
+        dest.write mulberry_orig
+      end
+    end
+
     def position_js
       built = @javascript[:location]
-
+      
       if (!File.exists?(built))
         @build.log("Didn't find any built JavaScript", 'warning')
         return
@@ -336,7 +353,7 @@ module Builder
       js_dir          = File.join(@www, 'javascript')
       mulberry_dir    = File.join(js_dir, 'mulberry')
       dojo_dir        = File.join(js_dir, 'dojo')
-
+      i18n_dir        = File.join(mulberry_dir, 'nls')
       client_dir      = File.join(js_dir, 'client')
       client_base     = File.join(built, 'client', 'base.js')
 
@@ -354,6 +371,8 @@ module Builder
         mulberry_dir
       )
 
+      concat_i18n_files
+      
       if @target['development']
         FileUtils.cp_r(
           File.join(built, 'mulberry', 'base.js.uncompressed.js'),
