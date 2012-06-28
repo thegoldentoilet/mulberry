@@ -19,7 +19,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
     this.hasTouch = 'ontouchstart' in window;
     this.touchMoveDebounce = device.os === 'android' ? 200 : 0;
 
-    if (mulberry.Device.os === 'browser') {
+    if (mulberry.Device.environment === 'browser') {
       this._mobileWebSetup();
     }
 
@@ -64,9 +64,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
 
     dojo.addClass(b, device.type);
     dojo.addClass(b, device.os);
-    if (device.os === "browser") {
-      dojo.addClass(b, device.browserOS);
-    }
+    dojo.addClass(b, device.environment);
     dojo.addClass(b, 'version-' + mulberry.app.PhoneGap.device.version);
 
     this.set('fontSize', mulberry.app.DeviceStorage.get('fontSize'));
@@ -111,7 +109,7 @@ dojo.declare('mulberry.app.UI', dojo.Stateful, {
   },
 
   _mobileWebSetup : function() {
-    var os = mulberry.Device.browserOS;
+    var os = mulberry.Device.os;
 
     if (os === 'ios') {
       this._iosFixHeight();

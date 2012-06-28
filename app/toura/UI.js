@@ -46,7 +46,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
   _setupSiblingNav : function() {
     // don't display sibling nav for certain cases
     if (!toura.features.siblingNav) { return; }
-    if (mulberry.Device.os === 'browser' && mulberry.Device.browserOS === 'ios' && !mulberry.Device.standalone) { return; }
+    if (mulberry.Device.environment === 'browser' && mulberry.Device.os === 'ios' && !mulberry.Device.standalone) { return; }
     if (toura.features.ads && this.appConfig.ads && this.appConfig.ads[m.Device.type]) { return; }
 
     this.siblingNav = m.app.UI.addPersistentComponent(toura.components.SiblingNav, {}, 'first');

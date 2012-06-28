@@ -64,7 +64,7 @@
         window.localStorage && window.localStorage.clear();
 
     :javascript
-      if(mulberry.Device.os === 'browser') {
+      if(mulberry.Device.environment === 'browser') {
         var _gaq = _gaq || []; 
 
         //NOTE: this appears to work fine remaining even when deployed on a server
