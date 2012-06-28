@@ -64,7 +64,7 @@ dojo.require('mulberry.app.Config');
             if (!vnum) { return -1; }
             return vnum;
           },
-          browserVersion : function() { return dojo.isWebkit || -1; }
+          browserVersion : function() { return dojo.isWebKit || -1; }
         }
       },
       'android' : {
