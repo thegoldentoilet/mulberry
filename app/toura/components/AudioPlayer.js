@@ -17,16 +17,15 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   prepareData : function() {
     this.medias = this.node.audios || [];
     this.inherited(arguments);
+
+    window.audioPlayer = this;
   },
 
   setupConnections : function() {
     this.inherited(arguments);
 
     this.connect(this.playpause, 'click', '_handleControllerClick');
-
-    // if (!this.useHtml5Player) {
-    //   this.connect(this.controller, 'click', '_handleControllerClick');
-    // }
+    this.connect(this.rev30, 'click', '_reverse30seconds');
   },
 
   _handleControllerClick : function() {
@@ -39,6 +38,30 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       this.isPlaying = true;
       this.addClass('playing');
     }
+  },
+
+  _reverse30seconds : function() {
+    if (!this.isPlaying) { return; }
+    this.seekRelativeTime(-30);
+  },
+
+  _setSpinnerPercent: function(percent /* 0 to 100 */) {
+    var pct = percent/100;
+
+    if(percent > 50) {
+      this._transformDial(pct * 360 - 180);
+      dojo.addClass(this.spinnerFill, "fill-side");
+      dojo.addClass(this.spinnerDialContainer, "fill-side");
+    } else {
+      this._transformDial(pct * 360);
+      dojo.removeClass(this.spinnerFill, "fill-side");
+      dojo.removeClass(this.spinnerDialContainer, "fill-side");
+    }
+
+  },
+
+  _transformDial : function(degrees) {
+    dojo.style(this.spinnerDial, "-webkit-transform", "translateX(-50%) rotate(" + (degrees - 180) + "deg) translateX(50%)");
   },
 
   _play : function(media) {

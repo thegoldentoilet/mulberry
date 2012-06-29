@@ -84,7 +84,9 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
   seekRelativeTime: function(reltime /*in seconds*/) {
     if (!this.player) { return; }
-    var current = this.getCurrentTime();
+    var current = this.getCurrentTime(),
+        target = current + reltime >= 0 ? current + reltime : 0;
+
     this.seek(current + reltime);
   },
 
