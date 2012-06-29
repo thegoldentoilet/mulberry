@@ -27,6 +27,65 @@
     }
   }
 
+  .spinner {
+    $off : 50%;
+
+    height: 48px;
+    width: 48px;
+    display: inline-block;
+    text-align: left;
+
+    overflow: hidden;
+
+    border-radius: 100px;
+
+    > div {
+      display: inline-block;
+    }
+
+    .spinner-fill {
+      height: 100%;
+      width: 50%;
+
+      // 100px is chosen just to be >> than the element
+      border-top-left-radius: 100px;
+      border-bottom-left-radius: 100px;
+
+      background-color: white;
+      visibility: hidden;
+
+      -webkit-transform: translateX($off) rotate(180deg) translateX($off * -1);
+
+      &.fill-side {
+        visibility: visible;
+      }
+
+      z-index: 1;
+    }
+
+    .spinner-dial-container {
+      height: 100%;
+      width: 50%;
+
+      &.fill-side {
+        -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
+      }
+    }
+
+    .spinner-dial {
+      height: 100%;
+      width: 100%;
+
+      border-top-right-radius: 100px;
+      border-bottom-right-radius: 100px;
+
+      background-color: white;
+
+      -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
+
+    }
+  }
+
   audio {
     width: 60%;
     padding-top: 12px;
