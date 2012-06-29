@@ -73,6 +73,11 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     }
   },
 
+  getCurrentPercent : function() {
+    if (!this.player) { return; }
+    return (this.getCurrentTime() / this.getDuration()) * 100;
+  },
+
   seek: function(time /* in seconds */) {
     if (!this.player) { return; }
     if (this.useHtml5Player) {

@@ -1,6 +1,12 @@
 .component.audio-player {
   @include flex-column-container;
 
+  height: 48px;
+
+  .tablet & {
+    height: 64px;
+  }
+
   .playpause {
     @include webkit-mask-icon(play);
 
@@ -25,12 +31,6 @@
     }
   }
 
-  &.playing {
-    .playpause {
-      @include webkit-mask-icon(pause);
-    }
-  }
-
   .spinner-container {
     $off : 50%;
     $size: 64px;
@@ -45,8 +45,10 @@
     .spinner {
       height: 100%;
       width: 100%;
+      border: 2px solid transparent;
       border-radius: 100px;
       background-color: transparentize($narrow-button-color, .8);
+
       > div {
         display: inline-block;
       }
@@ -87,7 +89,7 @@
         border-top-right-radius: 100px;
         border-bottom-right-radius: 100px;
 
-        background-color: white;
+        background-color: $narrow-button-color;
 
         -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
 
@@ -95,39 +97,17 @@
     }
   }
 
-  audio {
-    display: none;
+  &.playing {
+    .playpause {
+      @include webkit-mask-icon(pause);
+    }
+
+    .spinner {
+      border-color: $narrow-button-color;
+    }
   }
 
-
-  // Android native only <audio> doesn't work within PhoneGap
-  form {
-    width: 60px;
-    margin: 0 auto;
-    display: -webkit-box;
-    -webkit-box-orient: horizontal;
-    -webkit-box-pack: center;
-    -webkit-border-radius: 5px;
-    padding: 0px 0;
-
-    @include chrome-gradient;
-    @include box-shadow(0, 1px);
-
-    input {
-      -webkit-box-flex: 1;
-
-      margin: 0;
-      display: block;
-      border: none;
-
-      height: 30px;
-      font-size: 15px;
-      background-color: transparent;
-
-      &.play {
-        @include icon('resources/icons/btn-play.png', 30px, 30px);
-      }
-
-    }
+  audio {
+    display: none;
   }
 }

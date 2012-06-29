@@ -31,11 +31,11 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _handleControllerClick : function() {
     if (this.isPlaying) {
       this._pause();
-      this.isPlaying = false;
+      this.set('isPlaying', false);
       this.removeClass('playing');
     } else {
       this._play();
-      this.isPlaying = true;
+      this.set('isPlaying', true);
       this.addClass('playing');
     }
   },
@@ -80,6 +80,22 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if (!this.useHtml5Player) {
       mulberry.app.PhoneGap.audio.stop();
     }
+  },
+
+  _startSpinner : function() {
+    this.spinnerInterval = setInterval(dojo.hitch(this, function() {
+      this._setSpinnerPercent(this.getCurrentPercent());
+    }), 1000);
+  },
+
+  _stopSpinner : function() {
+    clearInterval(this.spinnerInterval);
+  },
+
+  _setIsPlayingAttr : function(val /* Boolean */) {
+    var spinnerMethod = val ? '_startSpinner' : '_stopSpinner';
+    this.isPlaying = val;
+    this[spinnerMethod]();
   },
 
   teardown : function() {
