@@ -4,13 +4,21 @@
   .playpause {
     @include webkit-mask-icon(play);
 
-    background-color: white;
+    background-color: $narrow-button-color;
+
+    &:active {
+      background-color: $narrow-button-highlight-color;
+    }
   }
 
   .rev30 {
     @include webkit-mask-icon(rev30);
 
-    background-color: white;
+    background-color: $narrow-button-color;
+
+    &:active {
+      background-color: $narrow-button-highlight-color;
+    }
   }
 
   &.playing {
