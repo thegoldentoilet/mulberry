@@ -22,14 +22,14 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   setupConnections : function() {
     this.inherited(arguments);
 
-    if (!this.useHtml5Player) {
-      this.connect(this.controller, 'click', '_handleControllerClick');
-    }
+    this.connect(this.playpause, 'click', '_handleControllerClick');
+
+    // if (!this.useHtml5Player) {
+    //   this.connect(this.controller, 'click', '_handleControllerClick');
+    // }
   },
 
   _handleControllerClick : function() {
-    if (this.useHtml5Player) { return; }
-
     if (this.isPlaying) {
       this._pause();
       this.isPlaying = false;
