@@ -1,6 +1,24 @@
 .component.audio-player {
   text-align: center;
 
+  .playpause {
+    @include webkit-mask-icon(play);
+
+    background-color: white;
+  }
+
+  .rev30 {
+    @include webkit-mask-icon(rev30);
+
+    background-color: white;
+  }
+
+  &.playing {
+    .playpause {
+      @include webkit-mask-icon(pause);
+    }
+  }
+
   audio {
     width: 60%;
     padding-top: 12px;
