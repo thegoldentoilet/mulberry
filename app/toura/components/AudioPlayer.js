@@ -10,7 +10,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   isPlaying : false,
   playerSettings : {
     preload : 'auto',
-    controls : true,
+    controls : false,
     autobuffer : true
   },
 

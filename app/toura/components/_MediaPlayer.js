@@ -55,6 +55,39 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     }
   },
 
+  getDuration : function() {
+    if (!this.player) { return; }
+    if (this.useHtml5Player) {
+      return this.player.duration;
+    } else {
+      return this.player.getDuration();
+    }
+  },
+
+  getCurrentTime : function() {
+    if (!this.player) { return; }
+    if (this.useHtml5Player) {
+      return this.player.currentTime;
+    } else {
+      return this.player.getCurrentPosition();
+    }
+  },
+
+  seek: function(time /* in seconds */) {
+    if (!this.player) { return; }
+    if (this.useHtml5Player) {
+      this.player.currentTime = time;
+    } else {
+      this.player.seekTo(time * 1000);
+    }
+  },
+
+  seekRelativeTime: function(reltime /*in seconds*/) {
+    if (!this.player) { return; }
+    var current = this.getCurrentTime();
+    this.seek(current + reltime);
+  },
+
   _setMediaIdAttr : function(mediaId) {
     var media = this.media = this.mediasCache[mediaId];
 
