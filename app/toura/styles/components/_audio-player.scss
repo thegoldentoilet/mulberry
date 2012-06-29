@@ -1,8 +1,10 @@
 .component.audio-player {
-  text-align: center;
+  @include flex-column-container;
 
   .playpause {
     @include webkit-mask-icon(play);
+
+    display: block;
 
     background-color: $narrow-button-color;
 
@@ -13,6 +15,8 @@
 
   .rev30 {
     @include webkit-mask-icon(rev30);
+
+    display: block;
 
     background-color: $narrow-button-color;
 
@@ -27,62 +31,67 @@
     }
   }
 
-  .spinner {
+  .spinner-container {
     $off : 50%;
+    $size: 64px;
+    $inset-size: .625;
 
-    height: 48px;
-    width: 48px;
-    display: inline-block;
-    text-align: left;
+    height: $size * $inset-size;
+    width: $size * $inset-size;
+    padding: $size * (1 - $inset-size)/2;
 
-    overflow: hidden;
+    display: block;
 
-    border-radius: 100px;
-
-    > div {
-      display: inline-block;
-    }
-
-    .spinner-fill {
-      height: 100%;
-      width: 50%;
-
-      // 100px is chosen just to be >> than the element
-      border-top-left-radius: 100px;
-      border-bottom-left-radius: 100px;
-
-      background-color: white;
-      visibility: hidden;
-
-      -webkit-transform: translateX($off) rotate(180deg) translateX($off * -1);
-
-      &.fill-side {
-        visibility: visible;
-      }
-
-      z-index: 1;
-    }
-
-    .spinner-dial-container {
-      height: 100%;
-      width: 50%;
-
-      &.fill-side {
-        -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
-      }
-    }
-
-    .spinner-dial {
+    .spinner {
       height: 100%;
       width: 100%;
+      border-radius: 100px;
+      background-color: transparentize($narrow-button-color, .8);
+      > div {
+        display: inline-block;
+      }
 
-      border-top-right-radius: 100px;
-      border-bottom-right-radius: 100px;
+      .spinner-fill {
+        height: 100%;
+        width: 50%;
 
-      background-color: white;
+        // 100px is chosen just to be >> than the element
+        border-top-left-radius: 100px;
+        border-bottom-left-radius: 100px;
 
-      -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
+        background-color: $narrow-button-color;
+        visibility: hidden;
 
+        -webkit-transform: translateX($off) rotate(180deg) translateX($off * -1);
+
+        &.fill-side {
+          visibility: visible;
+        }
+
+        z-index: 1;
+      }
+
+      .spinner-dial-container {
+        height: 100%;
+        width: 50%;
+
+        &.fill-side {
+          -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
+        }
+      }
+
+      .spinner-dial {
+        height: 100%;
+        width: 100%;
+
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+
+        background-color: white;
+
+        -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
+
+      }
     }
   }
 
