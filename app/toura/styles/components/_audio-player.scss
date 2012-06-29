@@ -96,13 +96,7 @@
   }
 
   audio {
-    width: 60%;
-    padding-top: 12px;
-
-    // iOS displays <audio> much higher than it should
-    .ios & {
-      padding-top: 16px;
-    }
+    display: none;
   }
 
 
@@ -135,9 +129,5 @@
       }
 
     }
-  }
-
-  &.playing input.play {
-    @include icon('resources/icons/btn-pause.png', 30px, 30px);
   }
 }
