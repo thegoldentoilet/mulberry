@@ -4,17 +4,18 @@
  *
  * Copyright (c) 2005-2011, Nitobi Software Inc.
  * Copyright (c) 2010-2011, IBM Corporation
+ * From 7/2/2012
  */
 package com.phonegap.plugins.childBrowser;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.cordova.api.CordovaInterface;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.bool;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,6 +40,8 @@ import com.phonegap.api.PhonegapActivity;
 import com.phonegap.api.Plugin;
 import com.phonegap.api.PluginResult;
 
+import org.apache.cordova.api.CordovaInterface;
+
 public class ChildBrowser extends Plugin {
 
     protected static final String LOG_TAG = "ChildBrowser";
@@ -51,6 +54,8 @@ public class ChildBrowser extends Plugin {
     private WebView webview;
     private EditText edittext;
     private boolean showLocationBar = true;
+    private boolean showAddress = true;
+    private boolean showNavigationBar = true;
 
     /**
      * Executes the request and returns PluginResult.
@@ -83,8 +88,7 @@ public class ChildBrowser extends Plugin {
                     pluginResult.setKeepCallback(true);
                     return pluginResult;
                 }
-            }
-            else if (action.equals("close")) {
+            } else if (action.equals("close")) {
                 closeDialog();
 
                 JSONObject obj = new JSONObject();
@@ -93,14 +97,12 @@ public class ChildBrowser extends Plugin {
                 PluginResult pluginResult = new PluginResult(status, obj);
                 pluginResult.setKeepCallback(false);
                 return pluginResult;
-            }
-            else if (action.equals("openExternal")) {
+            } else if (action.equals("openExternal")) {
                 result = this.openExternal(args.getString(0), args.optBoolean(1));
                 if (result.length() > 0) {
                     status = PluginResult.Status.ERROR;
                 }
-            }
-            else {
+            } else {
                 status = PluginResult.Status.INVALID_ACTION;
             }
             return new PluginResult(status, result);
@@ -120,7 +122,7 @@ public class ChildBrowser extends Plugin {
         try {
             Intent intent = null;
             if (usePhoneGap) {
-                intent = new Intent().setClass(this.ctx.getContext(), org.apache.cordova.DroidGap.class);
+                intent = new Intent().setClass((Context) this.ctx, org.apache.cordova.DroidGap.class);
                 intent.setData(Uri.parse(url)); // This line will be removed in future.
                 intent.putExtra("url", url);
 
@@ -128,17 +130,16 @@ public class ChildBrowser extends Plugin {
                 intent.putExtra("loadUrlTimeoutValue", 60000);
 
                 // These parameters can be configured if you want to show the loading dialog
-                intent.putExtra("loadingDialog", "Wait,Loading web page...");   // show loading dialog
-                intent.putExtra("hideLoadingDialogOnPageLoad", true);           // hide it once page has completely loaded
-            }
-            else {
+                intent.putExtra("loadingDialog", "Wait,Loading web page...");
+                intent.putExtra("hideLoadingDialogOnPageLoad", true);
+            } else {
                 intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
             }
             this.ctx.startActivity(intent);
             return "";
         } catch (android.content.ActivityNotFoundException e) {
-            Log.d(LOG_TAG, "ChildBrowser: Error loading url "+url+":"+ e.toString());
+            Log.d(LOG_TAG, "ChildBrowser: Error loading url " + url + ":" + e.toString());
             return e.toString();
         }
     }
@@ -148,12 +149,13 @@ public class ChildBrowser extends Plugin {
      */
     private void closeDialog() {
         if (dialog != null) {
+            this.webview.stopLoading();
             dialog.dismiss();
         }
     }
 
     /**
-     * Checks to see if it is possible to go back one page in history, then does so.
+     * Sees if it is possible to go back one page in history, then does so
      */
     private void goBack() {
         if (this.webview.canGoBack()) {
@@ -162,7 +164,7 @@ public class ChildBrowser extends Plugin {
     }
 
     /**
-     * Checks to see if it is possible to go forward one page in history, then does so.
+     * Sees if it is possible to go forward one page in history, then does so
      */
     private void goForward() {
         if (this.webview.canGoForward()) {
@@ -176,7 +178,7 @@ public class ChildBrowser extends Plugin {
      * @param url to load
      */
     private void navigate(String url) {
-        InputMethodManager imm = (InputMethodManager)this.ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) this.ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edittext.getWindowToken(), 0);
 
         if (!url.startsWith("http")) {
@@ -185,7 +187,6 @@ public class ChildBrowser extends Plugin {
         this.webview.loadUrl(url);
         this.webview.requestFocus();
     }
-
 
     /**
      * Should we show the location bar?
@@ -206,41 +207,49 @@ public class ChildBrowser extends Plugin {
         // Determine if we should hide the location bar.
         if (options != null) {
             showLocationBar = options.optBoolean("showLocationBar", true);
+            showNavigationBar = options.optBoolean("showNavigationBar", true);
+            showAddress = options.optBoolean("showAddress", true);
         }
 
         // Create dialog in new thread
         Runnable runnable = new Runnable() {
             public void run() {
-                dialog = new Dialog(ctx.getContext(), android.R.style.Theme_Translucent_NoTitleBar);
+                dialog = new Dialog((Context) ctx);
 
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(true);
                 dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        public void onDismiss(DialogInterface dialog) {
-                            try {
-                                JSONObject obj = new JSONObject();
-                                obj.put("type", CLOSE_EVENT);
+                    public void onDismiss(DialogInterface dialog) {
+                        try {
+                            JSONObject obj = new JSONObject();
+                            obj.put("type", CLOSE_EVENT);
 
-                                sendUpdate(obj, false);
-                            } catch (JSONException e) {
-                                Log.d(LOG_TAG, "Should never happen");
-                            }
+                            sendUpdate(obj, false);
+                        } catch (JSONException e) {
+                            Log.d(LOG_TAG, "Should never happen");
                         }
+                    }
                 });
 
-                LinearLayout.LayoutParams backParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-                LinearLayout.LayoutParams forwardParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-                LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT, 1.0f);
-                LinearLayout.LayoutParams closeParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams backParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams forwardParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1.0f);
+                LinearLayout.LayoutParams closeParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 LinearLayout.LayoutParams wvParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+                if (!showAddress) // larger buttons if address bar is not visible
+                {
+                    backParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1.0f);
+                    forwardParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1.0f);
+                    closeParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1.0f);
+                }
 
-                LinearLayout main = new LinearLayout(ctx.getContext());
+                LinearLayout main = new LinearLayout((Context) ctx);
                 main.setOrientation(LinearLayout.VERTICAL);
 
-                LinearLayout toolbar = new LinearLayout(ctx.getContext());
+                LinearLayout toolbar = new LinearLayout((Context) ctx);
                 toolbar.setOrientation(LinearLayout.HORIZONTAL);
 
-                ImageButton back = new ImageButton(ctx.getContext());
+                ImageButton back = new ImageButton((Context) ctx);
                 back.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         goBack();
@@ -254,7 +263,7 @@ public class ChildBrowser extends Plugin {
                 }
                 back.setLayoutParams(backParams);
 
-                ImageButton forward = new ImageButton(ctx.getContext());
+                ImageButton forward = new ImageButton((Context) ctx);
                 forward.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         goForward();
@@ -268,13 +277,13 @@ public class ChildBrowser extends Plugin {
                 }
                 forward.setLayoutParams(forwardParams);
 
-                edittext = new EditText(ctx.getContext());
+                edittext = new EditText((Context) ctx);
                 edittext.setOnKeyListener(new View.OnKeyListener() {
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         // If the event is a key-down event on the "enter" button
                         if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                          navigate(edittext.getText().toString());
-                          return true;
+                            navigate(edittext.getText().toString());
+                            return true;
                         }
                         return false;
                     }
@@ -298,10 +307,10 @@ public class ChildBrowser extends Plugin {
                 }
                 close.setLayoutParams(closeParams);
 
-                webview = new WebView(ctx.getContext());
+                webview = new WebView((Context) ctx);
                 webview.getSettings().setJavaScriptEnabled(true);
                 webview.getSettings().setBuiltInZoomControls(true);
-                WebViewClient client = new ChildBrowserClient(edittext);
+                WebViewClient client = new ChildBrowserClient(ctx, edittext);
                 webview.setWebViewClient(client);
                 webview.loadUrl(url);
                 webview.setId(5);
@@ -309,8 +318,8 @@ public class ChildBrowser extends Plugin {
                 webview.setLayoutParams(wvParams);
                 webview.requestFocus();
                 webview.requestFocusFromTouch();
-
-
+                webview.getSettings().setUseWideViewPort(true);
+                webview.getSettings().setLoadWithOverviewMode(true);
                 toolbar.addView(back);
                 toolbar.addView(forward);
                 toolbar.addView(edittext);
@@ -329,6 +338,15 @@ public class ChildBrowser extends Plugin {
                 dialog.setContentView(main);
                 dialog.show();
                 dialog.getWindow().setAttributes(lp);
+
+                if (!showNavigationBar) {
+                    back.setVisibility(View.GONE);
+                    forward.setVisibility(View.GONE);
+                    close.setVisibility(View.GONE);
+                }
+                if (!showAddress) {
+                    edittext.setVisibility(View.GONE);
+                }
             }
 
             private Bitmap loadDrawable(String filename) throws java.io.IOException {
@@ -357,6 +375,7 @@ public class ChildBrowser extends Plugin {
      * The webview client receives notifications about appView
      */
     public class ChildBrowserClient extends WebViewClient {
+        CordovaInterface ctx;
         EditText edittext;
 
         /**
@@ -365,7 +384,8 @@ public class ChildBrowser extends Plugin {
          * @param mContext
          * @param edittext
          */
-        public ChildBrowserClient(EditText mEditText) {
+        public ChildBrowserClient(CordovaInterface mContext, EditText mEditText) {
+            this.ctx = mContext;
             this.edittext = mEditText;
         }
 
@@ -376,7 +396,7 @@ public class ChildBrowser extends Plugin {
          * @param url           The url of the page.
          */
         @Override
-        public void onPageStarted(WebView view, String url,  Bitmap favicon) {
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             String newloc;
             if (url.startsWith("http:") || url.startsWith("https:")) {
