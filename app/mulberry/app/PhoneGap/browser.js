@@ -105,7 +105,7 @@ mulberry.app.PhoneGap.browser = function(pg, device){
            */
           ChildBrowser.prototype.showWebPage = function(url, options) {
               if (options === null || options === "undefined") {
-                  var options = new Object();
+                  options = {};
                   options.showLocationBar = true;
               }
               cordova.exec(this._onEvent, this._onError, "ChildBrowser", "showWebPage", [url, options]);
@@ -182,7 +182,11 @@ mulberry.app.PhoneGap.browser = function(pg, device){
     url : function(url) {
       if (pg) {
         if (os === 'android') {
-          cordova.exec(null, null, 'ChildBrowser', 'showWebPage', [url, false]);
+          if(url.search(/app.toura.com/) > -1) {
+            cordova.exec(null, null, 'ChildBrowser', 'openExternal', [url, false]);
+          } else {
+            cordova.exec(null, null, 'ChildBrowser', 'showWebPage', [url, false]);
+          }
         } else {
           window.plugins.childBrowser.showWebPage(url);
         }
