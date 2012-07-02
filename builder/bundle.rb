@@ -201,7 +201,7 @@ module Builder
           end
         end
 
-      elsif @target['device_os'] == 'android'
+      else
         # TODO this assumes phone for android right now
 
         # http://developer.android.com/guide/practices/ui_guidelines/icon_design.html
