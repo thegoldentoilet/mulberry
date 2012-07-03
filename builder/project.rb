@@ -158,6 +158,10 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
         unless @target["build"]["load_screens"]
           text = File.read(toura_main_activity_file)
 
+          # Basically here we're looking for a special comment in
+          # TouraMainActivity.java (that's the regex) and replacing
+          # it's contents if the build doesn't have load screens.
+          # This is necessary to prevent build failures.
           text.gsub!(
                       /\/\*!!!(.+)!!!\*\//m,
                       'super.loadUrl("file:///android_asset/www/index.html");'
