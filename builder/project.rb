@@ -104,6 +104,12 @@ module Builder
         new_java_dir = File.join(android_dir, 'src', app_id.split('.'))
         keystore = File.join(project_settings[:config_dir], 'android', 'keystore')
         proj_files = Dir.glob(File.join(android_dir, 'src', 'com', 'toura', 'www', '*'))
+        toura_main_activity_file = File.join(
+          android_dir,
+          "src",
+          app_id.split("."),
+          "TouraMainActivity.java"
+        )
 
         FileUtils.mkdir_p(new_java_dir)
         FileUtils.mv(proj_files, new_java_dir)
@@ -146,6 +152,26 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
           File.open(java_file, "w") do |file|
             file.puts text
           end
+        end
+
+        # load index.html
+        text = File.read(toura_main_activity_file)
+
+        if @target["build"]["load_screens"]
+          text.gsub!(
+                      "{load_index_html}",
+                      'super.setIntegerProperty("splashscreen", R.drawable.splash);
+                      super.loadUrl("file:///android_asset/www/index.html",10000);'
+                    )
+        else
+          text.gsub!(
+                      "{load_index_html}",
+                      'super.loadUrl("file:///android_asset/www/index.html");'
+                    )
+        end
+
+        File.open(toura_main_activity_file, "w") do |file|
+          file.puts text
         end
 
         # use a "safe" version of the tour name in build.xml
