@@ -1,10 +1,12 @@
 .component.audio-player {
   @include flex-column-container;
+  $phone-size: 48px;
+  $tablet-size: 64px;
 
-  height: 48px;
+  height: $phone-size;
 
   .tablet & {
-    height: 64px;
+    height: $tablet-size;
   }
 
   .playpause {
@@ -22,8 +24,6 @@
   .rev30 {
     @include webkit-mask-icon(rev30);
 
-    display: block;
-
     background-color: $narrow-button-color;
 
     &:active {
@@ -33,20 +33,27 @@
 
   .spinner-container {
     $off : 50%;
-    $size: 64px;
     $inset-size: .625;
 
-    height: $size * $inset-size;
-    width: $size * $inset-size;
-    padding: $size * (1 - $inset-size)/2;
+    @mixin spinner-box($size) {
+      height: $size * $inset-size;
+      width: $size * $inset-size;
+      padding: $size * (1 - $inset-size)/2;
+    }
+
+    @include spinner-box($phone-size);
+
+    .tablet & {
+      @include spinner-box($tablet-size);
+    }
 
     display: block;
 
     .spinner {
       height: 100%;
       width: 100%;
-      border: 2px solid transparent;
-      border-radius: 100px;
+      border: 0px solid transparent;
+      border-radius: 30px;
       background-color: transparentize($narrow-button-color, .8);
 
       > div {
@@ -57,14 +64,18 @@
         height: 100%;
         width: 50%;
 
+        -webkit-transform-origin: 100% 50%;
+
         // 100px is chosen just to be >> than the element
         border-top-left-radius: 100px;
         border-bottom-left-radius: 100px;
 
         background-color: $narrow-button-color;
         visibility: hidden;
+        position: absolute;
+        left: 0;
 
-        -webkit-transform: translateX($off) rotate(180deg) translateX($off * -1);
+        -webkit-transform: rotate(180deg);
 
         &.fill-side {
           visibility: visible;
@@ -76,22 +87,27 @@
       .spinner-dial-container {
         height: 100%;
         width: 50%;
+        position: absolute;
+        left: 50%;
+
+        -webkit-transform-origin: 0% 50%;
 
         &.fill-side {
-          -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
+          -webkit-transform: rotate(180deg);
         }
       }
 
       .spinner-dial {
         height: 100%;
         width: 100%;
+        -webkit-transform-origin: 0% 50%;
 
         border-top-right-radius: 100px;
         border-bottom-right-radius: 100px;
 
         background-color: $narrow-button-color;
 
-        -webkit-transform: translateX($off * -1) rotate(180deg) translateX($off);
+        -webkit-transform: rotate(180deg);
 
       }
     }
@@ -103,6 +119,8 @@
     }
 
     .spinner {
+      border-width: 2px;
+      margin: -2px;
       border-color: $narrow-button-color;
     }
   }
