@@ -30,7 +30,7 @@ public class TouraMainActivity extends DroidGap {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    super.setIntegerProperty("splashscreen", R.drawable.splash)
+    super.setIntegerProperty("splashscreen", R.drawable.splash);
     super.loadUrl("file:///android_asset/www/index.html",10000);
 
     /* Galaxy Tab enables pinch/zoom on the entire webview by
