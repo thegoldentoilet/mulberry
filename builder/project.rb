@@ -104,6 +104,12 @@ module Builder
         new_java_dir = File.join(android_dir, 'src', app_id.split('.'))
         keystore = File.join(project_settings[:config_dir], 'android', 'keystore')
         proj_files = Dir.glob(File.join(android_dir, 'src', 'com', 'toura', 'www', '*'))
+        toura_main_activity_file = File.join(
+          android_dir,
+          "src",
+          app_id.split("."),
+          "TouraMainActivity.java"
+        )
 
         FileUtils.mkdir_p(new_java_dir)
         FileUtils.mv(proj_files, new_java_dir)
@@ -144,6 +150,23 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
           text.gsub!("com.toura.www", app_id)
 
           File.open(java_file, "w") do |file|
+            file.puts text
+          end
+        end
+
+        # load index.html
+        unless @target["build"]["load_screens"]
+          text = File.read(toura_main_activity_file)
+
+          # Basically here we're looking for a special comment in
+          # TouraMainActivity.java (that's the regex) and replacing
+          # its contents if the build doesn't have load screens.
+          # This is necessary to prevent build failures.
+          text.gsub!(
+                      /\/\*!!!(.+)!!!\*\//m,
+                      'super.loadUrl("file:///android_asset/www/index.html");'
+                    )
+          File.open(toura_main_activity_file, "w") do |file|
             file.puts text
           end
         end
