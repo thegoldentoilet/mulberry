@@ -155,17 +155,16 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
         end
 
         # load index.html
-        text = File.read(toura_main_activity_file)
-
         unless @target["build"]["load_screens"]
+          text = File.read(toura_main_activity_file)
+
           text.gsub!(
                       /\/\*!!!(.+)!!!\*\//m,
                       'super.loadUrl("file:///android_asset/www/index.html");'
                     )
-        end
-
-        File.open(toura_main_activity_file, "w") do |file|
-          file.puts text
+          File.open(toura_main_activity_file, "w") do |file|
+            file.puts text
+          end
         end
 
         # use a "safe" version of the tour name in build.xml

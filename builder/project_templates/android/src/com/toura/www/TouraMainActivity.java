@@ -30,7 +30,12 @@ public class TouraMainActivity extends DroidGap {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    /* This code may be replaced by mulberry/builder/project.rb */
+    /* This code may be replaced by mulberry/builder/project.rb
+     * If that 'R.drawable.splash' is present at all in this file when those resources
+     * aren't present, which in many cases they will not be, the build will
+     * fail. So we conditionally remove that code based on the presence
+     * of load screens.
+     * */
     /*!!! Do not remove this comment */
     super.setIntegerProperty("splashscreen", R.drawable.splash);
     super.loadUrl("file:///android_asset/www/index.html",10000);
