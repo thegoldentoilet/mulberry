@@ -30,8 +30,8 @@ public class TouraMainActivity extends DroidGap {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    super.setIntegerProperty("splashscreen", R.drawable.splash);
-    super.loadUrl("file:///android_asset/www/index.html",10000);
+    /* This code is written out in mulberry/builder/project.rb */
+    {load_index_html}
 
     /* Galaxy Tab enables pinch/zoom on the entire webview by
        default, thus you can zoom everywhere. Setting this to
