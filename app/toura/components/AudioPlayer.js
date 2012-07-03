@@ -61,7 +61,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _transformDial : function(degrees) {
-    dojo.style(this.spinnerDial, "-webkit-transform", "translateX(-50%) rotate(" + (degrees - 180) + "deg) translateX(50%)");
+    dojo.style(this.spinnerDial, "-webkit-transform", "rotate(" + (degrees - 180) + "deg)");
   },
 
   _play : function(media) {
