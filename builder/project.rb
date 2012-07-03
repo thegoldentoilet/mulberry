@@ -157,15 +157,9 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
         # load index.html
         text = File.read(toura_main_activity_file)
 
-        if @target["build"]["load_screens"]
+        unless @target["build"]["load_screens"]
           text.gsub!(
-                      "{load_index_html}",
-                      'super.setIntegerProperty("splashscreen", R.drawable.splash);
-                      super.loadUrl("file:///android_asset/www/index.html",10000);'
-                    )
-        else
-          text.gsub!(
-                      "{load_index_html}",
+                      /\/\*!!!(.+)!!!\*\//m,
                       'super.loadUrl("file:///android_asset/www/index.html");'
                     )
         end
