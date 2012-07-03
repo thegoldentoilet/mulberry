@@ -160,7 +160,7 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
 
           # Basically here we're looking for a special comment in
           # TouraMainActivity.java (that's the regex) and replacing
-          # it's contents if the build doesn't have load screens.
+          # its contents if the build doesn't have load screens.
           # This is necessary to prevent build failures.
           text.gsub!(
                       /\/\*!!!(.+)!!!\*\//m,
