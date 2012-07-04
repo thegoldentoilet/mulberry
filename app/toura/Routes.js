@@ -137,7 +137,7 @@ dojo.require('mulberry.Device');
       },
 
       {
-        route : /\/search\/?(.*)/,
+        route : /^\/search\/?(.*)/,
         handler : function(params) {
           var page = mulberry.app.UI.currentPage,
               term = params.splat && params.splat[0].split('/')[0];
