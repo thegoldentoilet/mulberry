@@ -45,13 +45,7 @@
     .playpause {
       @include webkit-mask-icon(pause);
     }
-
-    .spinner {
-      border-width: 2px;
-      margin: -2px;
-      border-color: $narrow-button-color;
-    }
-  }
+   }
 
   audio {
     display: none;
