@@ -72,7 +72,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     var ctx = this.spinner.ctx,
         styles = this._getSpinnerStyles();
 
-
     ctx.strokeStyle = styles.color;
     ctx.lineWidth = 2;
     ctx.clearRect(0, 0, this.spinner.marginBox.w, this.spinner.marginBox.h);
@@ -87,7 +86,10 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       ctx.stroke();
     }
 
-    this._setSpinnerPercent(this.getCurrentPercent(), styles);
+    dojo.when(this.getCurrentPercent(), dojo.hitch(this, function(current) {
+      this._setSpinnerPercent(current, styles);
+    }));
+    // this._setSpinnerPercent(this.getCurrentPercent(), styles);
   },
 
   _setSpinnerPercent: function(percent /* 0 to 100 */, styles) {
@@ -126,8 +128,14 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if (this.useHtml5Player) { return; }
 
     var pg = mulberry.app.PhoneGap;
-    pg.audio.destroy();
-    pg.audio.play(this.media.url);
+    if (media) {
+      pg.audio.destroy();
+      pg.audio.play(this.media.url);
+    } else {
+      pg.audio.play();
+    }
+
+    this.player = pg.audio;
 
     this._updateSpinner();
   },
@@ -148,6 +156,15 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   _stopSpinner : function() {
     clearInterval(this.spinnerInterval);
+  },
+
+  _setupPlayer: function() {
+    this.inherited(arguments);
+
+    if (!this.useHtml5Player) {
+      console.log('Using PhoneGap player');
+      this.player = mulberry.app.PhoneGap.audio;
+    }
   },
 
   _setIsPlayingAttr : function(val /* Boolean */) {

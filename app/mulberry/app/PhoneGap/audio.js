@@ -24,6 +24,30 @@ mulberry.app.PhoneGap.audio = function(pg, device) {
       audio.pause();
     },
 
+    getCurrentPosition : function() {
+      if (!pg || !audio) { return; }
+
+      var dfd = new dojo.Deferred();
+
+      audio.getCurrentPosition(function(position) {
+        dfd.resolve(position);
+      });
+
+      return dfd.promise;
+    },
+
+    getDuration : function() {
+      if (!pg || !audio) { return; }
+
+      return audio.getDuration();
+    },
+
+    seekTo : function(point /* milliseconds */) {
+      if (!pg || !audio) { return; }
+
+      return audio.seekTo(point);
+    },
+
     destroy : function() {
       if (!audio) { return; }
 

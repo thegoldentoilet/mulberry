@@ -3,8 +3,6 @@ dojo.provide('toura.components._MediaPlayer');
 dojo.require('mulberry._Component');
 
 (function() {
-var pg = mulberry.app.PhoneGap;
-
 dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   useHtml5Player : true,
 
@@ -66,16 +64,22 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
   getCurrentTime : function() {
     if (!this.player) { return; }
+
+    var currentTime;
+
     if (this.useHtml5Player) {
-      return this.player.currentTime;
+      currentTime = this.player.currentTime;
     } else {
-      return this.player.getCurrentPosition();
+      currentTime = dojo.when(this.player.getCurrentPosition, function(position) { return position; });
     }
+
+    return currentTime;
   },
 
   getCurrentPercent : function() {
     if (!this.player) { return; }
-    return (this.getCurrentTime() / this.getDuration()) * 100;
+
+    return dojo.when(this.getCurrentTime(), dojo.hitch(this, function(position) { return (position / this.getDuration()) * 100; }));
   },
 
   seek: function(time /* in seconds */) {
@@ -89,10 +93,15 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
   seekRelativeTime: function(reltime /*in seconds*/) {
     if (!this.player) { return; }
-    var current = this.getCurrentTime(),
-        target = current + reltime >= 0 ? current + reltime : 0;
 
-    this.seek(current + reltime);
+    dojo.when(this.getCurrentTime(), dojo.hitch(this,
+        function( current ) {
+          var target = current + reltime >= 0 ? current + reltime : 0;
+
+          this.seek(target);
+        }
+      )
+    );
   },
 
   _setMediaIdAttr : function(mediaId) {
