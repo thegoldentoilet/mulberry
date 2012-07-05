@@ -19,7 +19,6 @@ dojo.require('mulberry.app.PhoneGap.video');
       var device = mulberry.Device,
           phonegapPresent = mulberry.app.PhoneGap.present = !!window.cordova;
       mulberry.app.PhoneGap[name] = module(phonegapPresent, device);
-      console.log('phonegapPresent: ', phonegapPresent);
       dojo.unsubscribe(s);
     });
   };
