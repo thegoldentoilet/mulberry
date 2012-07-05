@@ -74,7 +74,7 @@ dojo.declare('toura.components.VideoPlayer', toura.components._MediaPlayer, {
 
     if (this.useHtml5Player) { return; }
 
-    mulberry.app.PhoneGap.browser.url(this.media.url);
+    window.open(this.media.url);
   },
 
   _setMediaIdAttr : function(mediaId) {
