@@ -31,85 +31,13 @@
     }
   }
 
-  .spinner-container {
-    $off : 50%;
-    $inset-size: .625;
-
-    @mixin spinner-box($size) {
-      height: $size * $inset-size;
-      width: $size * $inset-size;
-      padding: $size * (1 - $inset-size)/2;
-    }
-
-    @include spinner-box($phone-size);
+  .spinner {
+    height: $phone-size;
+    width: $phone-size;
 
     .tablet & {
-      @include spinner-box($tablet-size);
-    }
-
-    display: block;
-
-    .spinner {
-      height: 100%;
-      width: 100%;
-      border: 0px solid transparent;
-      border-radius: 30px;
-      background-color: transparentize($narrow-button-color, .8);
-
-      > div {
-        display: inline-block;
-      }
-
-      .spinner-fill {
-        height: 100%;
-        width: 50%;
-
-        -webkit-transform-origin: 100% 50%;
-
-        // 100px is chosen just to be >> than the element
-        border-top-left-radius: 100px;
-        border-bottom-left-radius: 100px;
-
-        background-color: $narrow-button-color;
-        visibility: hidden;
-        position: absolute;
-        left: 0;
-
-        -webkit-transform: rotate(180deg);
-
-        &.fill-side {
-          visibility: visible;
-        }
-
-        z-index: 1;
-      }
-
-      .spinner-dial-container {
-        height: 100%;
-        width: 50%;
-        position: absolute;
-        left: 50%;
-
-        -webkit-transform-origin: 0% 50%;
-
-        &.fill-side {
-          -webkit-transform: rotate(180deg);
-        }
-      }
-
-      .spinner-dial {
-        height: 100%;
-        width: 100%;
-        -webkit-transform-origin: 0% 50%;
-
-        border-top-right-radius: 100px;
-        border-bottom-right-radius: 100px;
-
-        background-color: $narrow-button-color;
-
-        -webkit-transform: rotate(180deg);
-
-      }
+      height: $tablet-size;
+      width: $tablet-size;
     }
   }
 
