@@ -113,7 +113,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       this.set('isPlaying', true);
       this.addClass('playing');
     }
-    this._updateSpinner();
   },
 
   _reverse30seconds : function() {
@@ -154,6 +153,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _setIsPlayingAttr : function(val /* Boolean */) {
     var spinnerMethod = val ? '_startSpinner' : '_stopSpinner';
     this.isPlaying = val;
+    this._updateSpinner();
     this[spinnerMethod]();
   },
 
