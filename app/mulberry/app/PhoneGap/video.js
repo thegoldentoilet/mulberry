@@ -6,34 +6,35 @@ dojo.provide('mulberry.app.PhoneGap.video');
  * Copyright (c) 2005-2010, Nitobi Software Inc.
  * Copyright (c) 2011, IBM Corporation
  */
-mulberry.app.PhoneGap.video = {
-  init: function() {
-    if(mulberry.Device.os === 'android'){
-      alert('android');
-     
-      /**
-      * Constructor
-      */
-      var VideoPlayer = function () {
-        alert('in VP constructor');
+mulberry.app.PhoneGap.video = function(pg, device){
+  function VideoPlayer() { }
+
+  var os = device.os,
+      init = {
+        ios : function() {
+          //this should never be needed anyway
+        },
+
+        android : function() {
+          VideoPlayer.prototype.play = function(url) {
+            cordova.exec(null, null, "VideoPlayer", "playVideo", [url]);
+          };
+
+          /**
+          * Load VideoPlayer
+          */
+          cordova.addConstructor(function() {
+            cordova.addPlugin("videoPlayer", new VideoPlayer());
+          });
+        }
       };
 
-      /**
-      * Starts the video player intent
-      *
-      * @param url           The url to play
-      */
-      VideoPlayer.prototype.play = function(url) {
-        cordova.exec(null, null, "VideoPlayer", "playVideo", [url]);
-      };
-
-      /**
-      * Load VideoPlayer
-      */
-      cordova.addConstructor(function() {
-        cordova.addPlugin("videoPlayer", new VideoPlayer());
-        alert("in VP addconstructor");
-      });
-    }
+  if (pg && init[os]) {
+    init[os]();
   }
+  return {
+    play: function(url) {
+      window.plugins.videoPlayer.play(url);
+    }
+  };
 };
