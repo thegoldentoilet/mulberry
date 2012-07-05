@@ -35,8 +35,9 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   _setupSpinner: function() {
     var canvas = document.createElement("canvas"),
-        marginBox = dojo.marginBox(this.spinner),
+        marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
         ctx = this.spinner.ctx = canvas.getContext("2d");
+
     // 3.2 : 2 (for radius) and 1.6 (to get 62.5% of height altogether)
     this.spinner.radius = Math.min(marginBox.h, marginBox.w) / 3.2;
     this.spinner.center = {
@@ -44,19 +45,22 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       y: marginBox.h / 2
     };
 
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 2;
-
     canvas.height = marginBox.h;
     canvas.width = marginBox.w;
 
     this.spinner.appendChild(canvas);
 
-    this._spinnerBase();
+    this._updateSpinner();
   },
 
-  _spinnerBase: function(active) {
+  // _updateSpinner essentially resets the spinner
+  _updateSpinner: function(active) {
     var ctx = this.spinner.ctx;
+
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 2;
+    ctx.clearRect(0, 0, this.spinner.marginBox.w, this.spinner.marginBox.h);
+    ctx.fillStyle = "#000000";
 
     ctx.beginPath();
     ctx.arc(this.spinner.center.x, this.spinner.center.y, this.spinner.radius, 0, Math.PI * 2);
@@ -66,6 +70,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if (this.isPlaying) {
       ctx.stroke();
     }
+
+    this._setSpinnerPercent(this.getCurrentPercent());
   },
 
   _handleControllerClick : function() {
@@ -78,6 +84,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       this.set('isPlaying', true);
       this.addClass('playing');
     }
+    this._updateSpinner();
   },
 
   _reverse30seconds : function() {
@@ -86,22 +93,16 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setSpinnerPercent: function(percent /* 0 to 100 */) {
-    var pct = percent/100;
+    var pct = percent/100,
+        radPct = Math.PI * (2 * pct - 0.5)   ,
+        ctx = this.spinner.ctx;
 
-    if(percent > 50) {
-      this._transformDial(pct * 360 - 180);
-      dojo.addClass(this.spinnerFill, "fill-side");
-      dojo.addClass(this.spinnerDialContainer, "fill-side");
-    } else {
-      this._transformDial(pct * 360);
-      dojo.removeClass(this.spinnerFill, "fill-side");
-      dojo.removeClass(this.spinnerDialContainer, "fill-side");
-    }
-
-  },
-
-  _transformDial : function(degrees) {
-    dojo.style(this.spinnerDial, "-webkit-transform", "rotate(" + (degrees - 180) + "deg)");
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(this.spinner.center.x, this.spinner.center.y, this.spinner.radius, Math.PI * -0.5, radPct);
+    ctx.lineTo(this.spinner.center.x, this.spinner.center.y);
+    ctx.closePath();
+    ctx.fill();
   },
 
   _play : function(media) {
@@ -112,6 +113,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     var pg = mulberry.app.PhoneGap;
     pg.audio.destroy();
     pg.audio.play(this.media.url);
+
+    this._updateSpinner();
   },
 
   _pause : function() {
@@ -124,7 +127,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   _startSpinner : function() {
     this.spinnerInterval = setInterval(dojo.hitch(this, function() {
-      this._setSpinnerPercent(this.getCurrentPercent());
+      this._updateSpinner();
     }), 1000);
   },
 
