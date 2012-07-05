@@ -9,6 +9,7 @@ featured_image: cooper_beach.jpg
 videos:
   - baby_owls.mp4
   - schnauzer_puppy.mp4
+  - http://s3.amazonaws.com/dev-only-org-toura-map/org-40-videos-85-videos-baseline.mp4?AWSAccessKeyId=AKIAJF2AQ4TPROIVSFZA&Expires=1964059441&Signature=NgBKQHC6dUlmftKUWNbFMxCq37o%3D
 ---
 
 Mulberry now supports cute animal videos.
