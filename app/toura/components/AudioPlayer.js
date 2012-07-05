@@ -21,11 +21,51 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     window.audioPlayer = this;
   },
 
+  startup : function() {
+    this.inherited(arguments);
+    this._setupSpinner();
+  },
+
   setupConnections : function() {
     this.inherited(arguments);
 
     this.connect(this.playpause, 'click', '_handleControllerClick');
     this.connect(this.rev30, 'click', '_reverse30seconds');
+  },
+
+  _setupSpinner: function() {
+    var canvas = document.createElement("canvas"),
+        marginBox = dojo.marginBox(this.spinner),
+        ctx = this.spinner.ctx = canvas.getContext("2d");
+    // 3.2 : 2 (for radius) and 1.6 (to get 62.5% of height altogether)
+    this.spinner.radius = Math.min(marginBox.h, marginBox.w) / 3.2;
+    this.spinner.center = {
+      x: marginBox.w / 2,
+      y: marginBox.h / 2
+    };
+
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 2;
+
+    canvas.height = marginBox.h;
+    canvas.width = marginBox.w;
+
+    this.spinner.appendChild(canvas);
+
+    this._spinnerBase();
+  },
+
+  _spinnerBase: function(active) {
+    var ctx = this.spinner.ctx;
+
+    ctx.beginPath();
+    ctx.arc(this.spinner.center.x, this.spinner.center.y, this.spinner.radius, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
+
+    if (this.isPlaying) {
+      ctx.stroke();
+    }
   },
 
   _handleControllerClick : function() {
