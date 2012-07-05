@@ -35,6 +35,9 @@
     height: $phone-size;
     width: $phone-size;
 
+    color: $narrow-button-color;
+    background-color: transparentize($narrow-button-color, .8);
+
     .tablet & {
       height: $tablet-size;
       width: $tablet-size;
