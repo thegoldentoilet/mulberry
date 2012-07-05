@@ -33,7 +33,21 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.connect(this.rev30, 'click', '_reverse30seconds');
   },
 
-  _setupSpinner: function() {
+  _getSpinnerStyles : function() {
+    var s, styles;
+
+    dojo.style(this.spinner, 'background-color', '');
+    s = getComputedStyle(this.spinner);
+    styles = {
+      color: s.color,
+      backgroundColor: s.backgroundColor
+    };
+    dojo.style(this.spinner, 'background-color', 'transparent');
+
+    return styles;
+  },
+
+  _setupSpinner : function() {
     var canvas = document.createElement("canvas"),
         marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
         ctx = this.spinner.ctx = canvas.getContext("2d");
@@ -54,13 +68,15 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   // _updateSpinner essentially resets the spinner
-  _updateSpinner: function(active) {
-    var ctx = this.spinner.ctx;
+  _updateSpinner: function() {
+    var ctx = this.spinner.ctx,
+        styles = this._getSpinnerStyles();
 
-    ctx.strokeStyle = "#ffffff";
+
+    ctx.strokeStyle = styles.color;
     ctx.lineWidth = 2;
     ctx.clearRect(0, 0, this.spinner.marginBox.w, this.spinner.marginBox.h);
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = styles.backgroundColor;
 
     ctx.beginPath();
     ctx.arc(this.spinner.center.x, this.spinner.center.y, this.spinner.radius, 0, Math.PI * 2);
@@ -71,7 +87,20 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       ctx.stroke();
     }
 
-    this._setSpinnerPercent(this.getCurrentPercent());
+    this._setSpinnerPercent(this.getCurrentPercent(), styles);
+  },
+
+  _setSpinnerPercent: function(percent /* 0 to 100 */, styles) {
+    var pct = percent/100,
+        radPct = Math.PI * (2 * pct - 0.5)   ,
+        ctx = this.spinner.ctx;
+
+    ctx.fillStyle = 'color' in styles ? styles.color : "#ffffff";
+    ctx.beginPath();
+    ctx.arc(this.spinner.center.x, this.spinner.center.y, this.spinner.radius, Math.PI * -0.5, radPct);
+    ctx.lineTo(this.spinner.center.x, this.spinner.center.y);
+    ctx.closePath();
+    ctx.fill();
   },
 
   _handleControllerClick : function() {
@@ -90,19 +119,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _reverse30seconds : function() {
     if (!this.isPlaying) { return; }
     this.seekRelativeTime(-30);
-  },
-
-  _setSpinnerPercent: function(percent /* 0 to 100 */) {
-    var pct = percent/100,
-        radPct = Math.PI * (2 * pct - 0.5)   ,
-        ctx = this.spinner.ctx;
-
-    ctx.fillStyle = "#ffffff";
-    ctx.beginPath();
-    ctx.arc(this.spinner.center.x, this.spinner.center.y, this.spinner.radius, Math.PI * -0.5, radPct);
-    ctx.lineTo(this.spinner.center.x, this.spinner.center.y);
-    ctx.closePath();
-    ctx.fill();
   },
 
   _play : function(media) {
