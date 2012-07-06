@@ -1,60 +1,76 @@
 dojo.provide('mulberry.app.PhoneGap.audio');
 
-mulberry.app.PhoneGap.audio = function(pg, device) {
-  var audio,
-      audioSuccess = function() { },
-      audioError = function(err) { };
+dojo.declare('mulberry.app.PhoneGap.audio', null, {
+  audioSuccess : function() { },
+  audioError : function(err) { },
 
-  return {
-    play : function(url) {
-      console.log('mulberry.app.PhoneGap.audio::play()');
+  constructor : function( ) {
+    if (!window.pg) { return; }
 
-      if (!pg) { return; }
+    this.audio = null;
+  },
 
+  play : function(url) {
+    console.log('mulberry.app.PhoneGap.audio::play()');
+
+    if (!window.pg) { return; }
+
+    if (url) {
       url = /^http/.test(url) ? url : ('/android_asset/www/' + url);
-      audio = new Media(url, audioSuccess, audioError);
-      audio.play();
-    },
-
-    stop : function() {
-      console.log('mulberry.app.PhoneGap.audio::stop()');
-
-      if (!pg || !audio) { return; }
-
-      audio.pause();
-    },
-
-    getCurrentPosition : function() {
-      if (!pg || !audio) { return; }
-
-      var dfd = new dojo.Deferred();
-
-      audio.getCurrentPosition(function(position) {
-        dfd.resolve(position);
-      });
-
-      return dfd.promise;
-    },
-
-    getDuration : function() {
-      if (!pg || !audio) { return; }
-
-      return audio.getDuration();
-    },
-
-    seekTo : function(point /* milliseconds */) {
-      if (!pg || !audio) { return; }
-
-      return audio.seekTo(point);
-    },
-
-    destroy : function() {
-      if (!audio) { return; }
-
-      audio.stop();
-      audio.release();
-
-      audio = null;
+      this.setNewAudio(url);
     }
-  };
-};
+
+    if(!this.audio) { return; }
+
+    this.audio.play();
+  },
+
+  stop : function() {
+    console.log('mulberry.app.PhoneGap.audio::stop()');
+
+    if (!window.pg || !this.audio) { return; }
+
+    this.audio.pause();
+  },
+
+  getDuration : function() {
+    if (!window.pg || !this.audio) { return; }
+
+    return this.audio.getDuration();
+  },
+
+  getCurrentPosition : function() {
+    if (!window.pg || !this.audio) { return; }
+
+    var dfd = new dojo.Deferred();
+
+    this.audio.getCurrentPosition(function(position) {
+      dfd.resolve(position);
+    });
+
+    return dfd.promise;
+  },
+
+  seekTo : function(point /* milliseconds */) {
+    if (!window.pg || !this.audio) { return; }
+
+    return this.audio.seekTo(point);
+  },
+
+  setNewAudio : function(url) {
+    this.destroy();
+
+    this.audio = new Media(url, audioSuccess, audioError);
+  },
+
+  destroy : function() {
+    if (!this.audio) { return; }
+
+    this.audio.stop();
+    this.audio.release();
+
+    this.audio = null;
+  },
+
+  commaStopper : false
+});

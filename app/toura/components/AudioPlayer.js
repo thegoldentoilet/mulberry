@@ -127,15 +127,11 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
     if (this.useHtml5Player) { return; }
 
-    var pg = mulberry.app.PhoneGap;
     if (media) {
-      pg.audio.destroy();
-      pg.audio.play(this.media.url);
+      this.player.play(this.media.url);
     } else {
-      pg.audio.play();
+      this.player.play();
     }
-
-    this.player = pg.audio;
 
     this._updateSpinner();
   },
@@ -144,7 +140,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.inherited(arguments);
 
     if (!this.useHtml5Player) {
-      mulberry.app.PhoneGap.audio.stop();
+      this.player.stop();
     }
   },
 
@@ -163,7 +159,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
     if (!this.useHtml5Player) {
       console.log('Using PhoneGap player');
-      this.player = mulberry.app.PhoneGap.audio;
+      this.player = new mulberry.app.PhoneGap.audio();
     }
   },
 
@@ -177,7 +173,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   teardown : function() {
     if (!this.useHtml5Player) {
       // we used the phonegap player
-      mulberry.app.PhoneGap.audio.destroy();
+      this.player.destroy();
     }
   }
 
