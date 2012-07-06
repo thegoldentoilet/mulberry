@@ -17,6 +17,11 @@
     - generic_child_page
     - audio_list_childless
     - empty_audio_with_images
+  - audio_list_redux:
+    - single_image_gallery
+    - generic_child_page
+    - audio_list_childless
+    - empty_audio_with_images
   - image_gallery:
     - single_image_gallery
     - generic_child_page
