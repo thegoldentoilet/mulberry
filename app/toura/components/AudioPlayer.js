@@ -119,6 +119,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _reverse30seconds : function() {
     if (!this.isPlaying) { return; }
     this.seekRelativeTime(-30);
+    this._updateSpinner();
   },
 
   _play : function(media) {
