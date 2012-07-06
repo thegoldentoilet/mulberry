@@ -69,7 +69,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this._updateSpinner();
   },
 
-  // _updateSpinner essentially resets the spinner
+  // _updateSpinner resets the spinner first
   _updateSpinner: function() {
     if (!this.spinner) { return; }
 
@@ -111,12 +111,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _handleControllerClick : function() {
     if (this.isPlaying) {
       this._pause();
-      this.set('isPlaying', false);
-      this.removeClass('playing');
     } else {
       this._play();
-      this.set('isPlaying', true);
-      this.addClass('playing');
     }
   },
 
@@ -127,6 +123,9 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   _play : function(media) {
     this.inherited(arguments);
+
+    this.set('isPlaying', true);
+    this.addClass('playing');
 
     if (this.useHtml5Player) { return; }
 
@@ -139,6 +138,9 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   _pause : function() {
     this.inherited(arguments);
+
+    this.set('isPlaying', false);
+    this.removeClass('playing');
 
     if (this.useHtml5Player) { return; }
 

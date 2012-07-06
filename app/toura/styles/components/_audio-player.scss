@@ -1,3 +1,34 @@
+// this is a temporary fix until icons are properly implemented
+@mixin player-button($icon, $shade) {
+  $phone-size : 48px;
+  $tablet-size : 64px;
+
+  height: $phone-size;
+  width: $phone-size;
+
+  .tablet & {
+    height: $tablet-size;
+    width: $tablet-size;
+  }
+
+  display: block;
+
+  $icondir : 'resources/icons';
+
+  $inverse : 'light';
+  @if $shade == 'light' {
+    $inverse : 'dark';
+  }
+
+  background-size: contain;
+
+  background-image: url('#{$icondir}/#{$shade}/icon-player-#{$icon}.png');
+
+  &:active {
+  background-image: url('#{$icondir}/#{$inverse}/icon-player-#{$icon}.png');
+  }
+}
+
 .component.audio-player {
   @include flex-column-container;
   $phone-size: 48px;
@@ -10,24 +41,20 @@
   }
 
   .playpause {
-    @include webkit-mask-icon(play);
-
-    display: block;
-
-    background-color: $narrow-button-color;
+    @include player-button(play, light);
+    opacity: .8;
 
     &:active {
-      background-color: $narrow-button-highlight-color;
+      opacity: 1;
     }
   }
 
   .rev30 {
-    @include webkit-mask-icon(rev30);
-
-    background-color: $narrow-button-color;
+    @include player-button(rev30, light);
+    opacity: .8;
 
     &:active {
-      background-color: $narrow-button-highlight-color;
+      opacity: 1;
     }
   }
 
@@ -46,7 +73,7 @@
 
   &.playing {
     .playpause {
-      @include webkit-mask-icon(pause);
+      @include player-button(pause, light);
     }
    }
 
