@@ -30,7 +30,9 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.inherited(arguments);
 
     this.connect(this.playpause, 'click', '_handleControllerClick');
-    this.connect(this.rev30, 'click', '_reverse30seconds');
+    if(this.useHtml5Player) {
+      this.connect(this.rev30, 'click', '_reverse30seconds');
+    }
   },
 
   _getSpinnerStyles : function() {
@@ -69,9 +71,10 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   // _updateSpinner essentially resets the spinner
   _updateSpinner: function() {
+    if (!this.spinner) { return; }
+
     var ctx = this.spinner.ctx,
         styles = this._getSpinnerStyles();
-
 
     ctx.strokeStyle = styles.color;
     ctx.lineWidth = 2;
@@ -91,6 +94,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setSpinnerPercent: function(percent /* 0 to 100 */, styles) {
+    if (!this.spinner) { return; }
+
     var pct = percent/100,
         radPct = Math.PI * (2 * pct - 0.5)   ,
         ctx = this.spinner.ctx;
@@ -135,9 +140,9 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _pause : function() {
     this.inherited(arguments);
 
-    if (!this.useHtml5Player) {
-      mulberry.app.PhoneGap.audio.stop();
-    }
+    if (this.useHtml5Player) { return; }
+
+    mulberry.app.PhoneGap.audio.stop();
   },
 
   _startSpinner : function() {
@@ -153,8 +158,11 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _setIsPlayingAttr : function(val /* Boolean */) {
     var spinnerMethod = val ? '_startSpinner' : '_stopSpinner';
     this.isPlaying = val;
-    this._updateSpinner();
-    this[spinnerMethod]();
+
+    if(this.spinner) {
+      this._updateSpinner();
+      this[spinnerMethod]();
+    }
   },
 
   teardown : function() {

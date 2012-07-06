@@ -1,4 +1,5 @@
 .component.audio-player
   %a.button.playpause{ dojoAttachPoint : 'playpause', title : "Play" }
-  %a.button.rev30{ dojoAttachPoint : 'rev30', title : "Rewind 30 seconds" }
-  .spinner{ dojoAttachPoint : 'spinner' }
+  :if useHtml5Player
+    %a.button.rev30{ dojoAttachPoint : 'rev30', title : "Rewind 30 seconds" }
+    .spinner{ dojoAttachPoint : 'spinner' }
