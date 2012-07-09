@@ -33,11 +33,14 @@
   @include flex-column-container;
   $phone-size: 48px;
   $tablet-size: 64px;
+  $widgets : 3;
 
   height: $phone-size;
+  width: $phone-size * $widgets;
 
   .tablet & {
     height: $tablet-size;
+    width: $tablet-size * $widgets;
   }
 
   .playpause {
