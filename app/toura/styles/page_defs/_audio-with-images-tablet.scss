@@ -121,11 +121,6 @@
       .region.audio-active-player {
         @include flex-column-container;
 
-        > .region {
-          display: -webkit-box;
-          -webkit-box-align: center;
-        }
-
         > .region:not(.caption-container) {
           @include fixed-flex-region;
         }
