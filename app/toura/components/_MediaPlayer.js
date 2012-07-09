@@ -121,7 +121,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     this._queuedMedia = null;
 
     if (this.player) {
-      this.player.src = media.url;
+      this.player.src = media ? media.url : null;
     }
   },
 

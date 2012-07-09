@@ -81,7 +81,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if (!this.spinner) { return; }
 
     var ctx = this.spinner.ctx,
-        styles = this._getSpinnerStyles();
+        styles = this._getSpinnerStyles(),
+        current = this.getCurrentPercent();
 
     ctx.strokeStyle = styles.color;
     ctx.lineWidth = 2;
@@ -97,7 +98,14 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       ctx.stroke();
     }
 
-    this._setSpinnerPercent(this.getCurrentPercent(), styles);
+
+    if(current >= 100 && this.isPlaying) {
+      this._setSpinnerPercent(0, styles);
+      this.set('isPlaying', false);
+      return;
+    }
+
+    this._setSpinnerPercent(current, styles);
   },
 
   _setSpinnerPercent: function(percent /* 0 to 100 */, styles) {
