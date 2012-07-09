@@ -7,6 +7,7 @@ audio-with-images-tablet:
   - Page_Audios
   - Page_Audios_Playlist
   - AudioList_AudioPlayer
+  - AudioList_AudioTitle
   - AudioList_AudioCaption
   - Text_ChildNodes
 
@@ -56,8 +57,11 @@ audio-with-images-tablet:
           - components:
             - AudioPlayer
           - className: caption-container
-            components:
-            - AudioCaption
+            regions:
+            - components:
+              - AudioTitle
+            - components:
+              - AudioCaption
           - components:
             - PlaylistButton
 

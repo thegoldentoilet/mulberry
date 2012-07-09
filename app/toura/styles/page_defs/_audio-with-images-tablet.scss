@@ -1,10 +1,21 @@
 .page.audio-with-images-tablet {
   .component.audio-caption,
+  .component.audio-title,
   .component.image-caption {
     @include caption-text;
 
     &:not(.empty) {
       padding: 10px;
+    }
+  }
+  .region { // this is to beat the cascade
+    .component.audio-title {
+      padding-top: 10px;
+      padding-bottom: 0;
+    }
+    .component.audio-caption {
+      padding-top: 0px;
+      padding-bottom: 10px;
     }
   }
 
@@ -120,11 +131,13 @@
         }
       }
 
-      .component.audio-player {
+      .component.audio-caption,
+      .component.audio-title {
+        color: invert($text-color);
       }
 
-      .component.audio-caption {
-        color: invert($text-color);
+      .component.audio-title {
+        font-weight: 700;
       }
 
       .region.audio-list {
