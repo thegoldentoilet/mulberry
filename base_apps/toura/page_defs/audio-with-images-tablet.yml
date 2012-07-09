@@ -32,6 +32,12 @@ audio-with-images-tablet:
 
         - className: non-image-content
           regions:
+          - className: body-text-child-nodes-unified
+            scrollable: true
+            components:
+            - ChildNodes
+            - BodyText
+
           - className: text-and-child-nodes
             regions:
             - className: body-text-container
@@ -43,12 +49,6 @@ audio-with-images-tablet:
               scrollable: true
               components:
               - ChildNodes
-
-          - className: body-text-child-nodes-unified
-            scrollable: true
-            components:
-            - ChildNodes
-            - BodyText
 
       - className: audio-container
         regions:
