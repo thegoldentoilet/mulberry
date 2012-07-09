@@ -57,11 +57,10 @@ audio-with-images-tablet:
           - components:
             - AudioPlayer
           - className: caption-container
-            regions:
-            - components:
-              - AudioTitle
-            - components:
-              - AudioCaption
+            scrollable: true
+            components:
+            - AudioTitle
+            - AudioCaption
           - components:
             - PlaylistButton
 
