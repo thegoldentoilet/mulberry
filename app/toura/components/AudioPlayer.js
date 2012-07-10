@@ -17,6 +17,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   prepareData : function() {
     this.medias = this.node.audios || [];
     this.inherited(arguments);
+
+    window.audioPlayer = this;
   },
 
   setupConnections : function() {
@@ -100,8 +102,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
 
     if(current >= 100 && this.isPlaying) {
-      this._setSpinnerPercent(0, styles);
-      this.set('isPlaying', false);
+      this.finishedPlaying(styles);
       return;
     }
 
@@ -152,6 +153,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.inherited(arguments);
 
     this.set('isPlaying', true);
+    this._updateSpinner();
+    this.onPlay(this.media.id);
 
     if (this.useHtml5Player) { return; }
 
@@ -159,17 +162,25 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     pg.audio.destroy();
     pg.audio.play(this.media.url);
 
-    this._updateSpinner();
   },
 
   _pause : function() {
     this.inherited(arguments);
 
     this.set('isPlaying', false);
+    this.onPause();
 
     if (this.useHtml5Player) { return; }
 
     mulberry.app.PhoneGap.audio.stop();
+  },
+
+  onPlay : function(mediaId) {
+    // stub for connections
+  },
+
+  onPause : function() {
+    // stub for connections
   },
 
   _setIsPlayingAttr : function(val /* Boolean */) {
@@ -182,6 +193,11 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       this[spinnerMethod]();
       this._updateSpinner();
     }
+  },
+
+  finishedPlaying : function(styles) {
+    this._setSpinnerPercent(0, styles);
+    this.set('isPlaying', false);
   },
 
   teardown : function() {
