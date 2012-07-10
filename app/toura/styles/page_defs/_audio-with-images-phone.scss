@@ -9,10 +9,10 @@
     .region.audio-gallery {
       @include fixed-flex-region;
 
-      @if ($font-scheme == dark) {
-        background-color: darken($app-background-color, 17%);
-      } @else {
-        background-color: lighten($app-background-color, 17%);
+      background-color: $chrome-color;
+
+      .component.audio-player {
+        margin: 0 auto;
       }
 
       audio {

@@ -1,4 +1,5 @@
 .component.audio-player
-  :if !useHtml5Player
-    %form
-      %input{ type : 'button', class : 'play', dojoAttachPoint : 'controller' }
+  %a.button.playpause{ dojoAttachPoint : 'playpause', title : "Play" }
+  :if useHtml5Player
+    %a.button.rev30{ dojoAttachPoint : 'rev30', title : "Rewind 30 seconds" }
+    .spinner{ dojoAttachPoint : 'spinner', style : 'background-color: transparent;' }

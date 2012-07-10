@@ -182,20 +182,19 @@
 @mixin webkit-mask-icon($icon, $background: dark) {
   $icondir : 'resources/icons/mask/';
 
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-attachment: scroll;
+  height: 48px;
+  width: 48px;
+  -webkit-mask: url("#{$icondir}icon-#{$icon}-#{$background}-48.png") no-repeat scroll;
+
+  @media (-webkit-min-device-pixel-ratio: 2) {
+    -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{background}-96.png");
+  }
+
   -webkit-mask-position: center;
   -webkit-mask-size: 100%;
 
-  .phone & {
-    height: 48px;
-    width: 48px;
-    -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{$background}-48.png");
-
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{background}-96.png");
-    }
-  }
+  text-indent: -99em;
+  display: inline-block;
 
   .tablet & {
     height: 64px;
