@@ -62,7 +62,8 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     if (this.useHtml5Player) {
       return this.player.duration;
     } else {
-      return this.player.getDuration();
+      // stub for phonegap support
+      return;
     }
   },
 
@@ -72,28 +73,29 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     if (this.useHtml5Player) {
       return this.player.currentTime;
     } else {
-      return this.player.getCurrentPosition();
+      // stub for phonegap support
+      return;
     }
   },
 
   getCurrentPercent : function() {
-    if (!this.player) { return; }
+    if (!this.player || !this.useHtml5Player) { return; }
 
     return (this.getCurrentTime() / this.getDuration()) * 100;
   },
 
   seek: function(time /* in seconds */) {
-    if (!this.player) { return; }
+    if (!this.player || !this.useHtml5Player) { return; }
 
     if (this.useHtml5Player) {
       this.player.currentTime = time;
     } else {
-      this.player.seekTo(time * 1000);
+      // stub for phonegap support
     }
   },
 
   seekRelativeTime: function(reltime /*in seconds*/) {
-    if (!this.player) { return; }
+    if (!this.player || !this.useHtml5Player) { return; }
 
     var current = this.getCurrentTime(),
         target = current + reltime >= 0 ? current + reltime : 0;
