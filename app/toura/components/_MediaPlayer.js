@@ -91,6 +91,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
       this.player.currentTime = time;
     } else {
       // stub for phonegap support
+      return;
     }
   },
 

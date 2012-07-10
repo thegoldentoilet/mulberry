@@ -21,11 +21,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     window.audioPlayer = this;
   },
 
-  startup : function() {
-    this.inherited(arguments);
-    this._setupSpinner();
-  },
-
   setupConnections : function() {
     this.inherited(arguments);
 
@@ -33,6 +28,31 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if(this.useHtml5Player) {
       this.connect(this.rev30, 'click', '_reverse30seconds');
     }
+  },
+
+  _setupPlayer : function() {
+    this.inherited(arguments);
+    this._setupSpinner();
+  },
+
+  _setupSpinner : function() {
+    var canvas = document.createElement("canvas"),
+        marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
+        ctx = this.spinner.ctx = canvas.getContext("2d");
+
+    // 3.2 : 2 (for radius) and 1.6 (to get 62.5% of height altogether)
+    this.spinner.radius = Math.min(marginBox.h, marginBox.w) / 3.2;
+    this.spinner.center = {
+      x: marginBox.w / 2,
+      y: marginBox.h / 2
+    };
+
+    canvas.height = marginBox.h;
+    canvas.width = marginBox.w;
+
+    this.spinner.appendChild(canvas);
+
+    this._updateSpinner();
   },
 
   _getSpinnerStyles : function() {
@@ -56,26 +76,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     dojo.style(this.spinner, 'background-color', 'transparent');
 
     return styles;
-  },
-
-  _setupSpinner : function() {
-    var canvas = document.createElement("canvas"),
-        marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
-        ctx = this.spinner.ctx = canvas.getContext("2d");
-
-    // 3.2 : 2 (for radius) and 1.6 (to get 62.5% of height altogether)
-    this.spinner.radius = Math.min(marginBox.h, marginBox.w) / 3.2;
-    this.spinner.center = {
-      x: marginBox.w / 2,
-      y: marginBox.h / 2
-    };
-
-    canvas.height = marginBox.h;
-    canvas.width = marginBox.w;
-
-    this.spinner.appendChild(canvas);
-
-    this._updateSpinner();
   },
 
   // _updateSpinner resets the spinner first
@@ -117,6 +117,16 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     ctx.fill();
   },
 
+  _startSpinner : function() {
+    this.spinnerInterval = setInterval(dojo.hitch(this, function() {
+      this._updateSpinner();
+    }), 1000);
+  },
+
+  _stopSpinner : function() {
+    clearInterval(this.spinnerInterval);
+  },
+
   _handleControllerClick : function() {
     if (this.isPlaying) {
       this._pause();
@@ -154,16 +164,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if (this.useHtml5Player) { return; }
 
     mulberry.app.PhoneGap.audio.stop();
-  },
-
-  _startSpinner : function() {
-    this.spinnerInterval = setInterval(dojo.hitch(this, function() {
-      this._updateSpinner();
-    }), 1000);
-  },
-
-  _stopSpinner : function() {
-    clearInterval(this.spinnerInterval);
   },
 
   _setIsPlayingAttr : function(val /* Boolean */) {
