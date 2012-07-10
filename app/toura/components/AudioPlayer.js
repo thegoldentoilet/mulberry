@@ -38,6 +38,15 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _getSpinnerStyles : function() {
     var s, styles;
 
+    // the spinner picks up its colors from CSS:
+    //    'color' determines the color of the filled in portion
+    //    'background-color' determines the color of the disc.
+    //
+    // we don't want the background color to actually apply, though
+    // or we would just have a filled-in square. but to poll it from
+    // getComputedStyle, we need it to pertain for a split second, hence
+    // unsetting and re-setting the background color to transparent
+    // around the getComputedStyle call
     dojo.style(this.spinner, 'background-color', '');
     s = getComputedStyle(this.spinner);
     styles = {
