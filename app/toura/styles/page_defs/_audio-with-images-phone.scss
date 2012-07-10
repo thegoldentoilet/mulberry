@@ -11,14 +11,8 @@
 
       background-color: $chrome-color;
 
-      // @if ($font-scheme == dark) {
-      //   background-color: darken($app-background-color, 17%);
-      // } @else {
-      //   background-color: lighten($app-background-color, 17%);
-      // }
-
       .component.audio-player {
-        -webkit-box-pack: center;
+        margin: 0 auto;
       }
 
       audio {
