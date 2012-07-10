@@ -78,8 +78,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     return styles;
   },
 
-  // _updateSpinner resets the spinner first
-  _updateSpinner: function() {
+  _updateSpinner : function() {
     if (!this.spinner) { return; }
 
     var ctx = this.spinner.ctx,
@@ -100,9 +99,11 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       ctx.stroke();
     }
 
-
-    if(current >= 100 && this.isPlaying) {
-      this.finishedPlaying(styles);
+    if (current >= 100) {
+      this._setSpinnerPercent(0, styles);
+      if (this.isPlaying) {
+        this.finishedPlaying();
+      }
       return;
     }
 
@@ -195,8 +196,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     }
   },
 
-  finishedPlaying : function(styles) {
-    this._setSpinnerPercent(0, styles);
+  finishedPlaying : function() {
     this.set('isPlaying', false);
   },
 
