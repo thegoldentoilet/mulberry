@@ -223,15 +223,15 @@ public class ChildBrowser extends Plugin {
              */
             private int dpToPixels(int dipValue) {
                 int value = (int) TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP,
-                                                            (float) dipValue,
-                                                            ctx.getContext().getResources().getDisplayMetrics()
+                											(float) dipValue,
+                											ctx.getContext().getResources().getDisplayMetrics()
                 );
                 
                 return value;
             }
             
             public void run() {
-                // Let's create the main dialog
+            	// Let's create the main dialog
                 dialog = new Dialog(ctx.getContext(), android.R.style.Theme_NoTitleBar);
                 dialog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -374,7 +374,7 @@ public class ChildBrowser extends Plugin {
                 
                 // Don't add the toolbar if its been disabled
                 if (getShowLocationBar()) {
-                    // Add our toolbar to our main view/layout
+                	// Add our toolbar to our main view/layout
                     main.addView(toolbar);
                 }
                 
@@ -391,10 +391,10 @@ public class ChildBrowser extends Plugin {
                 dialog.getWindow().setAttributes(lp);
             }
 
-          private Bitmap loadDrawable(String filename) throws java.io.IOException {
-              InputStream input = ctx.getAssets().open(filename);    
-              return BitmapFactory.decodeStream(input);
-          }
+		  private Bitmap loadDrawable(String filename) throws java.io.IOException {
+			  InputStream input = ctx.getAssets().open(filename);    
+			  return BitmapFactory.decodeStream(input);
+		  }
         };
         this.ctx.runOnUiThread(runnable);
         return "";

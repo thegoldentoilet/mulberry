@@ -155,7 +155,6 @@ dojo.require('mulberry.app.Config');
         return false; //android and ios devices need to support touch
       }
       supportsWebSql = 'openDatabase' in window;
-      alert('supports websql: ' + supportsWebSql);
       isOldAndroid = device.environment === 'browser' && device.os === 'android' && device.browserVersion < 2.2;
 
       supportsMulberry = supportsWebkitPrefixes &&
@@ -167,5 +166,4 @@ dojo.require('mulberry.app.Config');
   };
 
   mulberry.Device = new device();
-  alert(mulberry.Device.environment + " " + mulberry.Device.os);
 }());
