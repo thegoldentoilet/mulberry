@@ -57,25 +57,15 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   },
 
   getDuration : function() {
-    if (!this.player) { return; }
+    if (!this.player || !this.useHtml5Player) { return; }
 
-    if (this.useHtml5Player) {
-      return this.player.duration;
-    } else {
-      // stub for phonegap support
-      return;
-    }
+    return this.player.duration;
   },
 
   getCurrentTime : function() {
-    if (!this.player) { return; }
+    if (!this.player || !this.useHtml5Player) { return; }
 
-    if (this.useHtml5Player) {
-      return this.player.currentTime;
-    } else {
-      // stub for phonegap support
-      return;
-    }
+    return this.player.currentTime;
   },
 
   getCurrentPercent : function() {
@@ -87,12 +77,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   seek: function(time /* in seconds */) {
     if (!this.player || !this.useHtml5Player) { return; }
 
-    if (this.useHtml5Player) {
-      this.player.currentTime = time;
-    } else {
-      // stub for phonegap support
-      return;
-    }
+    this.player.currentTime = time;
   },
 
   seekRelativeTime: function(reltime /*in seconds*/) {

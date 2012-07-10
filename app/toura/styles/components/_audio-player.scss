@@ -2,6 +2,7 @@
 .component.audio-player {
   $phone-size : 48px;
   $tablet-size : 64px;
+  $widgets : 3;
 
   // this is a temporary fix until icons are properly implemented
   @mixin player-button($icon, $shade) {
@@ -34,8 +35,6 @@
   }
 
   @include flex-column-container;
-
-  $widgets : 3;
 
   height: $phone-size;
   width: $phone-size * $widgets;
