@@ -116,6 +116,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _startSpinner : function() {
+    this._stopSpinner();
     this.spinnerInterval = setInterval(dojo.hitch(this, function() {
       this._updateSpinner();
     }), 1000);
