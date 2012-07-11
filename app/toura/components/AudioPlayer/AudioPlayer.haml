@@ -1,5 +1,5 @@
 .component.audio-player
   %a.button.playpause{ dojoAttachPoint : 'playpause', title : "Play" }
-  :if useHtml5Player
+  :if (useHtml5Player && !androidAudioFallback)
     %a.button.rev30{ dojoAttachPoint : 'rev30', title : "Rewind 30 seconds" }
     .spinner{ dojoAttachPoint : 'spinner', style : 'background-color: transparent;' }
