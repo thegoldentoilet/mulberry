@@ -1,14 +1,13 @@
 .component.playlist-button {
   width: 64px;
   height: 64px;
-  -webkit-transition: background-color .35s linear;
+  -webkit-transition: 100ms linear background-color;
 
   a {
     @include webkit-mask-icon(list);
 
     display:  inline-block;
     background-color: $narrow-button-color;
-    -webkit-transition: background-color .35s linear;
     text-indent: -99em;
 
     &:active {

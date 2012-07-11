@@ -21,11 +21,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     window.audioPlayer = this;
   },
 
-  startup : function() {
-    this.inherited(arguments);
-    this._setupSpinner();
-  },
-
   setupConnections : function() {
     this.inherited(arguments);
 
@@ -33,18 +28,9 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.connect(this.rev30, 'click', '_reverse30seconds');
   },
 
-  _getSpinnerStyles : function() {
-    var s, styles;
-
-    dojo.style(this.spinner, 'background-color', '');
-    s = getComputedStyle(this.spinner);
-    styles = {
-      color: s.color,
-      backgroundColor: s.backgroundColor
-    };
-    dojo.style(this.spinner, 'background-color', 'transparent');
-
-    return styles;
+  _setupPlayer : function() {
+    this.inherited(arguments);
+    this._setupSpinner();
   },
 
   _setupSpinner : function() {
@@ -67,8 +53,33 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this._updateSpinner();
   },
 
-  // _updateSpinner essentially resets the spinner
+  _getSpinnerStyles : function() {
+    var s, styles;
+
+    // the spinner picks up its colors from CSS:
+    //    'color' determines the color of the filled in portion
+    //    'background-color' determines the color of the disc.
+    //
+    // we don't want the background color to actually apply, though
+    // or we would just have a filled-in square. but to poll it from
+    // getComputedStyle, we need it to pertain for a split second, hence
+    // unsetting and re-setting the background color to transparent
+    // around the getComputedStyle call
+    dojo.style(this.spinner, 'background-color', '');
+    s = getComputedStyle(this.spinner);
+    styles = {
+      color: s.color,
+      backgroundColor: s.backgroundColor
+    };
+    dojo.style(this.spinner, 'background-color', 'transparent');
+
+    return styles;
+  },
+
+  // _updateSpinner resets the spinner first
   _updateSpinner: function() {
+    if (!this.spinner) { return; }
+
     var ctx = this.spinner.ctx,
         styles = this._getSpinnerStyles();
 
@@ -89,10 +100,11 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     dojo.when(this.getCurrentPercent(), dojo.hitch(this, function(current) {
       this._setSpinnerPercent(current, styles);
     }));
-    // this._setSpinnerPercent(this.getCurrentPercent(), styles);
   },
 
   _setSpinnerPercent: function(percent /* 0 to 100 */, styles) {
+    if (!this.spinner) { return; }
+
     var pct = percent/100,
         radPct = Math.PI * (2 * pct - 0.5)   ,
         ctx = this.spinner.ctx;
@@ -105,25 +117,36 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     ctx.fill();
   },
 
+  _startSpinner : function() {
+    this._stopSpinner();
+    this.spinnerInterval = setInterval(dojo.hitch(this, function() {
+      this._updateSpinner();
+    }), 1000);
+  },
+
+  _stopSpinner : function() {
+    clearInterval(this.spinnerInterval);
+  },
+
   _handleControllerClick : function() {
     if (this.isPlaying) {
       this._pause();
-      this.set('isPlaying', false);
-      this.removeClass('playing');
     } else {
       this._play();
-      this.set('isPlaying', true);
-      this.addClass('playing');
     }
   },
 
   _reverse30seconds : function() {
-    if (!this.isPlaying) { return; }
+    if (!this.media) { return; }
+
     this.seekRelativeTime(-30);
+    this._updateSpinner();
   },
 
   _play : function(media) {
     this.inherited(arguments);
+
+    this.set('isPlaying', true);
 
     if (this.useHtml5Player) { return; }
 
@@ -139,35 +162,23 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   _pause : function() {
     this.inherited(arguments);
 
-    if (!this.useHtml5Player) {
-      this.player.stop();
-    }
-  },
+    this.set('isPlaying', false);
 
-  _startSpinner : function() {
-    this.spinnerInterval = setInterval(dojo.hitch(this, function() {
-      this._updateSpinner();
-    }), 1000);
-  },
+    if (this.useHtml5Player) { return; }
 
-  _stopSpinner : function() {
-    clearInterval(this.spinnerInterval);
-  },
-
-  _setupPlayer: function() {
-    this.inherited(arguments);
-
-    if (!this.useHtml5Player) {
-      console.log('Using PhoneGap player');
-      this.player = new mulberry.app.PhoneGap.audio();
-    }
+    mulberry.app.PhoneGap.audio.stop();
   },
 
   _setIsPlayingAttr : function(val /* Boolean */) {
-    var spinnerMethod = val ? '_startSpinner' : '_stopSpinner';
+    var spinnerMethod = val ? '_startSpinner' : '_stopSpinner',
+        classMethod = val ? 'addClass' : 'removeClass';
     this.isPlaying = val;
-    this._updateSpinner();
-    this[spinnerMethod]();
+    this[classMethod]('playing');
+
+    if(this.spinner) {
+      this[spinnerMethod]();
+      this._updateSpinner();
+    }
   },
 
   teardown : function() {

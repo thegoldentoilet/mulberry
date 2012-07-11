@@ -7,11 +7,13 @@ audio-with-images-tablet:
   - Page_Audios
   - Page_Audios_Playlist
   - AudioList_AudioPlayer
+  - AudioList_AudioTitle
   - AudioList_AudioCaption
   - Text_ChildNodes
 
   screens:
     - name: index
+      backgroundImage: true
       regions:
 
       - className: page-nav
@@ -30,6 +32,12 @@ audio-with-images-tablet:
 
         - className: non-image-content
           regions:
+          - className: body-text-child-nodes-unified
+            scrollable: true
+            components:
+            - ChildNodes
+            - BodyText
+
           - className: text-and-child-nodes
             regions:
             - className: body-text-container
@@ -42,12 +50,6 @@ audio-with-images-tablet:
               components:
               - ChildNodes
 
-          - className: body-text-child-nodes-unified
-            scrollable: true
-            components:
-            - ChildNodes
-            - BodyText
-
       - className: audio-container
         regions:
         - className: audio-active-player
@@ -55,7 +57,9 @@ audio-with-images-tablet:
           - components:
             - AudioPlayer
           - className: caption-container
+            scrollable: true
             components:
+            - AudioTitle
             - AudioCaption
           - components:
             - PlaylistButton

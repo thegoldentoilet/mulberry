@@ -1,10 +1,22 @@
 .page.audio-with-images-tablet {
   .component.audio-caption,
+  .component.audio-title,
   .component.image-caption {
     @include caption-text;
 
     &:not(.empty) {
       padding: 10px;
+    }
+  }
+  .region { // this is to beat the cascade
+    .component.audio-title {
+      padding-top: 10px;
+      padding-bottom: 0;
+    }
+
+    .component.audio-caption {
+      padding-top: 0px;
+      padding-bottom: 10px;
     }
   }
 
@@ -101,6 +113,8 @@
       box-shadow: 0 -1px 5px rgba(0,0,0,.5);
       @include flex-column-container;
 
+      min-height: 64px;
+
       > * {
         width: 100%;
       }
@@ -113,11 +127,13 @@
         }
       }
 
-      .component.audio-player {
+      .component.audio-caption,
+      .component.audio-title {
+        color: invert($text-color);
       }
 
-      .component.audio-caption {
-        color: invert($text-color);
+      .component.audio-title {
+        font-weight: 700;
       }
 
       .region.audio-list {
@@ -131,7 +147,7 @@
         visibility: visible;
         overflow: hidden;
 
-        -webkit-transition: height .25s ease-out, opacity .35s linear;
+        -webkit-transition: height .25s ease-out, opacity 150ms ease-out;
 
         font-size: 90%;
 

@@ -24,6 +24,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   setupSubscriptions : function() {
     this.inherited(arguments);
     if (!this.useHtml5Player) { return; }
+
     this.subscribe('/page/transition/end', '_setupPlayer');
   },
 
