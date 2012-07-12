@@ -36,6 +36,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setupSpinner : function() {
+    if (!this.spinner) { return; }
+
     var canvas = document.createElement("canvas"),
         marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
         ctx = this.spinner.ctx = canvas.getContext("2d");
@@ -168,6 +170,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setIsPlayingAttr : function(val /* Boolean */) {
+    if(this.androidAudioFallback) { return; }   // if we're using the video player, none of this works
+
     var spinnerMethod = val ? '_startSpinner' : '_stopSpinner',
         classMethod = val ? 'addClass' : 'removeClass';
     this.isPlaying = val;
