@@ -62,7 +62,6 @@ dojo.declare('mulberry.app.PhoneGap.audio', null, {
 
   destroy : function() {
     if (!this.audio) { return; }
-
     this.audio.stop();
     this.audio.release();
     this.audio = null;

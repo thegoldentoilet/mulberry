@@ -69,7 +69,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     if (this.useHtml5Player) {
       currentTime = this.player.currentTime;
     } else {
-      currentTime = dojo.when(this.player.getCurrentPosition, function(position) { return position; });
+      currentTime = dojo.when(this.player.getCurrentPosition(), function(position) { return position; });
     }
 
     return currentTime;
@@ -77,7 +77,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
   getCurrentPercent : function() {
     if (!this.player) { return; }
-
+    
     return dojo.when(this.getCurrentTime(), dojo.hitch(this, function(position) { return (position / this.getDuration()) * 100; }));
   },
 

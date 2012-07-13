@@ -8,6 +8,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   playerType : 'audio',
   isPlaying : false,
+  isPaused: false,
   playerSettings : {
     preload : 'auto',
     controls : false,
@@ -137,7 +138,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if (this.isPlaying) {
       this._pause();
     } else {
-      this._play(this.media);
+      this._play();
     }
   },
 
@@ -148,15 +149,16 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this._updateSpinner();
   },
 
-  _play : function(media) {
+  _play : function() {
     this.inherited(arguments);
     this.set('isPlaying', true);
 
     if (this.useHtml5Player) { return; }
    
-    if (media) {
+    if (!this.isPaused) {
       this.player.play(this.media.url);
     } else {
+      this.set('isPaused',false);
       this.player.play();
     }
 
@@ -167,6 +169,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.inherited(arguments);
 
     this.set('isPlaying', false);
+    this.set('isPaused',true);
 
     if (this.useHtml5Player) { return; }
 
