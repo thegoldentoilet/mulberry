@@ -21,6 +21,16 @@ module Mulberry
             additional_options[:publish_ota] = v
           end
 
+          opts.on("-t", "--test",   "Create a test build (with debugging
+                                    enabled).") do |v|
+            additional_options[:test] = v
+          end
+
+          opts.on("-q", "--quiet",  "Runs Mulberry test in quiet mode (will
+                                    not open xcode proj).") do |q|
+            additional_options[:quiet] = q
+          end
+
         end.parse!
 
         super
