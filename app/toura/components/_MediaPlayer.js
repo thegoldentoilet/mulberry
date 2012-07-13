@@ -21,7 +21,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
     this.media = this.medias[0] || {};
     this.useHtml5Player = mulberry.app.Has.html5Player();
-    this.androidAudioFallback = true;// this.playerType === 'audio' && mulberry.Device.os === "android" && mulberry.Device.osVersion < 2.3;
+    this.androidAudioFallback = this.playerType === 'audio' && mulberry.Device.os === "android" && mulberry.Device.osVersion < 2.3;
   },
 
   setupSubscriptions : function() {
