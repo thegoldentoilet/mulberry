@@ -29,11 +29,16 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setupPlayer : function() {
+   
+    if (!this.useHtml5Player) {
+      this.player = mulberry.app.PhoneGap.audio;
+    }
     this.inherited(arguments);
     this._setupSpinner();
   },
 
   _setupSpinner : function() {
+   
     var canvas = document.createElement("canvas"),
         marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
         ctx = this.spinner.ctx = canvas.getContext("2d");
@@ -132,7 +137,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     if (this.isPlaying) {
       this._pause();
     } else {
-      this._play();
+      this._play(this.media);
     }
   },
 
@@ -145,11 +150,10 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   _play : function(media) {
     this.inherited(arguments);
-
     this.set('isPlaying', true);
 
     if (this.useHtml5Player) { return; }
-
+   
     if (media) {
       this.player.play(this.media.url);
     } else {
