@@ -190,7 +190,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
 
   teardown : function() {
     if (!this.useHtml5Player) {
-      // we used the phonegap player
+      // we are using the phonegap player
       this.player.destroy();
     }
   }
