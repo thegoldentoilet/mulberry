@@ -168,7 +168,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setIsPlayingAttr : function(val /* Boolean */) {
-    if(this.androidAudioFallback) { return; }   // if we're using the video player, none of this works
+    if (this.androidAudioFallback) { return; }   // if we're using the video player, none of this works
 
     var spinnerMethod = val ? '_startSpinner' : '_stopSpinner',
         classMethod = val ? 'addClass' : 'removeClass';
