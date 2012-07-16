@@ -65,7 +65,5 @@ dojo.declare('mulberry.app.PhoneGap.audio', null, {
     this.audio.stop();
     this.audio.release();
     this.audio = null;
-  },
-
-  commaStopper : false
+  }
 });

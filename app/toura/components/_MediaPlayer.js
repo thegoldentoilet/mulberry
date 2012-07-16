@@ -64,15 +64,11 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   getCurrentTime : function() {
     if (!this.player) { return; }
 
-    var currentTime;
-
     if (this.useHtml5Player) {
-      currentTime = this.player.currentTime;
+      return this.player.currentTime;
     } else {
-      currentTime = dojo.when(this.player.getCurrentPosition(), function(position) { return position; });
+      return dojo.when(this.player.getCurrentPosition(), function(position) { return position; });
     }
-
-    return currentTime;
   },
 
   getCurrentPercent : function() {

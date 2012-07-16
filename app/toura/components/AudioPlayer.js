@@ -5,7 +5,6 @@ dojo.require('toura.components._MediaPlayer');
 
 dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   templateString : dojo.cache('toura.components', 'AudioPlayer/AudioPlayer.haml'),
-
   playerType : 'audio',
   isPlaying : false,
   isPaused: false,
@@ -18,19 +17,15 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   prepareData : function() {
     this.medias = this.node.audios || [];
     this.inherited(arguments);
-
-    window.audioPlayer = this;
   },
 
   setupConnections : function() {
     this.inherited(arguments);
-
     this.connect(this.playpause, 'click', '_handleControllerClick');
     this.connect(this.rev30, 'click', '_reverse30seconds');
   },
 
   _setupPlayer : function() {
-   
     if (!this.useHtml5Player) {
       this.player = mulberry.app.PhoneGap.audio;
     }
@@ -39,7 +34,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setupSpinner : function() {
-   
     var canvas = document.createElement("canvas"),
         marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
         ctx = this.spinner.ctx = canvas.getContext("2d");
@@ -149,18 +143,19 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this._updateSpinner();
   },
 
-  _play : function() {
+  _play : function(media) {
     this.inherited(arguments);
     this.set('isPlaying', true);
-
     if (this.useHtml5Player) { return; }
    
-    if (!this.isPaused) {
+    if (!this.isPaused || (this.isPaused && !!media)) {
+      alert('play new song');
       this.player.play(this.media.url);
-    } else {
-      this.set('isPaused',false);
+    } else if(this.isPaused && !media){
+      this.set('isPaused', false);
+      alert('unpause song');
       this.player.play();
-    }
+    } else
 
     this._updateSpinner();
   },
@@ -169,7 +164,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.inherited(arguments);
 
     this.set('isPlaying', false);
-    this.set('isPaused',true);
+    this.set('isPaused', true);
 
     if (this.useHtml5Player) { return; }
 
