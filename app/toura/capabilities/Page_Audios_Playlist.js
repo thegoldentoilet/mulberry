@@ -38,6 +38,10 @@ dojo.declare('toura.capabilities.Page_Audios_Playlist', mulberry._Capability, {
     if (audioCount <= 1) {
       this.playlistButton.hide();
     }
+
+    this.audioList.region.domNode.addEventListener('webkitTransitionEnd', function(event) {
+      dojo.publish('/content/update');
+    }, false);
   },
   
   togglePlaylist : function() {
