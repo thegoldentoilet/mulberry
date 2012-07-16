@@ -62,6 +62,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
   getDuration : function() {
     if (!this.player) { return; }
+
     if (this.useHtml5Player) {
       return this.player.duration;
     } else {
@@ -87,6 +88,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
   seek: function(time /* in seconds */) {
     if (!this.player) { return; }
+    
     if (this.useHtml5Player) {
       this.player.currentTime = time;
     } else {
