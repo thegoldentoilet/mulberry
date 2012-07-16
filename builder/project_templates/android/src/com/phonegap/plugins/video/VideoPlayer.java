@@ -63,7 +63,7 @@ public class VideoPlayer extends Plugin {
             // get actual filename from path as command to write to internal storage doesn't like folders
             String filename = filepath.substring(filepath.lastIndexOf("/")+1, filepath.length());
 
-            // Don't copy the file if it already exists 
+            // Don't copy the file if it already exists
             File fp = new File(this.ctx.getContext().getFilesDir() + "/" + filename);
             if (!fp.exists()) {
                 this.copy(filepath, filename);
@@ -71,23 +71,23 @@ public class VideoPlayer extends Plugin {
 
             // change uri to be to the new file in internal storage
             uri = Uri.parse("file://" + this.ctx.getContext().getFilesDir() + "/" + filename);
-            
+
             // Display video player
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, "video/*");
-        } else {        
+        } else {
             // Display video player
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, "video/*");
         }
-        
+
         this.ctx.startActivity(intent);
     }
 
     private void copy(String fileFrom, String fileTo) throws IOException {
         // get file to be copied from assets
         InputStream in = this.ctx.getAssets().open(fileFrom);
-        // get file where copied too, in internal storage. 
+        // get file where copied too, in internal storage.
         // must be MODE_WORLD_READABLE or Android can't play it
         FileOutputStream out = this.ctx.getContext().openFileOutput(fileTo, Context.MODE_WORLD_READABLE);
 
