@@ -38,9 +38,12 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   },
 
   play : function(mediaId) {
-    this.set('mediaId', mediaId);
-    this._play(this.media);
-
+    if (mediaId != this.media.id) {
+      this.set('mediaId', mediaId);
+      this._play(this.media);
+    } else {
+      this._play();
+    }
   },
 
   _play : function(media) {
@@ -49,6 +52,10 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     } else {
       dojo.publish('/' + this.playerType + '/play', [ this.media.name || this.media.id ]);
     }
+  },
+
+  pause : function() {
+    this._pause();
   },
 
   _pause : function() {
@@ -107,7 +114,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     this._queuedMedia = null;
 
     if (this.player) {
-      this.player.src = media.url;
+      this.player.src = media ? media.url : null;
     }
   },
 

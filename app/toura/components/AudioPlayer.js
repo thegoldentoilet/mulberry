@@ -17,6 +17,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   prepareData : function() {
     this.medias = this.node.audios || [];
     this.inherited(arguments);
+
+    window.audioPlayer = this;
   },
 
   setupConnections : function() {
@@ -78,12 +80,12 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     return styles;
   },
 
-  // _updateSpinner resets the spinner first
-  _updateSpinner: function() {
+  _updateSpinner : function() {
     if (!this.spinner) { return; }
 
     var ctx = this.spinner.ctx,
-        styles = this._getSpinnerStyles();
+        styles = this._getSpinnerStyles(),
+        current = this.getCurrentPercent();
 
     ctx.strokeStyle = styles.color;
     ctx.lineWidth = 2;
@@ -99,7 +101,15 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       ctx.stroke();
     }
 
-    this._setSpinnerPercent(this.getCurrentPercent(), styles);
+    if (current >= 100) {
+      this._setSpinnerPercent(0, styles);
+      if (this.isPlaying) {
+        this.finishedPlaying();
+      }
+      return;
+    }
+
+    this._setSpinnerPercent(current, styles);
   },
 
   _setSpinnerPercent: function(percent /* 0 to 100 */, styles) {
@@ -147,6 +157,8 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     this.inherited(arguments);
 
     this.set('isPlaying', true);
+    this._updateSpinner();
+    this.onPlay(this.media.id);
 
     if (this.useHtml5Player) { return; }
 
@@ -154,17 +166,25 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     pg.audio.destroy();
     pg.audio.play(this.media.url);
 
-    this._updateSpinner();
   },
 
   _pause : function() {
     this.inherited(arguments);
 
     this.set('isPlaying', false);
+    this.onPause();
 
     if (this.useHtml5Player) { return; }
 
     mulberry.app.PhoneGap.audio.stop();
+  },
+
+  onPlay : function(mediaId) {
+    // stub for connections
+  },
+
+  onPause : function() {
+    // stub for connections
   },
 
   _setIsPlayingAttr : function(val /* Boolean */) {
@@ -179,6 +199,10 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
       this[spinnerMethod]();
       this._updateSpinner();
     }
+  },
+
+  finishedPlaying : function() {
+    this.set('isPlaying', false);
   },
 
   teardown : function() {
