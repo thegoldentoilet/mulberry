@@ -361,6 +361,16 @@
   );
 }
 
+@function fs-invert($font-scheme) {
+  @if $font-scheme == dark {
+    @return "light";
+  }
+
+  @if $font-scheme == light {
+    @return "dark";
+  }
+}
+
 @mixin portrait-column {
   width: 75%;
   margin-left: 12.5%;

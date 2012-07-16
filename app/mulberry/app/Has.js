@@ -7,7 +7,7 @@ mulberry.app.Has = function() {
 
   return {
     html5Player : function() {
-      return device.os !== 'android';
+      return device.os !== 'android' || device.environment === 'browser';
     },
 
     iScrollZoom : function() {

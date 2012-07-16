@@ -8,6 +8,10 @@
       size: 28px 26px;
     }
 
+    &.current {
+      background-color: $child-node-active-color;
+    }
+
     a {
       padding: 10px 10px 10px 50px;
     }

@@ -19,6 +19,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
     this.media = this.medias[0] || {};
     this.useHtml5Player = mulberry.app.Has.html5Player();
+    this.androidAudioFallback = this.playerType === 'audio' && mulberry.Device.os === "android" && mulberry.Device.osVersion < 2.3;
   },
 
   setupSubscriptions : function() {
@@ -33,9 +34,12 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   },
 
   play : function(mediaId) {
-    this.set('mediaId', mediaId);
-    this._play(this.media);
-
+    if (mediaId !== this.media.id) {
+      this.set('mediaId', mediaId);
+      this._play(this.media);
+    } else {
+      this._play();
+    }
   },
 
   _play : function(media) {
@@ -44,6 +48,10 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     } else {
       dojo.publish('/' + this.playerType + '/play', [ this.media.name || this.media.id ]);
     }
+  },
+
+  pause : function() {
+    this._pause();
   },
 
   _pause : function() {
@@ -116,7 +124,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     this._queuedMedia = null;
 
     if (this.player) {
-      this.player.src = media.url;
+      this.player.src = media ? media.url : null;
     }
   },
 
@@ -126,8 +134,9 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
 
     var media = this.media,
         domNode = this.domNode,
+        playerToCreate = this.androidAudioFallback ? 'video' : this.playerType,
         player = this.player = dojo.create(
-          this.playerType,
+          playerToCreate,
           dojo.mixin({ src : media.url }, this.playerSettings)
         ),
         doIt = dojo.partial(dojo.place, player, domNode);

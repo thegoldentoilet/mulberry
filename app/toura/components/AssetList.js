@@ -57,8 +57,12 @@ dojo.declare('toura.components.AssetList', mulberry._Component, {
   },
 
   _setCurrentAssetAttr : function(assetId) {
-    var item = this.query('#asset-' + assetId)[0];
+    var item;
     this.query('.asset-list li').removeClass('current');
+
+    if (!assetId) { return; }
+
+    item = this.query('#asset-' + assetId)[0];
     dojo.addClass(item, 'current');
     this.currentAsset = assetId;
   }

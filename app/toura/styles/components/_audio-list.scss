@@ -2,4 +2,9 @@
   li {
     background-image: url('resources/icons/#{$font-scheme}/icon-asset-audio.png');
   }
+
+  &.playing li.current {
+    $inverse-font-scheme: fs-invert($font-scheme);
+    background-image: url('resources/icons/#{$inverse-font-scheme}/icon-asset-audio.png');
+  }
 }
