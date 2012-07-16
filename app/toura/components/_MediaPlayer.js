@@ -38,7 +38,7 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
   },
 
   play : function(mediaId) {
-    if (mediaId != this.media.id) {
+    if (mediaId !== this.media.id) {
       this.set('mediaId', mediaId);
       this._play(this.media);
     } else {

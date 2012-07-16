@@ -16,7 +16,7 @@ dojo.declare('toura.capabilities.AudioList_AudioPlayer', mulberry._Capability, {
   ],
 
   _playAudio : function(audioId) {
-    if (this.audioPlayer.isPlaying && this.audioPlayer.media && this.audioPlayer.media.id == audioId) {
+    if (this.audioPlayer.isPlaying && this.audioPlayer.media && this.audioPlayer.media.id === audioId) {
       this.audioPlayer.pause();
     } else {
       this.audioPlayer.play(audioId);
