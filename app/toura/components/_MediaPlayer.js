@@ -126,7 +126,12 @@ dojo.declare('toura.components._MediaPlayer', mulberry._Component, {
     this._queuedMedia = null;
 
     if (this.player) {
-      this.player.src = media ? media.url : null;
+      if (mulberry.Device.os === 'android' && this.useHtml5Player) {
+        dojo.destroy(this.player);
+        this._setupPlayer();
+      } else {
+        this.player.src = media ? media.url : null;
+      }
     }
   },
 

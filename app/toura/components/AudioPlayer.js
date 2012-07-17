@@ -36,7 +36,7 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   },
 
   _setupSpinner : function() {
-    if (!this.spinner) { return; }
+    if (!this.spinner || this.spinner.ctx) { return; }
 
     var canvas = document.createElement("canvas"),
         marginBox = this.spinner.marginBox = dojo.marginBox(this.spinner),
