@@ -3,8 +3,11 @@
   $tablet-size : 64px;
   $widgets : 3;
 
+  > div {
+    width: 100%;
 
-  @include flex-column-container;
+    @include flex-column-container;
+  }
 
   height: $phone-size;
   width: $phone-size * $widgets;
@@ -16,6 +19,10 @@
 
   .playpause {
     @include player-button(play, light);
+
+    &:only-child {
+      margin: 0 auto;
+    }
   }
 
   .rev30 {
