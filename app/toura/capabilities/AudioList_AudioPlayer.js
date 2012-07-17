@@ -9,11 +9,31 @@ dojo.declare('toura.capabilities.AudioList_AudioPlayer', mulberry._Capability, {
   },
 
   connects : [
-    [ 'audioList', 'onSelect', '_playAudio' ]
+    [ 'audioList', 'onSelect', '_playAudio' ],
+    [ 'audioPlayer', 'onPlay', '_highlightPlaying' ],
+    [ 'audioPlayer', 'onPause', '_pausePlaying' ],
+    [ 'audioPlayer', 'finishedPlaying', '_clearPlaying' ]
   ],
 
   _playAudio : function(audioId) {
-    this.audioPlayer.play(audioId);
+    if (this.audioPlayer.isPlaying && this.audioPlayer.media && this.audioPlayer.media.id === audioId) {
+      this.audioPlayer.pause();
+    } else {
+      this.audioPlayer.play(audioId);
+    }
+  },
+
+  _highlightPlaying : function(audioId) {
+    this.audioList.set('currentAsset', audioId);
+    this.audioList.addClass('playing');
+  },
+
+  _pausePlaying : function() {
+    this.audioList.removeClass('playing');
+  },
+
+  _clearPlaying : function() {
+    this.audioList.set('currentAsset', '');
   }
 });
 

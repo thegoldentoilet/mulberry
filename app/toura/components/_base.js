@@ -3,6 +3,7 @@ dojo.provide('toura.components._base');
 dojo.require('toura.components.AdTag');
 dojo.require('toura.components.AppNav');
 dojo.require('toura.components.AssetList');
+dojo.require('toura.components.AudioTitle');
 dojo.require('toura.components.AudioCaption');
 dojo.require('toura.components.AudioList');
 dojo.require('toura.components.AudioPlayer');

@@ -1,49 +1,81 @@
 .component.audio-player {
-  text-align: center;
+  $phone-size : 48px;
+  $tablet-size : 64px;
+  $widgets : 3;
+
+  // this is a temporary fix until icons are properly implemented
+  @mixin player-button($icon, $shade) {
+    $icondir : 'resources/icons';
+
+    height: $phone-size;
+    width: $phone-size;
+
+    .tablet & {
+      height: $tablet-size;
+      width: $tablet-size;
+    }
+
+    display: block;
+
+    $inverse : 'light';
+    @if $shade == 'light' {
+      $inverse : 'dark';
+    }
+
+    background-size: contain;
+
+    background-image: url('#{$icondir}/#{$shade}/icon-player-#{$icon}.png');
+    opacity: .8;
+
+    &:active {
+      background-image: url('#{$icondir}/#{$inverse}/icon-player-#{$icon}.png');
+      opacity: 1;
+    }
+  }
+
+  @include flex-column-container;
+
+  height: $phone-size;
+  width: $phone-size * $widgets;
+
+  .tablet & {
+    height: $tablet-size;
+    width: $tablet-size * $widgets;
+  }
+
+  .playpause {
+    @include player-button(play, light);
+  }
+
+  .rev30 {
+    @include player-button(rev30, light);
+  }
+
+  .spinner {
+    height: $phone-size;
+    width: $phone-size;
+
+    color: $narrow-button-color;
+    background-color: transparentize($narrow-button-color, .8);
+
+    .tablet & {
+      height: $tablet-size;
+      width: $tablet-size;
+    }
+  }
+
+  &.playing {
+    .playpause {
+      @include player-button(pause, light);
+    }
+  }
 
   audio {
-    width: 60%;
-    padding-top: 12px;
-
-    // iOS displays <audio> much higher than it should
-    .ios & {
-      padding-top: 16px;
-    }
+    display: none;
   }
 
-
-  // Android native only <audio> doesn't work within PhoneGap
-  form {
-    width: 60px;
-    margin: 0 auto;
-    display: -webkit-box;
-    -webkit-box-orient: horizontal;
-    -webkit-box-pack: center;
-    -webkit-border-radius: 5px;
-    padding: 0px 0;
-
-    @include chrome-gradient;
-    @include box-shadow(0, 1px);
-
-    input {
-      -webkit-box-flex: 1;
-
-      margin: 0;
-      display: block;
-      border: none;
-
-      height: 30px;
-      font-size: 15px;
-      background-color: transparent;
-
-      &.play {
-        @include icon('resources/icons/btn-play.png', 30px, 30px);
-      }
-
-    }
-  }
-
-  &.playing input.play {
-    @include icon('resources/icons/btn-pause.png', 30px, 30px);
+  video {
+    width: 0;
+    height: 0;
   }
 }
