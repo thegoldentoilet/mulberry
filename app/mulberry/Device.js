@@ -96,7 +96,7 @@ dojo.require('mulberry.app.Config');
         parsers : {
           os: function() { return 'windows'; },
           osVersion: function(ua) {
-            var vnum = parseFloatsws(ua.match(/Windows NT ([\d\.]+)/i)[1]);
+            var vnum = parseFloat(ua.match(/Windows NT ([\d\.]+)/i)[1]);
             if (!vnum) { return -1; }
             return vnum;
           },
@@ -156,7 +156,7 @@ dojo.require('mulberry.app.Config');
       }
       supportsWebSql = 'openDatabase' in window;
       isOldAndroid = device.environment === 'browser' && device.os === 'android' && device.osVersion < 2.2;
-      
+
       supportsMulberry = supportsWebkitPrefixes &&
                          supportsWebSql &&
                          !isOldAndroid;
