@@ -179,35 +179,6 @@
 }
 
 
-@mixin webkit-mask-icon($icon, $background: dark) {
-  $icondir : 'resources/icons/mask/';
-
-  height: 48px;
-  width: 48px;
-  -webkit-mask: url("#{$icondir}icon-#{$icon}-#{$background}-48.png") no-repeat scroll;
-
-  @media (-webkit-min-device-pixel-ratio: 2) {
-    -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{background}-96.png");
-  }
-
-  -webkit-mask-position: center;
-  -webkit-mask-size: 100%;
-
-  text-indent: -99em;
-  display: inline-block;
-
-  .tablet & {
-    height: 64px;
-    width: 64px;
-    -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{$background}-64.png");
-
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      -webkit-mask-image: url("#{$icondir}icon-#{$icon}-#{$background}-128.png");
-    }
-  }
-}
-
-
 @mixin nav-button-base($type, $invert: false) {
   $std : 'dark';
   $hover : 'light';
@@ -474,6 +445,37 @@
   }
 }
 
+// this is a temporary fix until icons are properly implemented
+@mixin player-button($icon, $shade) {
+  $phone-size : 48px;
+  $tablet-size: 64px;
+  $icondir : 'resources/icons';
+
+  height: $phone-size;
+  width: $phone-size;
+
+  .tablet & {
+    height: $tablet-size;
+    width: $tablet-size;
+  }
+
+  display: block;
+
+  $inverse : 'light';
+  @if $shade == 'light' {
+    $inverse : 'dark';
+  }
+
+  background-size: contain;
+
+  background-image: url('#{$icondir}/#{$shade}/icon-player-#{$icon}.png');
+  opacity: .8;
+
+  &:active {
+    background-image: url('#{$icondir}/#{$inverse}/icon-player-#{$icon}.png');
+    opacity: 1;
+  }
+}
 
 
 // toura client mixins below

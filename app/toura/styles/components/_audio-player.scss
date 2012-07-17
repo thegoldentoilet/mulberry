@@ -3,35 +3,6 @@
   $tablet-size : 64px;
   $widgets : 3;
 
-  // this is a temporary fix until icons are properly implemented
-  @mixin player-button($icon, $shade) {
-    $icondir : 'resources/icons';
-
-    height: $phone-size;
-    width: $phone-size;
-
-    .tablet & {
-      height: $tablet-size;
-      width: $tablet-size;
-    }
-
-    display: block;
-
-    $inverse : 'light';
-    @if $shade == 'light' {
-      $inverse : 'dark';
-    }
-
-    background-size: contain;
-
-    background-image: url('#{$icondir}/#{$shade}/icon-player-#{$icon}.png');
-    opacity: .8;
-
-    &:active {
-      background-image: url('#{$icondir}/#{$inverse}/icon-player-#{$icon}.png');
-      opacity: 1;
-    }
-  }
 
   @include flex-column-container;
 
