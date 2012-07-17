@@ -25,6 +25,7 @@ dojo.declare('toura.capabilities.MapChildNodesViews', mulberry._Capability, {
   
   _showList : function() {
     this.page.showScreen('list');
+    dojo.publish('/content/update');
   },
   
   _showMap : function() {
