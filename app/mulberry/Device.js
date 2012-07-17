@@ -155,8 +155,8 @@ dojo.require('mulberry.app.Config');
         return false; //android and ios devices need to support touch
       }
       supportsWebSql = 'openDatabase' in window;
-      isOldAndroid = device.environment === 'browser' && device.os === 'android' && device.browserVersion < 2.2;
-
+      isOldAndroid = device.environment === 'browser' && device.os === 'android' && device.osVersion < 2.2;
+      
       supportsMulberry = supportsWebkitPrefixes &&
                          supportsWebSql &&
                          !isOldAndroid;
