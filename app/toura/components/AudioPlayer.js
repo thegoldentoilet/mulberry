@@ -100,6 +100,14 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     }
 
     dojo.when(this.getCurrentPercent(), dojo.hitch(this, function(current) {
+      if (current >= 100) {
+        this._setSpinnerPercent(0, styles);
+        if (this.isPlaying) {
+          this.finishedPlaying();
+        }
+        return;
+      }
+
       this._setSpinnerPercent(current, styles);
     }));
 
