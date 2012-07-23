@@ -77,7 +77,7 @@ dojo.declare('toura.models.Node', null, {
 
       pageDef : store.getValue(item, 'pageController'),
       sharingURL : store.getValue(item, 'sharingUrl'),
-
+      sharingText : store.getValue(item, 'sharingText'),
       parent : store.getValue(item, 'parent')
     });
 

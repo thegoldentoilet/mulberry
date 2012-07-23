@@ -11,19 +11,20 @@ toura.Sharing = {
 
   getMessage : function(svc, obj) {
     console.log('toura.Sharing::getMessage', arguments);
-
-    var app = mulberry.app.Config.get('app'),
-        defaultTmpl = app.sharingText || mulberry.sharingText || "${sharingURL}",
-        consumed = 0,
-        ret;
+    
+    var app = mulberry.app.Config.get('app');
 
     // allow for case where no object is passed
     obj = obj || { "name" : app.name };
+    var defaultTmpl = obj.sharingText || app.sharingText || "${sharingURL}",
+        consumed = 0,
+        ret;
 
     // use default sharing url if one isn't present on the object
-    console.log('app sharing URL is ' + app.sharingUrl);
-    obj.sharingURL = obj.sharingURL || app.sharingUrl || mulberry.sharingURL;
 
+    obj.sharingURL = obj.sharingURL || app.sharingUrl || mulberry.sharingURL;
+    console.log('sharing URL is ' + obj.sharingUrl);
+    console.log("sharing text is ", defaultTmpl);
     if (!obj.sharingURL) {
       console.error('No sharing URL defined for object or app. This will end badly.');
     }
