@@ -6,11 +6,11 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
       init = {
         ios : function() {
           mulberry.app.Analytics.prototype.startTracker = function(id) {
-            PhoneGap.exec("GoogleAnalyticsPlugin.startTrackerWithAccountID",id);
+            cordova.exec("GoogleAnalyticsPlugin.startTrackerWithAccountID",id);
           };
 
           mulberry.app.Analytics.prototype.trackPageview = function(pageUri) {
-            PhoneGap.exec("GoogleAnalyticsPlugin.trackPageview",pageUri);
+            cordova.exec("GoogleAnalyticsPlugin.trackPageview",pageUri);
           };
 
           mulberry.app.Analytics.prototype.trackEvent = function(category,action,label,value) {
@@ -18,14 +18,14 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
               action:action,
               label:label,
               value:value};
-            PhoneGap.exec("GoogleAnalyticsPlugin.trackEvent",options);
+            cordova.exec("GoogleAnalyticsPlugin.trackEvent",options);
           };
 
           mulberry.app.Analytics.prototype.setCustomVariable = function(index,name,value) {
             var options = {index:index,
               name:name,
               value:value};
-            PhoneGap.exec("GoogleAnalyticsPlugin.setCustomVariable",options);
+            cordova.exec("GoogleAnalyticsPlugin.setCustomVariable",options);
           };
 
           mulberry.app.Analytics.prototype.hitDispatched = function(hitString) {
@@ -35,7 +35,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
           //console.log("trackerDispatchDidComplete :: " + count);
           };
 
-          PhoneGap.addConstructor(function() {
+          cordova.addConstructor(function() {
             if(!window.plugins) window.plugins = {};
             window.plugins.googleAnalyticsPlugin = new mulberry.app.Analytics();
           });
@@ -50,7 +50,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
            * @param failureCallback	The error callback
            */
           mulberry.app.Analytics.prototype.startTracker = function(accountId, successCallback, failureCallback) {
-            return PhoneGap.exec(
+            return cordova.exec(
               successCallback,
               failureCallback,
               'GoogleAnalyticsTracker',
@@ -66,7 +66,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
            * @param failureCallback	The error callback
            */
           mulberry.app.Analytics.prototype.trackPageview = function(key, successCallback, failureCallback) {
-            return PhoneGap.exec(
+            return cordova.exec(
               successCallback,
               failureCallback,
               'GoogleAnalyticsTracker',
@@ -86,7 +86,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
            */
 
           mulberry.app.Analytics.prototype.trackEvent = function(category, action, label, value, successCallback, failureCallback){
-            return PhoneGap.exec(
+            return cordova.exec(
               successCallback,
               failureCallback,
               'GoogleAnalyticsTracker',
@@ -100,7 +100,7 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
           };
 
           mulberry.app.Analytics.prototype.setCustomVariable = function(index, label, value, scope, successCallback, failureCallback){
-            return PhoneGap.exec(
+            return cordova.exec(
               successCallback,
               failureCallback,
               'GoogleAnalyticsTracker',
@@ -116,8 +116,8 @@ mulberry.app.PhoneGap.analytics = function(pg, device){
           /**
            * Load Analytics
            */
-          PhoneGap.addConstructor(function() {
-            PhoneGap.addPlugin('analytics', new mulberry.app.Analytics());
+          cordova.addConstructor(function() {
+            cordova.addPlugin('analytics', new mulberry.app.Analytics());
           });
         }
       };
