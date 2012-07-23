@@ -23,8 +23,7 @@ toura.Sharing = {
     // use default sharing url if one isn't present on the object
 
     obj.sharingURL = obj.sharingURL || app.sharingUrl || mulberry.sharingURL;
-    console.log('sharing URL is ' + obj.sharingUrl);
-    console.log("sharing text is ", defaultTmpl);
+    
     if (!obj.sharingURL) {
       console.error('No sharing URL defined for object or app. This will end badly.');
     }
