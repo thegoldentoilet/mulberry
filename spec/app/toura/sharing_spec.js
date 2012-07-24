@@ -59,9 +59,9 @@ describe("sharing API", function() {
           },
           // sharing failed
           function(msg) {
-            expect(msg).toBeDefined();  
-          }            
+            expect(msg).toBeDefined();
+          }
         );
-    });*/    
+    });*/
   });
 });
