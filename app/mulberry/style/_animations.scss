@@ -1,3 +1,13 @@
+@mixin hide-fade {
+  opacity: 1;
+  -webkit-transition: opacity .3s ease-in;
+
+  &.hidden {
+    opacity: 0;
+    display: block !important;
+  }
+}
+
 @-webkit-keyframes spin {
   from {
     -webkit-transform:rotate(0deg);
