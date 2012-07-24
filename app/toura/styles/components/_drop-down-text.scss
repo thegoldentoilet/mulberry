@@ -1,3 +1,13 @@
+@mixin hide-fade {
+  opacity: 1;
+  -webkit-transition: opacity .3s ease-in;
+
+  &.hidden {
+    opacity: 0;
+    display: block !important;
+  }
+}
+
 .component.drop-down-text {
   z-index: 1;
   position: absolute;
@@ -12,16 +22,6 @@
 
   .tablet & {
     font-size: 16px;
-  }
-
-  @mixin hide-fade {
-    opacity: 1;
-    -webkit-transition: opacity .3s ease-in;
-
-    &.hidden {
-      opacity: 0;
-      display: block !important;
-    }
   }
 
   .button {
