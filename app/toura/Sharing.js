@@ -6,24 +6,24 @@ dojo.require('dojo.string');
 
 dojo.requireLocalization('mulberry', 'mulberry');
 
+//Note that mobile web sharing is not enabled, and will not be used.
 toura.Sharing = {
   lastPost : {},
 
   getMessage : function(svc, obj) {
     console.log('toura.Sharing::getMessage', arguments);
-
-    var app = mulberry.app.Config.get('app'),
-        defaultTmpl = app.sharingText || mulberry.sharingText || "${sharingURL}",
-        consumed = 0,
-        ret;
+    
+    var app = mulberry.app.Config.get('app');
 
     // allow for case where no object is passed
     obj = obj || { "name" : app.name };
+    var defaultTmpl = obj.sharingText || app.sharingText || "${sharingURL}",
+        consumed = 0,
+        ret;
 
     // use default sharing url if one isn't present on the object
-    console.log('app sharing URL is ' + app.sharingUrl);
     obj.sharingURL = obj.sharingURL || app.sharingUrl || mulberry.sharingURL;
-
+    
     if (!obj.sharingURL) {
       console.error('No sharing URL defined for object or app. This will end badly.');
     }
@@ -65,7 +65,6 @@ toura.Sharing = {
         before = service.beforePost ? !!service.beforePost(params) : true;
 
     if (before !== true) {
-      console.log('beforePost was not true');
       dfd.reject(service.beforePostError);
       doit = false;
     }
@@ -76,8 +75,6 @@ toura.Sharing = {
     }
 
     if (doit) {
-      console.log('doing it');
-
       service.api.postMessage(params.msg)
         .then(dojo.hitch(this, function() {
           this.lastPost[svc] = params.msg;
