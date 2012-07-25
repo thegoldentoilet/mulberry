@@ -32,6 +32,7 @@ dojo.declare('toura.components.ZoomableImageGallery', [ mulberry._Component, tou
   _go : function(increment) {
     return dojo.hitch(this, function() {
       this.set('currentImageIndex', this.currentImageIndex + increment);
+      dojo.publish('/image/view');
     });
   },
 

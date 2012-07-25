@@ -22,6 +22,7 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
     } else {
       this.set('currentImageIndex', 0);
     }
+    dojo.publish('/image/view');
   },
 
   _setupImageScroller : function() {
@@ -54,6 +55,7 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
   },
 
   onScrollEnd : function(imageIndex) {
+    dojo.publish('/image/view');
     // stub for connection
   },
 
