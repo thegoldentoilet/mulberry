@@ -6,6 +6,7 @@ dojo.require('dojo.string');
 
 dojo.requireLocalization('mulberry', 'mulberry');
 
+//Note that mobile web sharing is not enabled, and will not be used.
 toura.Sharing = {
   lastPost : {},
 
@@ -21,7 +22,6 @@ toura.Sharing = {
         ret;
 
     // use default sharing url if one isn't present on the object
-
     obj.sharingURL = obj.sharingURL || app.sharingUrl || mulberry.sharingURL;
     
     if (!obj.sharingURL) {

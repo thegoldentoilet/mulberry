@@ -6,11 +6,9 @@ describe("sharing API", function() {
     dojo.require('toura.Sharing');
     dojo.require('mulberry.app.DeviceStorage');
     dojo.require('toura.Data');
-    //dojo.require('toura.user.Facebook.base');
 
     mulberry.app.Config.set('app', toura.data.local);
     app = mulberry.app.Config.get('app');
-    //FB = new toura.user.Facebook.base();
 
     if (!ds) {
       ds = mulberry.app.DeviceStorage;
@@ -29,7 +27,6 @@ describe("sharing API", function() {
       var ret = toura.Sharing.getMessage('facebook', node);
       expect(node.sharingText).toBeDefined();
       expect(node.sharingURL).toBeDefined();
-      console.log(ret);
       expect(ret).toBe(node.sharingText + ' ' + node.sharingURL);
     });
 
@@ -43,25 +40,5 @@ describe("sharing API", function() {
       console.log(ret);
       expect(ret).toBe(app.sharingText + ' ' + app.sharingUrl);
     });
-
-    //commented out until sharing in mobile web works.
-    /*it("should share on click", function() {
-      var params = dojo.mixin({
-        messageText : 'Sharing text!'
-        }, FB);
-
-      toura.Sharing.share(FB, params, node)
-        .then(
-          // sharing was successful
-          function() {
-            expect(true).toBeDefined();
-            return;
-          },
-          // sharing failed
-          function(msg) {
-            expect(msg).toBeDefined();
-          }
-        );
-    });*/
   });
 });
