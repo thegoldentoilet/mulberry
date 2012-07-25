@@ -23,14 +23,14 @@ describe("sharing API", function() {
   });
 
   describe("toura sharing", function() {
-    it("should return node sharing text", function() {
+    it("should return node sharing text if it's set for the node", function() {
       var ret = toura.Sharing.getMessage('facebook', node);
       expect(node.sharingText).toBeDefined();
       expect(node.sharingURL).toBeDefined();
       expect(ret).toBe(node.sharingText + ' ' + node.sharingURL);
     });
 
-    it("should return app level sharing text", function() {
+    it("should return app sharing text if node sharing text isn't set", function() {
      
       node.sharingText = null;
       node.sharingURL = null;
