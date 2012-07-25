@@ -1,11 +1,15 @@
 .component.ad-tag {
   background: $ad-background-color;
-  text-align: center;
   width: 100%;
+
+  > div {
+    margin: 0 auto;
+  }
 
   .phone & {
     height: $phone-ad-height;
 
+    > div,
     iframe {
       height: $phone-ad-height;
       width: $phone-ad-width;
@@ -15,6 +19,7 @@
   .tablet & {
     height: $tablet-ad-height;
 
+    > div,
     iframe {
       height: $tablet-ad-height;
       width: $tablet-ad-width;
