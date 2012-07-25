@@ -37,7 +37,6 @@ describe("sharing API", function() {
       var ret = toura.Sharing.getMessage('facebook', node);
       expect(app.sharingText).toBeDefined();
       expect(app.sharingUrl).toBeDefined();
-      console.log(ret);
       expect(ret).toBe(app.sharingText + ' ' + app.sharingUrl);
     });
   });

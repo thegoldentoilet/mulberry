@@ -65,7 +65,6 @@ toura.Sharing = {
         before = service.beforePost ? !!service.beforePost(params) : true;
 
     if (before !== true) {
-      console.log('beforePost was not true');
       dfd.reject(service.beforePostError);
       doit = false;
     }
@@ -76,8 +75,6 @@ toura.Sharing = {
     }
 
     if (doit) {
-      console.log('doing it');
-
       service.api.postMessage(params.msg)
         .then(dojo.hitch(this, function() {
           this.lastPost[svc] = params.msg;
