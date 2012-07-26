@@ -40,7 +40,6 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
     this.helpers.sharingButtons = this.sharingDisabled ? '' : this.helpers.sharingButtons;
     this.helpers.favoriteButton = this.favoritesDisabled ? '' : this.helpers.favoriteButton;
     this.helpers.fontSizeButton = this.fontSizeDisabled ? '' : this.helpers.fontSizeButton;
-
     this.inherited(arguments);
   },
 
@@ -56,8 +55,6 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
         this.connect(socialButton, evt, dojo.hitch(this, '_handleSocialMessageClick', service));
         if (touch) { this.connect(socialButton, 'click', prevent); }
       }, this);
-
-      this._createMailLink();
       this.hide(this.shareSection);
     }
 
@@ -86,6 +83,7 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
   },
 
   _createMailLink : function() {
+   
     if (!this.email) { return; }
     dojo.attr(this.email, 'href', 'mailto:?' + dojo.objectToQuery({
       subject : mulberry.app.Config.get('app').name,
@@ -176,6 +174,8 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
     if (this.favorite) {
       this.favorite.checked = toura.user.Favorites.isFavorite(node);
     }
+
+    this._createMailLink();
   },
 
   toggle : function() {
