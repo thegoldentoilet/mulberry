@@ -17,8 +17,6 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
   prepareData : function() {
     this.medias = this.node.audios || [];
     this.inherited(arguments);
-
-    window.audioPlayer = this;
   },
 
   setupConnections : function() {
@@ -102,6 +100,14 @@ dojo.declare('toura.components.AudioPlayer', toura.components._MediaPlayer, {
     }
 
     dojo.when(this.getCurrentPercent(), dojo.hitch(this, function(current) {
+      if (current >= 100) {
+        this._setSpinnerPercent(0, styles);
+        if (this.isPlaying) {
+          this.finishedPlaying();
+        }
+        return;
+      }
+
       this._setSpinnerPercent(current, styles);
     }));
 
