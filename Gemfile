@@ -9,7 +9,7 @@ gem 'imagesize'
 gem 'json'
 gem 'kramdown'
 gem 'mustache'
-gem 'sass', '3.1.4'
+gem 'sass', '~> 3.1.20'
 gem 'sinatra', '1.3.2'
 gem 'guid'
 

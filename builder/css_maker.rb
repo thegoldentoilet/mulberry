@@ -1,4 +1,3 @@
-gem 'sass', '=3.1.4'
 require 'sass'
 require 'app'
 

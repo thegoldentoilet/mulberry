@@ -14,16 +14,6 @@
     font-size: 16px;
   }
 
-  @mixin hide-fade {
-    opacity: 1;
-    -webkit-transition: opacity .3s ease-in;
-
-    &.hidden {
-      opacity: 0;
-      display: block !important;
-    }
-  }
-
   .button {
     margin: 0 auto;
     background-color: $chrome-color;
