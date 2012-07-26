@@ -62,7 +62,7 @@ describe("favorites API", function() {
       var spy = jasmine.createSpy();
       dojo.subscribe('/favorite/remove', spy);
 
-      api.addFavorite(node)
+      api.removeFavorite(node)
       expect(spy).toHaveBeenCalled();
     });
 
