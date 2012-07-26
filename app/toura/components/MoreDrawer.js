@@ -83,11 +83,11 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
   },
 
   _createMailLink : function() {
-    var self = this;
+   
     if (!this.email) { return; }
     dojo.attr(this.email, 'href', 'mailto:?' + dojo.objectToQuery({
       subject : mulberry.app.Config.get('app').name,
-      body : toura.Sharing.getMessage('email', self.node)
+      body : toura.Sharing.getMessage('email', this.node)
     }));
 
     this.connect(this.email, 'click', function() {
@@ -174,7 +174,7 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
     if (this.favorite) {
       this.favorite.checked = toura.user.Favorites.isFavorite(node);
     }
-    
+
     this._createMailLink();
   },
 
