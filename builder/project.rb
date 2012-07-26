@@ -155,7 +155,7 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
         end
 
         # load index.html
-        unless @target["gather"]["load_screens"]
+        unless @target["gather"] && @target["gather"]["load_screens"]
           text = File.read(toura_main_activity_file)
 
           # Basically here we're looking for a special comment in
