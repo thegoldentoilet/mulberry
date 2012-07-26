@@ -19,8 +19,6 @@ dojo.declare('mulberry.app.Analytics', null, {
   },
 
   trackEvent: function(category, action, label, value) {
-    console.log('arguments', arguments);
-
     this.setCustomVariables();
     _gaq.push(['_trackEvent', category, action, label, value]);
   },
