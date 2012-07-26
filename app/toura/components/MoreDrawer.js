@@ -174,6 +174,7 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
     if (this.favorite) {
       this.favorite.checked = toura.user.Favorites.isFavorite(node);
     }
+    
     this._createMailLink();
   },
 
