@@ -25,7 +25,6 @@ describe("favorites API", function() {
 
   describe("favorites management api", function() {
     it("should allow objects to be favorited", function() {
-
       api.addFavorite(node)
 
       var favs = api.load(), fav = favs[0];
@@ -36,6 +35,14 @@ describe("favorites API", function() {
       expect(fav.name).toBe(node.name);
       expect(fav.added).toBeDefined();
       expect(fav.model).toBeDefined();
+    });
+
+    it("should publish a topic when an object is favorited", function() {
+      var spy = jasmine.createSpy();
+      dojo.subscribe('/favorite/add', spy);
+
+      api.addFavorite(node)
+      expect(spy).toHaveBeenCalled();
     });
 
     it("should allow favorites to be removed", function() {
@@ -49,6 +56,14 @@ describe("favorites API", function() {
       favs = api.load();
       favs = api.load();
       expect(favs.length).toBe(0);
+    });
+
+    it("should publish a topic when an object is removed from favorites", function() {
+      var spy = jasmine.createSpy();
+      dojo.subscribe('/favorite/remove', spy);
+
+      api.addFavorite(node)
+      expect(spy).toHaveBeenCalled();
     });
 
     it("should not add duplicate objects to favorites", function() {
