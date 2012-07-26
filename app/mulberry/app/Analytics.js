@@ -4,7 +4,7 @@ dojo.provide('mulberry.app.Analytics');
 dojo.declare('mulberry.app.Analytics', null, {
   constructor : function(id) {
     this.appId = id;
-    
+
     //basic tracking supported by mulberry: page views
     dojo.subscribe('/node/view', this, 'trackPageview');
   },
@@ -19,6 +19,8 @@ dojo.declare('mulberry.app.Analytics', null, {
   },
 
   trackEvent: function(category, action, label, value) {
+    console.log('arguments', arguments);
+
     this.setCustomVariables();
     _gaq.push(['_trackEvent', category, action, label, value]);
   },
