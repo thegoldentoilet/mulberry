@@ -165,9 +165,9 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
 
     var n = this.node,
         isFav = toura.user.Favorites.isFavorite(n),
-        topic = '/favorite/' + (isFav ? 'remove' : 'add');
+        action = (isFav ? '_removeFavorite' : '_addFavorite');
 
-    dojo.publish(topic, [ n ]);
+    toura.user.Favorites[action](n)
     this.favorite.checked = !isFav;
   },
 
