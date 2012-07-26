@@ -19,13 +19,14 @@ describe("favorites API", function() {
       api = new toura.user.Favorites();
     }
 
-    api._empty();
+    api.empty();
     node = dataAPI.getModel(id);
   });
 
   describe("favorites management api", function() {
     it("should allow objects to be favorited", function() {
-      dojo.publish('/favorite/add', [ node ]);
+
+      api.addFavorite(node)
 
       var favs = api.load(), fav = favs[0];
 
@@ -40,11 +41,12 @@ describe("favorites API", function() {
     it("should allow favorites to be removed", function() {
       var favs;
 
-      dojo.publish('/favorite/add', [ node ]);
+      api.addFavorite(node)
       favs = api.load();
       expect(favs.length).toBe(1);
 
-      dojo.publish('/favorite/remove', [ node ]);
+      api.removeFavorite(node)
+      favs = api.load();
       favs = api.load();
       expect(favs.length).toBe(0);
     });
@@ -52,8 +54,8 @@ describe("favorites API", function() {
     it("should not add duplicate objects to favorites", function() {
       var favs;
 
-      dojo.publish('/favorite/add', [ node ]);
-      dojo.publish('/favorite/add', [ node ]);
+      api.addFavorite(node)
+      api.addFavorite(node)
 
       favs = api.load();
       expect(favs.length).toBe(1);
@@ -62,7 +64,7 @@ describe("favorites API", function() {
     it("should allow all favorites to be cleared", function() {
       var favs;
 
-      dojo.publish('/favorites/clear');
+      api.empty();
       favs = api.load();
       expect(favs.length).toBe(0);
     });
@@ -77,8 +79,8 @@ describe("favorites API", function() {
     it("should return a list of saved favorites", function() {
       var favs;
 
-      dojo.publish('/favorite/add', [ dataAPI.getModel('node-videos') ]);
-      dojo.publish('/favorite/add', [ dataAPI.getModel('node-audio_list') ]);
+      api.addFavorite(dataAPI.getModel('node-videos'))
+      api.addFavorite(dataAPI.getModel('node-audio_list'))
 
       favs = api.load();
       expect(favs.length).toBe(2);
@@ -87,8 +89,8 @@ describe("favorites API", function() {
     it("should sort the saved favorites by a provided property and sort order", function() {
       var favs;
 
-      dojo.publish('/favorite/add', [ dataAPI.getModel('node-videos') ]);
-      dojo.publish('/favorite/add', [ dataAPI.getModel('node-audio_list') ]);
+      api.addFavorite(dataAPI.getModel('node-videos'))
+      api.addFavorite(dataAPI.getModel('node-audio_list'))
 
       favs = api.load('name');
       expect(favs[0].name < favs[1].name).toBeTruthy();
@@ -98,7 +100,7 @@ describe("favorites API", function() {
     });
 
     it("should indicate whether an object is a favorite", function() {
-      dojo.publish('/favorite/add', [ node ]);
+      api.addFavorite(node)
       expect(api.isFavorite(node)).toBeTruthy();
       expect(api.isFavorite(dataAPI.getModel('node-location_map'))).toBeFalsy();
     });
@@ -106,8 +108,8 @@ describe("favorites API", function() {
 
   describe("favorites maintenance", function() {
     it("should mark a favorite deleted if it is no longer present in the tour data", function() {
-      dojo.publish('/favorite/add', [ node ]);
-      dojo.publish('/favorite/add', [ dataAPI.getModel('node-videos') ]);
+      api.addFavorite(node)
+      api.addFavorite(dataAPI.getModel('node-videos'))
 
       // simulate refreshing data via OTA
       var idToRemove = id,

@@ -14,15 +14,8 @@ dojo.declare('toura.user.Favorites', null, {
     this._init();
 
     this.subscriptions = [
-      dojo.subscribe('/favorite/add', this, '_addFavorite'),
-      dojo.subscribe('/favorite/remove', this, '_removeFavorite'),
-      dojo.subscribe('/favorites/clear', this, '_empty'),
       dojo.subscribe('/data/loaded', this, '_refresh')
     ];
-  },
-
-  hasFavorites : function() {
-    return !!this.store.data.length;
   },
 
   _init : function() {
@@ -49,6 +42,10 @@ dojo.declare('toura.user.Favorites', null, {
     // stub
   },
 
+  hasFavorites : function() {
+    return !!this.store.data.length;
+  },
+
   load : function(sortProp, sortDescending) {
     if (!sortProp) {
       sortProp = 'added';
@@ -61,15 +58,17 @@ dojo.declare('toura.user.Favorites', null, {
     return !!obj && !!obj.id && !!this.store.get(obj.id);
   },
 
-  _removeFavorite : function(obj) {
-    console.log('toura.user.Favorites::_removeFavorite()', obj);
+  removeFavorite : function(obj) {
+    console.log('toura.user.Favorites::removeFavorite()', obj);
     // allow passing in object or object id
     var id = dojo.isString(obj) ? obj : obj.id;
+    console.log('id', id);
+
     this.store.remove(id);
     this._save();
   },
 
-  _empty : function() {
+  empty : function() {
     this._save([]);
     this._init();
   },
@@ -79,8 +78,8 @@ dojo.declare('toura.user.Favorites', null, {
     ds.set('favorites', whatToSave || this.store.data);
   },
 
-  _addFavorite : function(obj) {
-    console.log('toura.user.Favorites::_addFavorite()', obj);
+  addFavorite : function(obj) {
+    console.log('toura.user.Favorites::addFavorite()', obj);
     if (this.isFavorite(obj)) { return; }
 
     this.store.add(new toura.models.Favorite(obj));
