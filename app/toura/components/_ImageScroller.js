@@ -17,6 +17,7 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
 
   startup : function() {
     this.inherited(arguments);
+    if (this.images.length === 0) { return; }
     if (this.useScroller) {
       this._setupImageScroller();
     } else {
