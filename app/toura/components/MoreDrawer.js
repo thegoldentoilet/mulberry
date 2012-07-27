@@ -164,11 +164,11 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
     if (!this.node) { return; }
 
     var n = this.node,
-        api = toura.user.Favorites;
+        api = toura.user.Favorites,
         isFav = api.isFavorite(n),
         action = isFav ? 'removeFavorite' : 'addFavorite';
 
-    api[action](n)
+    api[action](n);
     this.favorite.checked = !isFav;
   },
 

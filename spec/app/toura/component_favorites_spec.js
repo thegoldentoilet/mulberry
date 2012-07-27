@@ -47,7 +47,7 @@ describe("toura.components.Favorites", function() {
     allDevices(function(d) {
       var f, num;
 
-      favs.addFavorite(node)
+      favs.addFavorite(node);
       f = favs.load();
       num = f.length;
 
