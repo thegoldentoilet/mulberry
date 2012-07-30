@@ -100,7 +100,6 @@ dojo.declare('toura.components.FeedItemList', mulberry._Component, {
   },
 
   onSelect : function(feedId, feedItemIndex) {
-    console.log('onSelect', feedId, feedItemIndex);
     // stub for connection
   },
 
