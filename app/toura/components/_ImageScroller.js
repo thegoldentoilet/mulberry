@@ -17,11 +17,13 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
 
   startup : function() {
     this.inherited(arguments);
+    if (this.images.length === 0) { return; }
     if (this.useScroller) {
       this._setupImageScroller();
     } else {
       this.set('currentImageIndex', 0);
     }
+    dojo.publish('/image/view', ['name', this.images[0].name]);
   },
 
   _setupImageScroller : function() {
@@ -54,6 +56,7 @@ dojo.declare('toura.components._ImageScroller', toura.components._ImageGallery, 
   },
 
   onScrollEnd : function(imageIndex) {
+    dojo.publish('/image/view', ['name', this.images[imageIndex].name]);
     // stub for connection
   },
 
