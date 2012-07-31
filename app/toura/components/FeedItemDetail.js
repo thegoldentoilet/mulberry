@@ -51,7 +51,7 @@ dojo.declare('toura.components.FeedItemDetail', mulberry._Component, {
     if (feedItem.type !== 'feedItem') { return; }
 
     this.item = feedItem;
-    dojo.publish('/feed/view', ['url',feedItem.link]);
+    dojo.publish('/feed/view', [feedItem.feedName + ": " + feedItem.link]);
 
     if (this.item.video && this.item.video.type) {
       dojo.hitch(this, this.mediaHandlers[this.item.video.type])(this.item);
