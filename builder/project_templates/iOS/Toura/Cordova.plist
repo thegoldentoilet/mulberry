@@ -24,7 +24,7 @@
 	<array>
 		<string>*</string>
 	</array>
-    <key>Plugins</key>
+	<key>Plugins</key>
 	<dict>
 		<key>Compass</key>
 		<string>CDVLocation</string>
@@ -60,6 +60,8 @@
 		<string>ChildBrowserCommand</string>
 		<key>GoogleAnalyticsPlugin</key>
 		<string>GoogleAnalyticsPlugin</string>
-    </dict>
+		<key>AdMob</key>
+		<string>AdMobController</string>
+	</dict>
 </dict>
 </plist>

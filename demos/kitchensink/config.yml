@@ -30,7 +30,7 @@ name: mulberry's kitchensink
 
 os:
   # Specify the operating systems to target
-  - android
+  #- android
   - ios
 
 type:
