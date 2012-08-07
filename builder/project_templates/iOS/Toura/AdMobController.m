@@ -53,6 +53,7 @@
         [self createBanner:arguments withDict:options];
     
     GADRequest *request = [self createRequest];
+    request.testing = YES;
     [self setLocation:&request withDict:options];
     [self.adBanner loadRequest:request];
 }
