@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-
+import com.google.ads.*;
 import com.toura.www.push.IntentReceiver;
 
 public class TouraMainActivity extends DroidGap {
