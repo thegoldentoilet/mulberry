@@ -217,11 +217,14 @@
 
   & a {
     -webkit-background-size: contain;
+    background: {
+      repeat: no-repeat;
+      position-y: center;
+    }
   }
 
   &.#{$type} a {
-    background: url(resources/icons/#{$std}/btn-page-nav-#{$type}.png) no-repeat;
-    background-position-y: center;
+    background-image: url(resources/icons/#{$std}/btn-page-nav-#{$type}.png);
   }
 
   &.#{$type} a:active {
