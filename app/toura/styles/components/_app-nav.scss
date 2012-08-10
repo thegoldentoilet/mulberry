@@ -13,17 +13,7 @@
     -webkit-box-orient: horizontal;
   }
 
-  a {
-    display: block;
-    text-indent: -9999px;
-    -webkit-background-size: contain;
-  }
-
-  @include app-nav-button(contents);
-  @include app-nav-button(search);
-  @include app-nav-button(maps);
-  @include app-nav-button(about);
-  @include app-nav-button(favorites);
+  @include app-nav-buttons(contents search maps about favorites);
 
   .phone & {
     li {

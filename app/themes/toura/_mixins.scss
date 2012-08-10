@@ -179,14 +179,32 @@
 }
 
 @mixin app-nav-button($type) {
-  .#{$type} {
-    background: url(resources/icons/light/btn-app-nav-#{$type}.png) no-repeat center center;
+  a.#{$type} {
+    background-image: url(resources/icons/light/btn-app-nav-#{$type}.png);
   }
 
-  .#{$type}:active {
-    background: url(resources/icons/dark/btn-app-nav-#{$type}.png) no-repeat center center;
+  a.#{$type}:active {
+    background-image: url(resources/icons/dark/btn-app-nav-#{$type}.png);
   }
 }
+
+@mixin app-nav-buttons($types) {
+  a {
+    display: block;
+    text-indent: -9999px;
+    -webkit-background-size: contain;
+
+    background: {
+      repeat: no-repeat;
+      position: center center;
+    }
+  }
+
+  @each $type in $types {
+    @include app-nav-button($type);
+  }
+}
+
 
 @mixin page-nav-button-base($type, $invert: false) {
   $std : 'dark';
