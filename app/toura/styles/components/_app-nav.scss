@@ -39,22 +39,17 @@
   .tablet & {
     width: $btn-width * $btn-amount - 1;
     margin: 0 auto 20px auto;
+    -webkit-border-radius: 5px;
 
     li {
       -webkit-box-flex: 1;
       height: $icon-height;
       width: $btn-width;
+      border-right: 1px solid $chrome-border-color;
 
       a {
         height: $icon-height;
       }
-    }
-  }
-  .tablet & {
-    -webkit-border-radius: 5px;
-
-    li {
-      border-right: 1px solid $chrome-border-color;
 
       &:last-child {
         border-right: none;
