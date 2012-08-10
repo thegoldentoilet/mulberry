@@ -244,6 +244,13 @@
   }
 }
 
+@mixin page-nav-buttons($types) {
+  @each $type in $types {
+    @include page-nav-button($type);
+  }
+}
+
+
 @mixin asset-icon($type) {
   &.#{$type} a {
     background: {
