@@ -16,7 +16,6 @@
   a {
     display: block;
     text-indent: -9999px;
-    -webkit-background-size: contain;
   }
 
   @include app-nav-button(contents);

@@ -181,10 +181,13 @@
 @mixin app-nav-button($type) {
   .#{$type} {
     background: url(resources/icons/light/btn-app-nav-#{$type}.png) no-repeat center center;
+    background-size: contain;
   }
 
   .#{$type}:active {
     background: url(resources/icons/dark/btn-app-nav-#{$type}.png) no-repeat center center;
+    -webkit-background-size: contain;
+    background-size: contain;
   }
 }
 
@@ -197,17 +200,15 @@
     $hover : 'dark';
   }
 
-  & a {
-    -webkit-background-size: contain;
-  }
-
   &.#{$type} a {
     background: url(resources/icons/#{$std}/btn-page-nav-#{$type}.png) no-repeat;
     background-position-y: center;
+    background-size: contain;
   }
 
   &.#{$type} a:active {
     background-image: url(resources/icons/#{$hover}/btn-page-nav-#{$type}.png);
+    background-size: contain;
   }
 }
 
