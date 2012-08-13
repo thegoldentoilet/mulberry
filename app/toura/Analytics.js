@@ -19,6 +19,7 @@ dojo.declare('toura.Analytics', mulberry.app.Analytics, {
     dojo.subscribe('/video/play', dojo.hitch(this, 'trackEvent', 'Video', 'Play'));
     dojo.subscribe('/audio/play', dojo.hitch(this, 'trackEvent', 'Audio', 'Play'));
     dojo.subscribe('/image/view', dojo.hitch(this, 'trackEvent', 'Image', 'View'));
+    dojo.subscribe('/feed/view',  dojo.hitch(this, 'trackEvent', 'Feed', 'View'));
     dojo.subscribe('/share', dojo.hitch(this, 'trackEvent', 'Share'));
     dojo.subscribe('/search', this, 'trackSearch');
     dojo.subscribe('/favorite/add', dojo.hitch(this, 'trackEvent', 'Favorite', 'Add'));
