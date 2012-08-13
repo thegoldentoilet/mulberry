@@ -9,6 +9,7 @@ package com.phonegap.plugins.adMob;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import android.os.Handler;
 
 import org.apache.cordova.api.Plugin;
 import org.apache.cordova.api.PluginResult;
@@ -22,16 +23,16 @@ public class AdMobController extends Plugin {
 	public static final String SET_LOCATION = "setLocation";
 	public static final String CREATE_RECTANGLE = "createRectangle";
 	public static final String CREATE_REQUEST = "createRequest";
-
+	private AdView adView;
 	
 	@Override
 	public PluginResult execute(String action, JSONArray data, String callbackId) {
 		PluginResult result = null;
 		ValueEnum actionEnum = ValueEnum.fromString(action);
 		switch(actionEnum) {
-			case CREATE_BANNER: result = createBanner(); break;
-			case LOAD_BANNER: result = loadBanner(); break;
-			case MOVE_BANNER: result = moveBanner(); break;
+			case CREATE_BANNER: result = createBanner(data); break;
+			case LOAD_BANNER: result = loadBanner(data); break;
+			case MOVE_BANNER: result = moveBanner(data); break;
 			case DELETE_BANNER: result = deleteBanner(); break;
 			case SET_LOCATION: result = setLocation(); break;
 			case CREATE_RECTANGLE: result = createRectangle(); break;
@@ -41,17 +42,28 @@ public class AdMobController extends Plugin {
 		return result;
 	}
 
-	private void createBanner(String accountId) {
+	private void createBanner(JSONArray data) {
 		//set publisher id as adUnitId
 		//initialize banner
+		
+		//data.getString(index);
+		adView = new AdView(this.ctx.getActivity(), AdSize.BANNER, publisherId);
+		LinearLayout layout = super.root;       
+        layout.addView(adView);         
+        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL);        
+        AdRequest request = new AdRequest();        
+        adView.loadAd(request);            
+
+        return PluginResult.Status.OK;
+
 	}
 
-	private void loadBanner (String key) {
+	private void loadBanner (JSONArray data) {
 		//if banner doesn't exist, call createBanner()
 		//create request, set testing mode to true
 	}
 
-	private void moveBanner (String key) {
+	private void moveBanner (JSONArray data) {
 		//if banner doesn't exist, call createBanner()
 		//animate move of banner
 	}
