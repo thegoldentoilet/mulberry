@@ -58,9 +58,9 @@
       height: 60px;
       float: right;
       margin: 4px 0 0 4px;
-      -webkit-background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
+      @include background-size(cover);
     }
 
     h2 {

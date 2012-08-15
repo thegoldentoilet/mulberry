@@ -21,8 +21,8 @@
 
       .wrapper {
         height: 100%;
-        -webkit-background-size: contain;
         background: no-repeat center center;
+        @include background-size(contain);
         -webkit-transform: translate3d(0,0,0);
       }
     }

@@ -112,7 +112,7 @@
     );
 
   background-position: left center, center center;
-  -webkit-background-size: contain;
+  @include background-size(contain);
   background-repeat: no-repeat;
 
   &:active {
@@ -198,8 +198,7 @@
       position: center center;
     }
 
-    -webkit-background-size: contain;
-    background-size: contain;
+    @include background-size(contain);
   }
 
   @each $type in $types {
@@ -218,11 +217,11 @@
   }
 
   & a {
-    -webkit-background-size: contain;
     background: {
       repeat: no-repeat;
       position-y: center;
     }
+    @include background-size(contain)
   }
 
   &.#{$type} a {

@@ -5,7 +5,7 @@
     -webkit-box-flex: 1;
 
     .image {
-      -webkit-background-size: cover;
+      @include background-size(cover);
     }
   }
 

@@ -1,4 +1,4 @@
 .screen {
   background-position: center center;
-  -webkit-background-size: cover;
+  @include background-size(cover);
 }
