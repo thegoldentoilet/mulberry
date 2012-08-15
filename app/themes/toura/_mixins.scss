@@ -192,12 +192,14 @@
   a {
     display: block;
     text-indent: -9999px;
-    -webkit-background-size: contain;
 
     background: {
       repeat: no-repeat;
       position: center center;
     }
+
+    -webkit-background-size: contain;
+    background-size: contain;
   }
 
   @each $type in $types {
