@@ -20,13 +20,13 @@
       .img {
         width: 67px;
         height: 50px;
-        -webkit-background-size: cover;
+        @include background-size(cover);
         background: no-repeat center center;
         margin-right: 10px;
 
         &.default {
           background-image: url(resources/icons/icon-favorite.png);
-          -webkit-background-size: 67px 50px;
+          @include background-size(67px 50px);
         }
       }
 

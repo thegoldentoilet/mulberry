@@ -31,8 +31,8 @@
         -webkit-appearance: none;
         border: none;
         background: url(resources/icons/light/btn-page-nav-favoriteoff.png) no-repeat;
-        -webkit-background-size: contain;
         background-position-y: center;
+        @include background-size(contain);
 
         &:checked {
           background: url(resources/icons/light/btn-page-nav-favoriteon.png) no-repeat;
