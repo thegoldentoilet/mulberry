@@ -2,10 +2,10 @@ require 'cli/bin/commands/base'
 
 module Mulberry
   module Command
-    class Deploy < Mulberry::Command::Base
+    class Build < Mulberry::Command::Base
       def initialize(args, additional_options={})
         OptionParser.new do |opts|
-          opts.banner = "Usage: mulberry deploy [options]"
+          opts.banner = "Usage: mulberry build [options]"
 
           opts.on("--skip-js-build", "Disable JavaScript build task.  This
                                      option should not be used on real
@@ -26,7 +26,7 @@ module Mulberry
             additional_options[:test] = v
           end
 
-          opts.on("-q", "--quiet",  "Runs Mulberry test in quiet mode (will
+          opts.on("-q", "--quiet",  "Runs Mulberry build in quiet mode (will
                                     not open xcode proj).") do |q|
             additional_options[:quiet] = q
           end
