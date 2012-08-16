@@ -13,17 +13,7 @@
     -webkit-box-orient: horizontal;
   }
 
-  a {
-    display: block;
-    text-indent: -9999px;
-    -webkit-background-size: contain;
-  }
-
-  @include app-nav-button(contents);
-  @include app-nav-button(search);
-  @include app-nav-button(maps);
-  @include app-nav-button(about);
-  @include app-nav-button(favorites);
+  @include app-nav-buttons(contents search maps about favorites);
 
   .phone & {
     li {
@@ -39,22 +29,17 @@
   .tablet & {
     width: $btn-width * $btn-amount - 1;
     margin: 0 auto 20px auto;
+    -webkit-border-radius: 5px;
 
     li {
       -webkit-box-flex: 1;
       height: $icon-height;
       width: $btn-width;
+      border-right: 1px solid $chrome-border-color;
 
       a {
         height: $icon-height;
       }
-    }
-  }
-  .tablet & {
-    -webkit-border-radius: 5px;
-
-    li {
-      border-right: 1px solid $chrome-border-color;
 
       &:last-child {
         border-right: none;

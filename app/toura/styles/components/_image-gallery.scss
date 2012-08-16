@@ -11,7 +11,7 @@
     -webkit-box-flex: 30;
 
     .image {
-      -webkit-background-size: contain;
+      @include background-size(contain);
     }
   }
 

@@ -26,7 +26,7 @@
 
     a {
       display: block;
-      -webkit-background-size: contain;
+      @include background-size(contain);
     }
 
     h1 {

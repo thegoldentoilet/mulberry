@@ -10,9 +10,9 @@
 
   .image {
     height: 180px;
-    -webkit-background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
+    @include background-size(contain);
   }
 
   .date {
