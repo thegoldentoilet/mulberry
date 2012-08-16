@@ -200,7 +200,7 @@ module Builder
         :version =>         build_version,
         :releaseName =>     nil,
         :excludeDebug =>    true,
-        :webkitMobile =>    WEBKIT[@build_type.to_sym],
+        :webkitMobile =>    "",
 
         :action =>          "clean,release",
         :layerOptimize =>   "shrinksafe",
