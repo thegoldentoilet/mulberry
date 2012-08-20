@@ -25,7 +25,11 @@
         .image {
           // @implement -webkit-background-size;
           -webkit-box-flex: 1;
-          background: no-repeat center center;
+          background: {
+            repeat: no-repeat;
+            position: center center;
+          }
+
           -webkit-transform: translate3d(0,0,0);
         }
       }
