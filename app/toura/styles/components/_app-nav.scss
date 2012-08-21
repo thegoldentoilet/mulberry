@@ -15,6 +15,11 @@
 
   @include app-nav-buttons(contents search maps about favorites);
 
+  a {
+    display: block;
+    text-indent: -9999px;
+  }
+
   .phone & {
     li {
       -webkit-box-flex: 1;
