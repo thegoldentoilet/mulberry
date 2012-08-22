@@ -55,7 +55,6 @@ This will let you use the development server and create mobile web apps. In orde
 2. Install Cordova 1.9
 3. Install Ant
 
-TODOC: How to build with Phonegap build
 
 
 # Getting Support

@@ -64,22 +64,8 @@ in your `C:\src\mulberry` dir, or via `/cygdrive/c/src/mulberry` in cygwin.
 
 ### Install Mulberry Components
 
-Open a *Cygwin Console* and `cd` to your mulberry installation location entered above.
-
-If you followed the above instructions, mulberry is available at `/cygdrive/c/src/mulberry`
-
-	cd /cygdrive/c/src/mulberry
-
-From there, type:
-
-	source ./install.sh
-
-This will install the base Mulberry items, including Rubygems, Bundler, and runtime libraries.
-
-WARNING: this will append your `~/.bash_profile` to add Mulberry to your path. For a new
-install of cygwin only used for Mulberry, this is fine. If you use cygwin for other
-projects, you may not wish for this to occur. Edit the script yourself to include
-the path to `/cygdrive/c/src/mulberry/cli/bin`.
+Follow the installation instructions on the README.
 
 
-Installation complete! If you encounter any difficulties please [contact us](http://mulberry.toura.com).
+
+
