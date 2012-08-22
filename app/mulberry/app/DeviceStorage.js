@@ -3,37 +3,9 @@ dojo.provide('mulberry.app.DeviceStorage');
 dojo.require('mulberry.Device');
 
 /**
- * Provides an API for interacting with the SQLite databse
+ * Provides an API for interacting with the adapterite databse
  */
 mulberry.app.DeviceStorage = (function(){
-  /**
-   * TODO: this should be factored out of mulberry core, and moved to the toura
-   * namespace.
-   */
-  var storeInSQL = {
-    'tour' : {
-      tableName : 'items',
-      fields : [ 'id text', 'json text' ],
-      insertStatement : function(tableName, item) {
-        return [
-          "INSERT INTO " + tableName + "( id, json ) VALUES ( ?, ? )",
-          [ item.id, JSON.stringify(item) ]
-        ];
-      },
-      processSelecton : function(result) {
-        var items = [],
-            len = result.rows.length,
-            rowData, i;
-
-        for (i = 0; i < len; i++) {
-          rowData = result.rows.item(i).json;
-          items.push(rowData ? JSON.parse(rowData) : {});
-        }
-
-        return items;
-      }
-    }
-  };
 
   return {
     init : function(appId) {
@@ -64,6 +36,8 @@ mulberry.app.DeviceStorage = (function(){
         if (!db) {
           console.log('No database. This will end badly.');
         }
+
+        this.tables = {};
 
         this._sql = function(queries, formatter) {
           var dfd = new dojo.Deferred(),
@@ -111,26 +85,30 @@ mulberry.app.DeviceStorage = (function(){
     drop : function() {
       var queries = [];
 
-      dojo.forIn(storeInSQL, function(propName, settings) {
+      dojo.forIn(this.tables, function(propName, settings) {
         queries.push("DROP TABLE IF EXISTS " + settings.tableName);
       });
 
       window.localStorage.clear();
+
+      this.tables = {};
+
       return this._sql && this._sql(queries);
     },
 
-    set : function(k, v) {
-      var sql = storeInSQL[k],
-          queries;
+    set : function(k, v, adapter) {
+      var queries;
 
-      if (sql) {
+      if (adapter) {
+        this.tables['k'] = { 'source' : k, 'adapter' : adapter };
+
         queries = [
-          "DROP TABLE IF EXISTS " + sql.tableName,
-          "CREATE TABLE " + sql.tableName + "(" + sql.fields.join(',') + ")"
+          "DELETE FROM " + adapter.tableName + " WHERE source=" + adapter.source,
+          "CREATE TABLE IF NOT EXISTS" + adapter.tableName + "(" + adapter.fields.join(',') + ")"
         ];
 
         dojo.forEach(v, function(item) {
-          queries.push(sql.insertStatement(sql.tableName, item));
+          queries.push(adapter.insertStatement(adapter.tableName, item));
         });
 
         return this._sql(queries);
@@ -141,10 +119,12 @@ mulberry.app.DeviceStorage = (function(){
     },
 
     get : function(k) {
-      var sql = storeInSQL[k];
+      var adapter;
 
-      if (sql) {
-        return this._sql("SELECT * FROM " + sql.tableName, sql.processSelecton);
+      if (this.tables.hasOwnProperty(k)) {
+        adapter = tables[k].adapter;
+
+        return this._sql("SELECT * FROM " + adapter.tableName, adapter.processSelection);
       }
 
       var ret = window.localStorage.getItem(k);
