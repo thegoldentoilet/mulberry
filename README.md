@@ -12,21 +12,18 @@ Mulberry currently supports the following mobile platforms:
 
 # Getting Started
 
-The Mulberry command line toolkit is supported on OSX Lion and Snow Lion
+The Mulberry command line toolkit is supported on OSX Lion and Snow Lion, but it will probably work on [Ubuntu](https://github.com/Toura/mulberry/wiki/Common-Ubuntu-Installation-Issues) and it's possible to get it to work on Windows [with some effort](https://github.com/Toura/mulberry/wiki/Windows-Installation).
 
-It will probably work on:
-
-* Windows 7 64-bit via Cygwin
-* Ubuntu 11 64-bit
 
 
 ## Installation
 
-Make sure you have the dependencies
-    - Ruby 1.8.7
-    - RubyGems / Bundler
-    - Java
-    - curl
+Make sure you have the dependencies installed:
+
+- Ruby 1.8.7
+- RubyGems / Bundler
+- Java
+- curl
 
 Download the [latest release](https://github.com/Toura/mulberry/tags), or
  clone the repository into a directory of your choosing:
@@ -37,7 +34,7 @@ Install the Ruby dependencies:
 
     bundle install (--without=test)
 
-Add mulberry to your $PATH
+Add mulberry to your $PATH:
 
     export PATH=$PATH:<mulberry directory>/cli/bin
 
@@ -46,8 +43,6 @@ and either XCode or the Android SDK:
 
 - [iOS Application Development Requirements](https://github.com/Toura/mulberry/wiki/Requirements-for-developing-iOS-apps)
 - [Android Application Development Requirements](https://github.com/Toura/mulberry/wiki/Requirements-for-developing-Android-apps)
-
-
 
 
 # Getting Support
