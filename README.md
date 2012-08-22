@@ -5,16 +5,16 @@
 
 Mulberry currently supports the following mobile platforms:
 
-- iOS4 and above on iPhone and iPad
-- Android 2.2 - 2.3 Phone only (3.x -4.x tablet support on the way)
+- iOS 4.x and above on iPhone and iPad
+- Android 2.2-2.3 Phone only (3.x-4.x tablet support on the way)
 - Mobile web on most webkit-based browsers
 
 
 # Getting Started
 
-The Mulberry toolkit is supported on OSX Lion and Snow Lion
+The Mulberry command line toolkit is supported on OSX Lion and Snow Lion
 
-Mulberry will probably work on:
+It will probably work on:
 
 * Windows 7 64-bit via Cygwin
 * Ubuntu 11 64-bit
@@ -22,15 +22,20 @@ Mulberry will probably work on:
 
 ## Installation
 
-1. Install dependencies
-  - Ruby 1.9.3
+1. Make sure you have the dependencies
+  - Ruby 1.8.7
+  - RubyGems / Bundler
+  - Java http://www.java.com/en/download/index.jsp
 
 2. Download the [latest release](https://github.com/Toura/mulberry/tags), or
   clone the repository into a directory of your choosing:
 
-    `git clone git@github.com:Toura/mulberry.git`
+    git clone git@github.com:Toura/mulberry.git
+    bundle install (--without=test)
 
 3. add mulberry to your $PATH
+
+    export PATH=$PATH:<mulberry directory>/cli/bin
 
 This will let you use the development server and create mobile web apps. In order to build apps for iOS or android, you need to install the dependencies:
 
