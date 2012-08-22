@@ -22,38 +22,31 @@ It will probably work on:
 
 ## Installation
 
-1. Make sure you have the dependencies
-  - Ruby 1.8.7
-  - RubyGems / Bundler
-  - Java
-  - curl
+Make sure you have the dependencies
+    - Ruby 1.8.7
+    - RubyGems / Bundler
+    - Java
+    - curl
 
-2. Download the [latest release](https://github.com/Toura/mulberry/tags), or
-  clone the repository into a directory of your choosing:
+Download the [latest release](https://github.com/Toura/mulberry/tags), or
+ clone the repository into a directory of your choosing:
 
     git clone git@github.com:Toura/mulberry.git
+
+Install the Ruby dependencies:
+
     bundle install (--without=test)
 
-3. add mulberry to your $PATH
+Add mulberry to your $PATH
 
     export PATH=$PATH:<mulberry directory>/cli/bin
 
-This will let you use the development server and create mobile web apps. In order to build apps for iOS or android, you need to install the dependencies:
-
-### iOS
+This will let you use the development server and create mobile web apps. In order to compile apps for iOS or Android, you need to install [Cordova 1.9](https://github.com/phonegap/phonegap/zipball/1.9.0)
+and either XCode or the Android SDK:
 
 - [iOS Application Development Requirements](https://github.com/Toura/mulberry/wiki/Requirements-for-developing-iOS-apps)
-
-1. Download XCode
-2. Install Cordova 1.9
-
-### Android
-
 - [Android Application Development Requirements](https://github.com/Toura/mulberry/wiki/Requirements-for-developing-Android-apps)
 
-1. Download Android SDK
-2. Install Cordova 1.9
-3. Install Ant
 
 
 
