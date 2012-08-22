@@ -25,7 +25,8 @@ It will probably work on:
 1. Make sure you have the dependencies
   - Ruby 1.8.7
   - RubyGems / Bundler
-  - Java http://www.java.com/en/download/index.jsp
+  - Java
+  - curl
 
 2. Download the [latest release](https://github.com/Toura/mulberry/tags), or
   clone the repository into a directory of your choosing:
@@ -52,6 +53,7 @@ This will let you use the development server and create mobile web apps. In orde
 
 1. Download Android SDK
 2. Install Cordova 1.9
+3. Install Ant
 
 TODOC: How to build with Phonegap build
 

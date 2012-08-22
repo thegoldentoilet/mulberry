@@ -1,13 +1,5 @@
 # Mulberry 64-bit Windows 7 Installation Instructions
 
-Note:
-Windows, Linux, and OSX all have different installation methods. Please see the
-platform-specific directories located in the `install` directory.
-
-Mulberry tools are used to develop, debug, and test locally on your local browser.
-These tools are written in ruby and are available via github or the Mulberry website.
-
-
 ### Compile/Test on Windows Mobile devices
 
 You must install:
