@@ -10,7 +10,7 @@ Mulberry currently supports the following mobile platforms:
 - Mobile web on most webkit-based browsers
 
 
-# Getting Started
+# Compatibility
 
 The Mulberry command line toolkit is supported on OSX Lion and Snow Lion, but it will probably work on [Ubuntu](https://github.com/Toura/mulberry/wiki/Common-Ubuntu-Installation-Issues) and it's possible to get it to work on Windows [with some effort](https://github.com/Toura/mulberry/wiki/Windows-Installation).
 
@@ -43,6 +43,10 @@ and either XCode or the Android SDK:
 
 - [iOS Application Development Requirements](https://github.com/Toura/mulberry/wiki/Requirements-for-developing-iOS-apps)
 - [Android Application Development Requirements](https://github.com/Toura/mulberry/wiki/Requirements-for-developing-Android-apps)
+
+## Using Mulberry
+
+Read [Getting Started](https://github.com/Toura/mulberry/wiki/Getting-Started).
 
 
 # Getting Support
