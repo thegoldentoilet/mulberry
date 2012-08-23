@@ -37,6 +37,8 @@ mulberry.app.DeviceStorage = (function(){
           console.log('No database. This will end badly.');
         }
 
+        window.db = db;
+
         this.tables = {};
 
         this._sql = function(queries, formatter) {
@@ -99,12 +101,13 @@ mulberry.app.DeviceStorage = (function(){
     set : function(k, v, adapter) {
       var queries;
 
+
       if (adapter) {
         this.tables['k'] = { 'source' : k, 'adapter' : adapter };
 
         queries = [
           "DELETE FROM " + adapter.tableName + " WHERE source=" + adapter.source,
-          "CREATE TABLE IF NOT EXISTS" + adapter.tableName + "(" + adapter.fields.join(',') + ")"
+          "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")"
         ];
 
         dojo.forEach(v, function(item) {

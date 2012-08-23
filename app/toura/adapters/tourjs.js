@@ -5,7 +5,7 @@ dojo.require('mulberry._Adapter');
 dojo.declare('toura.adapters.tourjs', mulberry._Adapter, {
   // this parser has to do very, very little
 
-  tableName: 'items',
+  tableName: 'timmeh',
   fields : [ 'id text', 'json text', 'source text' ],
 
   constructor : function(source) {
