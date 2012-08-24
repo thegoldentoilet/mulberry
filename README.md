@@ -20,7 +20,7 @@ The Mulberry command line toolkit is supported on OSX Lion and Snow Lion, but it
 
 Make sure you have the dependencies installed:
 
-- Ruby 1.8.7
+- Ruby 1.8.7 and up
 - RubyGems / Bundler
 - Java
 - curl
