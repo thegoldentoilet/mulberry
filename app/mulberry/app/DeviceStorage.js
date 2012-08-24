@@ -101,7 +101,6 @@ mulberry.app.DeviceStorage = (function(){
     set : function(k, v, adapter) {
       var queries;
 
-
       if (adapter) {
         this.tables[k] = { 'source' : k, 'adapter' : adapter };
 
@@ -124,7 +123,7 @@ mulberry.app.DeviceStorage = (function(){
     get : function(k) {
       var adapter;
 
-      if (this.tables.hasOwnProperty(k)) {
+      if (this.tables && this.tables.hasOwnProperty(k)) {
         adapter = this.tables[k].adapter;
 
         return this._sql("SELECT * FROM " + adapter.tableName, adapter.processSelection);
