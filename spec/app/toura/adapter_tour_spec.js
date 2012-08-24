@@ -6,7 +6,7 @@ describe('toura.adapters.tourjs', function() {
 
     if (!deviceStorageInit) {
       mulberry.app.DeviceStorage.init('fake');
-      mulberry.app.DeviceStorage.tables['tour'] = { adapter: toura.adapters.tourjs };
+      mulberry.app.DeviceStorage.tables.tour = { adapter: toura.adapters.tourjs };
       mulberry.app.DeviceStorage.set('tour', [ 1, 2, 3 ]);
       deviceStorageInit = true;
     }
