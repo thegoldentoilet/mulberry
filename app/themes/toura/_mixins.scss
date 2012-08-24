@@ -112,7 +112,7 @@
     );
 
   background-position: left center, center center;
-  -webkit-background-size: contain;
+  @include background-size(contain);
   background-repeat: no-repeat;
 
   &:active {
@@ -179,14 +179,33 @@
 }
 
 @mixin app-nav-button($type) {
-  .#{$type} {
-    background: url(resources/icons/light/btn-app-nav-#{$type}.png) no-repeat center center;
+  a.#{$type} {
+    background-image: url(resources/icons/light/btn-app-nav-#{$type}.png);
   }
 
-  .#{$type}:active {
-    background: url(resources/icons/dark/btn-app-nav-#{$type}.png) no-repeat center center;
+  a.#{$type}:active {
+    background-image: url(resources/icons/dark/btn-app-nav-#{$type}.png);
   }
 }
+
+@mixin app-nav-buttons($types) {
+  a {
+    display: block;
+    text-indent: -9999px;
+
+    background: {
+      repeat: no-repeat;
+      position: center center;
+    }
+
+    @include background-size(contain);
+  }
+
+  @each $type in $types {
+    @include app-nav-button($type);
+  }
+}
+
 
 @mixin page-nav-button-base($type, $invert: false) {
   $std : 'dark';
@@ -198,12 +217,15 @@
   }
 
   & a {
-    -webkit-background-size: contain;
+    background: {
+      repeat: no-repeat;
+      position-y: center;
+    }
+    @include background-size(contain)
   }
 
   &.#{$type} a {
-    background: url(resources/icons/#{$std}/btn-page-nav-#{$type}.png) no-repeat;
-    background-position-y: center;
+    background-image: url(resources/icons/#{$std}/btn-page-nav-#{$type}.png);
   }
 
   &.#{$type} a:active {
@@ -222,6 +244,13 @@
     background-position-x: right;
   }
 }
+
+@mixin page-nav-buttons($types) {
+  @each $type in $types {
+    @include page-nav-button($type);
+  }
+}
+
 
 @mixin asset-icon($type) {
   &.#{$type} a {
