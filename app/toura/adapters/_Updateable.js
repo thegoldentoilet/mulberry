@@ -1,15 +1,15 @@
-dojo.provide('toura.models._Updateable');
+dojo.provide('toura.adapters._Updateable');
 
 dojo.require('mulberry._Adapter');
 dojo.require('mulberry.app.DeviceStorage');
 dojo.require('dojo.io.script');
 
 /**
- * @class toura.models._Updateable
+ * @class toura.adapters._Updateable
  *
  * A base class for toura's updateable resources.
  */
-dojo.declare('toura.models._Updateable', null, {
+dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
   /**
    * The location of the bundled data, if any
    * @optional
@@ -271,4 +271,3 @@ dojo.declare('toura.models._Updateable', null, {
   }
 
 });
-
