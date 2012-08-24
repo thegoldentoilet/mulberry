@@ -103,10 +103,10 @@ mulberry.app.DeviceStorage = (function(){
 
 
       if (adapter) {
-        this.tables['k'] = { 'source' : k, 'adapter' : adapter };
+        this.tables[k] = { 'source' : k, 'adapter' : adapter };
 
         queries = [
-          "DELETE FROM " + adapter.tableName + " WHERE source=" + adapter.source,
+          "DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'",
           "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")"
         ];
 
@@ -125,7 +125,7 @@ mulberry.app.DeviceStorage = (function(){
       var adapter;
 
       if (this.tables.hasOwnProperty(k)) {
-        adapter = tables[k].adapter;
+        adapter = this.tables[k].adapter;
 
         return this._sql("SELECT * FROM " + adapter.tableName, adapter.processSelection);
       }

@@ -1,12 +1,13 @@
 dojo.provide('toura.models._Updateable');
 
+dojo.require('mulberry._Adapter');
 dojo.require('mulberry.app.DeviceStorage');
 dojo.require('dojo.io.script');
 
 /**
  * @class toura.models._Updateable
  *
- * A base class for any updateable resource.
+ * A base class for toura's updateable resources.
  */
 dojo.declare('toura.models._Updateable', null, {
   /**
@@ -14,12 +15,6 @@ dojo.declare('toura.models._Updateable', null, {
    * @optional
    */
   bundleDataUrl : '',
-
-  /**
-   * The location of the remote data
-   * @required
-   */
-  remoteDataUrl : '',
 
   /**
    * The location of the remote version information
@@ -37,25 +32,6 @@ dojo.declare('toura.models._Updateable', null, {
    * An integer indicating when the remote was last checked for a new version.
    */
   lastChecked : 0,
-
-  /**
-   * @constructor
-   */
-  constructor : function(config) {
-    dojo.mixin(this, config);
-  },
-
-  /**
-   * @public
-   *
-   * This method allows consumers to request the items associated with the
-   * updateable resource. It must be implemented by subclasses.
-   *
-   * @returns {Array} An array of items.
-   */
-  getItems : function() {
-    return this._items || [];
-  },
 
   /**
    * @public
@@ -184,23 +160,6 @@ dojo.declare('toura.models._Updateable', null, {
 
   /**
    * @private
-   * @param {String} url The url for the request
-   * @param {Object} dfd The deferred that should be rejected or resolved
-   * @returns {XHR} A configuration object for passing to dojo.xhrGet
-   */
-  _xhr : function(url, dfd) {
-    return dojo.xhrGet({
-      url : url,
-      preventCache : true,
-      handleAs : 'json',
-      contentType : false,
-      load : dfd.resolve,
-      error : dfd.reject
-    });
-  },
-
-  /**
-   * @private
    * @returns {Promise} A promise that, if resolved, will be resolved with the
    * current version of the remote data.
    */
@@ -250,31 +209,6 @@ dojo.declare('toura.models._Updateable', null, {
 
   /**
    * @private
-   * @returns {Promise} A promise that, if resolved, will be resolved with the
-   * remote data.
-   */
-  _getRemoteData : function() {
-    var dfd = new dojo.Deferred();
-
-    if (!this.remoteDataUrl) {
-      dfd.resolve(false);
-    } else {
-      mulberry.app.PhoneGap.network.isReachable()
-        .then(
-          dojo.hitch(this, function() {
-            this._xhr(this.remoteDataUrl, dfd);
-          }),
-          function() {
-            dfd.resolve(false);
-          }
-        );
-    }
-
-    return dfd.promise;
-  },
-
-  /**
-   * @private
    * @returns {Object} The bundled data
    */
   getBundleData : function() {
@@ -320,12 +254,10 @@ dojo.declare('toura.models._Updateable', null, {
   /**
    * @private
    *
-   * Instructions for storing the data. This should be extended by
-   * subclasses if necessary.
+   * Update the version flag
    */
   _store : function(sourceData) {
-    this.lastUpdated = new Date().getTime();
-    this._items = sourceData.items;
+    this.inherited(arguments);
     this._setLocalVersion(sourceData && sourceData.version);
   },
 
@@ -336,15 +268,7 @@ dojo.declare('toura.models._Updateable', null, {
    */
   _parseMajorVersion: function(versionString) {
     return +versionString.split('.')[0];
-  },
-
-  /**
-   * @private
-   *
-   * Things to do once we know the data's ready -- to be implemented by
-   * subclasses if necessary.
-   */
-  _onDataReady : function() { }
+  }
 
 });
 
