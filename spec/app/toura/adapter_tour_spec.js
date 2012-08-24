@@ -1,8 +1,8 @@
-describe('toura.models.Tour', function() {
+describe('toura.adapters.tourjs', function() {
   var t, mockjax, deviceStorageInit = false;
 
   beforeEach(function() {
-    dojo.require('toura.models.Tour');
+    dojo.require('toura.adapters.tourjs');
 
     if (!deviceStorageInit) {
       mulberry.app.DeviceStorage.init('fake');
