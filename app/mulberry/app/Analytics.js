@@ -4,7 +4,7 @@ dojo.provide('mulberry.app.Analytics');
 dojo.declare('mulberry.app.Analytics', null, {
   constructor : function(id) {
     this.appId = id;
-    
+
     //basic tracking supported by mulberry: page views
     dojo.subscribe('/node/view', this, 'trackPageview');
   },
