@@ -75,7 +75,7 @@ dojo.declare('mulberry._Adapter', null, {
   _onUpdate : function(remoteData) {
     if (remoteData) {
       // if there was remote data, we need to store it
-      dojo.hitch(this, '_storeRemoteData', remoteData);
+      this._storeRemoteData(remoteData);
     } else {
       this.deferred.resolve(false);
     }
