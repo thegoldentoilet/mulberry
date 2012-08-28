@@ -23,6 +23,17 @@ dojo.declare('mulberry._Adapter', null, {
 
   /**
    * @public
+   */
+  getData : function() {
+    var dfd = this.deferred = new dojo.Deferred();
+
+    dojo.when(this._getRemoteData)
+      .then(dojo.hitch(this, '_onUpdate'));
+  },
+
+
+  /**
+   * @public
    *
    * This method allows consumers to request the items associated with the
    * resource. It must be implemented by subclasses.
@@ -49,6 +60,45 @@ dojo.declare('mulberry._Adapter', null, {
       load : dfd.resolve,
       error : dfd.reject
     });
+  },
+
+
+  /**
+   * @private
+   *
+   * Checks for remote data and does minimal validation.
+   *
+   * @param {Object} remoteData The incoming remote data to update with
+   */
+  _onUpdate : function(remoteData) {
+    if (remoteData) {
+      // if there was remote data, we need to store it
+      this._storeRemoteData();
+    } else {
+      this.deferred.resolve(false);
+    }
+  },
+
+  /**
+   * @private
+   *
+   * This method actually stores the data once it's passed through _onUpdate.
+   * It is separated out to make it easy to add validation of the remote data.
+   *
+   * @param {Object} remoteData The incoming remote data to update with
+   */
+  _storeRemoteData : function(remoteData) {
+    dojo.when(
+      this._store(remoteData, true /* this is a remote update */),
+      dojo.hitch(this, function() {
+        // once we've stored it, we have a chance to run a hook
+        this._onDataReady();
+
+        // finally, we're done -- we resolve true to indicate we
+        // updated the data successfully
+        this.deferred.resolve(true);
+      })
+    );
   },
 
 
