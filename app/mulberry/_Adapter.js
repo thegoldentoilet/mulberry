@@ -29,6 +29,8 @@ dojo.declare('mulberry._Adapter', null, {
 
     dojo.when(this._getRemoteData)
       .then(dojo.hitch(this, '_onUpdate'));
+
+    return dfd.promise;
   },
 
 
@@ -73,7 +75,7 @@ dojo.declare('mulberry._Adapter', null, {
   _onUpdate : function(remoteData) {
     if (remoteData) {
       // if there was remote data, we need to store it
-      this._storeRemoteData();
+      dojo.hitch(this, '_storeRemoteData', remoteData);
     } else {
       this.deferred.resolve(false);
     }
@@ -89,7 +91,7 @@ dojo.declare('mulberry._Adapter', null, {
    */
   _storeRemoteData : function(remoteData) {
     dojo.when(
-      this._store(remoteData, true /* this is a remote update */),
+      this._store(remoteData),
       dojo.hitch(this, function() {
         // once we've stored it, we have a chance to run a hook
         this._onDataReady();
