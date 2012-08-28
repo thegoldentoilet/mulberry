@@ -12,7 +12,7 @@ Mulberry currently supports the following mobile platforms:
 
 # Compatibility
 
-The Mulberry command line toolkit is supported on OSX Lion and Snow Lion, but it will probably work on [Ubuntu](https://github.com/Toura/mulberry/wiki/Common-Ubuntu-Installation-Issues) and it's possible to get it to work on Windows [with some effort](https://github.com/Toura/mulberry/wiki/Windows-Installation).
+The Mulberry command line toolkit is supported on OSX 10.7 and up, but it will probably work on [Ubuntu](https://github.com/Toura/mulberry/wiki/Common-Ubuntu-Installation-Issues) and it's possible to get it to work on Windows [with some effort](https://github.com/Toura/mulberry/wiki/Windows-Installation).
 
 
 
