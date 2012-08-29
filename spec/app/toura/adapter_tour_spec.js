@@ -1,11 +1,12 @@
-describe('toura.models.Tour', function() {
+describe('toura.adapters.tourjs', function() {
   var t, mockjax, deviceStorageInit = false;
 
   beforeEach(function() {
-    dojo.require('toura.models.Tour');
+    dojo.require('toura.adapters.tourjs');
 
     if (!deviceStorageInit) {
       mulberry.app.DeviceStorage.init('fake');
+      mulberry.app.DeviceStorage.tables.tour = { adapter: toura.adapters.tourjs };
       mulberry.app.DeviceStorage.set('tour', [ 1, 2, 3 ]);
       deviceStorageInit = true;
     }
@@ -60,7 +61,7 @@ describe('toura.models.Tour', function() {
       remoteVersionUrl : 'version'
     };
 
-    t = new toura.models.Tour(config);
+    t = new toura.adapters.tourjs(config);
   });
 
   describe("getItems", function() {
