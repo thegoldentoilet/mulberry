@@ -3,6 +3,7 @@ dojo.provide('toura.models.Feed');
 dojo.require('dojo.io.script');
 dojo.require('dojo.date.stamp');
 dojo.require('mulberry.app.DeviceStorage');
+dojo.require('toura.adapters.rss');
 
 (function() {
 
@@ -58,8 +59,7 @@ dojo.declare('toura.models.Feed', null, {
    * reachable and no attempt was made to load the feed items.
    */
   load : function() {
-    var fn = dojo.hitch(dojo.io.script, 'get'),
-        dfd = new dojo.Deferred();
+    var dfd = new dojo.Deferred();
 
     if (new Date().getTime() - this.lastChecked < this.throttle) {
       dfd.resolve(this._get());
@@ -71,7 +71,7 @@ dojo.declare('toura.models.Feed', null, {
             return;
           }
 
-          fn({
+          dojo.io.script.get({
             url : this._createFeedUrl(this.feedUrl),
             callbackParamName : 'callback',
             load : dojo.hitch(this, '_onLoad', dfd),

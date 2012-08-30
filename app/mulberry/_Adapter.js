@@ -64,7 +64,16 @@ dojo.declare('mulberry._Adapter', null, {
     });
   },
 
-
+  /**
+   * @private
+   * @param {String} url The url for the request
+   * @param {Object} config options holding callbacks, etc
+   * @returns {mulberry.jsonp} A reference to mulberry.jsonp
+   */
+  _jsonp : function(url, config) {
+    return mulberry.jsonp(url, dojo.delegate(config, {'timeout': 5000}));
+  },
+  
   /**
    * @private
    *
