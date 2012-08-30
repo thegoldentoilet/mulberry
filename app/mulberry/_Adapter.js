@@ -52,17 +52,36 @@ dojo.declare('mulberry._Adapter', null, {
    * @private
    * @param {String} url The url for the request
    * @param {Object} dfd The deferred that should be rejected or resolved
+   * @param {String} protocol (Optional) The protocol that should be used
+   *   to handle the XHR. Default is json
+   * @param {String} callbackParamName (Optional) The URL parameter name
+   *   that indicaten the JSONP callback string. Only used for jsonp;
+   *   defaults to this.callbackParamName if not specified.
    * @returns {XHR} A configuration object for passing to dojo.xhrGet
    */
-  _xhr : function(url, dfd) {
-    return dojo.xhrGet({
-      url : url,
-      preventCache : true,
-      handleAs : 'json',
-      contentType : false,
-      load : dfd.resolve,
-      error : dfd.reject
-    });
+  _xhr : function(url, dfd, protocol, callbackParamName) {
+    protocol = protocol || 'json';
+    callbackParamName = callbackParamName || this.callbackParamName || undefined;
+
+    if (protocol == 'jsonp' && !callbackParamName) {
+      return dfd.reject;
+    }
+
+    return protocol === 'jsonp' ?
+      mulberry.jsonp(url, {
+        callbackParamName : callbackParamName,
+        preventCache : true,
+        load : dfd.resolve,
+        error : dfd.reject
+      }) :
+      dojo.xhrGet({
+        url : url,
+        preventCache : true,
+        handleAs : protocol,
+        contentType : false,
+        load : dfd.resolve,
+        error : dfd.reject
+      });
   },
 
 
