@@ -7,7 +7,7 @@ dojo.require('mulberry.app.Analytics');
 
 
 dojo.declare('toura.Analytics', mulberry.app.Analytics, {
-  
+
   /**
    * @constructor
    * @param {String} id  The application ID to associate with analytics data
@@ -22,6 +22,8 @@ dojo.declare('toura.Analytics', mulberry.app.Analytics, {
     dojo.subscribe('/feed/view',  dojo.hitch(this, 'trackEvent', 'Feed', 'View'));
     dojo.subscribe('/share', dojo.hitch(this, 'trackEvent', 'Share'));
     dojo.subscribe('/search', this, 'trackSearch');
+    dojo.subscribe('/favorite/add', dojo.hitch(this, 'trackEvent', 'Favorite', 'Add'));
+    dojo.subscribe('/favorite/remove', dojo.hitch(this, 'trackEvent', 'Favorite', 'Remove'));
   },
 
   trackSearch : function(term) {
@@ -36,7 +38,7 @@ toura.Analytics = new toura.Analytics();
 
 dojo.subscribe('/app/ready', function() {
   var gaConfig = mulberry.app.Config.get('googleAnalytics');
-  
+
   if (gaConfig) {
     toura.Analytics.startTracker(gaConfig.trackingId);
   }
