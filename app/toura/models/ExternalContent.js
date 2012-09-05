@@ -24,27 +24,13 @@ dojo.declare('toura.models.ExternalContent', null, {
    * @constructor
    */
   constructor : function(store, item) {
-    if (item && item.feed) {
-      store.fetchItemByIdentity({
-        identity : item.feed._reference,
-        onItem : function(item) {
-          dojo.mixin(this, {
-            feedUrl : store.getValue(item, 'feedUrl'),
-            id : store.getValue(item, 'id'),
-            name : store.getValue(item, 'name')
-          });
-        },
-        scope : this
-      });
-    } else {
-      dojo.mixin(this, {
-        feedUrl : store.getValue(item, 'feedUrl'),
-        id : store.getValue(item, 'id'),
-        name : store.getValue(item, 'name')
-      });
-    }
+    dojo.mixin(this, {
+      id : store.getValue(item, 'id'),
+      name : store.getValue(item, 'name'),
+      adapter : store.getValue(item, 'adapter'),
+      sourceUrl : store.getValue(item, 'sourceUrl')
+    });
 
-    this.lastChecked = mulberry.app.DeviceStorage.get(this.id + '-checked');
   },
 
   /**
