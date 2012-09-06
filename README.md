@@ -38,7 +38,7 @@ Add mulberry to your $PATH:
 
     export PATH=$PATH:<mulberry directory>/cli/bin
 
-This will let you use the development server and create mobile web apps. In order to compile apps for iOS or Android, you need to install [Cordova 1.9](https://github.com/phonegap/phonegap/zipball/1.9.0)
+This will let you use the development server and create mobile web apps. In order to compile apps for iOS or Android, you need to install [Cordova 1.8.1](https://github.com/phonegap/phonegap/zipball/1.9.0)
 and either XCode or the Android SDK:
 
 - [iOS Application Development Requirements](https://github.com/Toura/mulberry/wiki/Requirements-for-developing-iOS-apps)
