@@ -41,7 +41,7 @@ type:
 
 # Dojo is included by default, but if you want access
 # to jQuery functionality, set this to true
-jquery: true
+jquery: false
 
 # enter your facebook api key here in order to enable facebook features
 facebook_api_key: 311842555540517

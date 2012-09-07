@@ -14,15 +14,8 @@ dojo.declare('toura.user.Favorites', null, {
     this._init();
 
     this.subscriptions = [
-      dojo.subscribe('/favorite/add', this, '_addFavorite'),
-      dojo.subscribe('/favorite/remove', this, '_removeFavorite'),
-      dojo.subscribe('/favorites/clear', this, '_empty'),
       dojo.subscribe('/data/loaded', this, '_refresh')
     ];
-  },
-
-  hasFavorites : function() {
-    return !!this.store.data.length;
   },
 
   _init : function() {
@@ -45,46 +38,9 @@ dojo.declare('toura.user.Favorites', null, {
     this.onRefresh(this.store.data);
   },
 
-  onRefresh : function(data) {
-    // stub
-  },
-
-  load : function(sortProp, sortDescending) {
-    if (!sortProp) {
-      sortProp = 'added';
-      sortDescending = true;
-    }
-    return this._sort(sortProp || 'added', sortDescending);
-  },
-
-  isFavorite : function(obj) {
-    return !!obj && !!obj.id && !!this.store.get(obj.id);
-  },
-
-  _removeFavorite : function(obj) {
-    console.log('toura.user.Favorites::_removeFavorite()', obj);
-    // allow passing in object or object id
-    var id = dojo.isString(obj) ? obj : obj.id;
-    this.store.remove(id);
-    this._save();
-  },
-
-  _empty : function() {
-    this._save([]);
-    this._init();
-  },
-
   _save : function(whatToSave) {
     console.log('will try to save', this.store.data);
     ds.set('favorites', whatToSave || this.store.data);
-  },
-
-  _addFavorite : function(obj) {
-    console.log('toura.user.Favorites::_addFavorite()', obj);
-    if (this.isFavorite(obj)) { return; }
-
-    this.store.add(new toura.models.Favorite(obj));
-    this._save();
   },
 
   _sort : function(prop, descending) {
@@ -113,6 +69,50 @@ dojo.declare('toura.user.Favorites', null, {
         model : toura.Data.getModel(item.id)
       }, item);
     }, this);
+  },
+
+  onRefresh : function(data) {
+    // stub
+  },
+
+  load : function(sortProp, sortDescending) {
+    if (!sortProp) {
+      sortProp = 'added';
+      sortDescending = true;
+    }
+    return this._sort(sortProp || 'added', sortDescending);
+  },
+
+  isFavorite : function(obj) {
+    return !!obj && !!obj.id && !!this.store.get(obj.id);
+  },
+
+  addFavorite : function(obj) {
+    console.log('toura.user.Favorites::addFavorite()', obj);
+    if (this.isFavorite(obj)) { return; }
+
+    this.store.add(new toura.models.Favorite(obj));
+    this._save();
+    dojo.publish('/favorite/add', [ obj.url ]);
+  },
+
+  removeFavorite : function(obj) {
+    console.log('toura.user.Favorites::removeFavorite()', obj);
+    // allow passing in object or object id
+    var id = dojo.isString(obj) ? obj : obj.id;
+
+    this.store.remove(id);
+    this._save();
+    dojo.publish('/favorite/remove', [ obj.url ]);
+  },
+
+  hasFavorites : function() {
+    return !!this.store.data.length;
+  },
+
+  empty : function() {
+    this._save([]);
+    this._init();
   },
 
   destroy : function() {

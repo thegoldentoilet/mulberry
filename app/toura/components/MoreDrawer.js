@@ -162,10 +162,11 @@ dojo.declare('toura.components.MoreDrawer', mulberry._Component, {
     if (!this.node) { return; }
 
     var n = this.node,
-        isFav = toura.user.Favorites.isFavorite(n),
-        topic = '/favorite/' + (isFav ? 'remove' : 'add');
+        api = toura.user.Favorites,
+        isFav = api.isFavorite(n),
+        action = isFav ? 'removeFavorite' : 'addFavorite';
 
-    dojo.publish(topic, [ n ]);
+    api[action](n);
     this.favorite.checked = !isFav;
   },
 

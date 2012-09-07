@@ -23,7 +23,7 @@ module Mulberry
       end
 
       def self.page_defs
-        File.join(self.root, 'base_apps', 'toura', 'page_defs')
+        File.join(self.root, 'app', 'toura', 'page_defs')
       end
 
       def self.data_fixtures

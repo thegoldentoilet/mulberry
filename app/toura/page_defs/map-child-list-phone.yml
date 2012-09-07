@@ -1,7 +1,7 @@
-map-child-phone:
+map-child-list-phone:
   capabilities:
-  - MapChildNodesViews
-  
+  - ListMapChildNodesViews
+
   screens:
   - name: list
     backgroundImage: true

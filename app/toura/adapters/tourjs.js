@@ -1,10 +1,40 @@
-dojo.provide('toura.models.Tour');
+dojo.provide('toura.adapters.tourjs');
 
-dojo.require('toura.models._Updateable');
-dojo.require('mulberry.app.DeviceStorage');
+dojo.require('toura.adapters._Updateable');
 
-dojo.declare('toura.models.Tour', toura.models._Updateable, {
+dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
+  // this parser has to do very, very little
+
+  tableName: 'items',
+
   storageKey : 'tour',
+
+  fields : [ 'id text', 'json text', 'source text' ],
+
+  constructor : function(config) {
+    this.inherited(arguments);
+    this.source = config && config.source || 'main';
+  },
+
+  insertStatement : function(tableName, item) {
+    return [
+      "INSERT INTO " + tableName + "(id, json, source) VALUES ( ?, ?, ? )",
+      [ item.id, JSON.stringify(item), this.source ]
+    ];
+  },
+
+  processSelection : function(result) {
+    var items = [],
+        len = result.rows.length,
+        rowData, i;
+
+    for (i = 0; i < len; i++) {
+      rowData = result.rows.item(i).json;
+      items.push(rowData ? JSON.parse(rowData) : {});
+    }
+
+    return items;
+  },
 
   getItems : function() {
     var dfd = new dojo.Deferred();
@@ -33,7 +63,7 @@ dojo.declare('toura.models.Tour', toura.models._Updateable, {
     }
 
     if (data.items) {
-      storeOnDevice = mulberry.app.DeviceStorage.set('tour', data.items);
+      storeOnDevice = mulberry.app.DeviceStorage.set('tour', data.items, toura.adapters.tourjs());
 
       if (newRemoteData) {
         // if what we're storing is new remote data, then we should
@@ -60,4 +90,3 @@ dojo.declare('toura.models.Tour', toura.models._Updateable, {
     mulberry.app.Config.set('app', appConfig);
   }
 });
-

@@ -1,10 +1,10 @@
 require 'cli/commands/spec_helper.rb'
 
-describe Mulberry::Command::Test do
+describe Mulberry::Command::Build do
   include Mulberry::Command::SpecHelpers
 
   def exec_simple_init_example
-    Mulberry::Command::Test.new [@app.name], {:test => true, :quiet => true, :skip_js_build => true}
+    Mulberry::Command::Build.new [@app.name], {:test => true, :quiet => true, :skip_js_build => true}
   end
 
   it_should_behave_like "all commands"
@@ -16,7 +16,7 @@ describe Mulberry::Command::Test do
 
     it "should support skipping JS builds" do
       ARGV = ['-s']
-      Mulberry::Command::Test.new [@app.name], {:test => true, :quiet => true}
+      Mulberry::Command::Build.new [@app.name], {:test => true, :quiet => true}
     end
 
     describe "an app with a single quote in its name" do
@@ -26,7 +26,7 @@ describe Mulberry::Command::Test do
       end
 
       it "should correctly set the app name in config files" do
-        Mulberry::Command::Test.new [@quote_app.name], {:test => true, :quiet => true, :skip_js_build => true}
+        Mulberry::Command::Build.new [@quote_app.name], {:test => true, :quiet => true, :skip_js_build => true}
 
         #ios
         plist_file = File.join(Mulberry::Directories.root, @quote_app.name, "builds", "iphone", "Toura", "Toura-Info.plist")

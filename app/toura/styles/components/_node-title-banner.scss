@@ -10,7 +10,7 @@
     padding: 5px;
     background-position: center center;
     margin-right: 10px;
-    -webkit-background-size: contain;
+    @include background-size(contain);
   }
 
   header {
