@@ -39,7 +39,7 @@ mulberry.app.DeviceStorage = (function(){
 
         window.db = db;
 
-        this.tables = {};
+        this.tables = mulberry.app.DeviceStorage.get('tables') || {};
 
         this._sql = function(queries, formatter) {
           var dfd = new dojo.Deferred(),
@@ -102,7 +102,8 @@ mulberry.app.DeviceStorage = (function(){
       var queries;
 
       if (adapter) {
-        this.tables[k] = { 'source' : k, 'adapter' : adapter };
+        this.tables[k] = { 'source' : k, 'adapter' : adapter.declaredClass };
+        mulberry.app.DeviceStorage.set('tables', this.tables);
 
         queries = [
           "DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'",
@@ -121,10 +122,14 @@ mulberry.app.DeviceStorage = (function(){
     },
 
     get : function(k) {
-      var adapter;
+      var adapter = window, a_split;
 
       if (this.tables && this.tables.hasOwnProperty(k)) {
-        adapter = this.tables[k].adapter;
+        a_split = this.tables[k].adapter.split('.');
+
+        while (a_split.length) {
+          adapter = adapter[a_split.shift()];
+        }
 
         return this._sql("SELECT * FROM " + adapter.tableName, adapter.processSelection);
       }
