@@ -10,18 +10,43 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
   var os = device.os,
       init = {
         ios : function() {
+          console.log("in admob ios");
           AdMob.prototype.callbackMap = {};
           AdMob.prototype.callbackIdx = 0;
-
-          AdMob.prototype.createBanner = function(options) {
+          //loadBanner is the preferred method to set up new banner ads.
+          AdMob.prototype.createBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
+              var options = {siteId:siteId,
+                positionX:positionX,
+                positionY:positionY,
+                height:height,
+                width:width,
+                latitude:latitude,
+                longitude:longitude
+              };
               PhoneGap.exec("AdMob.createBanner", options);
           };
 
-          AdMob.prototype.loadBanner = function(options) {
+          AdMob.prototype.loadBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
+              var options = {siteId:siteId,
+                positionX:positionX,
+                positionY:positionY,
+                height:height,
+                width:width,
+                latitude:latitude,
+                longitude:longitude
+              };
               PhoneGap.exec("AdMob.loadBanner", options);
           };
 
-          AdMob.prototype.moveBanner = function(options) {
+          AdMob.prototype.moveBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
+              var options = {siteId:siteId,
+                positionX:positionX,
+                positionY:positionY,
+                height:height,
+                width:width,
+                latitude:latitude,
+                longitude:longitude
+              };
               PhoneGap.exec("AdMob.moveBanner", options);
           };
 

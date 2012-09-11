@@ -40,10 +40,12 @@
     self.adBanner = [[[GADBannerView alloc] initWithFrame:[self createRectangle:options]] autorelease];
     // Note: Edit SampleConstants.h to provide a definition for kSampleAdUnitID
     // before compiling.
+    NSLog(@"after createRectangle");
     self.adBanner.adUnitID = self.siteId;
     self.adBanner.delegate = self;
     [self.adBanner setRootViewController:self.viewController];
     [self.webView.superview addSubview:self.adBanner];
+    NSLog(@"end of createBanner");
 }
 
 - (void) loadBanner:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -53,8 +55,10 @@
         [self createBanner:arguments withDict:options];
     
     GADRequest *request = [self createRequest];
-    request.testing = YES;
+    request.testing = NO;
+     NSLog(@"b4 location");
     [self setLocation:&request withDict:options];
+     NSLog(@"after location");
     [self.adBanner loadRequest:request];
 }
 
@@ -79,13 +83,14 @@
 {
     CGFloat latitude = 0.0f;
     CGFloat longitude = 0.0f;
-    
+     NSLog(@"in location");
     if([options objectForKey:@"latitude"] && [options objectForKey:@"longitude"])
     {
         latitude=[[options objectForKey:@"latitude"] floatValue];
         longitude=[[options objectForKey:@"longitude"] floatValue];
         [*request setLocationWithLatitude:longitude longitude:latitude accuracy:1.0f];
     }
+     NSLog(@"end of setLocation");
 }
 
 - (CGRect) createRectangle:(NSMutableDictionary *) options 
@@ -94,7 +99,7 @@
     CGFloat positionY = self.webView.superview.frame.size.height - (GAD_SIZE_320x50.height);
     CGFloat width = GAD_SIZE_320x50.width;
     CGFloat height = GAD_SIZE_320x50.height;
-    
+     NSLog(@"mid createRectangle");
     if([options objectForKey:@"positionX"])
     {
         positionX=[[options objectForKey:@"positionX"] floatValue];
@@ -111,7 +116,7 @@
     {
         height=[[options objectForKey:@"height"] floatValue];
     }
-    
+     NSLog(@"end of createRectangle");
     return CGRectMake(positionX, positionY, width, height);
 }
 
