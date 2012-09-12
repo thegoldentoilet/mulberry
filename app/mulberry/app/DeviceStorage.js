@@ -130,7 +130,7 @@ mulberry.app.DeviceStorage = (function(){
       var queries;
 
       // if we already know the adapter, we're set...
-      if(this.tables.hasOwnProperty(k)) {
+      if(this.tables && this.tables.hasOwnProperty(k)) {
         adapter = this.tables[k].adapter;
       } else if (adapter) {
         this.tables[k] = { 'source' : k, 'adapter' : adapter, 'config' : adapter.config };

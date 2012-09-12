@@ -8,6 +8,8 @@ describe("mulberry device storage api", function() {
     data = dojo.mixin({}, toura.data.local);
 
     api = mulberry.app.DeviceStorage;
+
+    api.drop();
   });
 
   it("should return a database when initialized", function() {
