@@ -48,7 +48,7 @@ describe("mulberry device storage api", function() {
 
     api._setTables(t);
 
-    expect(api._getTables()['foo'].adapter).toEqual(f);
+    expect(api._getTables().foo.adapter).toEqual(f);
   });
 
 });
