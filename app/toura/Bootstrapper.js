@@ -23,6 +23,9 @@ var bootstrapper = function() {
     source : 'main'
   });
 
+  // initialize the table
+  mulberry.app.DeviceStorage.set('tour', null, tour);
+
   if (mulberry.Device.environment === 'native') {
     // only do midstream OTAs on devices
     dojo.subscribe('/page/transition/end', function() {

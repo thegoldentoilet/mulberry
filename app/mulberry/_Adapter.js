@@ -18,6 +18,7 @@ dojo.declare('mulberry._Adapter', null, {
    */
   constructor : function(config) {
     dojo.mixin(this, config);
+    this.config = config;
   },
 
 

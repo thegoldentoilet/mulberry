@@ -39,7 +39,35 @@ mulberry.app.DeviceStorage = (function(){
 
         window.db = db;
 
-        this.tables = mulberry.app.DeviceStorage.get('tables') || {};
+        this._getTables = function() {
+          var tables = mulberry.app.DeviceStorage.get('tables');
+
+          if (tables === null) {
+            return null;
+          }
+
+          dojo.forIn(tables, function(k, t) {
+            var a_split, adapter = window;
+            a_split = t.adapter.split('.');
+            while (a_split.length) {
+              adapter = adapter[a_split.shift()];
+            }
+            tables[k].adapter = new adapter(t.config);
+          });
+
+          return tables;
+        };
+
+        this._setTables = function(tables) {
+          var stored_tables = {};
+          dojo.forIn(tables, function(k, t) {
+            stored_tables[k] = dojo.clone(tables[k]);
+            stored_tables[k].adapter = t.adapter.declaredClass;
+          });
+          mulberry.app.DeviceStorage.set('tables', stored_tables);
+        };
+
+        this.tables = this._getTables() || {};
 
         this._sql = function(queries, formatter) {
           var dfd = new dojo.Deferred(),
@@ -101,9 +129,15 @@ mulberry.app.DeviceStorage = (function(){
     set : function(k, v, adapter) {
       var queries;
 
+      // if we already know the adapter, we're set...
+      if(this.tables.hasOwnProperty(k)) {
+        adapter = this.tables[k].adapter;
+      } else if (adapter) {
+        this.tables[k] = { 'source' : k, 'adapter' : adapter, 'config' : adapter.config };
+        this._setTables(this.tables);
+      }
+
       if (adapter) {
-        this.tables[k] = { 'source' : k, 'adapter' : adapter.declaredClass };
-        mulberry.app.DeviceStorage.set('tables', this.tables);
 
         queries = [
           "DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'",
@@ -122,14 +156,10 @@ mulberry.app.DeviceStorage = (function(){
     },
 
     get : function(k) {
-      var adapter = window, a_split;
+      var adapter;
 
       if (this.tables && this.tables.hasOwnProperty(k)) {
-        a_split = this.tables[k].adapter.split('.');
-
-        while (a_split.length) {
-          adapter = adapter[a_split.shift()];
-        }
+        adapter = this.tables[k].adapter;
 
         return this._sql("SELECT * FROM " + adapter.tableName, adapter.processSelection);
       }
