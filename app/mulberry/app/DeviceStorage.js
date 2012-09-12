@@ -49,18 +49,20 @@ mulberry.app.DeviceStorage = (function(){
           dojo.forIn(tables, function(k, t) {
             var adapter = dojo.getObject(t.adapter);
             tables[k].adapter = new adapter(t.config);
+            delete tables[k].config;
           });
 
           return tables;
         };
 
         this._setTables = function(tables) {
-          var stored_tables = {};
+          var storedTables = {};
           dojo.forIn(tables, function(k, t) {
-            stored_tables[k] = dojo.clone(tables[k]);
-            stored_tables[k].adapter = t.adapter.declaredClass;
+            storedTables[k] = dojo.clone(tables[k]);
+            storedTables[k].adapter = t.adapter.declaredClass;
+            storedTables[k].config = t.adapter.config;
           });
-          mulberry.app.DeviceStorage.set('tables', stored_tables);
+          mulberry.app.DeviceStorage.set('tables', storedTables);
         };
 
         this.tables = this._getTables() || {};
@@ -129,7 +131,7 @@ mulberry.app.DeviceStorage = (function(){
       if(this.tables && this.tables.hasOwnProperty(k)) {
         adapter = this.tables[k].adapter;
       } else if (adapter) {
-        this.tables[k] = { 'source' : k, 'adapter' : adapter, 'config' : adapter.config };
+        this.tables[k] = { 'source' : k, 'adapter' : adapter };
         this._setTables(this.tables);
       }
 
