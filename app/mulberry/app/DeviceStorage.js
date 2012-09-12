@@ -138,7 +138,11 @@ mulberry.app.DeviceStorage = (function(){
       }
 
       if (adapter) {
-
+        if (v === null) {
+          // this is in so the bootstrap can set up the tables array
+          // without overwriting the data
+          return null;
+        }
         queries = [
           "DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'",
           "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")"
