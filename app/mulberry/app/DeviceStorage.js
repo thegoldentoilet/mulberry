@@ -47,11 +47,7 @@ mulberry.app.DeviceStorage = (function(){
           }
 
           dojo.forIn(tables, function(k, t) {
-            var a_split, adapter = window;
-            a_split = t.adapter.split('.');
-            while (a_split.length) {
-              adapter = adapter[a_split.shift()];
-            }
+            var adapter = dojo.getObject(t.adapter);
             tables[k].adapter = new adapter(t.config);
           });
 
