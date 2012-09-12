@@ -55,7 +55,7 @@
         [self createBanner:arguments withDict:options];
     
     GADRequest *request = [self createRequest];
-    request.testing = NO;
+    request.testing = YES;
      NSLog(@"b4 location");
     [self setLocation:&request withDict:options];
      NSLog(@"after location");
