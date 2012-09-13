@@ -5,10 +5,6 @@ dojo.require('toura.adapters._Updateable');
 dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
   // this parser has to do very, very little
 
-  tableName: 'items',
-
-  storageKey : 'tour',
-
   fields : [ 'id text', 'json text', 'source text' ],
 
   constructor : function(config) {

@@ -23,12 +23,6 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
   remoteVersionUrl : '',
 
   /**
-   * A storage key prefix for storing the version in local storage.
-   * @required
-   */
-  storageKey : '',
-
-  /**
    * @public
    *
    * This method ensures that bundled data has been loaded into the
@@ -176,7 +170,7 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
    * local version.
    */
   _getLocalVersion : function() {
-    var v = mulberry.app.DeviceStorage.get(this.storageKey + '-version');
+    var v = mulberry.app.DeviceStorage.get(this.source + '-version');
     return v;
   },
 
@@ -184,7 +178,7 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
    * @private
    */
   _setLocalVersion : function(v) {
-    mulberry.app.DeviceStorage.set(this.storageKey + '-version', v);
+    mulberry.app.DeviceStorage.set(this.source + '-version', v);
   },
 
 

@@ -7,6 +7,12 @@ dojo.provide('mulberry._Adapter');
  */
 dojo.declare('mulberry._Adapter', null, {
   /**
+   * The name of the table to write these items to (usually 'items')
+   */
+  tableName : 'items',
+
+
+  /**
    * The location of the remote data
    * @required
    */
