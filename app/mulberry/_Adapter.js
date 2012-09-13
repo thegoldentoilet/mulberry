@@ -18,6 +18,7 @@ dojo.declare('mulberry._Adapter', null, {
    */
   constructor : function(config) {
     dojo.mixin(this, config);
+    this.config = config;
   },
 
 
@@ -91,7 +92,7 @@ dojo.declare('mulberry._Adapter', null, {
    */
   _storeRemoteData : function(remoteData) {
     dojo.when(
-      this._store(remoteData),
+      this._store(remoteData, true),
       dojo.hitch(this, function() {
         // once we've stored it, we have a chance to run a hook
         this._onDataReady();
