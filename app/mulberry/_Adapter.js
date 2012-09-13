@@ -12,6 +12,12 @@ dojo.declare('mulberry._Adapter', null, {
    */
   remoteDataUrl : '',
 
+  /**
+   * The time after which the data becomes "stale"
+   * in milliseconds
+   */
+  refreshTimer : 60 * 60 * 1000,      // = 1 hour in milliseconds
+
 
   /**
    * @constructor
@@ -24,12 +30,22 @@ dojo.declare('mulberry._Adapter', null, {
 
   /**
    * @public
+   *
+   * gets data for a particular resource
+   *
+   * @param resourceName {String} the name of the resource to fetch data for
+   * @returns {Promise} A promise that resolves with
    */
-  getData : function() {
-    var dfd = this.deferred = new dojo.Deferred();
+  getData : function(resourceName) {
+    var dfd = this.deferred = new dojo.Deferred(),
+        lastUpdated = this._getLastUpdate();
 
-    dojo.when(this._getRemoteData)
-      .then(dojo.hitch(this, '_onUpdate'));
+    if (lastUpdated === null || new Date().getTime() - lastUpdated > this.refreshTimer) {
+      dojo.when(this._getRemoteData)
+        .then(dojo.hitch(this, '_onUpdate'));
+    } else {
+      // here we just fetch and return the data...
+    }
 
     return dfd.promise;
   },
@@ -104,6 +120,30 @@ dojo.declare('mulberry._Adapter', null, {
   /**
    * @private
    *
+   * Checks for the time of the most recent update for this resource
+   *
+   * @param resourceName {String} the resource to check
+   * @returns UNIX timestamp of last update, or null if there has never
+   *          been an update
+   */
+  _getLastUpdate : function(resourceName) {
+    return mulberry.app.DeviceStorage.get(resourceName + "-updated");
+  },
+
+  /**
+   * @private
+   *
+   * Records the time of an update
+   *
+   * @param resourceName {String} the resource being updated
+   */
+  _setLastUpdate : function(resourceName) {
+    mulberry.app.DeviceStorage.set(resourceName + "-updated", new Date().getTime());
+  },
+
+  /**
+   * @private
+   *
    * This method actually stores the data once it's passed through _onUpdate.
    * It is separated out to make it easy to add validation of the remote data.
    *
@@ -157,7 +197,6 @@ dojo.declare('mulberry._Adapter', null, {
    * subclasses if necessary.
    */
   _store : function(sourceData) {
-    this.lastUpdated = new Date().getTime();
     this._items = sourceData.items;
   },
 
