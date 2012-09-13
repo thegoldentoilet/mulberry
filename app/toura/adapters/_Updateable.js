@@ -29,11 +29,6 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
   storageKey : '',
 
   /**
-   * An integer indicating when the remote was last checked for a new version.
-   */
-  lastChecked : 0,
-
-  /**
    * @public
    *
    * This method ensures that bundled data has been loaded into the

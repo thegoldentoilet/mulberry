@@ -20,6 +20,12 @@ dojo.declare('mulberry._Adapter', null, {
 
 
   /**
+   * An integer indicating when the remote was last checked for a new version.
+   */
+  lastChecked: 0,
+
+
+  /**
    * @constructor
    */
   constructor : function(config) {
