@@ -39,6 +39,7 @@ mulberry.app.DeviceStorage = (function(){
 
         window.db = db;
 
+        // TODO: get rid of this caching adapters stuff
         this._getTables = function() {
           var tables = mulberry.app.DeviceStorage.get('tables');
 
