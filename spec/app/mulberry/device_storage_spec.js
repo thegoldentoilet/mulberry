@@ -19,9 +19,14 @@ describe("mulberry device storage api", function() {
 
     api.drop();
 
-    f = new foo.bar.baz({ 'bar' : 'baz' });
+    f = new foo.bar.baz({
+      'bar' : 'baz'
+    });
     t = {
-      'foo' : { 'source' : 'foo', 'adapter' : f }
+      'foo' : {
+        'source' : 'foo',
+        'adapter' : f
+      }
     };
   });
 
@@ -39,7 +44,13 @@ describe("mulberry device storage api", function() {
     api._setTables(t);
 
     expect(api.get('tables')).toEqual({
-      'foo' : { 'source' : 'foo', 'adapter' : 'foo.bar.baz', 'config' : { 'bar' : 'baz'} }
+      'foo' : {
+        'source' : 'foo',
+        'adapter' : 'foo.bar.baz',
+        'config' : {
+          'bar' : 'baz'
+        }
+      }
     });
   });
 
