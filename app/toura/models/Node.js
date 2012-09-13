@@ -75,6 +75,8 @@ dojo.declare('toura.models.Node', null, {
 
       feeds : getAssets('feeds', toura.models.Feed),
 
+      externalContent : getAssets('externalContent', toura.models.externalContent),
+
       pageDef : store.getValue(item, 'pageController'),
       sharingURL : store.getValue(item, 'sharingUrl'),
       sharingText : store.getValue(item, 'sharingText'),
@@ -108,6 +110,8 @@ dojo.declare('toura.models.Node', null, {
     }, this);
 
     cache[id] = this;
+
+    // iterate over ExternalContents and call their load methods
   },
 
   _pluralize : function(type) {
