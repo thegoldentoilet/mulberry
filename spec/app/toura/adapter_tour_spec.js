@@ -51,7 +51,8 @@ describe('toura.adapters.tourjs', function() {
     config = {
       bundleDataUrl : 'bundle',
       remoteDataUrl : 'remote',
-      remoteVersionUrl : 'version'
+      remoteVersionUrl : 'version',
+      source : 'foo'
     };
 
     t = new toura.adapters.tourjs(config);
