@@ -17,9 +17,10 @@ dojo.declare('toura.models.ExternalContent', null, {
     dojo.mixin(this, {
       id : store.getValue(item, 'id'),
       name : store.getValue(item, 'name'),
-      sourceUrl : store.getValue(item, 'sourceUrl'),
-      adapter : this._getAdapter(store.getValue(item, 'adapter'))
+      sourceUrl : store.getValue(item, 'sourceUrl')
     });
+
+    this.adapter = dojo.hitch(this, '_getAdapter')(store.getValue(item, 'adapter'));
   },
 
   /**

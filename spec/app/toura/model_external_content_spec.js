@@ -51,4 +51,12 @@ describe('toura.models.ExternalContent', function() {
     expect(t.name).toEqual('name-foo');
     expect(t.sourceUrl).toEqual('sourceUrl-foo');
   });
+
+  it("should correctly set up the adapter", function() {
+    var foo = new toura.adapters.mockdapter({
+      remoteDataUrl : 'sourceUrl-foo',
+      source : 'name-foo'
+    });
+    expect(t.adapter).toEqual(foo);
+  });
 });
