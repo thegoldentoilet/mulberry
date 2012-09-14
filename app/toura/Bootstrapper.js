@@ -24,7 +24,7 @@ var bootstrapper = function() {
   });
 
   // initialize the table
-  mulberry.app.DeviceStorage.set('tour', null, tour);
+  mulberry.app.DeviceStorage.set(tour.source, null, tour);
 
   if (mulberry.Device.environment === 'native') {
     // only do midstream OTAs on devices

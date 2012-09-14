@@ -38,7 +38,7 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
     if (this._items) {
       dfd.resolve(this._items);
     } else {
-      mulberry.app.DeviceStorage.get('tour')
+      mulberry.app.DeviceStorage.get(this.source)
         .then(dojo.hitch(this, function(items) {
           this._items = items;
           dfd.resolve(items);
@@ -59,7 +59,7 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
     }
 
     if (data.items) {
-      storeOnDevice = mulberry.app.DeviceStorage.set('tour', data.items);
+      storeOnDevice = mulberry.app.DeviceStorage.set(this.source, data.items);
 
       if (newRemoteData) {
         // if what we're storing is new remote data, then we should
