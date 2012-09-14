@@ -45,18 +45,21 @@ dojo.declare('mulberry._Adapter', null, {
    *
    * gets data for a particular resource
    *
-   * @param resourceName {String} the name of the resource to fetch data for
-   * @returns {Promise} A promise that resolves with
+   * @returns {Promise} A promise that resolves with WHAT DOES IT RESOLVE WITH.
    */
-  getData : function(resourceName) {
+  getData : function() {
     var dfd = this.deferred = new dojo.Deferred(),
-        lastUpdated = this._getLastUpdate();
+        lastUpdated = this._getLastUpdate(),
+        data;
 
     if (lastUpdated === null || new Date().getTime() - lastUpdated > this.refreshTimer) {
       dojo.when(this._getRemoteData)
         .then(dojo.hitch(this, '_onUpdate'));
     } else {
       // here we just fetch and return the data...
+      mulberry.app.DeviceStorage.get(this.source).then(function(d) {
+        dfd.resolve(d);
+      });
     }
 
     return dfd.promise;

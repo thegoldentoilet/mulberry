@@ -2,20 +2,10 @@ dojo.provide('toura.models.ExternalContent');
 
 dojo.require('dojo.date.stamp');
 dojo.require('mulberry.app.DeviceStorage');
-
-(function() {
+dojo.require('mulberry._Adapter');
 
 /**
  * @class
- *
- * @property {Number} throttle  The time in milliseconds to wait between
- * fetches
- * @property {String} feedUrl
- * @property {String} id
- * @property {String} name
- * @property {Number} lastChecked
- * @property {Array} items
- * @property {Number} updated
  */
 dojo.declare('toura.models.ExternalContent', null, {
   throttle : 5 * 1000, // 5 seconds
@@ -27,8 +17,8 @@ dojo.declare('toura.models.ExternalContent', null, {
     dojo.mixin(this, {
       id : store.getValue(item, 'id'),
       name : store.getValue(item, 'name'),
-      adapter : this._getAdapter(store.getValue(item, 'adapter')),
-      sourceUrl : store.getValue(item, 'sourceUrl')
+      sourceUrl : store.getValue(item, 'sourceUrl'),
+      adapter : this._getAdapter(store.getValue(item, 'adapter'))
     });
   },
 
@@ -36,17 +26,33 @@ dojo.declare('toura.models.ExternalContent', null, {
    * @public
    */
   load : function(node) {
-
+    var data = this.adapter.getData();
   },
 
   /**
    * @private
+   *
+   * Fetches the appropriate adapter from DeviceStorage.tables or
+   * creates it from the ExternalContent data
+   *
+   * @param adapter {String} The name of the adapter for this content
+   * @returns {Adapter} The instance of the adapter tailored to this content
    */
   _getAdapter : function(adapter) {
-    fullAdapter = toura.adapters[adapter] || null;
+    var adapterRef = toura.adapters[adapter] || null,
+        fullAdapter;
 
-    if (!fullAdapter) {
+    if (!adapterRef) {
       console.error("the adapter for " + this.name + " was not found. This will end badly.");
+    }
+
+    if (mulberry.app.DeviceStorage.tables.hasOwnProperty(this.name)) {
+      fullAdapter = mulberry.app.DeviceStorage.tables[this.name].adapter;
+    } else {
+      fullAdapter = new adapterRef({
+        remoteDataUrl : this.sourceUrl,
+        source : this.name
+      });
     }
 
     return fullAdapter;
@@ -56,5 +62,3 @@ dojo.declare('toura.models.ExternalContent', null, {
   // node on xhr callback
 
 });
-
-}());
