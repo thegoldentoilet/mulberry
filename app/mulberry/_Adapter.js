@@ -156,6 +156,20 @@ dojo.declare('mulberry._Adapter', null, {
     mulberry.app.DeviceStorage.set(resourceName + "-updated", new Date().getTime());
   },
 
+
+  /**
+   * @public
+   *
+   * Gets the root nodes which are meant to be appended to the node this
+   * adapted content is pulled into
+   *
+   * @returns {Array} The ordered array of nodes to append
+   */
+  getRootNodes : function() {
+    return [];
+  },
+
+
   /**
    * @private
    *
