@@ -2,7 +2,7 @@ describe("base _Adapter class", function() {
   var c, C, t, mockjax, ajaxMocks;
 
   beforeEach(function() {
-  	dojo.require('mulberry._Adapter');
+    dojo.require('mulberry._Adapter');
 
     t = dojo.byId('test');
 
