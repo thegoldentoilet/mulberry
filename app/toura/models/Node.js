@@ -170,6 +170,16 @@ dojo.declare('toura.models.Node', null, {
     this.childrenPopulated = true;
   },
 
+  addExternalChildren : function(children) {
+    this.children.concat(children);
+
+    this.externalChildrenAdded();
+  },
+
+  externalChildrenAdded : function() {
+    // stub for connections
+  },
+
   getData : function(type) {
     if (!this._dataCache[type]) {
       var matches = dojo.filter(this.data, function(d) {
