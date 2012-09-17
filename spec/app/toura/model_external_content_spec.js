@@ -1,32 +1,37 @@
 
 describe('toura.models.ExternalContent', function() {
-  var t, mockdata, mockstore;
+  var t, mockdata, mockstore, mocknode;
 
   beforeEach(function() {
     dojo.require('toura.models.ExternalContent');
     mulberry.app.DeviceStorage.drop();
 
     mockdata = [{
-      'foo' : 'bar'
+      'foo' : 'foofaraw',
+      'bar' : 'barfaraw'
     }];
+
+    mocknode = {
+      addExternalChildren : function(d) {}
+    };
 
     dojo.provide('toura.adapters');
 
-    toura.adapters.mockdapter = (function() {
-      var mockdapter = function(config) {
+    // note: we add this to toura.adapters because it's where
+    // the model looks for it by default
+    dojo.declare('toura.adapters.mockdapter', null, {
+      constructor : function(config) {
         dojo.mixin(this, config);
-      };
+      },
 
-      mockdapter.getData = function() {
+      getData : function() {
         var dfd = new dojo.Deferred();
 
         dfd.resolve(mockdata);
 
         return dfd.promise;
-      };
-
-      return mockdapter;
-    })();
+      }
+    });
 
     mockstore = {
       getValue : function(item, value) {
@@ -58,5 +63,13 @@ describe('toura.models.ExternalContent', function() {
       source : 'name-foo'
     });
     expect(t.adapter).toEqual(foo);
+  });
+
+  it("should add children to a node", function() {
+    spyOn(mocknode, 'addExternalChildren');
+
+    t.load(mocknode);
+
+    expect(mocknode.addExternalChildren).toHaveBeenCalledWith(mockdata);
   });
 });
