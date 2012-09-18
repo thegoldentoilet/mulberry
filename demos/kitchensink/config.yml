@@ -30,8 +30,8 @@ name: mulberry's kitchensink
 
 os:
   # Specify the operating systems to target
-  #- android
-  - ios
+  - android
+  #- ios
 
 type:
   # Specify the form factors to target;

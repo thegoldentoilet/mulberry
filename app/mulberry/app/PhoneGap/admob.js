@@ -79,15 +79,39 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
               alert("Will present screen");
           };
           cordova.addConstructor(function() {
-              if(!window.plugins)
-              {
-                  window.plugins = {};
-              }
-              window.plugins.adMob = new AdMob();
+            if(!window.plugins)
+            {
+                window.plugins = {};
+            }
+            window.plugins.adMob = new AdMob();
           });
         },
         android: function () {
+          AdMob.prototype.callbackMap = {};
+          AdMob.prototype.callbackIdx = 0;
+          //loadBanner is the preferred method to set up new banner ads.
+          AdMob.prototype.createBanner = function(siteId,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
+              PhoneGap.exec(successCallback,failureCallback,"AdMob","createBanner", [siteId]);
+          };
 
+          AdMob.prototype.loadBanner = function(siteId,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
+              PhoneGap.exec(successCallback,failureCallback,"AdMob","createBanner", [siteId]);
+          };
+
+          AdMob.prototype.deleteBanner = function() {
+              //not implemented in Android?
+          };
+
+          AdMob.prototype.moveBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
+           //also not implemented in Android?
+          };
+          cordova.addConstructor(function() {
+            if(!window.plugins)
+            {
+                window.plugins = {};
+            }
+            window.plugins.adMob = new AdMob();
+          });
         }
       };
       if (pg && init[os]) {
