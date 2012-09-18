@@ -3,6 +3,9 @@ describe('toura.adapters.tourjs', function() {
 
   beforeEach(function() {
     dojo.require('toura.adapters.tourjs');
+    dojo.require('mulberry.app.DeviceStorage');
+    mulberry.app.DeviceStorage.drop();
+    mulberry.app.DeviceStorage.init('foo');
 
     mockjax = function (args) {
       var dfd = new dojo.Deferred();
@@ -56,6 +59,7 @@ describe('toura.adapters.tourjs', function() {
     };
 
     t = new toura.adapters.tourjs(config);
+    mulberry.app.DeviceStorage.set(t.source, null, t);
 
     if (!deviceStorageInit) {
       mulberry.app.DeviceStorage.init('fake');
@@ -69,8 +73,4 @@ describe('toura.adapters.tourjs', function() {
       expect(t.getItems().then).toBeDefined();
     });
   });
-
-
-
-
 });
