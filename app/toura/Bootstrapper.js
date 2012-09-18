@@ -20,7 +20,8 @@ var bootstrapper = function() {
   tour = new toura.adapters.tourjs({
     remoteDataUrl : app.Config.get('updateUrl'),
     remoteVersionUrl : app.Config.get('versionUrl'),
-    source : 'main'
+    source : 'main',
+    blessed: true
   });
 
   // initialize the table

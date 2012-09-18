@@ -5,11 +5,18 @@ dojo.require('toura.adapters._Updateable');
 dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
   // this parser has to do very, very little
 
+  appConfig : {},
+
+  // set to true if this is the main tour.js driving the app
+  blessed : false,
+
   fields : [ 'id text', 'json text', 'source text' ],
 
   constructor : function(config) {
     this.inherited(arguments);
     this.source = config && config.source || 'main';
+
+    this.appConfig = mulberry.app.DeviceStorage.get(this.source + '-app');
   },
 
   insertStatement : function(tableName, item) {
@@ -48,6 +55,12 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
     return dfd.promise;
   },
 
+  getRootNodes : function() {
+    if (!this.appConfig || !this.appConfig.homeNodeId) { return; }
+
+    return toura.Data.getModel(this.appConfig.homeNodeId, 'node').children;
+  },
+
   _store : function(data, newRemoteData) {
     this.inherited(arguments);
 
@@ -55,7 +68,8 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
         storeOnDevice;
 
     if (data.app) {
-      mulberry.app.DeviceStorage.set('app', data.app);
+      this.appConfig = data.app;
+      mulberry.app.DeviceStorage.set(this.source + '-app', data.app);
     }
 
     if (data.items) {
@@ -82,7 +96,8 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
   },
 
   _onDataReady : function() {
-    var appConfig = mulberry.app.DeviceStorage.get('app');
-    mulberry.app.Config.set('app', appConfig);
+    if (this.blessed) {
+      mulberry.app.Config.set('app', this.appConfig);
+    }
   }
 });
