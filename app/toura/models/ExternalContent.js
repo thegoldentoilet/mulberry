@@ -29,9 +29,9 @@ dojo.declare('toura.models.ExternalContent', null, {
   load : function(node) {
     var dfd = this.adapter.getData();
 
-    dfd.then(function(data) {
-      node.addExternalChildren(data);
-    });
+    dfd.then(dojo.hitch(this, function() {
+      node.addExternalChildren(this.adapter.getRootNodes());
+    }));
   },
 
   /**

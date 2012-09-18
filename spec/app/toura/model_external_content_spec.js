@@ -7,7 +7,8 @@ describe('toura.models.ExternalContent', function() {
     mulberry.app.DeviceStorage.drop();
 
     mockdata = [{
-      'foo' : 'foofaraw',
+      'foo' : 'foofaraw'
+    }, {
       'bar' : 'barfaraw'
     }];
 
@@ -30,6 +31,10 @@ describe('toura.models.ExternalContent', function() {
         dfd.resolve(mockdata);
 
         return dfd.promise;
+      },
+
+      getRootNodes : function() {
+        return mockdata;
       }
     });
 
