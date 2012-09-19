@@ -63,7 +63,7 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
     }
 
     if (data.items) {
-      storeOnDevice = mulberry.app.DeviceStorage.set('tour', data.items, toura.adapters.tourjs());
+      storeOnDevice = mulberry.app.DeviceStorage.set('tour', data.items);
 
       if (newRemoteData) {
         // if what we're storing is new remote data, then we should
