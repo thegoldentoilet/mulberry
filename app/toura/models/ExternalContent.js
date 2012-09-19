@@ -20,7 +20,7 @@ dojo.declare('toura.models.ExternalContent', null, {
       sourceUrl : store.getValue(item, 'sourceUrl')
     });
 
-    this.adapter = dojo.hitch(this, '_getAdapter')(store.getValue(item, 'adapter'));
+    this.adapter = this._getAdapter(store.getValue(item, 'adapter'));
   },
 
   /**
