@@ -26,7 +26,7 @@
     %link(rel="apple-touch-startup-image" href="media/load-screens/tablet_portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)")
     %link(rel="apple-touch-startup-image" href="media/load-screens/tablet_landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)")
 
-    %link(href="css/base.css" type="text/css" rel="stylesheet")
+    %link(href="css/base.css?device_type=#{device_type}" type="text/css" rel="stylesheet")
 
   %body(onload=body_onload)
     #splash(class=device_os)
@@ -40,7 +40,11 @@
     - if defined? include_jquery and include_jquery
       %script(src="javascript/vendor/jquery.js")
 
-    %script(src="javascript/toura/AppConfig.js")
+    - if device_os=='android'
+      %script(src="javascript/toura/AppConfig.js")
+    - else
+      %script(src="javascript/toura/AppConfig.js?device_type=#{device_type}")
+
     %script(src="javascript/mulberry/base.js")
     %script(src="javascript/client/base.js")
     %script(src="data/pagedefs.js")
