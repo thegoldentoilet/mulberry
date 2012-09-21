@@ -106,7 +106,8 @@ dojo.declare('toura.models.Node', null, {
       this.pageDef = 'default';
     }
 
-    this.siblings = this.parent ? dojo.map(this.parent.children, function(c) {
+    // TODO: make promise-compatible
+    this.siblings = this.parent ? dojo.map(this.parent.children.query(), function(c) {
       return new toura.models.SimpleNode(this.store, c);
     }, this) : [];
 
