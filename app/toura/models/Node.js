@@ -13,6 +13,7 @@ dojo.require('toura.models.Data');
 dojo.require('toura.models.TextAsset');
 dojo.require('toura.models.GoogleMapPin');
 dojo.require('toura.models.Feed');
+dojo.require('dojo.store.Observable');
 
 (function(){
 
@@ -62,7 +63,6 @@ dojo.declare('toura.models.Node', null, {
 
       featuredImage : getAssets('featuredImage', toura.models.FeaturedImage)[0],
 
-      children : store.getValues(item, 'children'),
       bodyText : store.getValue(item, 'bodyText'),
 
       images : getAssets('images', toura.models.Image),
@@ -82,6 +82,12 @@ dojo.declare('toura.models.Node', null, {
       sharingText : store.getValue(item, 'sharingText'),
       parent : store.getValue(item, 'parent')
     });
+
+    this.children = dojo.store.Observable(new dojo.store.Memory({
+      data: store.getValues(item, 'children')
+    }));
+
+    window.node = this;
 
     dojo.mixin(this, {
       url : toura.URL.node(this.id),
@@ -170,14 +176,10 @@ dojo.declare('toura.models.Node', null, {
     this.childrenPopulated = true;
   },
 
-  addExternalChildren : function(children) {
-    this.children.concat(children);
-
-    this.externalChildrenAdded();
-  },
-
-  externalChildrenAdded : function() {
-    // stub for connections
+  addExternalChildren : function(newChildren) {
+    dojo.forIn(newChildren, function(c) {
+      this.children.put(c);
+    });
   },
 
   getData : function(type) {

@@ -7,12 +7,22 @@ dojo.declare('toura.components.ChildNodes', mulberry._Component, {
   handleClicks : true,
 
   prepareData : function() {
-    this.children = this.node.children || [];
+    this.children = [];
+    dojo.when(this.node.children.query(), dojo.hitch(this, function(data) {
+      this.children = data;
+
+      // only run adjustMarkup again if the domNode has been generated
+      if(this.domNode) {
+        this.adjustMarkup();
+      }
+    }));
   },
 
   adjustMarkup : function() {
     if (!this.children.length) {
       this.addClass('empty');
+    } else {
+      this.removeClass('empty');
     }
   },
 
