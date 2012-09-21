@@ -13,6 +13,7 @@ dojo.require('toura.models.Data');
 dojo.require('toura.models.TextAsset');
 dojo.require('toura.models.GoogleMapPin');
 dojo.require('toura.models.Feed');
+dojo.require('dojo.store.Memory');
 dojo.require('dojo.store.Observable');
 
 (function(){
@@ -177,9 +178,9 @@ dojo.declare('toura.models.Node', null, {
   },
 
   addExternalChildren : function(newChildren) {
-    dojo.forIn(newChildren, function(c) {
+    dojo.forEach(newChildren, dojo.hitch(this, function(c) {
       this.children.put(c);
-    });
+    }));
   },
 
   getData : function(type) {

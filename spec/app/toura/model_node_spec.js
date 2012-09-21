@@ -118,14 +118,10 @@ describe("node model", function() {
       api.getModel('node-node_gallery_child_1')
     ];
 
-    spyOn(node, 'externalChildrenAdded');
-
     node.addExternalChildren(external);
 
-    expect(node.children.indexOf(external[0])).toBeTruthy();
-    expect(node.children.indexOf(external[0])).toBeTruthy();
-
-    expect(node.externalChildrenAdded).toHaveBeenCalled();
+    expect(node.children.get(['node-grid_child_five'])).toBeTruthy();
+    expect(node.children.get(['node-node_gallery_child_1'])).toBeTruthy();
   });
 
 });
