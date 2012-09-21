@@ -7,10 +7,15 @@
 
 package com.phonegap.plugins.adMob;
 
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import android.os.Handler;
-import com.google.ads.*;
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 import android.app.Activity;
 import android.widget.LinearLayout;
 import com.toura.app2_fake.R;
@@ -30,18 +35,24 @@ public class AdMobController extends Plugin {
 	
 	@Override
 	public PluginResult execute(String action, JSONArray data, String callbackId) {
+		Log.w("AdMob", "AdMob plugin executed");
+
 		PluginResult result = null;
 		
-		if(CREATE_BANNER.equals("createBanner")) {
+		if(CREATE_BANNER.equals(action)) {
+			Log.w("AdMob", "action = createbanner");
 			result = this.createBanner(data);
 		}
-		else if(LOAD_BANNER.equals("loadBanner")) {
+		else if(LOAD_BANNER.equals(action)) {
+			Log.w("AdMob", "action = loadbanner");
 			result = this.loadBanner(data); 
 		}
-		else if(MOVE_BANNER.equals("moveBanner")) {
+		else if(MOVE_BANNER.equals(action)) {
+			Log.w("AdMob", "action = move");
 			result = this.moveBanner(data);
 		}
-		else if(DELETE_BANNER.equals("deleteBanner")) { 
+		else if(DELETE_BANNER.equals(action)) { 
+			Log.w("AdMob", "action = delete");
 			result = this.deleteBanner(data);
 		}
 		else {
@@ -51,26 +62,37 @@ public class AdMobController extends Plugin {
 	}
 
 	private PluginResult createBanner(JSONArray data) {
+		Log.w("AdMob", "In createBanner");
 		//set publisher id as adUnitId
 		//initialize banner
 		String publisherId = null;	
 		try {
 			publisherId = data.getString(0);
+			Log.w("AdMob", "publisher id = "+publisherId);
 		} catch (JSONException e) {
 			return new PluginResult(Status.JSON_EXCEPTION);
 		}
 
 		Activity act = ((Activity)this.ctx.getContext());
-		adView = new AdView(act, AdSize.BANNER, publisherId);
+		Log.w("AdMob", "after getting activity "+ act.toString());
+		try {
+			adView = new AdView(act, AdSize.BANNER, publisherId);
+		} catch (Throwable t) {
+			Log.w("AdMob", "Inside of catch ERROROROROROROOROROR");
+			t.printStackTrace();
+		}
+		Log.w("AdMob", "after creating adView");
 		//adView.setAdListener(this);
-		LinearLayout layout = (LinearLayout)act.findViewById(R.id.mainLayout);           
-        layout.addView((adView));         
+		LinearLayout layout = (LinearLayout)act.findViewById(R.id.mainLayout);    
+		Log.w("AdMob", "after layout is created");       
+        layout.addView(adView);         
         layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL);        
-        AdRequest request = new AdRequest();   
+        AdRequest request = new AdRequest();  
+        request.addTestDevice("20F3A378D7A6"); 
+        Log.w("AdMob", "after testdevice is added");
         adView.loadAd(request);            
-
+		Log.w("AdMob", "after loadAd()");
         return new PluginResult(Status.OK);
-
 	}
 
 	private PluginResult loadBanner (JSONArray data) {
@@ -87,6 +109,10 @@ public class AdMobController extends Plugin {
 
 	private PluginResult deleteBanner (JSONArray data) {
 		//remove banner from view
+		if(adView != null) {
+			Log.w("admob", "in deleteBanner destroying ad");
+			adView.destroy();
+		}
 		return new PluginResult(Status.OK);
 	}
 }

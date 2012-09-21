@@ -112,7 +112,8 @@ dojo.declare('toura.UI', dojo.Stateful, {
     mulberry.app.PhoneGap.network.isReachable().then(dojo.hitch(this, function(isReachable) {
       if (!isReachable) { return; }
       //this is for testing only:
-      this.appConfig.adMobId = 'a15050ddd2ed539';
+      //this.appConfig.adMobId = 'a15050ddd2ed539';
+      this.appConfig.adMobId = 'a15023ce3c0593c';
       if(this.appConfig.adMobId && mulberry.app.PhoneGap.present) {
         if(this.AdMobAd) {
           //need to destroy and delete existing ad
