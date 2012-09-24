@@ -62,4 +62,18 @@ describe("mulberry device storage api", function() {
     expect(api._getTables().foo.adapter).toEqual(f);
   });
 
+  it("should allow the adapter config to be overwritten", function() {
+    var adapter = new foo.bar.baz({
+      'bar' : 'boff'
+    });
+
+    db = api.init('foo');
+
+    api._setTables(t);
+
+    api.set('foo', null, adapter);
+
+    expect(api._getTables().foo.adapter).toEqual(adapter);
+  });
+
 });
