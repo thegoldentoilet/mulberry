@@ -45,7 +45,9 @@ dojo.declare('mulberry._Adapter', null, {
    *
    * gets data for a particular resource
    *
-   * @returns {Promise} A promise that resolves with WHAT DOES IT RESOLVE WITH.
+   * @returns {Promise} A promise that resolves with the data for this
+   *                    adapter, either from the remote source or from
+   *                    the local database.
    */
   getData : function() {
     var dfd = this.deferred = new dojo.Deferred(),
