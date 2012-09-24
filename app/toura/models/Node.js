@@ -88,8 +88,6 @@ dojo.declare('toura.models.Node', null, {
       data: store.getValues(item, 'children')
     }));
 
-    window.node = this;
-
     dojo.mixin(this, {
       url : toura.URL.node(this.id),
       bodyText : this.bodyText && new toura.models.TextAsset(store, this.bodyText),
@@ -107,6 +105,9 @@ dojo.declare('toura.models.Node', null, {
     }
 
     // TODO: make promise-compatible
+    // I *think* siblings does not need to be updated according to ExternalContent
+    // because it will only be calculated after relevant ExternalContents have been
+    // loaded, but this should be tested at some point
     this.siblings = this.parent ? dojo.map(this.parent.children.query(), function(c) {
       return new toura.models.SimpleNode(this.store, c);
     }, this) : [];
@@ -119,7 +120,9 @@ dojo.declare('toura.models.Node', null, {
 
     cache[id] = this;
 
-    // iterate over ExternalContents and call their load methods
+    dojo.forIn(this.externalContent, function(ec) {
+      ec.load(this);
+    });
   },
 
   _pluralize : function(type) {
