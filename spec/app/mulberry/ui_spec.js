@@ -5,6 +5,7 @@ describe("user interface controller", function() {
     dojo.require("mulberry.app.UI");
     dojo.require("mulberry.app.PhoneGap");
     dojo.require("mulberry.app.DeviceStorage");
+    mulberry.app.DeviceStorage.drop();
 
     if (!pg) {
       mulberry.app.Analytics = {};
