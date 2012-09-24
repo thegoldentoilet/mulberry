@@ -10,20 +10,20 @@ dojo.declare('toura.models._StorableAsset', [], {
   _getUrl : function(store, item) {
     this.store = store;
 
-    var assetType = store.getValue(item, 'type'),
+    var assetType = item.type,
         subtypes = assetType === 'image' ?
           [ 'featuredSmall', 'featured', 'gallery', 'original' ] : false;
 
     if (subtypes) {
       dojo.forEach(subtypes, function(subtype) {
-        var t = this[subtype] = store.getValue(item, subtype),
+        var t = this[subtype] = item.subtype,
             isStreamed = this._isStreamed(item, subtype);
 
         t.url = (isStreamed && t.url) ? t.url : appUrl(assetType, t.filename);
       }, this);
     } else {
-      var url = store.getValue(item, 'url');
-      this.url = (this._isStreamed(item) && url) ? url : appUrl(assetType, store.getValue(item, 'filename'));
+      var url = item.url;
+      this.url = (this._isStreamed(item) && url) ? url : appUrl(assetType, item.filename);
     }
   },
 
@@ -37,18 +37,16 @@ dojo.declare('toura.models._StorableAsset', [], {
 
     // first, ask the data whether the asset is streamed; if it is,
     // we assume the asset should be streamed
-    if (!toura.manifest || this.store.getValue(item, 'streamed')) { return true; }
+    if (!toura.manifest || item.streamed) { return true; }
 
     // if the asset is marked not to stream, we need to check whether
     // we have the asset on device
 
     // first, we determine the filename for the asset from the data
-    var filename = type ?
-      this.store.getValue(item, type).filename :
-      this.store.getValue(item, 'filename');
+    var filename = type ? item.type.filename : item.filename;
 
     // next, we figure out where to look in toura.manifest
-    var lookup = toura.manifest[this.store.getValue(item, 'type') + 's'];
+    var lookup = toura.manifest[item.type + 's'];
 
     // if the manifest doesn't have an entry for the asset type, we must stream
     if (!lookup || !dojo.isArray(lookup)) {

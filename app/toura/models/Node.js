@@ -27,7 +27,8 @@ dojo.declare('toura.models.Node', null, {
    * by a view
    */
   constructor : function(store, item) {
-    var id = store.getValue(item, 'id'),
+    console.log('item: ', item);
+    var id = item.id,
         device = mulberry.Device;
 
     if (cache[id]) {
@@ -48,7 +49,7 @@ dojo.declare('toura.models.Node', null, {
     dojo.mixin(this, {
       type : 'node',
       id : id,
-      name : store.getValue(item, 'name'),
+      name : item.name,
 
       headerImage : {
         phone : getAssets('phoneHeaderImage', toura.models.HeaderImage)[0],

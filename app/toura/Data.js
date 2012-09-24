@@ -1,7 +1,8 @@
 dojo.provide('toura.Data');
 
-dojo.require('dojo.data.ItemFileReadStore');
-
+//dojo.require('dojo.data.ItemFileReadStore');
+dojo.require('dojo.store.Memory');
+dojo.require('dojo.store.Observable');
 dojo.require('toura.models.TextAsset');
 dojo.require('toura.models.SearchResult');
 dojo.require('toura.models.Node');
@@ -28,13 +29,9 @@ dojo.declare('toura.Data', null, {
     this.cache = {};
     this.searchCache = {};
 
-    this._store = new dojo.data.ItemFileReadStore({
-      data : {
-        identifier : 'id',
-        items : data
-      },
-      hierarchical : false
-    });
+    this._store = new dojo.store.Observable(new dojo.store.Memory({
+      data : data
+    }));
 
     this.onLoadData(data);
   },
@@ -58,10 +55,10 @@ dojo.declare('toura.Data', null, {
         item, Model;
 
     if (!cache[id]) {
-      item = this.getById(id);
+      item = store.get(id);
       if (!item) { return false; }
 
-      type = type || store.getValue(item, 'type');
+      type = type || item.type;
       Model = this.models[type];
 
       if (item && !Model) {
@@ -75,17 +72,7 @@ dojo.declare('toura.Data', null, {
   },
 
   getById : function(id) {
-    var ret;
-
-    this._store.fetchItemByIdentity({
-      identity : id,
-      scope : this,
-      onItem : dojo.hitch(this, function(item) {
-        ret = item;
-      })
-    });
-
-    return ret;
+    return this._store.get(id);
   },
 
   search : function(term) {
@@ -106,55 +93,38 @@ dojo.declare('toura.Data', null, {
     var matchingTextAssets = [],
         searchResults = [],
         store = this._store,
-        addItems = function(items) {
-          matchingTextAssets = matchingTextAssets.concat(items);
-        },
         re = new RegExp(term, 'i'),
         seen = {},
-        identifierSearchResults,
         Model = toura.models.SearchResult;
 
+    //need to check query format for memory store
     var queries = [
       { type : 'text-asset', body : re },
       { type : 'text-asset', name : re }
     ];
 
-    dojo.forEach(queries, function(q) {
-      store.fetch({ query : q, onComplete : addItems });
-    });
-
-    dojo.forEach(matchingTextAssets, function(a) {
-      var ta = new toura.models.TextAsset(store, a);
-      searchResults = searchResults.concat(
-        dojo.map(ta.contexts, function(c) {
-          return new Model(store, {
-            textAsset : ta, context : c
+    //dojo.forEach(queries, function(q) {
+      store.query(function(object){
+        return object.type === 'text-assett' && (object.body == re || object.name == re);
+      }).foreach(function(a){
+        var ta = new toura.models.TextAsset(store, a);
+          dojo.map(ta.contexts, function(c) {
+            searchResults.push(new Model(store, {
+              textAsset : ta, context : c
+            }));
           });
-        })
-      );
-    }, this);
-
-    store.fetch({
-      query : { type : 'node', name : re },
-      onComplete : function(items) {
-        searchResults = searchResults.concat(
-          dojo.map(items, function(item) {
-            return new Model(store, item);
-          })
-        );
-      }
+      });
+    //});
+    
+    store.query({ type : 'node', name : re }).map(function(item){
+      searchResults.push(new Model(store, item));
+    });
+    
+    store.query({ type : 'node', identifier : re }).map(function(item){
+      searchResults.push(new toura.models.SearchResult(store, item));
     });
 
-    store.fetch({
-      query : { type : 'node', identifier : re },
-      onComplete : function(items) {
-        identifierSearchResults = dojo.map(items, function(item) {
-          return new toura.models.SearchResult(store, item);
-        });
-      }
-    });
-
-    searchResults = identifierSearchResults.concat(searchResults);
+   
 
     // de-dupe
     searchResults = dojo.filter(searchResults, function(r) {
