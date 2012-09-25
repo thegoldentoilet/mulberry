@@ -91,7 +91,6 @@ describe("mulberry device storage api", function() {
       adapter = new foo.bar.baz(stdConfig);
       bar = {
         testFn : function(d) {
-          console.log("bar.testFn has fired");
           return d;
         }
       };
@@ -142,11 +141,15 @@ describe("mulberry device storage api", function() {
       runs(function() {
         api.get('foo').then(function(d) {
           bar.testFn(d);
+          dbTestFn();
         });
-
-        expect(bar.testFn).toHaveBeenCalled(); //With({ id : 'spam', json : 'eggs', source : 'foo' });
       });
 
+      waitsFor(function() { return dbSetComplete === 3; });
+
+      runs(function() {
+        expect(bar.testFn).toHaveBeenCalledWith([{ id : 'spam', json : 'eggs', source : 'foo' }]);
+      });
     });
 
   });
