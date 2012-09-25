@@ -1,40 +1,10 @@
-dojo.provide('toura.adapters.tourjs');
+dojo.provide('toura.models.Tour');
 
-dojo.require('toura.adapters._Updateable');
+dojo.require('toura.models._Updateable');
+dojo.require('mulberry.app.DeviceStorage');
 
-dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
-  // this parser has to do very, very little
-
-  tableName: 'items',
-
+dojo.declare('toura.models.Tour', toura.models._Updateable, {
   storageKey : 'tour',
-
-  fields : [ 'id text', 'json text', 'source text' ],
-
-  constructor : function(config) {
-    this.inherited(arguments);
-    this.source = config && config.source || 'main';
-  },
-
-  insertStatement : function(tableName, item) {
-    return [
-      "INSERT INTO " + tableName + "(id, json, source) VALUES ( ?, ?, ? )",
-      [ item.id, JSON.stringify(item), this.source ]
-    ];
-  },
-
-  processSelection : function(result) {
-    var items = [],
-        len = result.rows.length,
-        rowData, i;
-
-    for (i = 0; i < len; i++) {
-      rowData = result.rows.item(i).json;
-      items.push(rowData ? JSON.parse(rowData) : {});
-    }
-
-    return items;
-  },
 
   getItems : function() {
     var dfd = new dojo.Deferred();
