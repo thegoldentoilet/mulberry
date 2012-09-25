@@ -81,7 +81,7 @@ describe("mulberry device storage api", function() {
   });
 
   describe("database upgrades", function() {
-    var dbSetComplete, dbTestFn, adapter, bar;
+    var dbSetComplete, dbTestFn, adapter, bar, testContent, expectedResult;
 
     beforeEach(function() {
       dbSetComplete = 0;
@@ -94,6 +94,8 @@ describe("mulberry device storage api", function() {
           return d;
         }
       };
+      testContent = [{id : 'spam', 'meal': 'eggs'}];
+      expectedResult = [{ id : 'spam', json : 'eggs', source : 'foo' }];
 
       adapter.source = "foo";
       adapter.insertStatement = function(tableName, item) {
@@ -117,13 +119,13 @@ describe("mulberry device storage api", function() {
 
         return items;
       };
-    });
 
-    it("should upgrade an old database if one exists", function() {
       spyOn(bar, 'testFn').andCallThrough();
 
       db = api.init('foo');
+    });
 
+    it("should upgrade an old database if one exists", function() {
       api._sql([
         "DROP TABLE foo",
         "CREATE TABLE foo (id text, value text)",
@@ -133,7 +135,7 @@ describe("mulberry device storage api", function() {
       waitsFor(function() { return dbSetComplete === 1; });
 
       runs(function() {
-        api.set('foo', [{id : 'spam', 'meal': 'eggs'}], adapter).then(dbTestFn);
+        api.set('foo', testContent, adapter).then(dbTestFn);
       });
 
       waitsFor(function() { return dbSetComplete === 2; });
@@ -148,9 +150,36 @@ describe("mulberry device storage api", function() {
       waitsFor(function() { return dbSetComplete === 3; });
 
       runs(function() {
-        expect(bar.testFn).toHaveBeenCalledWith([{ id : 'spam', json : 'eggs', source : 'foo' }]);
+        expect(bar.testFn).toHaveBeenCalledWith(expectedResult);
       });
     });
 
+    it("should upgrade an empty old database if one exists", function() {
+      api._sql([
+        "DROP TABLE foo",
+        "CREATE TABLE foo (id text, value text)"
+      ]).then(dbTestFn);
+
+      waitsFor(function() { return dbSetComplete === 1; });
+
+      runs(function() {
+        api.set('foo', testContent, adapter).then(dbTestFn);
+      });
+
+      waitsFor(function() { return dbSetComplete === 2; });
+
+      runs(function() {
+        api.get('foo').then(function(d) {
+          bar.testFn(d);
+          dbTestFn();
+        });
+      });
+
+      waitsFor(function() { return dbSetComplete === 3; });
+
+      runs(function() {
+        expect(bar.testFn).toHaveBeenCalledWith(expectedResult);
+      });
+    });
   });
 });
