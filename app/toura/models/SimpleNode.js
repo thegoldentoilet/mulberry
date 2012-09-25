@@ -10,15 +10,15 @@ dojo.subscribe('/tour/update', function() { cache = {}; });
 
 dojo.declare('toura.models.SimpleNode', null, {
   constructor : function(store, item) {
-    var id = store.getValue(item, 'id');
+    var id = item.id;
     if (cache[id]) {
       dojo.mixin(this, cache[id]);
       return;
     }
 
     dojo.mixin(this, {
-      id : store.getValue(item, 'id'),
-      name : store.getValue(item, 'name')
+      id : id,
+      name :item.name
     });
 
     this.url = toura.URL.node(this.id);

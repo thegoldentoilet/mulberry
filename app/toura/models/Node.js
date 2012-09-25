@@ -28,6 +28,7 @@ dojo.declare('toura.models.Node', null, {
    */
   constructor : function(store, item) {
     console.log('item: ', item);
+
     var id = item.id,
         device = mulberry.Device;
 
@@ -40,9 +41,9 @@ dojo.declare('toura.models.Node', null, {
     this._dataCache = {};
 
     var getAssets = function(assetKey, Model) {
-      return dojo.map(
-        store.getValues(item, assetKey) || [],
-        function(asset) { return new Model(store, asset); }
+      return dojo.map(item[assetKey] || [], function(asset) {
+        return new Model(store, asset);
+      }
       );
     };
 
@@ -63,8 +64,8 @@ dojo.declare('toura.models.Node', null, {
 
       featuredImage : getAssets('featuredImage', toura.models.FeaturedImage)[0],
 
-      children : store.getValues(item, 'children'),
-      bodyText : store.getValue(item, 'bodyText'),
+      children : item.children,
+      bodyText : item.bodyText,
 
       images : getAssets('images', toura.models.Image),
       audios : getAssets('audios', toura.models.Audio),
@@ -76,10 +77,10 @@ dojo.declare('toura.models.Node', null, {
 
       feeds : getAssets('feeds', toura.models.Feed),
 
-      pageDef : store.getValue(item, 'pageController'),
-      sharingURL : store.getValue(item, 'sharingUrl'),
-      sharingText : store.getValue(item, 'sharingText'),
-      parent : store.getValue(item, 'parent')
+      pageDef : item.pageController,
+      sharingURL : item.sharingUrl,
+      sharingText : item.sharingText,
+      parent : item.parent
     });
 
     dojo.mixin(this, {
@@ -104,7 +105,7 @@ dojo.declare('toura.models.Node', null, {
 
     this._assetCache = {};
 
-    dojo.forIn(store.getValue(item, 'custom'), function(k, v) {
+    dojo.forIn(item.custom, function(k, v) {
       this[k] = this[k] || v;
     }, this);
 

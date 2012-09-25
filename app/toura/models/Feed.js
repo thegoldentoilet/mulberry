@@ -26,22 +26,18 @@ dojo.declare('toura.models.Feed', null, {
    */
   constructor : function(store, item) {
     if (item && item.feed) {
-      store.fetchItemByIdentity({
-        identity : item.feed._reference,
-        onItem : function(item) {
-          dojo.mixin(this, {
-            feedUrl : store.getValue(item, 'feedUrl'),
-            id : store.getValue(item, 'id'),
-            name : store.getValue(item, 'name')
-          });
-        },
-        scope : this
+      var subItem = store.get(item.feed._reference);
+       
+      dojo.mixin(this, {
+        feedUrl : subItem.feedUrl,
+        id : subItem.id,
+        name : subItem.name
       });
     } else {
       dojo.mixin(this, {
-        feedUrl : store.getValue(item, 'feedUrl'),
-        id : store.getValue(item, 'id'),
-        name : store.getValue(item, 'name')
+        feedUrl : item.feedUrl,
+        id : item.id,
+        name : item.name
       });
     }
 

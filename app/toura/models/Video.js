@@ -7,27 +7,21 @@ dojo.declare('toura.models.Video', [ toura.models._CaptionedAsset, toura.models.
   constructor : function(store, item) {
     if (!item.video) {
       dojo.mixin(this, {
-        id : store.getValue(item, 'id'),
-        name : store.getValue(item, 'name'),
-        url : store.getValue(item, 'url')
+        id : item.id,
+        name : item.name,
+        url : item.url
       });
 
       return;
     }
 
-    store.fetchItemByIdentity({
-      identity : item.video._reference,
-      onItem : function(item) {
-        dojo.mixin(this, {
-          id : store.getValue(item, 'id'),
-          name : store.getValue(item, 'name'),
-          poster : store.getValue(item, 'poster')
-        });
-        this._getUrl(store, item);
-      },
-      scope : this
+    var subItem = store.get(item.vide._reference);
+    dojo.mixin(this, {
+      id : subItem.id,
+      name : subItem.name,
+      poster : subItem.poster
     });
-
+    this._getUrl(store, subItem);
     this._processCaption(store, item);
 
     if (this.poster) {

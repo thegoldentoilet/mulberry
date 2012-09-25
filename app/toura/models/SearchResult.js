@@ -36,18 +36,12 @@ dojo.declare('toura.models.SearchResult', null, {
       url : toura.URL.searchResult(context)
     });
 
-    store.fetchItemByIdentity({
-      identity : context.node,
-      onItem : function(item) {
-        var n = new toura.models.Node(store, item);
+    var newItem = store.get(context.node);
+    var n = new toura.models.Node(store, newItem);
+    this.nodeTitle = n.name;
 
-        this.nodeTitle = n.name;
-
-        if (context.type !== 'node') {
-          this.asset = n.getAssetById(context.type, context.id);
-        }
-      },
-      scope : this
-    });
+    if (context.type !== 'node') {
+      this.asset = n.getAssetById(context.type, context.id);
+    }
   }
 });

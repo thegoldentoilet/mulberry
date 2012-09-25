@@ -9,12 +9,7 @@ constructor :  function(store, item) {
      * is directly a property of the featuredImage node */
 
     if (item.image) {
-      store.fetchItemByIdentity({
-        identity : item.image._reference,
-        onItem : function(fetched) {
-          item = fetched;
-        }
-      });
+      item = store.get(item.image._reference);
     }
 
     this._getUrl(store, item);
