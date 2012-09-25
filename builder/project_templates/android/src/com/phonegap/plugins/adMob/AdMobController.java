@@ -30,7 +30,7 @@ public class AdMobController extends Plugin {
 	public static final String LOAD_BANNER = "loadBanner";
 	public static final String MOVE_BANNER = "moveBanner";
 	public static final String DELETE_BANNER = "deleteBanner";
-	
+	public String publisherId = "";
 	private AdView adView;
 	
 	@Override
@@ -65,7 +65,7 @@ public class AdMobController extends Plugin {
 		Log.w("AdMob", "In createBanner");
 		//set publisher id as adUnitId
 		//initialize banner
-		String publisherId = null;	
+		//final String publisherId = null;	
 		try {
 			publisherId = data.getString(0);
 			Log.w("AdMob", "publisher id = "+publisherId);
@@ -73,26 +73,34 @@ public class AdMobController extends Plugin {
 			return new PluginResult(Status.JSON_EXCEPTION);
 		}
 
-		Activity act = ((Activity)this.ctx.getContext());
+		final Activity act = ((Activity)this.ctx.getContext());
 		Log.w("AdMob", "after getting activity "+ act.toString());
 		try {
-			adView = new AdView(act, AdSize.BANNER, publisherId);
+			act.runOnUiThread( new Runnable() {
+				@Override
+				public void run() {
+					adView = new AdView(act, AdSize.BANNER, publisherId);
+					Log.w("AdMob", "after creating adView");
+					//adView.setAdListener(this);
+					LinearLayout layout = (LinearLayout)act.findViewById(R.id.mainLayout);    //this is ending up null
+					Log.w("AdMob", "after layout is created: "+R.id.mainLayout);       
+			        layout.addView(adView);    
+			        Log.w("AdMob", "after adview is added to layout");     
+			        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL);  
+			        Log.w("AdMob", "after horz is set");      
+			        AdRequest request = new AdRequest();  
+			        Log.w("AdMob", "after new adrequest");
+			        request.addTestDevice("20F3A378D7A6");			       
+			        Log.w("AdMob", "after testdevice is added");
+			        adView.loadAd(request);            
+					Log.w("AdMob", "after loadAd()");
+				}
+			});		       
 		} catch (Throwable t) {
 			Log.w("AdMob", "Inside of catch ERROROROROROROOROROR");
 			t.printStackTrace();
-		}
-		Log.w("AdMob", "after creating adView");
-		//adView.setAdListener(this);
-		LinearLayout layout = (LinearLayout)act.findViewById(R.id.mainLayout);    
-		Log.w("AdMob", "after layout is created");       
-        layout.addView(adView);         
-        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL);        
-        AdRequest request = new AdRequest();  
-        request.addTestDevice("20F3A378D7A6"); 
-        Log.w("AdMob", "after testdevice is added");
-        adView.loadAd(request);            
-		Log.w("AdMob", "after loadAd()");
-        return new PluginResult(Status.OK);
+		}	
+		 return new PluginResult(Status.OK);	
 	}
 
 	private PluginResult loadBanner (JSONArray data) {
