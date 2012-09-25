@@ -1,5 +1,5 @@
 describe("mulberry device storage api", function() {
-  var data, rawData, db, api, f, t;
+  var data, rawData, db, api, f, t, stdConfig;
 
   beforeEach(function() {
     dojo.require("mulberry.app.DeviceStorage");
@@ -19,13 +19,19 @@ describe("mulberry device storage api", function() {
 
     api.drop();
 
-    f = new foo.bar.baz({
-      'bar' : 'baz'
-    });
+    stdConfig = {
+      'bar' : 'baz',
+      'tableName' : 'foo',
+      'fields' : [ 'id text', 'json text', 'source text' ]
+    };
+
+    f = new foo.bar.baz(stdConfig);
+
     t = {
       'foo' : {
         'source' : 'foo',
-        'adapter' : f
+        'adapter' : f,
+        'config' : stdConfig
       }
     };
   });
@@ -47,9 +53,7 @@ describe("mulberry device storage api", function() {
       'foo' : {
         'source' : 'foo',
         'adapter' : 'foo.bar.baz',
-        'config' : {
-          'bar' : 'baz'
-        }
+        'config' : stdConfig
       }
     });
   });
@@ -62,4 +66,88 @@ describe("mulberry device storage api", function() {
     expect(api._getTables().foo.adapter).toEqual(f);
   });
 
+  it("should allow the adapter config to be overwritten", function() {
+    var adapter = new foo.bar.baz({
+      'bar' : 'boff'
+    });
+
+    db = api.init('foo');
+
+    api._setTables(t);
+
+    api.set('foo', null, adapter);
+
+    expect(api._getTables().foo.adapter).toEqual(adapter);
+  });
+
+  describe("database upgrades", function() {
+    var dbSetComplete, dbTestFn, adapter, bar;
+
+    beforeEach(function() {
+      dbSetComplete = 0;
+      dbTestFn = function() {
+        dbSetComplete += 1;
+      };
+      adapter = new foo.bar.baz(stdConfig);
+      bar = {
+        testFn : function(d) {
+          console.log("bar.testFn has fired");
+          return d;
+        }
+      };
+
+      adapter.source = "foo";
+      adapter.insertStatement = function(tableName, item) {
+        return [
+          "INSERT INTO foo (id, json, source) VALUES ( ?, ?, ? )",
+          [ item.id , item.meal, this.source ]
+        ];
+      };
+      adapter.processSelection = function(result) {
+        var items = [],
+            len = result.rows.length,
+            i;
+
+        for (i = 0; i < len; i++) {
+          items.push({
+            id : result.rows.item(i).id,
+            json : result.rows.item(i).json,
+            source : result.rows.item(i).source
+          });
+        }
+
+        return items;
+      };
+    });
+
+    it("should upgrade an old database if one exists", function() {
+      spyOn(bar, 'testFn').andCallThrough();
+
+      db = api.init('foo');
+
+      api._sql([
+        "DROP TABLE foo",
+        "CREATE TABLE foo (id text, value text)",
+        "INSERT INTO foo VALUES ('bar', 'baz')"
+      ]).then(dbTestFn);
+
+      waitsFor(function() { return dbSetComplete === 1; });
+
+      runs(function() {
+        api.set('foo', [{id : 'spam', 'meal': 'eggs'}], adapter).then(dbTestFn);
+      });
+
+      waitsFor(function() { return dbSetComplete === 2; });
+
+      runs(function() {
+        api.get('foo').then(function(d) {
+          bar.testFn(d);
+        });
+
+        expect(bar.testFn).toHaveBeenCalled(); //With({ id : 'spam', json : 'eggs', source : 'foo' });
+      });
+
+    });
+
+  });
 });
