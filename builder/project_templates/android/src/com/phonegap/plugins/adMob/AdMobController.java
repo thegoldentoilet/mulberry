@@ -19,6 +19,7 @@ import com.google.ads.AdView;
 import android.app.Activity;
 import android.widget.LinearLayout;
 import com.toura.app2_fake.R;
+import com.toura.app2_fake.TouraMainActivity;
 
 import org.apache.cordova.api.Plugin;
 import org.apache.cordova.api.PluginResult;
@@ -63,41 +64,29 @@ public class AdMobController extends Plugin {
 
 	private PluginResult createBanner(JSONArray data) {
 		Log.w("AdMob", "In createBanner");
-		//set publisher id as adUnitId
-		//initialize banner
-		//final String publisherId = null;	
+		final TouraMainActivity act = ((TouraMainActivity)this.ctx.getContext());
 		try {
 			publisherId = data.getString(0);
 			Log.w("AdMob", "publisher id = "+publisherId);
 		} catch (JSONException e) {
 			return new PluginResult(Status.JSON_EXCEPTION);
-		}
-
-		final Activity act = ((Activity)this.ctx.getContext());
-		Log.w("AdMob", "after getting activity "+ act.toString());
+		}	
+		
 		try {
 			act.runOnUiThread( new Runnable() {
 				@Override
 				public void run() {
-					adView = new AdView(act, AdSize.BANNER, publisherId);
-					Log.w("AdMob", "after creating adView");
+					adView = new AdView(act, AdSize.BANNER, publisherId);					
 					//adView.setAdListener(this);
-					LinearLayout layout = (LinearLayout)act.findViewById(R.id.mainLayout);    //this is ending up null
-					Log.w("AdMob", "after layout is created: "+R.id.mainLayout);       
-			        layout.addView(adView);    
-			        Log.w("AdMob", "after adview is added to layout");     
-			        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL);  
-			        Log.w("AdMob", "after horz is set");      
-			        AdRequest request = new AdRequest();  
-			        Log.w("AdMob", "after new adrequest");
-			        request.addTestDevice("20F3A378D7A6");			       
-			        Log.w("AdMob", "after testdevice is added");
-			        adView.loadAd(request);            
-					Log.w("AdMob", "after loadAd()");
+					LinearLayout layout = act.getLayout();   					    
+			        layout.addView(adView);    			       
+			        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL); 			       
+			        AdRequest request = new AdRequest();			        
+			        request.addTestDevice("20F3A378D7A6");				        
+			        adView.loadAd(request);   					
 				}
 			});		       
-		} catch (Throwable t) {
-			Log.w("AdMob", "Inside of catch ERROROROROROROOROROR");
+		} catch (Throwable t) {			
 			t.printStackTrace();
 		}	
 		 return new PluginResult(Status.OK);	
@@ -118,7 +107,7 @@ public class AdMobController extends Plugin {
 	private PluginResult deleteBanner (JSONArray data) {
 		//remove banner from view
 		if(adView != null) {
-			Log.w("admob", "in deleteBanner destroying ad");
+			Log.w("AdMob", "in deleteBanner destroying ad");
 			adView.destroy();
 		}
 		return new PluginResult(Status.OK);

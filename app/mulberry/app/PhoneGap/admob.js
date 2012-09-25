@@ -101,7 +101,8 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
           };
 
           AdMob.prototype.deleteBanner = function() {
-              //not implemented in Android?
+              console.log("in admob deleteBanner");
+              PhoneGap.exec(successCallback,failureCallback,"AdMob","deleteBanner", []);
           };
 
           AdMob.prototype.moveBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {

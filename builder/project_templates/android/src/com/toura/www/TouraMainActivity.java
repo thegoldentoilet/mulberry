@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import com.google.ads.*;
 import com.toura.www.push.IntentReceiver;
+import android.widget.LinearLayout;
 
 public class TouraMainActivity extends DroidGap {
   private boolean isInForeground;
@@ -82,5 +83,9 @@ public class TouraMainActivity extends DroidGap {
 
   private String createShowAlertScript(String message) {
     return "mulberry.app.Notifications.notify({alert:'" + message.replace("'", "\\'") + "'});";
+  }
+
+  public LinearLayout getLayout() {
+    return super.root;
   }
 }
