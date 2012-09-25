@@ -145,19 +145,20 @@ mulberry.app.DeviceStorage = (function(){
         createQuery = "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")";
 
         // we need to test that the existing table has the right fields
+        // we try a create query first to make sure the table exists so the
+        // select query does not fail
         upgradeTest = this._sql([
           createQuery,
           "SELECT * FROM " + adapter.tableName + " LIMIT 1"
         ], function(resp) {
           if (resp.rows.length === 0) {
-            return true;    // this is a new table, we should be fine?
+            return false;    // this is an empty table, may as well drop it & recreate
           }
           return resp.rows.item(0).hasOwnProperty('source');
         });
 
-        return upgradeTest.then(dojo.hitch(this, function(d) {
-          console.log("Upgrade test came back with...", d);
-          if (d === false) {
+        return upgradeTest.then(dojo.hitch(this, function(resp) {
+          if (resp === false) {
             queries = ["DROP TABLE " + adapter.tableName];
           } else {
             queries = ["DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'"];
