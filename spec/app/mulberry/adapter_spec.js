@@ -53,7 +53,7 @@ describe("base _Adapter class", function() {
     expect(adapter.baz).toEqual(config.baz);
   });
 
-  describe("data fetching", function() {
+  describe("data management", function() {
     var deferred, resolveTest = false;
 
     beforeEach(function() {
@@ -69,7 +69,7 @@ describe("base _Adapter class", function() {
       };
     });
 
-    it("should store data internally", function() {
+    it("should retrieve remote data when no data is present", function() {
       adapter = new mulberry._Adapter({
         remoteDataUrl : 'foo',
         source: 'bar'
@@ -86,25 +86,12 @@ describe("base _Adapter class", function() {
       });
     });
 
-    it("should resolve false when no url is given", function() {
-      var result = null;
+    it("should retrieve local data when it is present and not expired", function() {
 
-      adapter = new mulberry._Adapter({
-        source : 'foo'
-      });
+    });
 
-      deferred = adapter.getData();
+    it("should retrieve remote data when local data is expired", function() {
 
-      deferred.then(function(d) {
-        result = d;
-        resolveTest = true;
-      });
-
-      waitsFor(function() { return resolveTest; });
-
-      runs(function() {
-        expect(result).toEqual(false);
-      });
     });
 
     // it("should resolve false when xhr fails", function() {
@@ -134,6 +121,77 @@ describe("base _Adapter class", function() {
     //     expect(result).toEqual(false);
     //   });
     // });
+
+    describe("_getRemoteData", function() {
+      it("should resolve with remote data", function() {
+        var result = null;
+
+        adapter = new mulberry._Adapter({
+          source : 'bar',
+          remoteDataUrl : 'foo'
+        });
+
+        deferred = adapter._getRemoteData();
+
+        deferred.then(function(d) {
+          result = d;
+          resolveTest = true;
+        });
+
+        waitsFor(function() { return resolveTest; });
+
+        runs(function() {
+          expect(result).toEqual(ajaxMocks.foo);
+        });
+      });
+
+      it("should resolve false when no url is given", function() {
+        var result = null;
+
+        adapter = new mulberry._Adapter({
+          source : 'foo'
+        });
+
+        deferred = adapter._getRemoteData();
+
+        deferred.then(function(d) {
+          result = d;
+          resolveTest = true;
+        });
+
+        waitsFor(function() { return resolveTest; });
+
+        runs(function() {
+          expect(result).toEqual(false);
+        });
+      });
+    });
+
+    describe("_storeRemoteData", function() {
+      it("should store data & resolve the main deferred to true", function() {
+        var result = null;
+
+        adapter = new mulberry._Adapter({
+          deferred : new dojo.Deferred()
+        });
+
+        spyOn(adapter, '_store').andCallThrough();
+
+        adapter._storeRemoteData(ajaxMocks.foo);
+
+        adapter.deferred.then(function(d) {
+          result = d;
+          resolveTest = true;
+        });
+
+        waitsFor(function() { return resolveTest; });
+
+        runs(function() {
+          expect(adapter._store).toHaveBeenCalledWith(ajaxMocks.foo, true);
+          expect(result).toEqual(true);
+        });
+      });
+    });
 
   });
 });
