@@ -232,7 +232,7 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
    * Update the version flag
    */
   _store : function(sourceData) {
-    this.inherited(arguments);
+    this._items = sourceData.items;
     this._setLocalVersion(sourceData && sourceData.version);
   },
 

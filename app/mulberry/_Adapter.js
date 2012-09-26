@@ -55,7 +55,7 @@ dojo.declare('mulberry._Adapter', null, {
         data;
 
     if (lastUpdated === null || new Date().getTime() - lastUpdated > this.refreshTimer) {
-      dojo.when(this._getRemoteData)
+      dojo.when(this._getRemoteData())
         .then(dojo.hitch(this, '_onUpdate'));
     } else {
       // here we just fetch and return the data...
@@ -228,7 +228,7 @@ dojo.declare('mulberry._Adapter', null, {
    * subclasses if necessary.
    */
   _store : function(sourceData) {
-    this._items = sourceData.items;
+    this._items = sourceData;
   },
 
 
@@ -238,6 +238,8 @@ dojo.declare('mulberry._Adapter', null, {
    * Things to do once we know the data's ready -- to be implemented by
    * subclasses if necessary.
    */
-  _onDataReady : function() { }
+  _onDataReady : function() {
+    // stub intentionally blank
+  }
 
 });
