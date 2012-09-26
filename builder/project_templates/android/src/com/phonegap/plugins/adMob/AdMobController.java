@@ -18,7 +18,6 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import android.app.Activity;
 import android.widget.LinearLayout;
-import com.toura.app2_fake.R;
 import com.toura.app2_fake.TouraMainActivity;
 
 import org.apache.cordova.api.Plugin;
@@ -82,7 +81,7 @@ public class AdMobController extends Plugin {
 			        layout.addView(adView);    			       
 			        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL); 			       
 			        AdRequest request = new AdRequest();			        
-			        request.addTestDevice("20F3A378D7A6");				        
+			        request.addTestDevice("C1OKAS119533");				        
 			        adView.loadAd(request);   					
 				}
 			});		       

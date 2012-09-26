@@ -14,6 +14,7 @@ dojo.declare('toura.AdMob', null, {
    */
   constructor : function(id) {
     //can do pub/sub type stuff in here if needed
+    //need to listen for orientation change
   },
 
   /**
