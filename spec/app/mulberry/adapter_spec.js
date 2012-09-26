@@ -59,9 +59,6 @@ describe("base _Adapter class", function() {
     beforeEach(function() {
       dojo.require('mulberry.app.DeviceStorage');
 
-      mulberry.app.DeviceStorage.drop();
-      mulberry.app.DeviceStorage.init();
-
       ajaxMocks = {
         'foo' : {
           'bar' : 'baz'
@@ -69,58 +66,67 @@ describe("base _Adapter class", function() {
       };
     });
 
-    it("should retrieve remote data when no data is present", function() {
-      adapter = new mulberry._Adapter({
-        remoteDataUrl : 'foo',
-        source: 'bar'
+    describe("getData", function() {
+      beforeEach(function() {
+        adapter = new mulberry._Adapter({
+          remoteDataUrl : 'foo',
+          source: 'bar'
+        });
       });
 
-      deferred = adapter.getData();
+      it("should retrieve remote data when no data is present", function() {
+        mulberry.app.DeviceStorage.drop();
+        mulberry.app.DeviceStorage.init();
 
-      deferred.then(function() { resolveTest = true; });
+        spyOn(adapter, '_getRemoteData').andCallThrough();
 
-      waitsFor(function() { return resolveTest; });
+        deferred = adapter.getData();
 
-      runs(function() {
-        expect(adapter._items).toEqual(ajaxMocks.foo);
+        deferred.then(function() { resolveTest = true; });
+
+        waitsFor(function() { return resolveTest; });
+
+        runs(function() {
+          expect(adapter._items).toEqual(ajaxMocks.foo);
+          expect(adapter._getRemoteData).toHaveBeenCalled();
+        });
       });
+
+      it("should retrieve local data when it is present and not expired", function() {
+      });
+
+      it("should retrieve remote data when local data is expired", function() {
+
+      });
+
+      // it("should resolve false when xhr fails", function() {
+      //   var result = null;
+
+      //   adapter = new mulberry._Adapter({
+      //     source : 'foo',
+      //     remoteDataUrl : 'bar'
+      //   });
+
+      //   mockjax = function() {
+      //     var dfd = new dojo.Deferred();
+      //     dfd.reject();
+      //     return dfd;
+      //   };
+
+      //   deferred = adapter.getData();
+
+      //   deferred.then(function(d) {
+      //     result = d;
+      //     resolveTest = true;
+      //   });
+
+      //   waitsFor(function() { return resolveTest; });
+
+      //   runs(function() {
+      //     expect(result).toEqual(false);
+      //   });
+      // });
     });
-
-    it("should retrieve local data when it is present and not expired", function() {
-
-    });
-
-    it("should retrieve remote data when local data is expired", function() {
-
-    });
-
-    // it("should resolve false when xhr fails", function() {
-    //   var result = null;
-
-    //   adapter = new mulberry._Adapter({
-    //     source : 'foo',
-    //     remoteDataUrl : 'bar'
-    //   });
-
-    //   mockjax = function() {
-    //     var dfd = new dojo.Deferred();
-    //     dfd.reject();
-    //     return dfd;
-    //   };
-
-    //   deferred = adapter.getData();
-
-    //   deferred.then(function(d) {
-    //     result = d;
-    //     resolveTest = true;
-    //   });
-
-    //   waitsFor(function() { return resolveTest; });
-
-    //   runs(function() {
-    //     expect(result).toEqual(false);
-    //   });
-    // });
 
     describe("_getRemoteData", function() {
       it("should resolve with remote data", function() {
