@@ -9,6 +9,8 @@ describe("toura.components.Favorites", function() {
   beforeEach(function() {
     dojo.require('toura.components.Favorites');
     dojo.require('toura.user.Favorites');
+    dojo.require('mulberry.app.DeviceStorage');
+    mulberry.app.DeviceStorage.drop();
 
     if (!ds) {
       ds = mulberry.app.DeviceStorage;
