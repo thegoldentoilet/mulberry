@@ -60,8 +60,13 @@ dojo.declare('mulberry._Adapter', null, {
         data;
 
     if (lastUpdated === null || new Date().getTime() - lastUpdated > this.refreshTimer) {
-      dojo.when(this._getRemoteData())
-        .then(dojo.hitch(this, '_onUpdate'));
+      dojo.when(
+        this._getRemoteData(),
+        dojo.hitch(this, '_onUpdate'),
+        dojo.hitch(this, function() {
+          dfd.reject();
+        })
+      );
     } else {
       // here we just fetch and return the data...
       mulberry.app.DeviceStorage.get(this.source).then(dojo.hitch(this, function(d) {

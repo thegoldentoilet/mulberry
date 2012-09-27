@@ -69,7 +69,11 @@ describe("base _Adapter class", function() {
     });
 
     describe("getData", function() {
+      var startTime;
+
       beforeEach(function() {
+        startTime = new Date().getTime();
+
         mulberry.app.DeviceStorage.drop();
         mulberry.app.DeviceStorage.init('foo');
 
@@ -84,7 +88,6 @@ describe("base _Adapter class", function() {
       });
 
       it("should retrieve remote data when no data is present", function() {
-        var startTime = new Date().getTime();
 
         deferred = adapter.getData();
 
@@ -100,7 +103,9 @@ describe("base _Adapter class", function() {
       });
 
       it("should retrieve local data when it is present and not expired", function() {
-        adapter._setLastUpdate('bar');
+        adapter._setLastUpdate();
+
+        spyOn(mulberry.app.DeviceStorage, 'get').andCallThrough();
 
         deferred = adapter.getData();
 
@@ -111,40 +116,50 @@ describe("base _Adapter class", function() {
         runs(function() {
           expect(adapter._items).toEqual(ajaxMocks.foo);
           expect(adapter._getRemoteData).not.toHaveBeenCalled();
+          expect(mulberry.app.DeviceStorage.get).toHaveBeenCalled();
         });
       });
 
       it("should retrieve remote data when local data is expired", function() {
+        mulberry.app.DeviceStorage.set(adapter.source + "-updated", 10000000);
 
+        deferred = adapter.getData();
+
+        deferred.then(function() { resolveTest = true; });
+
+        waitsFor(function() { return resolveTest; });
+
+        runs(function() {
+          expect(adapter._items).toEqual(ajaxMocks.foo);
+          expect(adapter._getRemoteData).toHaveBeenCalled();
+          expect(adapter._getLastUpdate()).toBeGreaterThan(startTime);
+        });
       });
 
-      // it("should resolve false when xhr fails", function() {
-      //   var result = null;
+      it("should reject deferred when xhr fails", function() {
+        var result = null;
 
-      //   adapter = new mulberry._Adapter({
-      //     source : 'foo',
-      //     remoteDataUrl : 'bar'
-      //   });
+        adapter = new mulberry._Adapter({
+          source : 'foo',
+          remoteDataUrl : 'bar'
+        });
 
-      //   mockjax = function() {
-      //     var dfd = new dojo.Deferred();
-      //     dfd.reject();
-      //     return dfd;
-      //   };
+        deferred = adapter.getData();
 
-      //   deferred = adapter.getData();
+        deferred.then(function(d) {
+          result = d;
+          resolveTest = true;
+        }, function(d) {
+          result = "REJECTED";
+          resolveTest = true;
+        });
 
-      //   deferred.then(function(d) {
-      //     result = d;
-      //     resolveTest = true;
-      //   });
+        waitsFor(function() { return resolveTest; });
 
-      //   waitsFor(function() { return resolveTest; });
-
-      //   runs(function() {
-      //     expect(result).toEqual(false);
-      //   });
-      // });
+        runs(function() {
+          expect(result).toEqual("REJECTED");
+        });
+      });
     });
 
     describe("_getRemoteData", function() {
