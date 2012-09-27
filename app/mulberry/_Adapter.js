@@ -13,6 +13,11 @@ dojo.declare('mulberry._Adapter', null, {
 
 
   /**
+   * The name of the source (required)
+   */
+  source : null,
+
+  /**
    * The location of the remote data
    * @required
    */
@@ -129,6 +134,7 @@ dojo.declare('mulberry._Adapter', null, {
     if (remoteData) {
       // if there was remote data, we need to store it
       this._storeRemoteData(remoteData);
+      this._setLastUpdate();
     } else {
       this.deferred.resolve(false);
     }
@@ -139,23 +145,20 @@ dojo.declare('mulberry._Adapter', null, {
    *
    * Checks for the time of the most recent update for this resource
    *
-   * @param resourceName {String} the resource to check
    * @returns UNIX timestamp of last update, or null if there has never
    *          been an update
    */
-  _getLastUpdate : function(resourceName) {
-    return mulberry.app.DeviceStorage.get(resourceName + "-updated");
+  _getLastUpdate : function() {
+    return mulberry.app.DeviceStorage.get(this.source + "-updated");
   },
 
   /**
    * @private
    *
    * Records the time of an update
-   *
-   * @param resourceName {String} the resource being updated
    */
-  _setLastUpdate : function(resourceName) {
-    mulberry.app.DeviceStorage.set(resourceName + "-updated", new Date().getTime());
+  _setLastUpdate : function() {
+    mulberry.app.DeviceStorage.set(this.source + "-updated", new Date().getTime());
   },
 
 
