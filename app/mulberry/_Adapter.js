@@ -64,9 +64,10 @@ dojo.declare('mulberry._Adapter', null, {
         .then(dojo.hitch(this, '_onUpdate'));
     } else {
       // here we just fetch and return the data...
-      mulberry.app.DeviceStorage.get(this.source).then(function(d) {
+      mulberry.app.DeviceStorage.get(this.source).then(dojo.hitch(this, function(d) {
+        this._items = d;
         dfd.resolve(d);
-      });
+      }));
     }
 
     return dfd.promise;
@@ -83,6 +84,55 @@ dojo.declare('mulberry._Adapter', null, {
    */
   getItems : function() {
     return this._items || [];
+  },
+
+
+  /**
+   * The field list for the table this adapter uses
+   */
+  fields : ['json text'],
+
+
+  /**
+   * @public
+   *
+   * The default SQL insert statement for an adapter. This should likely be
+   * altered/extended by real adapters. It is called in mulberry.app.DeviceStorage.set
+   *
+   * @param tableName {String} the name of the table to add to
+   * @param item {Object} the object to add
+   * @returns {SQL Array} for inserting into the SQL query array in
+   *                      mulberry.app.DeviceStorage.set
+   */
+  insertStatement : function(tableName, item) {
+    return [
+      "INSERT INTO " + tableName + " (json) VALUES ( ? )",
+      [ JSON.stringify(item) ]
+    ];
+  },
+
+
+  /**
+   * @public
+   *
+   * A parser for SQL results when fetching this data out of the SQL
+   * database. This should likely be altered/extended by real adapters.
+   * It is called in mulberry.app.DeviceStorage.get
+   *
+   * @param result {SQL Result} the result to parse
+   * @returns {Array} the array of parsed results
+   */
+  processSelection : function(result) {
+    var items = [],
+        len = result.rows.length,
+        rowData, i;
+
+    for (i = 0; i < len; ++i) {
+      rowData = result.rows.item(i).json;
+      items.push(rowData ? JSON.parse(rowData) : {});
+    }
+
+    return items;
   },
 
 
@@ -184,8 +234,9 @@ dojo.declare('mulberry._Adapter', null, {
    * @param {Object} remoteData The incoming remote data to update with
    */
   _storeRemoteData : function(remoteData) {
+    this._processData(remoteData);
     dojo.when(
-      this._store(remoteData, true),
+      this._store(true),
       dojo.hitch(this, function() {
         // once we've stored it, we have a chance to run a hook
         this._onDataReady();
@@ -224,14 +275,32 @@ dojo.declare('mulberry._Adapter', null, {
   },
 
 
+
+  /**
+   * @private
+   *
+   * This parses the incoming data and caches it into the adapter's
+   * memory for easy reference. This should be extended by subclasses
+   * if necessary.
+   *
+   * @param sourceData {Object} The data to be parsed and logged.
+   */
+  _processData : function(sourceData) {
+    this._items = sourceData;
+  },
+
+
   /**
    * @private
    *
    * Instructions for storing the data. This should be extended by
    * subclasses if necessary.
+   *
+   * @param newRemoteData {Boolean} If true, there is new remote data
+   *                                to store
    */
-  _store : function(sourceData) {
-    this._items = sourceData;
+  _store : function(newRemoteData) {
+    mulberry.app.DeviceStorage.set(this.source, this._items, this);
   },
 
 

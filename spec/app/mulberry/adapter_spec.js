@@ -54,31 +54,37 @@ describe("base _Adapter class", function() {
   });
 
   describe("data management", function() {
-    var deferred, resolveTest = false;
+    var deferred, resolveTest;
 
     beforeEach(function() {
+      resolveTest = false;
+
       dojo.require('mulberry.app.DeviceStorage');
 
       ajaxMocks = {
-        'foo' : {
-          'bar' : 'baz'
-        }
+        'foo' : [
+          { 'bar' : 'baz' }
+        ]
       };
     });
 
     describe("getData", function() {
       beforeEach(function() {
+        mulberry.app.DeviceStorage.drop();
+        mulberry.app.DeviceStorage.init('foo');
+
         adapter = new mulberry._Adapter({
           remoteDataUrl : 'foo',
-          source: 'bar'
+          source : 'bar'
         });
+
+        mulberry.app.DeviceStorage.set('bar', null, adapter);
+
+        spyOn(adapter, '_getRemoteData').andCallThrough();
       });
 
       it("should retrieve remote data when no data is present", function() {
-        mulberry.app.DeviceStorage.drop();
-        mulberry.app.DeviceStorage.init();
-
-        spyOn(adapter, '_getRemoteData').andCallThrough();
+        var startTime = new Date().getTime();
 
         deferred = adapter.getData();
 
@@ -89,10 +95,23 @@ describe("base _Adapter class", function() {
         runs(function() {
           expect(adapter._items).toEqual(ajaxMocks.foo);
           expect(adapter._getRemoteData).toHaveBeenCalled();
+          expect(adapter._getLastUpdate()).toBeGreaterThan(startTime);
         });
       });
 
       it("should retrieve local data when it is present and not expired", function() {
+        adapter._setLastUpdate('bar');
+
+        deferred = adapter.getData();
+
+        deferred.then(function() { resolveTest = true; });
+
+        waitsFor(function() { return resolveTest; });
+
+        runs(function() {
+          expect(adapter._items).toEqual(ajaxMocks.foo);
+          expect(adapter._getRemoteData).not.toHaveBeenCalled();
+        });
       });
 
       it("should retrieve remote data when local data is expired", function() {
@@ -181,6 +200,7 @@ describe("base _Adapter class", function() {
           deferred : new dojo.Deferred()
         });
 
+        spyOn(adapter, '_processData').andCallThrough();
         spyOn(adapter, '_store').andCallThrough();
 
         adapter._storeRemoteData(ajaxMocks.foo);
@@ -193,7 +213,8 @@ describe("base _Adapter class", function() {
         waitsFor(function() { return resolveTest; });
 
         runs(function() {
-          expect(adapter._store).toHaveBeenCalledWith(ajaxMocks.foo, true);
+          expect(adapter._processData).toHaveBeenCalledWith(ajaxMocks.foo);
+          expect(adapter._store).toHaveBeenCalledWith(true);
           expect(result).toEqual(true);
         });
       });
