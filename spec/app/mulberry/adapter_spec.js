@@ -105,11 +105,17 @@ describe("base _Adapter class", function() {
       it("should retrieve local data when it is present and not expired", function() {
         adapter._setLastUpdate();
 
-        spyOn(mulberry.app.DeviceStorage, 'get').andCallThrough();
+        waits(1); // just to make startTime > the time triggered above
 
-        deferred = adapter.getData();
+        runs(function() {
+          startTime = new Date().getTime();
 
-        deferred.then(function() { resolveTest = true; });
+          spyOn(mulberry.app.DeviceStorage, 'get').andCallThrough();
+
+          deferred = adapter.getData();
+
+          deferred.then(function() { resolveTest = true; });
+        });
 
         waitsFor(function() { return resolveTest; });
 
@@ -117,6 +123,7 @@ describe("base _Adapter class", function() {
           expect(adapter._items).toEqual(ajaxMocks.foo);
           expect(adapter._getRemoteData).not.toHaveBeenCalled();
           expect(mulberry.app.DeviceStorage.get).toHaveBeenCalled();
+          expect(adapter._getLastUpdate()).toBeLessThan(startTime);
         });
       });
 
