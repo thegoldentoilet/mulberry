@@ -3,7 +3,7 @@ describe("Updateable", function() {
       config, mockjax, newerRemoteData, appMajorVersion;
 
   beforeEach(function() {
-    dojo.require('toura.adapters._Updateable');
+    dojo.require('toura.models._Updateable');
 
     mockjax = function (args) {
       var dfd = new dojo.Deferred();
@@ -60,7 +60,7 @@ describe("Updateable", function() {
 
     networkIsReachable = true;
 
-    Updateable = toura.adapters._Updateable;
+    Updateable = toura.models._Updateable;
   });
 
   describe("bootstrapping", function() {
