@@ -5,7 +5,6 @@ describe("favorites API", function() {
     dojo.require('toura.user.Favorites');
     dojo.require('mulberry.app.DeviceStorage');
     dojo.require('toura.Data');
-    mulberry.app.DeviceStorage.drop();
 
     mulberry.app.Config.set('app', toura.data.local);
 
