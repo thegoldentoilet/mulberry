@@ -37,6 +37,12 @@ dojo.declare('mulberry._Adapter', null, {
 
 
   /**
+   * The field list for the table this adapter uses
+   */
+  fields : ['json text'],
+
+
+  /**
    * @constructor
    */
   constructor : function(config) {
@@ -90,12 +96,6 @@ dojo.declare('mulberry._Adapter', null, {
   getItems : function() {
     return this._items || [];
   },
-
-
-  /**
-   * The field list for the table this adapter uses
-   */
-  fields : ['json text'],
 
 
   /**
