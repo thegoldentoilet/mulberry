@@ -1,4 +1,4 @@
-dojo.provide('mulberry._Adapter');
+ dojo.provide('mulberry._Adapter');
 
 /**
  * @class mulberry._Adapter

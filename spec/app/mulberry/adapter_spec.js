@@ -60,6 +60,8 @@ describe("base _Adapter class", function() {
       resolveTest = false;
 
       dojo.require('mulberry.app.DeviceStorage');
+      mulberry.app.DeviceStorage.drop();
+      mulberry.app.DeviceStorage.init('foo');
 
       ajaxMocks = {
         'foo' : [
