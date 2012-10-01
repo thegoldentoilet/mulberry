@@ -91,26 +91,27 @@ dojo.declare('mulberry._Adapter', null, {
    * This method allows consumers to request the items associated with the
    * resource. It must be implemented by subclasses.
    *
-   * This returns a promise for consistency with subclasses, which may rely
-   * on DeviceStorage.get, which is asynchronous.
-   *
    * @returns {Promise} A promise for the array
    */
   getItems : function() {
     var dfd = new dojo.Deferred();
 
     // wait for the adapter startup before trying to return data
-    this.deferred.then(function() {
+    this.deferred.then(dojo.hitch(this, function() {
       if (this._items && this._items.length) {
         dfd.resolve(this._items);
       } else {
+        if (!this.source) {
+          dfd.reject();
+          return;
+        }
         mulberry.app.DeviceStorage.get(this.source)
           .then(dojo.hitch(this, function(items) {
             this._items = items;
             dfd.resolve(items);
           }));
       }
-    });
+    }));
 
     return dfd.promise;
   },

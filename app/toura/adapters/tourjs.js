@@ -12,6 +12,8 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
 
   fields : [ 'id text', 'json text', 'source text' ],
 
+  tableName : 'items',
+
   constructor : function(config) {
     this.inherited(arguments);
     this.source = config && config.source || 'main';

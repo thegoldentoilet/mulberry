@@ -77,7 +77,23 @@ describe('toura.adapters.tourjs', function() {
       waitsFor(function() { return flag; });
 
       runs(function() {
-        expect(t.getItems().then).toBeDefined();
+         expect(t.getItems().then).toBeDefined();
+      });
+    });
+  });
+
+  describe("getRootNodes", function() {
+    it("should get the children of the home node", function() {
+      var flag, bootstrap;
+
+      bootstrap = t.bootstrap();
+
+      bootstrap.then(function() { flag = true; });
+
+      waitsFor(function() { return flag; });
+
+      runs(function() {
+        expect(t.getRootNodes()).toEqual(toura.Data.getModel('node-home').children);
       });
     });
   });
