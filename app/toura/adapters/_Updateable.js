@@ -202,22 +202,6 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
     return dfd.promise;
   },
 
-  getItems : function() {
-    var dfd = new dojo.Deferred();
-
-    if (this._items.length) {
-      dfd.resolve(this._items);
-    } else {
-      mulberry.app.DeviceStorage.get(this.source)
-        .then(dojo.hitch(this, function(items) {
-          this._items = items;
-          dfd.resolve(items);
-        }));
-    }
-
-    return dfd.promise;
-  },
-
   /**
    * @private
    *

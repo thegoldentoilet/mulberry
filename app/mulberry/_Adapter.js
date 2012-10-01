@@ -99,9 +99,20 @@ dojo.declare('mulberry._Adapter', null, {
   getItems : function() {
     var dfd = new dojo.Deferred();
 
-    dfd.resolve(this._items || []);
+    // wait for the adapter startup before trying to return data
+    this.deferred.then(function() {
+      if (this._items && this._items.length) {
+        dfd.resolve(this._items);
+      } else {
+        mulberry.app.DeviceStorage.get(this.source)
+          .then(dojo.hitch(this, function(items) {
+            this._items = items;
+            dfd.resolve(items);
+          }));
+      }
+    });
 
-    return dfd;
+    return dfd.promise;
   },
 
 
