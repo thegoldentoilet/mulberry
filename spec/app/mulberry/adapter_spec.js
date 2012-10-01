@@ -109,6 +109,8 @@ describe("base _Adapter class", function() {
       it("should retrieve local data when it is present and not expired", function() {
         adapter._setLastUpdate();
 
+        mulberry.app.DeviceStorage.set('bar', ajaxMocks.foo);
+
         waits(1); // just to make startTime > the time triggered above
 
         runs(function() {
