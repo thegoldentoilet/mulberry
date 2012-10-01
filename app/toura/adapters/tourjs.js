@@ -71,6 +71,7 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
   },
 
   _onDataReady : function() {
+    this.inherited(arguments);
     if (this.blessed) {
       mulberry.app.Config.set('app', this.appConfig);
     }

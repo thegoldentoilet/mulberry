@@ -31,8 +31,8 @@ describe('toura.adapters.tourjs', function() {
       network : {
         isReachable : function() {
           var dfd = new dojo.Deferred();
-          dfd.resolve(true);
-          return dfd.promise;
+          dfd.resolve(networkIsReachable);
+          return dfd;
         }
       }
     };
@@ -40,10 +40,12 @@ describe('toura.adapters.tourjs', function() {
     dojo.xhrGet = dojo.io.script.get = mockjax;
     appMajorVersion = mulberry.app.Config.get('appVersion').split('.')[0] * 1;
 
+    toura.data.local.version = 1;
+
     newerRemoteData = dojo.mixin({}, toura.data.local);
     newerRemoteData.appVersion = appMajorVersion + ".0";
-    newerRemoteData.version = toura.data.local.version + 1;
-    newerRemoteData.items = [ { id : 'new' } ];
+    newerRemoteData.version = toura.data.local.version + 2;
+    newerRemoteData.items = [ { id : 'new remote' } ];
 
     ajaxMocks = {
       'bundle' : toura.data.local,
@@ -55,22 +57,28 @@ describe('toura.adapters.tourjs', function() {
       bundleDataUrl : 'bundle',
       remoteDataUrl : 'remote',
       remoteVersionUrl : 'version',
-      source : 'foo'
+      storageKey : 'key'
     };
+
+    networkIsReachable = true;
 
     t = new toura.adapters.tourjs(config);
     mulberry.app.DeviceStorage.set(t.source, null, t);
-
-    if (!deviceStorageInit) {
-      mulberry.app.DeviceStorage.init('fake');
-      mulberry.app.DeviceStorage.set('tour', [ 1, 2, 3 ], t);
-      deviceStorageInit = true;
-    }
   });
 
   describe("getItems", function() {
     it("should return a promise", function() {
-      expect(t.getItems().then).toBeDefined();
+      var flag, bootstrap;
+
+      bootstrap = t.bootstrap();
+
+      bootstrap.then(function() { flag = true; });
+
+      waitsFor(function() { return flag; });
+
+      runs(function() {
+        expect(t.getItems().then).toBeDefined();
+      });
     });
   });
 });

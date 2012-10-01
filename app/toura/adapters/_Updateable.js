@@ -213,10 +213,13 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
     var dfd = new dojo.Deferred();
 
     dojo.when(bundleData || this.getBundleData(), dojo.hitch(this, function(data) {
+
       if (!data) {
         dfd.resolve(false);
         return;
       }
+
+      this._processData(data);
 
       dojo.when(this._store(data), function() {
         dfd.resolve(true);
