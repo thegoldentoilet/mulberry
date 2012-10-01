@@ -49,9 +49,7 @@ describe("containers screen", function() {
     dojo.declare('my.Component', mulberry._Component, {
       templateString : "<div></div>"
     });
-    
-    debugger;
-    
+
     var componentA = new my.Component(),
         componentB = new my.Component();
     
