@@ -91,10 +91,17 @@ dojo.declare('mulberry._Adapter', null, {
    * This method allows consumers to request the items associated with the
    * resource. It must be implemented by subclasses.
    *
-   * @returns {Array} An array of items
+   * This returns a promise for consistency with subclasses, which may rely
+   * on DeviceStorage.get, which is asynchronous.
+   *
+   * @returns {Promise} A promise for the array
    */
   getItems : function() {
-    return this._items || [];
+    var dfd = new dojo.Deferred();
+
+    dfd.resolve(this._items || []);
+
+    return dfd;
   },
 
 

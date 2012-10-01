@@ -96,7 +96,9 @@ describe("base _Adapter class", function() {
         waitsFor(function() { return resolveTest; });
 
         runs(function() {
-          expect(adapter.getItems()).toEqual(ajaxMocks.foo);
+          adapter.getItems().then(function(d) {
+            expect(d).toEqual(ajaxMocks.foo);
+          });
           expect(adapter._getRemoteData).toHaveBeenCalled();
           expect(adapter._getLastUpdate()).toBeGreaterThan(startTime);
         });
@@ -120,7 +122,9 @@ describe("base _Adapter class", function() {
         waitsFor(function() { return resolveTest; });
 
         runs(function() {
-          expect(adapter.getItems()).toEqual(ajaxMocks.foo);
+          adapter.getItems().then(function(d) {
+            expect(d).toEqual(ajaxMocks.foo);
+          });
           expect(adapter._getRemoteData).not.toHaveBeenCalled();
           expect(mulberry.app.DeviceStorage.get).toHaveBeenCalled();
           expect(adapter._getLastUpdate()).toBeLessThan(startTime);
@@ -137,7 +141,9 @@ describe("base _Adapter class", function() {
         waitsFor(function() { return resolveTest; });
 
         runs(function() {
-          expect(adapter.getItems()).toEqual(ajaxMocks.foo);
+          adapter.getItems().then(function(d) {
+            expect(d).toEqual(ajaxMocks.foo);
+          });
           expect(adapter._getRemoteData).toHaveBeenCalled();
           expect(adapter._getLastUpdate()).toBeGreaterThan(startTime);
         });

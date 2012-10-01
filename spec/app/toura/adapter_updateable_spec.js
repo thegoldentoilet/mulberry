@@ -111,8 +111,10 @@ describe("Updateable", function() {
           waitsFor(function() { return flag; });
 
           runs(function() {
-            expect(u.getItems().length).toBe(1);
-            expect(u.getItems()[0].id).toBe(newerBundleData.items[0].id);
+            u.getItems().then(function(result) {
+              expect(result.length).toBe(1);
+              expect(result[0].id).toBe(newerBundleData.items[0].id);
+            });
           });
         });
       });
@@ -180,8 +182,10 @@ describe("Updateable", function() {
           });
 
           runs(function() {
-            expect(u.getItems().length).toBe(1);
-            expect(u.getItems()[0].id).toBe(newerRemoteData.items[0].id);
+            u.getItems().then(function(result) {
+              expect(result.length).toBe(1);
+              expect(result[0].id).toBe(newerRemoteData.items[0].id);
+            });
           });
         });
 
