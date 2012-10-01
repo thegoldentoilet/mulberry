@@ -56,9 +56,9 @@ dojo.declare('mulberry._Adapter', null, {
    *
    * gets data for a particular resource
    *
-   * @returns {Promise} A promise that resolves with the data for this
-   *                    adapter, either from the remote source or from
-   *                    the local database.
+   * @returns {Promise} A promise that resolves with a boolean value:
+   *                    if the data was updated, it returns true; otherwise
+   *                    it returns false
    */
   getData : function() {
     var dfd = this.deferred = new dojo.Deferred(),
@@ -77,7 +77,7 @@ dojo.declare('mulberry._Adapter', null, {
       // here we just fetch and return the data...
       mulberry.app.DeviceStorage.get(this.source).then(dojo.hitch(this, function(d) {
         this._items = d;
-        dfd.resolve(d);
+        dfd.resolve(false);
       }));
     }
 
