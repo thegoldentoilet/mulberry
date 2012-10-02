@@ -14,7 +14,7 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
           AdMob.prototype.callbackMap = {};
           AdMob.prototype.callbackIdx = 0;
           //loadBanner is the preferred method to set up new banner ads.
-          AdMob.prototype.createBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
+          AdMob.prototype.createBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude) {
               var options = {siteId:siteId,
                 positionX:positionX,
                 positionY:positionY,
@@ -26,7 +26,7 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
               PhoneGap.exec("AdMob.createBanner", options);
           };
 
-          AdMob.prototype.loadBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
+          AdMob.prototype.loadBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude) {
               var options = {siteId:siteId,
                 positionX:positionX,
                 positionY:positionY,
@@ -38,7 +38,7 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
               PhoneGap.exec("AdMob.loadBanner", options);
           };
 
-          AdMob.prototype.moveBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
+          AdMob.prototype.moveBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude) {
               var options = {siteId:siteId,
                 positionX:positionX,
                 positionY:positionY,
@@ -90,24 +90,24 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
           AdMob.prototype.callbackMap = {};
           AdMob.prototype.callbackIdx = 0;
           //loadBanner is the preferred method to set up new banner ads.
-          AdMob.prototype.createBanner = function(siteId,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
-              console.log("in admob createbanner");
-              //PhoneGap.exec(successCallback,failureCallback,"AdMob","createBanner", [siteId]);
+          AdMob.prototype.createBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
+              //only here to support ios functionality
           };
 
-          AdMob.prototype.loadBanner = function(siteId,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
+          AdMob.prototype.loadBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
               console.log("in admob loadBanner but really calling createBanner");
-              PhoneGap.exec(successCallback,failureCallback,"AdMob","createBanner", [siteId, 0, 430]);
+              PhoneGap.exec(successCallback,failureCallback,"AdMob","createBanner", [siteId, deviceType]);
           };
 
-          AdMob.prototype.deleteBanner = function() {
+          AdMob.prototype.deleteBanner = function(successCallback, failureCallback) {
               console.log("in admob deleteBanner");
               PhoneGap.exec(successCallback,failureCallback,"AdMob","deleteBanner", []);
           };
 
-          AdMob.prototype.moveBanner = function(siteId,positionX,positionY,height,width,latitude,longitude) {
-           //also not implemented in Android?
+          AdMob.prototype.moveBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude) {
+           //not needed in Android
           };
+
           cordova.addConstructor(function() {
             if(!window.plugins)
             {

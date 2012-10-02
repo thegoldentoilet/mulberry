@@ -20,6 +20,7 @@ dojo.declare('toura.AdMob', null, {
   /**
    * @loadBanner
    * @param {String} id  The site ID to associate with publisher id
+   * @param {String} deviceType Type of device - phone or tablet
    * @param {int} x   The x position value for the banner to display
    * @param {int} y   The y position value for the banner to display
    * @param {int} h   The height of the banner
@@ -29,17 +30,17 @@ dojo.declare('toura.AdMob', null, {
    *
    * Calls the phonegap plugin to create, load, and then move the banner into place.
    */
-  loadBanner : function(id,x,y,h,w,lat,lon) {
-    console.log("in toura admob loadbanner");
+  loadBanner : function(id,deviceType,x,y,h,w,lat,lon) {
+    console.log("in toura admob loadbanner: ",id,deviceType);
     window.plugins.adMob.createBanner(id);
-    window.plugins.adMob.loadBanner(id,x,y,h,w,lat,lon);
-    window.plugins.adMob.moveBanner(id, 0, 430);
+    window.plugins.adMob.loadBanner(id,deviceType,x,y,h,w,lat,lon);
+    window.plugins.adMob.moveBanner(id,deviceType,0,430); //these values need to be dynamic based on device?
   },
 
   /**
    * @destroy
    *
-   * Subscribes to various application events.
+   * Deletes banner ad in native code
    */
   destroy : function () {
     console.log("in AdMob Destroy");

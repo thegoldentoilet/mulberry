@@ -7,6 +7,8 @@
 
 package com.phonegap.plugins.adMob;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,19 +21,23 @@ import com.google.ads.AdView;
 import android.app.Activity;
 import android.widget.LinearLayout;
 import com.toura.app2_fake.TouraMainActivity;
+import android.view.View;
 
 import org.apache.cordova.api.Plugin;
 import org.apache.cordova.api.PluginResult;
 import org.apache.cordova.api.PluginResult.Status;
 
-public class AdMobController extends Plugin {
+public class AdMobController extends Plugin implements PropertyChangeListener{
 	
 	public static final String CREATE_BANNER = "createBanner";
 	public static final String LOAD_BANNER = "loadBanner";
 	public static final String MOVE_BANNER = "moveBanner";
 	public static final String DELETE_BANNER = "deleteBanner";
-	public String publisherId = "";
+	public String publisherId;
+	public String deviceType;
 	private AdView adView;
+	private TouraMainActivity activity;
+	private LinearLayout layout;
 	
 	@Override
 	public PluginResult execute(String action, JSONArray data, String callbackId) {
@@ -53,7 +59,7 @@ public class AdMobController extends Plugin {
 		}
 		else if(DELETE_BANNER.equals(action)) { 
 			Log.w("AdMob", "action = delete");
-			result = this.deleteBanner(data);
+			result = this.deleteBanner();
 		}
 		else {
 			result = new PluginResult(Status.INVALID_ACTION);			
@@ -62,53 +68,102 @@ public class AdMobController extends Plugin {
 	}
 
 	private PluginResult createBanner(JSONArray data) {
-		Log.w("AdMob", "In createBanner");
-		final TouraMainActivity act = ((TouraMainActivity)this.ctx.getContext());
+		final AdSize size;
+		final String orientation;
+		
+		activity = ((TouraMainActivity)this.ctx.getContext());
+		activity.addPropertyChangeListener(this);
+		layout = activity.getLayout();
 		try {
 			publisherId = data.getString(0);
-			Log.w("AdMob", "publisher id = "+publisherId);
+			deviceType = data.getString(1);
+			orientation = activity.getOrientation();
+			
+			if(orientation.equals("landscape")) { //create new banner in landscape mode
+				if(deviceType.equals("tablet")) {				
+					size = AdSize.IAB_LEADERBOARD;
+				} else {
+					size = AdSize.IAB_BANNER;
+				}
+			} else { //portrait
+				//create new banner in portrait mode
+				if(deviceType.equals("tablet")) {
+					size = AdSize.IAB_BANNER;
+				} else {
+					size = AdSize.BANNER;
+				}				
+			}			
 		} catch (JSONException e) {
 			return new PluginResult(Status.JSON_EXCEPTION);
 		}	
 		
 		try {
-			act.runOnUiThread( new Runnable() {
+			activity.runOnUiThread( new Runnable() {
 				@Override
 				public void run() {
-					adView = new AdView(act, AdSize.BANNER, publisherId);					
-					//adView.setAdListener(this);
-					LinearLayout layout = act.getLayout();   					    
-			        layout.addView(adView);    			       
-			        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL); 			       
-			        AdRequest request = new AdRequest();			        
-			        request.addTestDevice("C1OKAS119533");				        
-			        adView.loadAd(request);   					
+					
+					if(adView != null) {
+						deleteBanner();
+					}
+					adView = new AdView(activity, size, publisherId);
+					//adView.setAdListener(this);					
+			        layout.addView(adView);
+			        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL);
+			        AdRequest request = new AdRequest();
+			        request.addTestDevice("FA86BB76DEC697CE3A123756F8BE1543");
+			        adView.loadAd(request);
 				}
 			});		       
 		} catch (Throwable t) {			
 			t.printStackTrace();
 		}	
-		 return new PluginResult(Status.OK);	
+		return new PluginResult(Status.OK);	
 	}
 
 	private PluginResult loadBanner (JSONArray data) {
-		//if banner doesn't exist, call createBanner()
-		//create request, set testing mode to true
-		return new PluginResult(Status.OK);
+		return createBanner(data);
 	}
 
 	private PluginResult moveBanner (JSONArray data) {
-		//if banner doesn't exist, call createBanner()
-		//animate move of banner
+		//shouldn't be needed in Android
 		return new PluginResult(Status.OK);
 	}
 
-	private PluginResult deleteBanner (JSONArray data) {
+	private PluginResult deleteBanner () {
 		//remove banner from view
 		if(adView != null) {
-			Log.w("AdMob", "in deleteBanner destroying ad");
-			adView.destroy();
+		Log.w("AdMob", "in admob deletebanner");			
+			try {
+				activity.removePropertyChangeListener(this);				
+				activity.runOnUiThread( new Runnable() {
+					@Override
+					public void run() {	
+						adView.setVisibility(View.GONE);					
+						layout.removeView(adView);
+						layout.refreshDrawableState();
+						adView.destroy();
+						adView = null;
+					}
+				});				
+			} catch(Throwable t) {
+				t.printStackTrace();
+			}
 		}
 		return new PluginResult(Status.OK);
+	}
+
+	public void propertyChange(PropertyChangeEvent evt) {
+		String propName = evt.getPropertyName();
+		JSONArray data;
+		if( propName.equalsIgnoreCase(activity.PROP_ORIENTATION) ) {
+			String oldOrientation = (String)evt.getOldValue();
+			String newOrientation = (String)evt.getNewValue();
+			data = new JSONArray();
+			data.put(publisherId);
+			data.put(deviceType);
+			data.put(newOrientation);			
+			deleteBanner();
+			createBanner(data);
+		}
 	}
 }
