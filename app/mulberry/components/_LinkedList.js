@@ -28,6 +28,12 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
     this.storeData = selection;
 
     this.storeData.forEach(dojo.hitch(this, '_addItem'));
+
+    if (this.observation) {
+      this.observation.cancel();
+    }
+
+    //this.observation = this.storeData.observe()
   },
 
   _addItem : function(item, index) {

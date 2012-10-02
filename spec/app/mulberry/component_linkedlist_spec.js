@@ -43,4 +43,16 @@ describe("linked list component", function() {
     expect(c.storeData.length).toEqual(mockdata.length);
     expect(test.innerHTML.match('buzz')).toBeTruthy();
   });
+
+  // this is basically testing dojo.store, but whatever...
+  it("should populate the component based on a query", function() {
+    var c = new C(config).placeAt(test), results;
+
+    results = store.query({'spam' : 'eggs'});
+
+    c.setStore(results);
+
+    expect(test.innerHTML.match('bor')).toBeFalsy();
+    expect(test.innerHTML.match('buzz')).toBeTruthy();
+  });
 });
