@@ -40,7 +40,13 @@
     - if defined? include_jquery and include_jquery
       %script(src="javascript/vendor/jquery.js")
 
-    %script(src="javascript/toura/AppConfig.js")
+    - # Android 4.x explodes if there is a query string in a local url, but we
+    - # need the query string for the preview server
+    - if device_os=='android'
+      %script(src="javascript/toura/AppConfig.js")
+    - else
+      %script(src="javascript/toura/AppConfig.js?device_type=#{device_type}")
+
     %script(src="javascript/mulberry/base.js")
     %script(src="javascript/client/base.js")
     %script(src="data/pagedefs.js")
