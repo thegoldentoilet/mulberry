@@ -124,7 +124,7 @@ mulberry.app.DeviceStorage = (function(){
     },
 
     set : function(k, v, adapter) {
-      var queries, upgradeTest, createQuery;
+      var queries, upgradeTest, createQuery, fieldNames;
 
       // if we already know the adapter, we're set...
       if (this.tables && this.tables.hasOwnProperty(k)) {
@@ -141,6 +141,13 @@ mulberry.app.DeviceStorage = (function(){
           return null;
         }
 
+        // ensure that a source field exists
+        if (adapter.fields.indexOf('source text') === -1) {
+          adapter.fields.push('source text');
+        }
+
+        fieldNames = adapter.fields.map(function(rawFieldName) { return rawFieldName.split(' ')[0]; });
+
         createQuery = "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")";
 
         // we need to test that the existing table has the right fields
@@ -153,7 +160,9 @@ mulberry.app.DeviceStorage = (function(){
           if (resp.rows.length === 0) {
             return false;    // this is an empty table, may as well drop it & recreate
           }
-          return resp.rows.item(0).hasOwnProperty('source');
+          // if the field names don't line up, the only way we can proceed is by dropping
+          // the table entirely
+          return fieldNames.reduce(function(memo, fieldName) { return memo && resp.rows.item(0).hasOwnProperty(fieldName); });
         });
 
         return upgradeTest.then(dojo.hitch(this, function(resp) {
