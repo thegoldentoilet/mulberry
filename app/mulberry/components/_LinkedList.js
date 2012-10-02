@@ -26,6 +26,13 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
    */
   setStore : function(selection) {
     this.storeData = selection;
+
+    this.storeData.forEach(dojo.hitch(this, '_addItem'));
+  },
+
+  _addItem : function(item, index) {
+    var index = index || 'last';
+    dojo.place(this.itemTemplate(item), this.domNode, index);
   },
 
   commastopper : null

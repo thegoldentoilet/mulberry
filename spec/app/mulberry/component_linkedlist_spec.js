@@ -1,6 +1,6 @@
 describe("linked list component", function() {
   var store, mockdata,
-      test, C;
+      test, C, config;
 
   beforeEach(function() {
     dojo.require('mulberry.app.UI');
@@ -26,15 +26,21 @@ describe("linked list component", function() {
     dojo.empty(test);
 
     mulberry.app.UI.hasTouch = false;
+
+    config = {
+      templateString : '%ul',
+      itemTemplate : Haml('%li =foo')
+    };
   });
 
   it("should populate the component based on a store", function() {
-    var c = new C().placeAt(test), results;
+    var c = new C(config).placeAt(test), results;
 
     results = store.query();
 
     c.setStore(results);
 
     expect(c.storeData.length).toEqual(mockdata.length);
+    expect(test.innerHTML.match('buzz')).toBeTruthy();
   });
 });
