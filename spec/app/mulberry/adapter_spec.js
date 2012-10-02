@@ -54,7 +54,7 @@ describe("base _Adapter class", function() {
   });
 
   describe("data management", function() {
-    var deferred, resolveTest;
+    var deferred, resolveTest, tableName = 'adapterTest';
 
     beforeEach(function() {
       resolveTest = false;
@@ -76,12 +76,10 @@ describe("base _Adapter class", function() {
       beforeEach(function() {
         startTime = new Date().getTime();
 
-        mulberry.app.DeviceStorage.drop();
-        mulberry.app.DeviceStorage.init('foo');
-
         adapter = new mulberry._Adapter({
           remoteDataUrl : 'foo',
-          source : 'bar'
+          source : 'bar',
+          tableName : tableName
         });
 
         mulberry.app.DeviceStorage.set('bar', null, adapter);
@@ -90,7 +88,6 @@ describe("base _Adapter class", function() {
       });
 
       it("should retrieve remote data when no data is present", function() {
-
         deferred = adapter.getData();
 
         deferred.then(function() { resolveTest = true; });
@@ -136,11 +133,16 @@ describe("base _Adapter class", function() {
       });
 
       it("should retrieve remote data when local data is expired", function() {
-        mulberry.app.DeviceStorage.set(adapter.source + "-updated", 10000000);
+        waits(50);    // to make sure we're clear of anything else that could
+                      // set the update time
 
-        deferred = adapter.getData();
+        runs(function() {
+          mulberry.app.DeviceStorage.set(adapter.source + "-updated", 100000);
 
-        deferred.then(function() { resolveTest = true; });
+          deferred = adapter.getData();
+
+          deferred.then(function() { resolveTest = true; });
+        });
 
         waitsFor(function() { return resolveTest; });
 
@@ -158,7 +160,8 @@ describe("base _Adapter class", function() {
 
         adapter = new mulberry._Adapter({
           source : 'foo',
-          remoteDataUrl : 'bar'
+          remoteDataUrl : 'bar',
+          tableName : tableName
         });
 
         deferred = adapter.getData();
@@ -185,7 +188,8 @@ describe("base _Adapter class", function() {
 
         adapter = new mulberry._Adapter({
           source : 'bar',
-          remoteDataUrl : 'foo'
+          remoteDataUrl : 'foo',
+          tableName : tableName
         });
 
         deferred = adapter._getRemoteData();
@@ -206,7 +210,8 @@ describe("base _Adapter class", function() {
         var result = null;
 
         adapter = new mulberry._Adapter({
-          source : 'foo'
+          source : 'foo',
+          tableName : tableName
         });
 
         deferred = adapter._getRemoteData();
@@ -229,7 +234,8 @@ describe("base _Adapter class", function() {
         var result = null;
 
         adapter = new mulberry._Adapter({
-          deferred : new dojo.Deferred()
+          deferred : new dojo.Deferred(),
+          tableName : tableName
         });
 
         spyOn(adapter, '_processData').andCallThrough();

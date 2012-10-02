@@ -1,6 +1,7 @@
 describe("Updateable", function() {
   var instance, Updateable, ajaxMocks, networkIsReachable,
-      config, mockjax, newerRemoteData, appMajorVersion;
+      config, mockjax, newerRemoteData, appMajorVersion,
+      tableName = 'adapterUpdateableTest';
 
   beforeEach(function() {
     dojo.require('toura.adapters._Updateable');
@@ -55,7 +56,8 @@ describe("Updateable", function() {
       bundleDataUrl : 'bundle',
       remoteDataUrl : 'remote',
       remoteVersionUrl : 'version',
-      storageKey : 'key'
+      storageKey : 'key',
+      tableName : tableName
     };
 
     networkIsReachable = true;

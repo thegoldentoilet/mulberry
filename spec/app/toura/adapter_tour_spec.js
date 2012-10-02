@@ -1,5 +1,5 @@
 describe('toura.adapters.tourjs', function() {
-  var t, mockjax, deviceStorageInit = false;
+  var t, mockjax, deviceStorageInit = false, tableName = 'adapterTourjsTest';
 
   beforeEach(function() {
     dojo.require('toura.adapters.tourjs');
@@ -57,7 +57,8 @@ describe('toura.adapters.tourjs', function() {
       bundleDataUrl : 'bundle',
       remoteDataUrl : 'remote',
       remoteVersionUrl : 'version',
-      storageKey : 'key'
+      storageKey : 'key',
+      tableName : tableName
     };
 
     networkIsReachable = true;
