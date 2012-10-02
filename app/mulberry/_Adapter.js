@@ -4,6 +4,12 @@
  * @class mulberry._Adapter
  *
  * the core class for any retrievable data source
+ *
+ * Adapters serve to connect mulberry apps to external data sources. New
+ * adapters should read in data from an external source (an RSS feed, an
+ * API, etc.) and parse/convert its data into models within the mulberry
+ * app. The adapter also handles keeping mulberry's copy of this content
+ * up to date with the remote data source.
  */
 dojo.declare('mulberry._Adapter', null, {
   /**
