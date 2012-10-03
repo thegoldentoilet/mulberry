@@ -2,6 +2,8 @@ dojo.provide('toura.adapters.tourjs');
 
 dojo.require('toura.adapters._Updateable');
 
+// TODO rename to 'Tour'
+
 dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
   // this parser has to do very, very little
 
