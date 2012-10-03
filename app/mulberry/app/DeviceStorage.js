@@ -2,6 +2,7 @@ dojo.provide('mulberry.app.DeviceStorage');
 
 dojo.require('mulberry.Device');
 
+// TODO: REASONABLE COMMENTS PLZ
 /**
  * Provides an API for interacting with the adapterite databse
  */
@@ -134,56 +135,58 @@ mulberry.app.DeviceStorage = (function(){
         this._setTables(this.tables);
       }
 
-      if (adapter) {
-        if (v === null) {
-          // this is in so the bootstrap can set up the tables array
-          // without overwriting the data
-          return null;
-        }
-
-        // ensure that a source field exists
-        if (adapter.fields.indexOf('source text') === -1) {
-          adapter.fields.push('source text');
-        }
-
-        fieldNames = adapter.fields.map(function(rawFieldName) { return rawFieldName.split(' ')[0]; });
-
-        createQuery = "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")";
-
-        // we need to test that the existing table has the right fields
-        // we try a create query first to make sure the table exists so the
-        // select query does not fail
-        upgradeTest = this._sql([
-          createQuery,
-          "SELECT * FROM " + adapter.tableName + " LIMIT 1"
-        ], function(resp) {
-          if (resp.rows.length === 0) {
-            return false;    // this is an empty table, may as well drop it & recreate
-          }
-          // if the field names don't line up, the only way we can proceed is by dropping
-          // the table entirely
-          return fieldNames.reduce(function(memo, fieldName) { return memo && resp.rows.item(0).hasOwnProperty(fieldName); });
-        });
-
-        return upgradeTest.then(dojo.hitch(this, function(resp) {
-          if (resp === false) {
-            queries = ["DROP TABLE " + adapter.tableName];
-          } else {
-            queries = ["DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'"];
-          }
-
-          queries.push(createQuery);
-
-          dojo.forEach(v, function(item) {
-            queries.push(adapter.insertStatement(adapter.tableName, item));
-          });
-
-          return this._sql(queries);
-        }));
+      if (!adapter) {
+        // local storage!
+        window.localStorage.setItem(k, JSON.stringify(v));
+        return true;
       }
 
-      window.localStorage.setItem(k, JSON.stringify(v));
-      return true;
+      // WebSQL!
+      if (v === null) {
+        // this is in so the bootstrap can set up the tables array
+        // without overwriting the data
+        return null;
+      }
+
+      // ensure that a source field exists
+      if (adapter.fields.indexOf('source text') === -1) {
+        adapter.fields.push('source text');
+      }
+
+      fieldNames = adapter.fields.map(function(rawFieldName) { return rawFieldName.split(' ')[0]; });
+
+      createQuery = "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")";
+
+      // we need to test that the existing table has the right fields
+      // we try a create query first to make sure the table exists so the
+      // select query does not fail
+      upgradeTest = this._sql([
+        createQuery,
+        "SELECT * FROM " + adapter.tableName + " LIMIT 1"
+      ], function(resp) {
+        if (resp.rows.length === 0) {
+          return false;    // this is an empty table, may as well drop it & recreate
+        }
+        // if the field names don't line up, the only way we can proceed is by dropping
+        // the table entirely
+        return fieldNames.reduce(function(memo, fieldName) { return memo && resp.rows.item(0).hasOwnProperty(fieldName); });
+      });
+
+      return upgradeTest.then(dojo.hitch(this, function(resp) {
+        if (resp === false) {
+          queries = ["DROP TABLE " + adapter.tableName];
+        } else {
+          queries = ["DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'"];
+        }
+
+        queries.push(createQuery);
+
+        dojo.forEach(v, function(item) {
+          queries.push(adapter.insertStatement(adapter.tableName, item));
+        });
+
+        return this._sql(queries);
+      }));
     },
 
     get : function(k) {

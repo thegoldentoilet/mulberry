@@ -1,4 +1,4 @@
- dojo.provide('mulberry._Adapter');
+dojo.provide('mulberry._Adapter');
 
 /**
  * @class mulberry._Adapter
@@ -45,7 +45,7 @@ dojo.declare('mulberry._Adapter', null, {
   /**
    * The field list for the table this adapter uses
    */
-  fields : ['json text'],
+  fields : ['id text', 'json text', 'source text'],
 
 
   /**

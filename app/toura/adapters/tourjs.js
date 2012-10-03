@@ -41,11 +41,13 @@ dojo.declare('toura.adapters.tourjs', toura.adapters._Updateable, {
     }
 
     if (data.items) {
-      this._items = data.items;
+      this.inherited(data.items);
     }
   },
 
   _store : function(newRemoteData) {
+    // TODO: setLocalVersion? does this get called in the process
+    // of updating + test case?
     var dfd = new dojo.Deferred(),
         storeOnDevice;
 
