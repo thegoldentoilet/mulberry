@@ -33,6 +33,41 @@ describe("linked list component", function() {
     };
   });
 
+  describe("item manipulation", function() {
+    var c;
+
+    beforeEach(function() {
+      c = new C(config).placeAt(test);
+    });
+
+    it("should insert an item", function() {
+      var l, element;
+
+      element = c._addItem({'foo' : 'bar'});
+
+      expect(test.innerHTML.match('bar')).toBeTruthy();
+
+      l = test.children[0].children.length;
+      expect(test.children[0].children[l - 1].outerHTML).toBe(element);
+    });
+
+    it("should insert an item at an index", function() {
+      var items = [
+        {'foo' : 'bar'},
+        {'foo' : 'baz'},
+        {'foo' : 'biz'}
+      ], i, element;
+
+      for (i = items.length - 1; i >= 0; i--) {
+        c._addItem(items[i]);
+      };
+
+      element = c._addItem({'foo' : 'boz'}, 1);
+
+      expect(test.children[0].children[1].outerHTML).toBe(element);
+    });
+  });
+
   it("should populate the component based on a store", function() {
     var c = new C(config).placeAt(test), results;
 
