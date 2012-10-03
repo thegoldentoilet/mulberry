@@ -32,7 +32,7 @@ dojo.declare('toura.AdMob', null, {
    */
   loadBanner : function(id,deviceType,x,y,h,w,lat,lon) {
     console.log("in toura admob loadbanner: ",id,deviceType);
-    window.plugins.adMob.createBanner(id);
+    window.plugins.adMob.createBanner(id,deviceType);
     window.plugins.adMob.loadBanner(id,deviceType,x,y,h,w,lat,lon);
     window.plugins.adMob.moveBanner(id,deviceType,0,430); //these values need to be dynamic based on device?
   },

@@ -91,12 +91,12 @@ mulberry.app.PhoneGap.admob = function(pg, device) {
           AdMob.prototype.callbackIdx = 0;
           //loadBanner is the preferred method to set up new banner ads.
           AdMob.prototype.createBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
-              //only here to support ios functionality
+             console.log("in admob createBanner");
+              PhoneGap.exec(successCallback,failureCallback,"AdMob","createBanner", [siteId, deviceType]);
           };
 
           AdMob.prototype.loadBanner = function(siteId,deviceType,positionX,positionY,height,width,latitude,longitude,successCallback,failureCallback) {
-              console.log("in admob loadBanner but really calling createBanner");
-              PhoneGap.exec(successCallback,failureCallback,"AdMob","createBanner", [siteId, deviceType]);
+              //not needed
           };
 
           AdMob.prototype.deleteBanner = function(successCallback, failureCallback) {

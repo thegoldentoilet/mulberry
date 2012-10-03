@@ -131,7 +131,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
         //perhaps need to set up default ad properties? not sure.
         this.AdMobAd = new toura.AdMob(this.appConfig.adMobId);
         
-        this.AdMobAd.loadBanner(this.appConfig.adMobId,mulberry.Device.type, mulberry.app.UI.orientation);
+        this.AdMobAd.loadBanner(this.appConfig.adMobId,mulberry.Device.type);
       } else {
         this._setupAdTag();
       }

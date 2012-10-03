@@ -62,10 +62,10 @@
     [self.adBanner loadRequest:request];
 }
 
-- (void) moveBanner:(NSMutableArray *) argumnets withDict: (NSMutableDictionary *) options 
+- (void) moveBanner:(NSMutableArray *) arguments withDict: (NSMutableDictionary *) options 
 {
     if(!self.adBanner)
-        [self createBanner:argumnets withDict:options];
+        [self createBanner:arguments withDict:options];
     
     [UIView animateWithDuration:1.0 animations:^{
         self.adBanner.frame = [self createRectangle:options]; 

@@ -91,7 +91,7 @@ public class AdMobController extends Plugin implements PropertyChangeListener{
 					size = AdSize.IAB_BANNER;
 				} else {
 					size = AdSize.BANNER;
-				}				
+				}
 			}			
 		} catch (JSONException e) {
 			return new PluginResult(Status.JSON_EXCEPTION);
@@ -109,8 +109,7 @@ public class AdMobController extends Plugin implements PropertyChangeListener{
 					//adView.setAdListener(this);					
 			        layout.addView(adView);
 			        layout.setHorizontalGravity(android.view.Gravity.CENTER_HORIZONTAL);
-			        AdRequest request = new AdRequest();
-			        request.addTestDevice("FA86BB76DEC697CE3A123756F8BE1543");
+			        AdRequest request = new AdRequest();			      
 			        adView.loadAd(request);
 				}
 			});		       
