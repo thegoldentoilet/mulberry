@@ -76,7 +76,8 @@ dojo.declare('toura.models.Node', null, {
 
       feeds : getAssets('feeds', toura.models.Feed),
 
-      externalContent : getAssets('externalContent', toura.models.externalContent),
+      // TODO: add tests!!!!!!!!!!
+      externalContent : getAssets('externalContent', toura.models.ExternalContent),
 
       pageDef : store.getValue(item, 'pageController'),
       sharingURL : store.getValue(item, 'sharingUrl'),

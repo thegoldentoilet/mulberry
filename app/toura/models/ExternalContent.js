@@ -58,6 +58,7 @@ dojo.declare('toura.models.ExternalContent', null, {
         remoteDataUrl : this.sourceUrl,
         source : this.name
       });
+      // TODO:  should this add the adapter to the tables array?
     }
 
     return fullAdapter;
