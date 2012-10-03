@@ -43,6 +43,7 @@ module Builder
 
       vars = {
         :device_type          =>  @target['device_type'] || nil,
+        :device_os            =>  @target['device_os'],
         :body_onload          =>  browser ? 'readyFn()' : '',
         :include_phonegap     =>  !browser,
         :include_manifest     =>  !browser
