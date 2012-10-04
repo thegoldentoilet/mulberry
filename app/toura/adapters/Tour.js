@@ -41,7 +41,8 @@ dojo.declare('toura.adapters.Tour', toura.adapters._Updateable, {
     }
 
     if (data.items) {
-      this.inherited(data.items);
+      // TODO: figure out why this.inherited fails here
+      this._items = data.items;
     }
   },
 
