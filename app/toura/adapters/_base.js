@@ -1,3 +1,3 @@
 dojo.provide('toura.adapters._base');
 
-dojo.require('toura.adapters.tour');
+dojo.require('toura.adapters.Tour');
