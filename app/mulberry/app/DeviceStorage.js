@@ -2,13 +2,22 @@ dojo.provide('mulberry.app.DeviceStorage');
 
 dojo.require('mulberry.Device');
 
-// TODO: REASONABLE COMMENTS PLZ
 /**
- * Provides an API for interacting with the adapterite databse
+ * Provides an API for interacting with WebSQL and local storage
  */
 mulberry.app.DeviceStorage = (function(){
 
   return {
+    /**
+     * @public
+     *
+     * creates the DeviceStorage system
+     *
+     * in particular, this sets up the system for mulberry to interact with
+     * the sql database (and it prevents the app crashing in an environment
+     * lacking WebSQL). It also sets up the tables array and its persistent
+     * localStorage counterpart.
+     */
     init : function(appId) {
       this.appId = appId;
 
@@ -39,6 +48,16 @@ mulberry.app.DeviceStorage = (function(){
         }
 
         // TODO: get rid of this caching adapters stuff
+        /**
+         * @private
+         *
+         * retrieves the tables array from local storage (if present) and
+         * reconstitutes any adapters stored in it from their config data
+         *
+         * NB: this caching system is annoying, complicated, and probably
+         *     should be refactored into something less fragile and weird
+         *     at a later date
+         */
         this._getTables = function() {
           var tables = mulberry.app.DeviceStorage.get('tables');
 
@@ -46,6 +65,8 @@ mulberry.app.DeviceStorage = (function(){
             return null;
           }
 
+          // reconstitute the adapters by fetching the core class by name
+          // and instantiating them with the provided config
           dojo.forIn(tables, function(key, table) {
             var adapter = dojo.getObject(table.adapter);
             tables[key].adapter = new adapter(table.config);
@@ -55,6 +76,12 @@ mulberry.app.DeviceStorage = (function(){
           return tables;
         };
 
+        /**
+         * @private
+         *
+         * caches enough data about the tables array into localStorage so
+         * it can be reconstituted later by _getTables
+         */
         this._setTables = function(tables) {
           var storedTables = {};
           dojo.forIn(tables, function(key, table) {
@@ -110,6 +137,13 @@ mulberry.app.DeviceStorage = (function(){
       return this._db;
     },
 
+    /**
+     * @public
+     *
+     * this method clears out the database and localStorage. WebSQL lacks
+     * a method for dropping a database entirely, so it must iterate over
+     * the tables array and drop the tables one by one
+     */
     drop : function() {
       var queries = [];
 
@@ -124,6 +158,40 @@ mulberry.app.DeviceStorage = (function(){
       return this._sql && this._sql(queries);
     },
 
+    /**
+     * @public
+     *
+     * this sets a value in localStorage OR it repopulates all a source's
+     * content in WebSQL, depending on its arguments and the tables array
+     *
+     * basically: if the provided key is in the tables array, it will use
+     * WebSQL. if it is provided an adapter, it will use WebSQL. elsewise
+     * it will write to localStorage.
+     *
+     * NB: a perceptive reader will realize this means when you see a set
+     *     call, you can not distinguish by reading whether it will write
+     *     to localStorage or to WebSQL. caveat programmer.
+     *
+     *     also TODO: refactor localStorage/webSQL into two functions
+     *
+     * @name localStorage
+     * @param k {String} the localStorage key
+     * @param v {String|Array|Object} the value to store. if the value is
+     *                   not a string, it is first converted to JSON
+     *
+     * @name WebSQL
+     * @param k {String} the name of the source to set
+     * @param v {Array|Null} the data to write into the source. when this
+     *                   value is null, the provided adapter is logged to
+     *                   to the tables array, but the saved data will not
+     *                   be altered
+     * @param [adapter] {Adapter} if one is provided, the adapter will be
+     *                   used to write the provided data to the database;
+     *                   otherwise the adapter will be fetched out of the
+     *                   tables array
+     * @returns {Promise} a promise that resolves with all stored data of
+     *                   the specified source
+     */
     set : function(k, v, adapter) {
       var queries, upgradeTest, createQuery, fieldNames;
 
@@ -157,18 +225,20 @@ mulberry.app.DeviceStorage = (function(){
 
       createQuery = "CREATE TABLE IF NOT EXISTS " + adapter.tableName + "(" + adapter.fields.join(',') + ")";
 
-      // we need to test that the existing table has the right fields
-      // we try a create query first to make sure the table exists so the
+      // we need to test that the existing table has the fields we expect
+      //
+      // we run the create query first to be sure the table exists so the
       // select query does not fail
       upgradeTest = this._sql([
         createQuery,
         "SELECT * FROM " + adapter.tableName + " LIMIT 1"
       ], function(resp) {
         if (resp.rows.length === 0) {
-          return false;    // this is an empty table, may as well drop it & recreate
+          return false;    // this is an empty table, may as well drop it
+                           // & recreate
         }
-        // if the field names don't line up, the only way we can proceed is by dropping
-        // the table entirely
+        // if the field names do not line up, the only way we can proceed
+        // is by dropping the table entirely
         return fieldNames.reduce(function(memo, fieldName) { return memo && resp.rows.item(0).hasOwnProperty(fieldName); });
       });
 
@@ -189,6 +259,22 @@ mulberry.app.DeviceStorage = (function(){
       }));
     },
 
+    /**
+     * @public
+     *
+     * retrieves data from webSQL or localStorage
+     *
+     * @name localStorage
+     * @param k {String} the localStorage key to retrieve
+     * @returns {String|Array|Object} the data stored in localStorage. if
+     *                   this data is be JSON-parseable, it returns as an
+     *                   array or object as appropriate
+     *
+     * @name webSQL
+     * @param k {String} the source to retrieve data for
+     * @returns {Promise} a promise that resolves with the data that goes
+     *                   with this key
+     */
     get : function(k) {
       var adapter;
 
