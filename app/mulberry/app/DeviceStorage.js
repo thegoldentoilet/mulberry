@@ -148,7 +148,7 @@ mulberry.app.DeviceStorage = (function(){
       var queries = [];
 
       dojo.forIn(this.tables, function(propName, settings) {
-        queries.push("DROP TABLE IF EXISTS " + settings.tableName);
+        queries.push("DROP TABLE IF EXISTS " + settings.adapter.tableName);
       });
 
       window.localStorage.clear();
@@ -189,8 +189,7 @@ mulberry.app.DeviceStorage = (function(){
      *                   used to write the provided data to the database;
      *                   otherwise the adapter will be fetched out of the
      *                   tables array
-     * @returns {Promise} a promise that resolves with all stored data of
-     *                   the specified source
+     * @returns {Promise} a promise that resolves after the new data has
      */
     set : function(k, v, adapter) {
       var queries, upgradeTest, createQuery, fieldNames;
@@ -244,7 +243,7 @@ mulberry.app.DeviceStorage = (function(){
 
       return upgradeTest.then(dojo.hitch(this, function(resp) {
         if (resp === false) {
-          queries = ["DROP TABLE " + adapter.tableName];
+          queries = ["DROP TABLE IF EXISTS " + adapter.tableName];
         } else {
           queries = ["DELETE FROM " + adapter.tableName + " WHERE source='" + adapter.source + "'"];
         }

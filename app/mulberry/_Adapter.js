@@ -15,7 +15,7 @@ dojo.declare('mulberry._Adapter', null, {
   /**
    * The name of the table to write these items to (usually 'items')
    */
-  tableName : 'items',
+  tableName : null,
 
 
   /**
@@ -45,7 +45,7 @@ dojo.declare('mulberry._Adapter', null, {
   /**
    * The field list for the table this adapter uses
    */
-  fields : ['id text', 'json text', 'source text'],
+  fields : null,
 
 
   /**
@@ -136,8 +136,8 @@ dojo.declare('mulberry._Adapter', null, {
    */
   insertStatement : function(tableName, item) {
     return [
-      "INSERT INTO " + tableName + " (json) VALUES ( ? )",
-      [ JSON.stringify(item) ]
+      "INSERT INTO " + tableName + " (json, source) VALUES ( ? )",
+      [ JSON.stringify(item), this.source ]
     ];
   },
 

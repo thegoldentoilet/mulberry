@@ -128,8 +128,8 @@ describe("mulberry device storage api", function() {
     it("should upgrade an old database if one exists", function() {
       api._sql([
         "DROP TABLE foo",
-        "CREATE TABLE foo (id text, value text)",
-        "INSERT INTO foo VALUES ('bar', 'baz')"
+        "CREATE TABLE foo (id text, value text, source text)",
+        "INSERT INTO foo VALUES ('bar', 'baz', 'buzz')"
       ]).then(dbTestFn);
 
       waitsFor(function() { return dbSetComplete === 1; });
@@ -157,7 +157,7 @@ describe("mulberry device storage api", function() {
     it("should upgrade an empty old database if one exists", function() {
       api._sql([
         "DROP TABLE foo",
-        "CREATE TABLE foo (id text, value text)"
+        "CREATE TABLE foo (id text, value text, source text)"
       ]).then(dbTestFn);
 
       waitsFor(function() { return dbSetComplete === 1; });

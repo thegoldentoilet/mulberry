@@ -1,8 +1,19 @@
 describe("base _Adapter class", function() {
-  var mockjax, ajaxMocks, adapter, config;
+  var mockjax, ajaxMocks, adapter, config,
+      tableName = 'adapterTest',
+      fields = ['json text', 'source text'],
+      source = 'adapterTest',
+      deviceStorageInit, deviceStorageGet;
 
   beforeEach(function() {
     dojo.require('mulberry._Adapter');
+    dojo.require('mulberry.app.DeviceStorage');
+    if(!deviceStorageInit) {
+      mulberry.app.DeviceStorage.drop();
+      mulberry.app.DeviceStorage.init('foo');
+      deviceStorageInit = true;
+      deviceStorageGet = mulberry.app.DeviceStorage.get;
+    }
 
     mockjax = function (args) {
       var dfd = new dojo.Deferred();
@@ -43,7 +54,10 @@ describe("base _Adapter class", function() {
   it("should initialize properly with a config", function() {
     config = {
       'foo' : 'bar',
-      'baz' : 'biz'
+      'baz' : 'biz',
+      tableName : tableName,
+      fields : fields,
+      source : source
     };
 
     adapter = new mulberry._Adapter(config);
@@ -54,14 +68,10 @@ describe("base _Adapter class", function() {
   });
 
   describe("data management", function() {
-    var deferred, resolveTest, tableName = 'adapterTest';
+    var deferred, resolveTest;
 
     beforeEach(function() {
       resolveTest = false;
-
-      dojo.require('mulberry.app.DeviceStorage');
-      mulberry.app.DeviceStorage.drop();
-      mulberry.app.DeviceStorage.init('foo');
 
       ajaxMocks = {
         'foo' : [
@@ -79,7 +89,8 @@ describe("base _Adapter class", function() {
         adapter = new mulberry._Adapter({
           remoteDataUrl : 'foo',
           source : 'bar',
-          tableName : tableName
+          tableName : tableName,
+          fields : fields
         });
 
         mulberry.app.DeviceStorage.set('bar', null, adapter);
@@ -104,11 +115,25 @@ describe("base _Adapter class", function() {
       });
 
       it("should retrieve local data when it is present and not expired", function() {
+        var flag;
+
         adapter._setLastUpdate();
 
-        mulberry.app.DeviceStorage.set('bar', ajaxMocks.foo);
+        // this is a kind of goofy workaround to get DeviceStorage to act
+        // as though its database contains old information. the delegated
+        // function for k != bar makes sure we can still access the local
+        // storage data the adapter needs, because this function is crazy
+        // overloaded here
+        mulberry.app.DeviceStorage.get = function(k) {
+          if (k != 'bar') {
+            return deviceStorageGet.apply(this, arguments);
+          }
+          var dfd = new dojo.Deferred();
+          dfd.resolve(ajaxMocks.foo);
+          return dfd;
+        }
 
-        waits(1); // just to make startTime > the time triggered above
+        waits(10); // just to make startTime > the time triggered above
 
         runs(function() {
           startTime = new Date().getTime();
@@ -129,6 +154,8 @@ describe("base _Adapter class", function() {
           expect(adapter._getRemoteData).not.toHaveBeenCalled();
           expect(mulberry.app.DeviceStorage.get).toHaveBeenCalled();
           expect(adapter._getLastUpdate()).toBeLessThan(startTime);
+
+          mulberry.app.DeviceStorage.get = deviceStorageGet;
         });
       });
 
@@ -189,7 +216,8 @@ describe("base _Adapter class", function() {
         adapter = new mulberry._Adapter({
           source : 'bar',
           remoteDataUrl : 'foo',
-          tableName : tableName
+          tableName : tableName,
+          fields : fields
         });
 
         deferred = adapter._getRemoteData();
@@ -235,7 +263,8 @@ describe("base _Adapter class", function() {
 
         adapter = new mulberry._Adapter({
           deferred : new dojo.Deferred(),
-          tableName : tableName
+          tableName : tableName,
+          fields : fields
         });
 
         spyOn(adapter, '_processData').andCallThrough();
