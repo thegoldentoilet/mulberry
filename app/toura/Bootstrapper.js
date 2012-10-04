@@ -2,7 +2,7 @@ dojo.provide('toura.Bootstrapper');
 
 dojo.require('mulberry.app.PhoneGap');
 dojo.require('mulberry.app.DeviceStorage');
-dojo.require('toura.adapters.tourjs');
+dojo.require('toura.adapters.tour');
 
 dojo.requireLocalization('mulberry', 'mulberry');
 
@@ -17,7 +17,7 @@ var bootstrapper = function() {
     app.DeviceStorage.set('tour-version', null);
   }
 
-  tour = new toura.adapters.tourjs({
+  tour = new toura.adapters.tour({
     remoteDataUrl : app.Config.get('updateUrl'),
     remoteVersionUrl : app.Config.get('versionUrl'),
     source : 'main',

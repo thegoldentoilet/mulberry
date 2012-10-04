@@ -1,8 +1,8 @@
-describe('toura.adapters.tourjs', function() {
-  var t, mockjax, deviceStorageInit = false, tableName = 'adapterTourjsTest';
+describe('toura.adapters.tour', function() {
+  var t, mockjax, deviceStorageInit = false, tableName = 'adapterTourTest';
 
   beforeEach(function() {
-    dojo.require('toura.adapters.tourjs');
+    dojo.require('toura.adapters.tour');
     dojo.require('mulberry.app.DeviceStorage');
     mulberry.app.DeviceStorage.drop();
     mulberry.app.DeviceStorage.init('foo');
@@ -63,7 +63,7 @@ describe('toura.adapters.tourjs', function() {
 
     networkIsReachable = true;
 
-    t = new toura.adapters.tourjs(config);
+    t = new toura.adapters.tour(config);
     mulberry.app.DeviceStorage.set(t.source, null, t);
   });
 
