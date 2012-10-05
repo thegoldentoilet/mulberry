@@ -12,7 +12,7 @@ dojo.declare('toura.AdMob', null, {
    *
    * Subscribes to various application events.
    */
-  constructor : function(id) {
+  constructor : function (id) {
     //can do pub/sub type stuff in here if needed
     //need to listen for orientation change
   },
@@ -30,11 +30,10 @@ dojo.declare('toura.AdMob', null, {
    *
    * Calls the phonegap plugin to create, load, and then move the banner into place.
    */
-  loadBanner : function(id,deviceType,x,y,h,w,lat,lon) {
-    console.log("in toura admob loadbanner: ",id,deviceType);
-    window.plugins.adMob.createBanner(id,deviceType);
-    window.plugins.adMob.loadBanner(id,deviceType,x,y,h,w,lat,lon);
-    window.plugins.adMob.moveBanner(id,deviceType,0,430); //these values need to be dynamic based on device?
+  loadBanner : function (id, deviceType) {
+    window.plugins.adMob.createBanner(id, deviceType, successMe, failMe);
+    window.plugins.adMob.loadBanner(id, deviceType, successMe, failMe);
+    window.plugins.adMob.moveBanner(id, deviceType, 0, 430, successMe, failMe); // these values need to be dynamic based on device?
   },
 
   /**
@@ -43,8 +42,15 @@ dojo.declare('toura.AdMob', null, {
    * Deletes banner ad in native code
    */
   destroy : function () {
-    console.log("in AdMob Destroy");
     window.plugins.adMob.deleteBanner();
+  },
+
+  successMe : function (obj) {
+    console.log("we have success with admob!", obj);
+  },
+
+  failMe : function (obj) {
+    console.log("we have failed to load an admob ad ", obj);
   }
 });
 
