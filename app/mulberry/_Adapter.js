@@ -37,12 +37,6 @@ dojo.declare('mulberry._Adapter', null, {
 
 
   /**
-   * An integer indicating when the remote was last checked for a new version.
-   */
-  lastChecked : 0,
-
-
-  /**
    * The field list for the table this adapter uses
    */
   fields : null,

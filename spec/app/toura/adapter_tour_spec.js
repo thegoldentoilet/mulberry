@@ -71,12 +71,13 @@ describe('toura.adapters.Tour', function() {
   describe("bootstrapping", function() {
     it("should indicate when the remote was last checked", function() {
       var u = new Tour(config),
-          dfd = new dojo.Deferred();
+          flag;
 
       expect(u.lastChecked).toBeDefined();
-      u.getData().then(dfd.resolve);
 
-      waitsFor(function() { return dfd.fired; });
+      u.getData().then(function() { flag = true; });
+
+      waitsFor(function() { return flag; });
 
       runs(function() {
         expect(u.lastChecked).toBeTruthy();
@@ -302,16 +303,19 @@ describe('toura.adapters.Tour', function() {
           itShouldNotLoadTheRemoteData();
         });
 
-        describe("and the data has a newer app version", function() {
+        describe("and the remote data has a newer app version", function() {
           beforeEach(function() {
             ajaxMocks.remote.appVersion = (appMajorVersion+1) + ".0";
           });
 
           it("should not store the remote data", function() {
             var u = new Tour(config),
-                spy = spyOn(u, '_store'),
-                dfd = u.getData(),
-                flag;
+                dfd, flag;
+
+            // first make sure the bundle data is handled...
+            networkIsReachable = false;
+
+            dfd = u.getData();
 
             dfd.then(function() {
               flag = true;
@@ -321,8 +325,22 @@ describe('toura.adapters.Tour', function() {
               return flag;
             });
 
+            // now set up our spy, turn the network "on" and check remote...
             runs(function() {
-              expect(spy).not.toHaveBeenCalled();
+              var spy = spyOn(u, '_store'),
+                  dfd, flag;
+
+              networkIsReachable = true;
+
+              dfd = u.getData();
+
+              dfd.then(function() { flag = true; });
+
+              waitsFor(function() { return flag; });
+
+              runs(function() {
+                expect(spy).not.toHaveBeenCalled();
+              });
             });
           });
 

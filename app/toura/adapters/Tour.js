@@ -27,6 +27,12 @@ dojo.declare('toura.adapters.Tour', mulberry._Adapter, {
   remoteVersionUrl : '',
 
 
+  /**
+   * An integer indicating when the remote was last checked for a new version.
+   */
+  lastChecked : 0,
+
+
   constructor : function(config) {
     this.inherited(arguments);
     this.source = config && config.source || 'main';
