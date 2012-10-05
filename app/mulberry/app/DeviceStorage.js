@@ -69,6 +69,11 @@ mulberry.app.DeviceStorage = (function(){
           // and instantiating them with the provided config
           dojo.forIn(tables, function(key, table) {
             var adapter = dojo.getObject(table.adapter);
+            if (!adapter) {
+              // can't find the adapter, this is not going to work out...
+              delete tables[key];
+              return;
+            }
             tables[key].adapter = new adapter(table.config);
             delete tables[key].config;
           });

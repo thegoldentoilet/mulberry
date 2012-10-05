@@ -33,10 +33,8 @@ dojo.declare('toura.adapters._Updateable', mulberry._Adapter, {
    * @returns {Promise} A promise that, if resolved, will be resolved with a
    * boolean value. If the value is true, then the data was updated during the
    * bootstrapping process.
-   *
-   * TODO: convert this to an extension of [super].getData
    */
-  bootstrap : function() {
+  getData : function() {
     var localVersion = this._getLocalVersion(),
         dfd = this.deferred = new dojo.Deferred();
 

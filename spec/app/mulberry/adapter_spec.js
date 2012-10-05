@@ -125,13 +125,13 @@ describe("base _Adapter class", function() {
         // storage data the adapter needs, because this function is crazy
         // overloaded here
         mulberry.app.DeviceStorage.get = function(k) {
-          if (k != 'bar') {
+          if (k !== 'bar') {
             return deviceStorageGet.apply(this, arguments);
           }
           var dfd = new dojo.Deferred();
           dfd.resolve(ajaxMocks.foo);
           return dfd;
-        }
+        };
 
         waits(10); // just to make startTime > the time triggered above
 

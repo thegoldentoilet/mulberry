@@ -71,7 +71,7 @@ describe("Updateable", function() {
           dfd = new dojo.Deferred();
 
       expect(u.lastChecked).toBeDefined();
-      u.bootstrap().then(dfd.resolve);
+      u.getData().then(dfd.resolve);
 
       waitsFor(function() { return dfd.fired; });
 
@@ -93,7 +93,7 @@ describe("Updateable", function() {
         window.localStorage.clear();
         networkIsReachable = false;
 
-        var simulatePreviousBoot = new Updateable(config).bootstrap(),
+        var simulatePreviousBoot = new Updateable(config).getData(),
             flag;
 
         simulatePreviousBoot.then(function() {
@@ -105,7 +105,7 @@ describe("Updateable", function() {
 
         runs(function() {
           var u = new Updateable(config),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               flag;
 
           dfd.then(function() { flag = true; });
@@ -129,7 +129,7 @@ describe("Updateable", function() {
 
       it("should resolve the deferred with a falsy value", function() {
         var u = new Updateable(config),
-            dfd = u.bootstrap(),
+            dfd = u.getData(),
             flag, bootstrapperResult;
 
         dfd.then(function(result) {
@@ -147,7 +147,7 @@ describe("Updateable", function() {
 
       it("should not try to contact the remote", function() {
         var u = new Updateable(config),
-            dfd = u.bootstrap(),
+            dfd = u.getData(),
             spy = spyOn(dojo, 'xhrGet'),
             flag;
 
@@ -172,7 +172,7 @@ describe("Updateable", function() {
 
         it("should store the remote data in memory", function() {
           var u = new Updateable(config),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               flag;
 
           dfd.then(function(result) {
@@ -193,7 +193,7 @@ describe("Updateable", function() {
 
         it("should resolve the deferred true", function() {
           var u = new Updateable(config),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               bootstrapperResult;
 
           dfd.then(function(result) {
@@ -212,7 +212,7 @@ describe("Updateable", function() {
         it("should run the _store method, which can be implemented by subclasses", function() {
           var u = Updateable(config),
               spy = spyOn(u, '_store'),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               flag;
 
           dfd.then(function() {
@@ -233,7 +233,7 @@ describe("Updateable", function() {
         it("should not load the remote data", function() {
           var u = new Updateable(config),
               spy = spyOn(u, '_getRemoteData'),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               flag;
 
           dfd.then(function() {
@@ -251,7 +251,7 @@ describe("Updateable", function() {
 
         it("should resolve the deferred false", function() {
           var u = new Updateable(config),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               bootstrapperResult,
               flag;
 
@@ -302,7 +302,7 @@ describe("Updateable", function() {
           it("should not store the remote data", function() {
             var u = new Updateable(config),
                 spy = spyOn(u, '_store'),
-                dfd = u.bootstrap(),
+                dfd = u.getData(),
                 flag;
 
             dfd.then(function() {

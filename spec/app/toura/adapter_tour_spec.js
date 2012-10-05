@@ -71,7 +71,7 @@ describe('toura.adapters.Tour', function() {
     it("should return a promise", function() {
       var flag, bootstrap;
 
-      bootstrap = t.bootstrap();
+      bootstrap = t.getData();
 
       bootstrap.then(function() { flag = true; });
 
@@ -87,7 +87,7 @@ describe('toura.adapters.Tour', function() {
     it("should get the children of the home node", function() {
       var flag, bootstrap;
 
-      bootstrap = t.bootstrap();
+      bootstrap = t.getData();
 
       bootstrap.then(function() { flag = true; });
 

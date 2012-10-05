@@ -39,7 +39,7 @@ var bootstrapper = function() {
 
       if (!outdated) { return; }
 
-      tour.bootstrap().then(function(gotUpdate) {
+      tour.getData().then(function(gotUpdate) {
         if (!gotUpdate) { return; }
 
         dojo.when(tour.getItems(), function(data) {
@@ -57,7 +57,7 @@ var bootstrapper = function() {
     });
   }
 
-  tour.bootstrap().then(function() {
+  tour.getData().then(function() {
     dfd.resolve(tour);
   }, dfd.reject);
 
