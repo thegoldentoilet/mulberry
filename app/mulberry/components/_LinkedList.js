@@ -65,5 +65,11 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
     this.domNode.removeChild(target);
   },
 
+  destroy : function() {
+    this.inherited(arguments);
+
+    this.observation.cancel();
+  },
+
   commastopper : null
 });
