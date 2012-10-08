@@ -66,6 +66,23 @@ describe("linked list component", function() {
 
       expect(test.children[0].children[1].outerHTML).toBe(element);
     });
+
+    it("should drop an item at a given index", function() {
+      var items = [
+        {'foo' : 'bar'},
+        {'foo' : 'baz'},
+        {'foo' : 'biz'}
+      ], i;
+
+      for (i = items.length - 1; i >= 0; i--) {
+        c._addItem(items[i]);
+      }
+
+      c._dropItem(1);
+
+      expect(test.innerHTML.match('baz')).toBeFalsy();
+      expect(test.children[0].children.length).toBe(2);
+    });
   });
 
   it("should populate the component based on a store", function() {

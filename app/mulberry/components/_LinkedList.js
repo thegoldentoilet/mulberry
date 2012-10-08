@@ -37,11 +37,16 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
   },
 
   _addItem : function(item, index) {
-    var index = index || 'last', element;
+    var _index = index || 'last', element;
     element = this.itemTemplate(item);
-    dojo.place(element, this.domNode, index);
+    dojo.place(element, this.domNode, _index);
 
     return element;
+  },
+
+  _dropItem : function(index) {
+    var target = this.domNode.children[index];
+    this.domNode.removeChild(target);
   },
 
   commastopper : null
