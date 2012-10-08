@@ -8,7 +8,7 @@ dojo.declare('toura.adapters.Tour', mulberry._Adapter, {
   appConfig : {},
 
   // set to true if this is the main tour.js driving the app
-  blessed : false,
+  primaryTour : false,
 
   fields : [ 'id text', 'json text', 'source text' ],
 
@@ -218,12 +218,12 @@ dojo.declare('toura.adapters.Tour', mulberry._Adapter, {
   /**
    * @private
    * @returns {Object} A promise which resolves with the bundled data. If
-   *                     this is not a blessed tour, the tour should have
+   *                     this is not a primaryTour tour, the tour should have
    *                     no bundled data, so the promise is rejected.
    */
   getBundleData : function() {
     var dfd = new dojo.Deferred();
-    if(this.blessed) {
+    if(this.primaryTour) {
       dfd.resolve(toura.data.local);
     } else {
       dfd.reject();
@@ -309,7 +309,7 @@ dojo.declare('toura.adapters.Tour', mulberry._Adapter, {
 
   _onDataReady : function() {
     this.inherited(arguments);
-    if (this.blessed) {
+    if (this.primaryTour) {
       mulberry.app.Config.set('app', this.appConfig);
     }
   },
