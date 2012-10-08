@@ -3,8 +3,6 @@ dojo.provide('toura.adapters.Tour');
 dojo.require('mulberry._Adapter');
 
 dojo.declare('toura.adapters.Tour', mulberry._Adapter, {
-  // this parser has to do very, very little
-
   appConfig : {},
 
   // set to true if this is the main tour.js driving the app

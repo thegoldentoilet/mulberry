@@ -62,6 +62,20 @@ describe('toura.models.ExternalContent', function() {
     expect(t.sourceUrl).toEqual('sourceUrl-foo');
   });
 
+  it("should obey its throttle timer", function() {
+    var spy = spyOn(t.adapter, 'getData');
+
+    t.lastChecked = new Date().getTime();
+
+    waits(5);
+
+    runs(function() {
+      t.load();
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
   it("should correctly set up the adapter", function() {
     var foo = new toura.adapters.mockdapter({
       remoteDataUrl : 'sourceUrl-foo',

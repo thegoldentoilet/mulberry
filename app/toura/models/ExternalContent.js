@@ -10,6 +10,8 @@ dojo.require('mulberry._Adapter');
 dojo.declare('toura.models.ExternalContent', null, {
   throttle : 5 * 1000, // 5 seconds
 
+  lastChecked : 0,
+
   /**
    * @constructor
    */
@@ -27,7 +29,12 @@ dojo.declare('toura.models.ExternalContent', null, {
    * @public
    */
   load : function(node) {
-    var dfd = this.adapter.getData();
+    var dfd, now = new Date().getTime();
+
+    if(this.lastChecked + this.throttle > now) { return; }
+    this.lastChecked = now;
+
+    dfd = this.adapter.getData();
 
     dfd.then(dojo.hitch(this, function() {
       node.addExternalChildren(this.adapter.getRootNodes());
@@ -49,6 +56,8 @@ dojo.declare('toura.models.ExternalContent', null, {
 
     if (!adapterRef) {
       console.error("the adapter for " + this.name + " was not found. This will end badly.");
+      // TODO: Proper error classes?
+      throw "MissingAdapter";
     }
 
     if (mulberry.app.DeviceStorage.tables.hasOwnProperty(this.name)) {
@@ -63,8 +72,4 @@ dojo.declare('toura.models.ExternalContent', null, {
 
     return fullAdapter;
   }
-
-  // load method -- requires node, delegates to adapter, adds to
-  // node on xhr callback
-
 });
