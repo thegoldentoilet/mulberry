@@ -25,6 +25,8 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
    *                                be from an observable store
    */
   setStore : function(selection) {
+    this.clearItems();
+
     this.storeData = selection;
 
     this.storeData.forEach(dojo.hitch(this, '_addItem'));
@@ -34,11 +36,20 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
     }
 
     this.observation = this.storeData.observe(dojo.hitch(this, function(item, removedIndex, insertedIndex, foo) {
+      if (removedIndex > -1) {
+        this._dropItem(removedIndex);
+      }
 
       if (insertedIndex > -1) {
         this._addItem(item, insertedIndex);
       }
     }), true);
+  },
+
+  clearItems : function() {
+    while(this.domNode.children.length) {
+      this._dropItem(0);
+    }
   },
 
   _addItem : function(item, index) {

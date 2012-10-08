@@ -85,38 +85,50 @@ describe("linked list component", function() {
     });
   });
 
-  it("should populate the component based on a store", function() {
-    var c = new C(config).placeAt(test), results;
+  describe("observing the store", function() {
+    var c, results;
 
-    results = store.query();
+    beforeEach(function() {
+      c = new C(config).placeAt(test);
 
-    c.setStore(results);
+      results = store.query();
 
-    expect(c.storeData.length).toEqual(mockdata.length);
-    expect(test.innerHTML.match('buzz')).toBeTruthy();
-  });
+      c.setStore(results);
+    });
 
-  // this is basically testing dojo.store, but whatever...
-  it("should populate the component based on a query", function() {
-    var c = new C(config).placeAt(test), results;
+    it("should populate the component based on a store", function() {
+      expect(c.storeData.length).toEqual(mockdata.length);
+      expect(test.innerHTML.match('buzz')).toBeTruthy();
+    });
 
-    results = store.query({'spam' : 'eggs'});
+    it("should reset the component for a new store", function() {
+      var innerResults = store.query({'spam' : 'eggs'});
 
-    c.setStore(results);
+      c.setStore(innerResults);
 
-    expect(test.innerHTML.match('bor')).toBeFalsy();
-    expect(test.innerHTML.match('buzz')).toBeTruthy();
-  });
+      expect(test.innerHTML.match('bor')).toBeFalsy();
+      expect(test.innerHTML.match('buzz')).toBeTruthy();
+    });
 
-  it("should add an item when one is added to the store", function() {
-    var c = new C(config).placeAt(test), results;
+    it("should add an item when one is added to the store", function() {
+      store.put({'id' : 6, 'foo' : 'bap', 'spam' : 'bacon'});
 
-    results = store.query();
+      expect(test.innerHTML.match('bap')).toBeTruthy();
+      expect(test.children[0].children.length).toBe(6);
+    });
 
-    c.setStore(results);
+    it("should remove an item when one is taken out of the store", function() {
+      store.remove(2);
 
-    store.put({'id' : 6, 'foo' : 'bap', 'spam' : 'bacon'});
+      expect(test.innerHTML.match('baz')).toBeFalsy();
+      expect(test.children[0].children.length).toBe(4);
+    });
 
-    expect(test.innerHTML.match('bap')).toBeTruthy();
+    it("should update an item when one is changed in the store", function() {
+      store.put({'id' : 4, 'foo' : 'bap', 'spam' : 'bacon'});
+
+      expect(test.innerHTML.match('bap')).toBeTruthy();
+      expect(test.children[0].children.length).toBe(5);
+    });
   });
 });
