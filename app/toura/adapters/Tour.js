@@ -64,7 +64,8 @@ dojo.declare('toura.adapters.Tour', mulberry._Adapter, {
       var bundleVersion = bundleData.version,
           initializeRequired = (localVersion === null) ||
             (bundleVersion === null) ||
-            (localVersion < bundleVersion);
+            (localVersion < bundleVersion) ||
+            !this.appConfig;
 
       dojo.when(
         initializeRequired ? this._initializeData(bundleData) : true,
