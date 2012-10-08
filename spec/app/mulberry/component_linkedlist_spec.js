@@ -9,11 +9,11 @@ describe("linked list component", function() {
     dojo.require('dojo.store.Observable');
 
     mockdata = [
-      {'foo' : 'bar', 'spam' : 'eggs' },
-      {'foo' : 'baz', 'spam' : 'bacon' },
-      {'foo' : 'buzz', 'spam' : 'eggs' },
-      {'foo' : 'biz', 'spam' : 'eggs' },
-      {'foo' : 'bor', 'spam' : 'bacon' }
+      {'id' : 1, 'foo' : 'bar', 'spam' : 'eggs' },
+      {'id' : 2, 'foo' : 'baz', 'spam' : 'bacon' },
+      {'id' : 3, 'foo' : 'buzz', 'spam' : 'eggs' },
+      {'id' : 4, 'foo' : 'biz', 'spam' : 'eggs' },
+      {'id' : 5, 'foo' : 'bor', 'spam' : 'bacon' }
     ];
 
     store = dojo.store.Observable(new dojo.store.Memory({
@@ -106,5 +106,17 @@ describe("linked list component", function() {
 
     expect(test.innerHTML.match('bor')).toBeFalsy();
     expect(test.innerHTML.match('buzz')).toBeTruthy();
+  });
+
+  it("should add an item when one is added to the store", function() {
+    var c = new C(config).placeAt(test), results;
+
+    results = store.query();
+
+    c.setStore(results);
+
+    store.put({'id' : 6, 'foo' : 'bap', 'spam' : 'bacon'});
+
+    expect(test.innerHTML.match('bap')).toBeTruthy();
   });
 });

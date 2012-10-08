@@ -33,7 +33,12 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
       this.observation.cancel();
     }
 
-    //this.observation = this.storeData.observe()
+    this.observation = this.storeData.observe(dojo.hitch(this, function(item, removedIndex, insertedIndex, foo) {
+
+      if (insertedIndex > -1) {
+        this._addItem(item, insertedIndex);
+      }
+    }), true);
   },
 
   _addItem : function(item, index) {
