@@ -60,7 +60,7 @@ describe('toura.adapters.Tour', function() {
       storageKey : 'key',
       tableName : tableName,
       source : 'foo',
-      blessed: true
+      primaryTour: true
     };
 
     networkIsReachable = true;
