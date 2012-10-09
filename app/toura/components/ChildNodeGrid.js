@@ -5,25 +5,41 @@ dojo.require('toura.components.ChildNodes');
 
 dojo.declare('toura.components.ChildNodeGrid', toura.components.ChildNodes, {
   templateString : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGrid.haml'),
+  itemTemplate : Haml(dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGridItem.haml')),
   widgetsInTemplate : true,
 
-  prepareData : function() {
+  postCreate : function() {
     this.node.populateChildren();
+    this.inherited(arguments);
     // TODO: MAP should enforce this restraint
-    this.children = dojo.filter(this.node.children || [], function(child) {
+
+    this.setStore(this.node.children.query(function(child) {
       return child.featuredImage !== undefined;
-    });
+    }));
+  },
+
+  _addItem : function(item, index) {
+    item.isTablet = this.isTablet;
+    item.isPhone = this.isPhone;
+    this.inherited(arguments);
+  },
+
+  _checkLength : function() {
+    this.inherited(arguments);
 
     if (this.isTablet) {
-      var num = this.children.length,
+      var num = this.storeData.length,
           size = num > 11 ? 'medium' : 'large';
 
-      this['class'] = 'size-' + size;
+      this.removeClass(['size-medium', 'size-large']);
+      this.addClass('size-' + size);
     }
 
     if (this.device.os === 'ios') { return ; }
 
-    if (toura.components.ChildNodeGrid.placedCSS) { return; }
+    var addedCSS = dojo.byId('component-css-child-node-grid');
+
+    dojo.destroy(addedCSS);
 
     var tpl = dojo.cache('toura.components.ChildNodeGrid', 'child-node-grid.css.tpl'),
         aspectRatio = 3/4,
@@ -37,6 +53,5 @@ dojo.declare('toura.components.ChildNodeGrid', toura.components.ChildNodes, {
         });
 
     dojo.place(css, document.querySelector('head'));
-    toura.components.ChildNodeGrid.placedCSS = true;
   }
 });
