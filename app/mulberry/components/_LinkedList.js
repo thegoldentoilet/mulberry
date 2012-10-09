@@ -60,7 +60,7 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
       this.observation.cancel();
     }
 
-    this.observation = this.storeData.observe(dojo.hitch(this, function(item, removedIndex, insertedIndex, foo) {
+    this.observation = this.storeData.observe(dojo.hitch(this, function(item, removedIndex, insertedIndex) {
       if (removedIndex > -1) {
         this._dropItem(removedIndex);
       }
