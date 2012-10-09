@@ -60,7 +60,7 @@ describe("linked list component", function() {
 
       for (i = items.length - 1; i >= 0; i--) {
         c._addItem(items[i]);
-      };
+      }
 
       element = c._addItem({'foo' : 'boz'}, 1);
 
@@ -130,5 +130,27 @@ describe("linked list component", function() {
       expect(test.innerHTML.match('bap')).toBeTruthy();
       expect(test.children[0].children.length).toBe(5);
     });
+  });
+
+  it("should use a subelement as the container if specified", function() {
+    var newConfig = {
+      setupContainer : function() {
+        this.container = this.domNode.children[0];
+      },
+      templateString : "%div\n  %ul"
+    }, items = [
+      {'foo' : 'bar'},
+      {'foo' : 'baz'},
+      {'foo' : 'biz'}
+    ], i, c;
+
+    c = new C(dojo.mixin(config, newConfig)).placeAt(test);
+
+    for (i = items.length - 1; i >= 0; i--) {
+      c._addItem(items[i]);
+    }
+
+    expect(test.children[0].children.length).toBe(1);
+    expect(test.children[0].children[0].children.length).toBe(3);
   });
 });

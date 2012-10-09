@@ -16,6 +16,27 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
 
 
   /**
+   * the domNode which contains the list
+   *
+   * by default, this is the main node, but could be a child node.
+   */
+  container: null,
+
+  postCreate : function() {
+    this.inherited(arguments);
+    this.setupContainer();
+  },
+
+  /**
+   * @public
+   *
+   * extend setupContainer to make a different node the container node
+   */
+  setupContainer : function() {
+    this.container = this.domNode;
+  },
+
+  /**
    * @public
    *
    * sets the component to follow a particular store, and repopulates
@@ -47,7 +68,7 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
   },
 
   clearItems : function() {
-    while(this.domNode.children.length) {
+    while(this.container.children.length) {
       this._dropItem(0);
     }
   },
@@ -55,14 +76,14 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
   _addItem : function(item, index) {
     var _index = index || 'last', element;
     element = this.itemTemplate(item);
-    dojo.place(element, this.domNode, _index);
+    dojo.place(element, this.container, _index);
 
     return element;
   },
 
   _dropItem : function(index) {
-    var target = this.domNode.children[index];
-    this.domNode.removeChild(target);
+    var target = this.container.children[index];
+    this.container.removeChild(target);
   },
 
   destroy : function() {
