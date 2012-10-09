@@ -33,9 +33,9 @@
 
 - (id) init
 {
-	/** If you need to do any extra app-specific initialization, you can do it here
-	 *  -jm
-	 **/
+    /** If you need to do any extra app-specific initialization, you can do it here
+     *  -jm
+     **/
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
 
@@ -46,12 +46,63 @@
 
 #pragma UIApplicationDelegate implementation
 
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{
+    NSLog(@"file path: %@", URL);
+    
+    const char* filePath = [[URL path] fileSystemRepresentation];
+    const char* attrName = "com.apple.MobileBackup";
+    u_int8_t attrValue = 1;
+
+    if (SYSTEM_VERSION_LESS_THAN(@"5.1")) {
+        NSLog(@"< 5.1");
+                
+        int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
+        return result == 0;
+    } else {
+        NSLog(@"5.1 or greater");
+        int result = getxattr(filePath, attrName, NULL, sizeof(u_int8_t), 0, 0);
+        if (result != -1) {
+            // The attribute exists, we need to remove it
+            int removeResult = removexattr(filePath, attrName, 0);
+            if (removeResult == 0) {
+                NSLog(@"Removed extended attribute on file %@", URL);
+            }
+        }
+
+        NSError *error = nil;
+        BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES] forKey: NSURLIsExcludedFromBackupKey error: &error];
+        
+        if(!success){
+            NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+        }
+        
+        return success;
+    }
+
+    return 0;
+}
+
+- (NSString *)applicationDocumentsDirectory {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
 /**
  * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)
  */
 - (BOOL) application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
 
+    NSString* dbPath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"Backups/websqldbs.appdata.db"]; 
+    NSURL* dbUrl = [NSURL fileURLWithPath:dbPath];
+    if(![[NSFileManager defaultManager] fileExistsAtPath: [dbUrl path]]) {
+        //need to create directory        
+        [[NSFileManager defaultManager] createDirectoryAtPath:dbPath attributes:nil];
+    }
+   
+    [self addSkipBackupAttributeToItemAtURL:dbUrl];
+    
+    
     application.applicationIconBadgeNumber = 0;
 
     NSURL* url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
@@ -118,7 +169,7 @@
         return NO;
     }
 
-	// calls into javascript global function 'handleOpenURL'
+    // calls into javascript global function 'handleOpenURL'
     NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
     [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
 
@@ -130,7 +181,7 @@
 
 - (void) dealloc
 {
-	[super dealloc];
+    [super dealloc];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -185,23 +236,24 @@
     }
 }
 
-
 - (id)readPlist:(NSString *)fileName {
-	NSData *plistData;
-	NSString *error;
-	NSPropertyListFormat format;
-	id plist;
+    NSData *plistData;
+    NSString *error;
+    NSPropertyListFormat format;
+    id plist;
 
-	NSString *localizedPath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"plist"];
-	plistData = [NSData dataWithContentsOfFile:localizedPath];
+    NSString *localizedPath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"plist"];
+    plistData = [NSData dataWithContentsOfFile:localizedPath];
 
-	plist = [NSPropertyListSerialization propertyListFromData:plistData mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&error];
-	if (!plist) {
-		NSLog(@"Error reading plist from file '%s', error = '%s'", [localizedPath UTF8String], [error UTF8String]);
-		[error release];
-	}
+    plist = [NSPropertyListSerialization propertyListFromData:plistData mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&error];
+    if (!plist) {
+        NSLog(@"Error reading plist from file '%s', error = '%s'", [localizedPath UTF8String], [error UTF8String]);
+        [error release];
+    }
 
-	return plist;
+    return plist;
 }
+
+
 
 @end
