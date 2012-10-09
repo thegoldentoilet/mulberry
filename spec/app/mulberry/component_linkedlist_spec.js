@@ -130,6 +130,36 @@ describe("linked list component", function() {
       expect(test.innerHTML.match('bap')).toBeTruthy();
       expect(test.children[0].children.length).toBe(5);
     });
+
+    it("should add an empty class when given an empty store", function() {
+      c.setStore(store.query({'spam' : 'sausage'}));
+
+      expect(test.children[0].children.length).toBe(0);
+      expect(test.children[0].className.match('empty')).toBeTruthy();
+    });
+
+    it("should add an empty class when a store becomes empty", function() {
+      c.setStore(store.query({'spam' : 'bacon'}));
+
+      expect(test.children[0].className.match('empty')).toBeFalsy();
+
+      store.remove(2);
+      store.remove(5);
+
+      expect(test.children[0].children.length).toBe(0);
+      expect(test.children[0].className.match('empty')).toBeTruthy();
+    });
+
+    it("should remove the empty class when a store is no longer empty", function() {
+      c.setStore(store.query({'spam' : 'sausage'}));
+
+      expect(test.children[0].className.match('empty')).toBeTruthy();
+
+      store.put({'foo' : 'butter', 'spam' : 'sausage'});
+
+      expect(test.children[0].children.length).toBe(1);
+      expect(test.children[0].className.match('empty')).toBeFalsy();
+    });
   });
 
   it("should use a subelement as the container if specified", function() {

@@ -52,6 +52,8 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
 
     this.storeData = selection;
 
+    this._checkLength();
+
     this.storeData.forEach(dojo.hitch(this, '_addItem'));
 
     if (this.observation) {
@@ -66,6 +68,8 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
       if (insertedIndex > -1) {
         this._addItem(item, insertedIndex);
       }
+
+      this._checkLength();
     }), true);
   },
 
@@ -77,6 +81,21 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
    */
   clearItems : function() {
     dojo.empty(this.container);
+  },
+
+
+  /**
+   * @private
+   *
+   * adds or removes the "empty" class based on the items in the store
+   */
+  _checkLength : function() {
+    var l = this.storeData.length;
+    if(l === 0) {
+      this.addClass('empty');
+    } else {
+      this.removeClass('empty');
+    }
   },
 
 
