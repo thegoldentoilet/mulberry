@@ -49,7 +49,11 @@
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
 {
     NSLog(@"file path: %@", URL);
-    if([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]) {
+    if(![[NSFileManager defaultManager] fileExistsAtPath: [URL path]]) {
+        //need to create directory
+        NSString* backupPath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"Backups/websqldbs.appdata.db"]; 
+        [[NSFileManager defaultManager] createDirectoryAtPath:backupPath attributes:nil];
+    }
         const char* filePath = [[URL path] fileSystemRepresentation];
         const char* attrName = "com.apple.MobileBackup";
         u_int8_t attrValue = 1;
@@ -79,11 +83,11 @@
             
             return success;
         }
-    }
+    
     return 0;
 }
 
-- (NSString *)applicationLibraryDirectory {
+- (NSString *)applicationDocumentsDirectory {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
@@ -93,9 +97,9 @@
 - (BOOL) application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
 
-    NSString* webkitPath = [[self applicationLibraryDirectory] stringByAppendingPathComponent:@"Backups/websqldbs.appdata.db/0000000000000001.db"]; //how brittle is this?
-    NSURL* webkitUrl = [NSURL fileURLWithPath:webkitPath];
-    [self addSkipBackupAttributeToItemAtURL:webkitUrl];
+    NSString* dbPath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"Backups/websqldbs.appdata.db"]; 
+    NSURL* dbUrl = [NSURL fileURLWithPath:dbPath];
+    [self addSkipBackupAttributeToItemAtURL:dbUrl];
     
     
     application.applicationIconBadgeNumber = 0;
