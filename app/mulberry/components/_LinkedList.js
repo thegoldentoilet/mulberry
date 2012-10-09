@@ -70,6 +70,8 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
       }
 
       this._checkLength();
+
+      this.updated();
     }), true);
   },
 
@@ -81,6 +83,16 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
    */
   clearItems : function() {
     dojo.empty(this.container);
+  },
+
+
+  /**
+   * @public
+   *
+   * a stub function for extension. Called whenever the observer is fired
+   */
+  updated : function() {
+    // stub intentionally blank
   },
 
 

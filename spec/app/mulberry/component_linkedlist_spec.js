@@ -125,10 +125,13 @@ describe("linked list component", function() {
     });
 
     it("should update an item when one is changed in the store", function() {
+      var spy = spyOn(c, 'updated');
+
       store.put({'id' : 4, 'foo' : 'bap', 'spam' : 'bacon'});
 
       expect(test.innerHTML.match('bap')).toBeTruthy();
       expect(test.children[0].children.length).toBe(5);
+      expect(spy).toHaveBeenCalled();
     });
 
     it("should add an empty class when given an empty store", function() {
