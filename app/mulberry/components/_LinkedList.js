@@ -21,7 +21,7 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
    * by default, this is the main node (see setupContainer), but could be
    *  a child node.
    */
-  container: null,
+  container : null,
 
 
   postCreate : function() {
