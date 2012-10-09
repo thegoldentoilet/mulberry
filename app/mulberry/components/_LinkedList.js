@@ -4,9 +4,9 @@ dojo.require('mulberry._Component');
 
 dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
   /**
-   * LinkedList is a type of component that maintains a list of items
-   * stored within an observable dojo store. The LinkedList keeps its
-   * list up to date with the store.
+   * LinkedList is a type of component that maintains a list of the items
+   * stored within an observable dojo store. The LinkedList keeps up with
+   * changes in the store & keeps itself updated to match.
    */
 
   /**
@@ -18,9 +18,11 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
   /**
    * the domNode which contains the list
    *
-   * by default, this is the main node, but could be a child node.
+   * by default, this is the main node (see setupContainer), but could be
+   *  a child node.
    */
   container: null,
+
 
   postCreate : function() {
     this.inherited(arguments);
@@ -39,11 +41,11 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
   /**
    * @public
    *
-   * sets the component to follow a particular store, and repopulates
-   * it based on that store
+   * sets the component to follow a particular store, and repopulates the
+   * list based on that store
    *
-   * @param selection {StoreResult} the query result to display. the query must
-   *                                be from an observable store
+   * @param selection {StoreResult} the query result to be displayed. the
+   *                                query must be of an observable store
    */
   setStore : function(selection) {
     this.clearItems();
@@ -67,12 +69,26 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
     }), true);
   },
 
+
+  /**
+   * @public
+   *
+   * clears elements from the list
+   */
   clearItems : function() {
-    while(this.container.children.length) {
-      this._dropItem(0);
-    }
+    dojo.empty(this.container);
   },
 
+
+  /**
+   * @private
+   *
+   * adds an item to a list at a given index
+   *
+   * @param item {Object} The item to be added
+   * @param index {Integer} The index at which it should add the item. By
+   *                     default it adds to the end of the list.
+   */
   _addItem : function(item, index) {
     var _index = index || 'last', element;
     element = this.itemTemplate(item);
@@ -81,16 +97,24 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
     return element;
   },
 
+  /**
+   * @private
+   *
+   * removes an item from the list
+   *
+   * @param index {Integer} The index of the item to be removed.
+   */
   _dropItem : function(index) {
     var target = this.container.children[index];
     this.container.removeChild(target);
   },
 
+  /**
+   * clean up the observer as it's torn down
+   */
   destroy : function() {
     this.inherited(arguments);
 
     this.observation.cancel();
-  },
-
-  commastopper : null
+  }
 });
