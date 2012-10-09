@@ -31,9 +31,9 @@ dojo.declare('toura.AdMob', null, {
    * Calls the phonegap plugin to create, load, and then move the banner into place.
    */
   loadBanner : function (id, deviceType) {
-    window.plugins.adMob.createBanner(id, deviceType, successMe, failMe);
-    window.plugins.adMob.loadBanner(id, deviceType, successMe, failMe);
-    window.plugins.adMob.moveBanner(id, deviceType, 0, 430, successMe, failMe); // these values need to be dynamic based on device?
+    window.plugins.adMob.createBanner(id, deviceType);
+    window.plugins.adMob.loadBanner(id, deviceType);
+    window.plugins.adMob.moveBanner(id, deviceType, 0, 430); // these values need to be dynamic based on device?
   },
 
   /**
@@ -43,14 +43,6 @@ dojo.declare('toura.AdMob', null, {
    */
   destroy : function () {
     window.plugins.adMob.deleteBanner();
-  },
-
-  successMe : function (obj) {
-    console.log("we have success with admob!", obj);
-  },
-
-  failMe : function (obj) {
-    console.log("we have failed to load an admob ad ", obj);
   }
 });
 
