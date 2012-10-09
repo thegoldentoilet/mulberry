@@ -1,29 +1,18 @@
 dojo.provide('toura.components.ChildNodes');
 
-dojo.require('mulberry._Component');
+dojo.require('mulberry.components._LinkedList');
 
-dojo.declare('toura.components.ChildNodes', mulberry._Component, {
+dojo.declare('toura.components.ChildNodes', mulberry.components._LinkedList, {
   templateString : dojo.cache('toura.components', 'ChildNodes/ChildNodes.haml'),
+  itemTemplate : Haml(dojo.cache('toura.components', 'ChildNodes/ChildNodeItem.haml')),
   handleClicks : true,
 
-  prepareData : function() {
-    this.children = [];
+  postCreate : function() {
+    this.inherited(arguments);
+
     dojo.when(this.node.children.query(), dojo.hitch(this, function(data) {
-      this.children = data;
-
-      // only run adjustMarkup again if the domNode has been generated
-      if(this.domNode) {
-        this.adjustMarkup();
-      }
+      this.setStore(data);
     }));
-  },
-
-  adjustMarkup : function() {
-    if (!this.children.length) {
-      this.addClass('empty');
-    } else {
-      this.removeClass('empty');
-    }
   },
 
   _clickHandler : function(t, e) {
