@@ -1,33 +1,14 @@
 dojo.provide('toura.components.ChildNodeGrid');
 
 dojo.require('mulberry.ui.BackgroundImage');
-dojo.require('toura.models.FeaturedImage');
-dojo.require('toura.components.ChildNodes');
+dojo.require('toura.components._ChildNodeFeaturedImages');
 
-dojo.declare('toura.components.ChildNodeGrid', toura.components.ChildNodes, {
+dojo.declare('toura.components.ChildNodeGrid', toura.components._ChildNodeFeaturedImages, {
   templateString : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGrid.haml'),
-  widgetsInTemplate : true,
 
   postCreate : function() {
     var templateName = this.isTablet ? 'ChildNodeGridItemTablet.haml' : 'ChildNodeGridItemPhone.haml';
     this.itemTemplate = Haml(dojo.cache('toura.components', 'ChildNodeGrid/' + templateName));
-
-    this.inherited(arguments);
-
-    // TODO: MAP should enforce this restraint
-    this.setStore(this.node.children.query(function(child) {
-      return child.featuredImage !== undefined;
-    }));
-  },
-
-  _addItem : function(item, index) {
-    var featuredImage;
-
-    // if the featuredImage provided isn't an array, it has already been processed
-    if (dojo.isArray(item.featuredImage)) {
-      featuredImage = new toura.models.FeaturedImage(this.node.store, item.featuredImage[0]);
-      item.featuredImage = featuredImage;
-    }
 
     this.inherited(arguments);
   },
