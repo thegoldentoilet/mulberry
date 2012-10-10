@@ -186,4 +186,26 @@ describe("linked list component", function() {
     expect(test.children[0].children.length).toBe(1);
     expect(test.children[0].children[0].children.length).toBe(3);
   });
+
+  it("should parse widgets in list elements iff widgetsInTemplate is set true", function() {
+    var newConfig = {
+          widgetsInTemplate : true
+        }, items = [
+          {'foo' : 'bar'},
+          {'foo' : 'baz'},
+          {'foo' : 'biz'}
+        ], i, c, spy;
+
+    c = new C(dojo.mixin(config, newConfig)).placeAt(test);
+
+    c.startup();
+
+    spy = spyOn(dojo.parser, 'parse').andCallThrough();
+
+    for (i = items.length - 1; i >= 0; i--) {
+      c._addItem(items[i]);
+    }
+
+    expect(spy.calls.length).toBe(3);
+  });
 });

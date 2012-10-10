@@ -23,6 +23,8 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
    */
   container : null,
 
+  started : false,
+
 
   postCreate : function() {
     this.inherited(arguments);
@@ -125,6 +127,10 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
     element = this.itemTemplate(item);
     dojo.place(element, this.container, _index);
 
+    if (this.widgetsInTemplate && this.started) {
+      dojo.parser.parse(this.container);
+    }
+
     return element;
   },
 
@@ -139,6 +145,16 @@ dojo.declare('mulberry.components._LinkedList', mulberry._Component, {
     var target = this.container.children[index];
     this.container.removeChild(target);
   },
+
+  startup : function() {
+    this.inherited(arguments);
+    this.started = true;
+
+    if (this.widgetsInTemplate) {
+      dojo.parser.parse(this.container);
+    }
+  },
+
 
   /**
    * clean up the observer as it's torn down
