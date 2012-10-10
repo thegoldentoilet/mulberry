@@ -1,0 +1,6 @@
+%li{ class: id }
+  :if bodyText && bodyText.length > 0 && bodyText[0].body != ""
+    %h3.child-node-title =name
+    .child-node-body-text =bodyText[0].body
+  :if !bodyText || bodyText[0].body == ""
+    %a{ href : '#/node/' + id }= name
