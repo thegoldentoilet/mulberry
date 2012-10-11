@@ -105,3 +105,6 @@ ota:
 # Enter your Google Analytics account info here
 google_analytics:
   tracking_id: a_tracking_id
+
+ad_mob:
+  ad_mob_id: 314159265359

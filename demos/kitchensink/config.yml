@@ -79,3 +79,7 @@ ads:
 # Enter your Google Analytics account info here
 google_analytics:
   tracking_id: a_tracking_code
+
+# Enter your Google AdMob ID here
+ad_mob:
+  ad_mob_id: 314159265359
