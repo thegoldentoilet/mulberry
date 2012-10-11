@@ -121,8 +121,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
       if (!isReachable) { return; }
       // this is for testing only:
       // this.appConfig.adMobId = 'a15050ddd2ed539';
-      
-      this.appConfig.adMobId = 'a15023ce3c0593c'; //this needs to be retrieved from config
+      //this.appConfig.adMobId = 'a15023ce3c0593c'; //this needs to be retrieved from config
       
       if (this.appConfig.adMobId && mulberry.app.PhoneGap.present) {
         if (this.AdMobAd) {
