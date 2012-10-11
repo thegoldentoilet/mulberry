@@ -120,20 +120,19 @@ dojo.declare('toura.UI', dojo.Stateful, {
     mulberry.app.PhoneGap.network.isReachable().then(dojo.hitch(this, function (isReachable) {
       if (!isReachable) { return; }
       // this is for testing only:
-      // this.appConfig.adMobId = 'a15050ddd2ed539';
+      // adMobId = 'a15050ddd2ed539';
+      // adMobId = 'a15023ce3c0593c';
       
-      this.appConfig.adMobId = 'a15023ce3c0593c'; //this needs to be retrieved from config
-      
-      if (this.appConfig.adMobId && mulberry.app.PhoneGap.present) {
+      if (this.appConfig.ad_mob && this.appConfig.ad_mob.publisher_id && mulberry.app.PhoneGap.present) {
         if (this.AdMobAd) {
           // need to destroy and delete existing ad
           this.AdMobAd.destroy();
           this.AdMobAd = null;
         }
         // perhaps need to set up default ad properties? not sure.
-        this.AdMobAd = new toura.AdMob(this.appConfig.adMobId);
+        this.AdMobAd = new toura.AdMob(this.appConfig.ad_mob.publisher_id);
         
-        this.AdMobAd.loadBanner(this.appConfig.adMobId, mulberry.Device.type);
+        this.AdMobAd.loadBanner(this.appConfig.ad_mob.publisher_id, mulberry.Device.type);
       } else {
         this._setupAdTag();
       }
