@@ -4,6 +4,7 @@ dojo.require('dojo.Stateful');
 
 dojo.require('toura.components.SiblingNav');
 dojo.require('toura.components.AdTag');
+dojo.require('toura.AdMob');
 
 (function(m) {
 
@@ -33,7 +34,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
       this.siblingNav.set('node', node);
     }
 
-    this._setupAdTag();
+    this._setupAds();
   },
 
   _setupFeatureClasses : function() {
@@ -78,39 +79,66 @@ dojo.declare('toura.UI', dojo.Stateful, {
     }
   },
 
-  _setupAdTag : function() {
-    if (!toura.features.ads) { return; }
-
-    var currentPage = m.app.UI.currentPage,
-        isHomeNode = currentPage && currentPage.baseObj.isHomeNode,
-        b = dojo.body();
+  _setupAdTag : function () {
+    var currentPage = m.app.UI.currentPage;
 
     if (this.adTag) {
       this.adTag.destroy();
     }
 
-    if (isHomeNode) { return; }
+    this._queuedAdTag = dojo.hitch(this, function () {
+      if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
+        if (currentPage) {
+          currentPage.addClass(adsClass);
+        }
 
-    this._queuedAdTag = dojo.hitch(this, function() {
-      mulberry.app.PhoneGap.network.isReachable()
-        .then(dojo.hitch(this, function(isReachable) {
-          if (!isReachable) { return; }
+        this.adTag = m.app.UI.addPersistentComponent(
+          toura.components.AdTag,
+          { adConfig : this.appConfig.ads[m.Device.type] },
+          'last'
+        );
 
-          if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
-            if (currentPage) {
-              currentPage.addClass(adsClass);
-            }
-
-            this.adTag = m.app.UI.addPersistentComponent(
-              toura.components.AdTag,
-              { adConfig : this.appConfig.ads[m.Device.type] },
-              'last'
-            );
-
-            this.adTag.startup();
-          }
-        }));
+        this.adTag.startup();
+      }
     });
+  },
+
+  _setupAds : function () {
+    var isHomeNode = m.app.UI.currentPage && m.app.UI.currentPage.baseObj.isHomeNode;
+    
+    if (!toura.features.ads) { return; }
+    
+    if (isHomeNode) {
+      if (this.AdMobAd) {
+          // need to destroy and delete existing ad
+          this.AdMobAd.destroy();
+          this.AdMobAd = null;
+      }
+      return;
+    }
+
+    mulberry.app.PhoneGap.network.isReachable().then(dojo.hitch(this, function (isReachable) {
+      if (!isReachable) { return; }
+      // this is for testing only:
+      // this.appConfig.adMobId = 'a15050ddd2ed539';
+      
+      this.appConfig.adMobId = 'a15023ce3c0593c'; //this needs to be retrieved from config
+      
+      if (this.appConfig.adMobId && mulberry.app.PhoneGap.present) {
+        if (this.AdMobAd) {
+          // need to destroy and delete existing ad
+          this.AdMobAd.destroy();
+          this.AdMobAd = null;
+        }
+        // perhaps need to set up default ad properties? not sure.
+        this.AdMobAd = new toura.AdMob(this.appConfig.adMobId);
+        
+        this.AdMobAd.loadBanner(this.appConfig.adMobId, mulberry.Device.type);
+      } else {
+        this._setupAdTag();
+      }
+  }));
+
   }
 
 });

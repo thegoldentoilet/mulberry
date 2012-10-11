@@ -12,6 +12,7 @@ dojo.require('mulberry.app.PhoneGap.camera');
 dojo.require('mulberry.app.PhoneGap.geolocation');
 dojo.require('mulberry.app.PhoneGap.accelerometer');
 dojo.require('mulberry.app.PhoneGap.video');
+dojo.require('mulberry.app.PhoneGap.admob');
 
 (function() {
   mulberry.app.PhoneGap.registerAPI = function(name, module) {
@@ -34,7 +35,8 @@ dojo.require('mulberry.app.PhoneGap.video');
     'camera',
     'geolocation',
     'accelerometer',
-    'video'
+    'video',
+    'admob'
   ];
 
   dojo.forEach(builtInAPIs, function(apiName) {

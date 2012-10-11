@@ -38,4 +38,5 @@
     <plugin name="ChildBrowser" value="com.phonegap.plugins.childBrowser.ChildBrowser"/>
     <plugin name="GoogleAnalyticsTracker" value="com.phonegap.plugins.analytics.GoogleAnalyticsTracker" />
     <plugin name="VideoPlayer" value="com.phonegap.plugins.video.VideoPlayer"/>
+    <plugin name="AdMob" value="com.phonegap.plugins.adMob.AdMobController"/>
 </plugins>
