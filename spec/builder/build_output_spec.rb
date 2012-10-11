@@ -209,15 +209,15 @@ describe Builder::Build do
         @config_contents = File.read(File.join(config[:location], 'AppConfig.js'))
       end
 
-      describe 'google analytics' do
-        it 'should include tracking id in app config' do
+      describe "google analytics" do
+        it "should include tracking id in app config" do
           @config_contents.should match /"trackingId"\:\s*"a_tracking_id/
         end
       end
 
-      describe 'Google AdMob' do
-        it 'should include AdMobID in app config' do
-          @config_contents.should include '"adMobId": 314159265359'
+      describe "Google AdMob" do
+        it "should include AdMobID in app config" do
+          @config_contents.should include '"publisherId": "a_publisher_id"'
         end
       end
 

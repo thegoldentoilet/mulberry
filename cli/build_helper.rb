@@ -46,7 +46,7 @@ module Mulberry
         'sharing'           => !is_browser_build?,
         'force_streaming'   => is_browser_build?,
         'google_analytics'  => @config['google_analytics'],
-        'ad_mob'             => @config['ad_mob']
+        'ad_mob'            => @config['ad_mob']
       })
     end
 

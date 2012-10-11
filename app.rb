@@ -143,7 +143,7 @@ module Mulberry
         end
 
         ad_mob = settings['ad_mob']
-        base_config['adMob'] = {'adMobId' => ad_mob['ad_mob_id']} unless ad_mob.nil?
+        base_config['adMob'] = {'publisherId' => ad_mob['publisher_id']} unless ad_mob.nil?
 
         settings['base_config'] = JSON.pretty_generate(base_config)
 
