@@ -20,7 +20,6 @@ dojo.require('toura.URL');
 
     prepareData : function() {
       // TODO: different behavior if the network isn't reachable?
-
       this.queue = [];
       this.googleTries = 0;
       this.pinCache = {};
@@ -54,6 +53,43 @@ dojo.require('toura.URL');
       window[this.callbackName] = dojo.hitch(this, '_buildCheck');
       dojo.io.script.get({ url: this.apiURL + this.callbackName });
     },
+
+    addPin : function(pin) {
+      var position = new google.maps.LatLng(pin.lat, pin.lon),
+          marker = new google.maps.Marker({
+            map : this.map,
+            position : position,
+            title : pin.name
+          });
+
+      google.maps.event.addListener(
+        marker,
+        'click',
+        dojo.hitch(this, '_showInfo', marker, pin)
+      );
+
+      this.bounds.extend(position);
+
+      this.markerCache[pin.id] = marker;
+
+      console.log("addPin is adding", pin);
+
+      if (this.isBuilt) {
+        this.positionInit();
+      }
+
+      return marker;
+    },
+
+    dropPin : function(pin) {
+      var marker = this.markerCache[pin.id];
+
+      marker.setMap(null);
+
+      google.maps.event.clearInstanceListeners(marker);
+
+      delete this.markerCache[pin.id];
+    },
     
     // this function makes sure we wait to set up the map
     // until its parent screen is visible--otherwise the
@@ -86,30 +122,9 @@ dojo.require('toura.URL');
         }
       });
 
-      var bounds = new google.maps.LatLngBounds();
+      var bounds = this.bounds = new google.maps.LatLngBounds();
 
-      this.markers = dojo.map(this.pins || [], function (pin) {
-        var position = new google.maps.LatLng(pin.lat, pin.lon),
-            marker = new google.maps.Marker({
-              map: this.map,
-              position: position,
-              title: pin.name
-            });
-
-        google.maps.event.addListener(
-          marker,
-          'click',
-          dojo.hitch(this, '_showInfo', marker, pin)
-        );
-
-        bounds.extend(position);
-
-        this.markerCache[pin.id] = marker;
-
-        return marker;
-      }, this);
-
-      this.bounds = bounds;
+      this.markers = dojo.map(this.pins || [], this.addPin, this);
       
       this.positionInit();
       
@@ -215,9 +230,10 @@ dojo.require('toura.URL');
     },
 
     _doQueue : function() {
-      dojo.forEach(this.queue, function(fn) {
-        fn();
-      }, this);
+      console.log("doing queue!", this.queue.length);
+      while (this.queue.length) {
+        this.queue.shift().call(this);
+      }
     }
   });
 }(dojo));
