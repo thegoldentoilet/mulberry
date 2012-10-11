@@ -142,18 +142,14 @@ describe("toura ui", function() {
     it("should create the adTag container if it is enabled and no admobid", function() {
       toura.features.ads = true;
       var spy = spyOn(mulberry.app.UI, 'addPersistentComponent');
-
+      mulberry._Config.adMobId = null;
       ui = createUI();
 
       mulberry.app.UI.showPage();
       dojo.publish('/page/transition/end');
-      if(!mulberry._Config.adMobId) {
-        expect(spy.mostRecentCall.args[0]).toBe(toura.components.AdTag);
-        expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeTruthy();
-      } else {
-        expect(spy).not.toHaveBeenCalled();
-        expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
-      }
+     
+      expect(spy.mostRecentCall.args[0]).toBe(toura.components.AdTag);
+      expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeTruthy();
     });
 
     it("should not create the adTag container if it is not enabled", function() {
@@ -163,6 +159,18 @@ describe("toura ui", function() {
       ui = createUI();
       expect(spy).not.toHaveBeenCalled();
     });
+    it("should not create the adTag container if admob is enabled", function() {
+      toura.features = {};
+      var spy = spyOn(mulberry.app.UI, 'addPersistentComponent');
+
+      ui = createUI();
+      expect(spy).not.toHaveBeenCalled();
+      expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
+    });
+
+
+       
+     
 
     it("should pass the device-specific config to the ad component", function() {
       var spy = spyOn(mulberry.app.UI, 'addPersistentComponent'),

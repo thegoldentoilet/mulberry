@@ -80,5 +80,6 @@ ads:
 google_analytics:
   tracking_id: a_tracking_code
 
-adMob:
-  adMobId: 234234234m
+# Enter your Google AdMob publisher ID here
+ad_mob:
+  publisher_id: a_publisher_id
