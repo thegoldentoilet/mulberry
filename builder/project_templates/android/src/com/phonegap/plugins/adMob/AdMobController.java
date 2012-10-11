@@ -20,7 +20,7 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import android.app.Activity;
 import android.widget.LinearLayout;
-import com.toura.app2_fake.TouraMainActivity;
+import com.toura.www.TouraMainActivity;
 import android.view.View;
 
 import org.apache.cordova.api.Plugin;
