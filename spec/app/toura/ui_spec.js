@@ -133,16 +133,22 @@ describe("toura ui", function() {
   describe("ad tag", function() {
     beforeEach(function() {
       var oldConfig = mulberry.app.Config.get('app');
-      mulberry.app.Config.set('app', dojo.mixin(oldConfig, { ads : {
+      mulberry.app.Config.set('app', dojo.mixin(oldConfig,
+      {
+        ads : {
         phone : 'phone',
         tablet : 'tablet'
-      } }));
+        },
+        ad_mob: {
+          publisher_id: null
+        }
+      }));
     });
 
     it("should create the adTag container if it is enabled and no admobid", function() {
       toura.features.ads = true;
       var spy = spyOn(mulberry.app.UI, 'addPersistentComponent');
-      mulberry._Config.adMob.publisherId = null;
+      
       ui = createUI();
 
       mulberry.app.UI.showPage();
@@ -160,23 +166,12 @@ describe("toura ui", function() {
       expect(spy).not.toHaveBeenCalled();
     });
 
-    it("should not create the adTag container if admob is enabled", function() {
-      toura.features.ads = true;
-      mulberry._Config.adMob.publisherId = "32d33k3ek3";
-      var spy = spyOn(mulberry.app.UI, 'addPersistentComponent');
-
-      ui = createUI();
-      expect(spy).not.toHaveBeenCalled();
-      expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
-    });
-
     it("should pass the device-specific config to the ad component", function() {
       var spy = spyOn(mulberry.app.UI, 'addPersistentComponent'),
           appConfig = mulberry.app.Config.get('app');
 
       allDevices(function(d) {
         toura.features.ads = true;
-        mulberry._Config.adMob.publisherId = null;
         ui = createUI();
 
         mulberry.app.UI.showPage();
@@ -211,8 +206,6 @@ describe("toura ui", function() {
         return dfd.promise;
       };
 
-      mulberry._Config.adMob.publisherId = null;
-
       ui = createUI();
       mulberry.app.UI.showPage();
       dojo.publish('/page/transition/end');
@@ -226,7 +219,7 @@ describe("toura ui", function() {
         dfd.resolve(false);
         return dfd.promise;
       };
-      mulberry._Config.adMob.publisherId = null;
+
       ui = createUI();
       mulberry.app.UI.showPage();
       dojo.publish('/page/transition/end');
@@ -234,5 +227,19 @@ describe("toura ui", function() {
       expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
       expect(document.querySelector('.component.ad-tag')).toBeFalsy();
     });
+
+    it("should not create the adTag container if admob is enabled", function() {
+      toura.features.ads = true;
+      mulberry.app.Config.set('app', {ad_mob: { publisher_id: '234234234'}});
+      
+      var spy = spyOn(mulberry.app.UI, 'addPersistentComponent');
+
+      ui = createUI();
+      mulberry.app.UI.showPage();
+      expect(spy).not.toHaveBeenCalled();
+      expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
+    });
+
+
   });
 });

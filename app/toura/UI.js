@@ -98,7 +98,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
           'last'
         );
 
-        this.adTag.startup();
+        //this.adTag.startup();
       }
     });
   },
