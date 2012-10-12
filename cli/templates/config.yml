@@ -105,3 +105,7 @@ ota:
 # Enter your Google Analytics account info here
 google_analytics:
   tracking_id: a_tracking_id
+
+# Enter your Google AdMob publisher ID here
+ad_mob:
+  publisher_id: a_publisher_id

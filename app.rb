@@ -118,7 +118,6 @@ module Mulberry
         }
 
         settings = defaults.merge(binding)
-
         base_config = {
           'id'                  =>  settings['id'],
           'locale'              =>  settings['locale'],
@@ -142,6 +141,9 @@ module Mulberry
             'trackingId' => google_analytics_settings['tracking_id']
           }
         end
+
+        ad_mob = settings['ad_mob']
+        base_config['adMob'] = {'publisherId' => ad_mob['publisher_id']} unless ad_mob.nil?
 
         settings['base_config'] = JSON.pretty_generate(base_config)
 

@@ -194,8 +194,8 @@ describe Builder::Build do
       end
     end
 
-    describe 'google analytics' do
-      it 'should include tracking id in app config' do
+    describe "config parameters" do
+      before :all do
         b = Builder::Build.new(@config.merge({
           :build_helper   =>  @mulberry_helper,
           :target_config  =>  {
@@ -206,9 +206,21 @@ describe Builder::Build do
 
         b.build
         config = b.completed_steps[:build][:config]
-        config_contents = File.read(File.join(config[:location], 'AppConfig.js'))
-        config_contents.should match /"trackingId"\:\s*"a_tracking_id/
+        @config_contents = File.read(File.join(config[:location], 'AppConfig.js'))
       end
+
+      describe "google analytics" do
+        it "should include tracking id in app config" do
+          @config_contents.should match /"trackingId"\:\s*"a_tracking_id/
+        end
+      end
+
+      describe "Google AdMob" do
+        it "should include AdMobID in app config" do
+          @config_contents.should include '"publisherId": "a_publisher_id"'
+        end
+      end
+
     end
   end
 
@@ -430,6 +442,11 @@ describe Builder::Build do
       it "should properly include the data file" do
         html = File.read(File.join(@bundle[:location], 'android', 'assets', 'www', 'index.html'))
         html.should include 'tour.js.jet'
+      end
+
+      it "should properly include app_id for AdMob" do
+        admob_controller = File.read(File.join(@bundle[:location],'android','src', 'com', 'phonegap', 'plugins', 'adMob', 'AdMobController.java'))
+        admob_controller.should include 'com.toura.app2_fake.TouraMainActivity'
       end
 
       after do
