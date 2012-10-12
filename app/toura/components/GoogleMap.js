@@ -72,8 +72,6 @@ dojo.require('toura.URL');
 
       this.markerCache[pin.id] = marker;
 
-      console.log("addPin is adding", pin);
-
       if (this.isBuilt) {
         this.positionInit();
       }
@@ -230,7 +228,6 @@ dojo.require('toura.URL');
     },
 
     _doQueue : function() {
-      console.log("doing queue!", this.queue.length);
       while (this.queue.length) {
         this.queue.shift().call(this);
       }
