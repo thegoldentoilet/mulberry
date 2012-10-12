@@ -247,10 +247,9 @@ describe("toura ui", function() {
         mulberry.app.PhoneGap.present = true;
 
         ui = createUI();
+       
+        var spy = spyOn(toura.AdMob.prototype, 'loadBanner');
         mulberry.app.UI.showPage();
-        var spy = spyOn(ui.AdMobAd, 'loadBanner');
-        ui._setupAds();
-        
         
         expect(spy).toHaveBeenCalled();
         expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
