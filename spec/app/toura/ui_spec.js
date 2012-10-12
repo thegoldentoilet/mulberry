@@ -131,7 +131,7 @@ describe("toura ui", function() {
     });
   });
 
-  describe("ad tag", function() {
+  describe("ads", function() {
     beforeEach(function() {
       var oldConfig = mulberry.app.Config.get('app');
       mulberry.app.Config.set('app', dojo.mixin(oldConfig,
@@ -167,7 +167,7 @@ describe("toura ui", function() {
       expect(spy).not.toHaveBeenCalled();
     });
 
-    it("should pass the device-specific config to the ad component", function() {
+    it("should pass the device-specific config to the ad tag component", function() {
       var spy = spyOn(mulberry.app.UI, 'addPersistentComponent'),
           appConfig = mulberry.app.Config.get('app');
 
@@ -182,7 +182,7 @@ describe("toura ui", function() {
       });
     });
 
-    it("should not create the ad container on the home node", function() {
+    it("should not create the ad tag container on the home node", function() {
       toura.features.ads = true;
       ui = createUI();
 
@@ -250,9 +250,36 @@ describe("toura ui", function() {
        
         var spy = spyOn(toura.AdMob.prototype, 'loadBanner');
         mulberry.app.UI.showPage();
-        
+
         expect(spy).toHaveBeenCalled();
         expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
+    });
+
+    it("should create not admob ad if admob is enabled and PG is missing, instead create AdTag", function() {
+        toura.features.ads = true;
+        var oldConfig = mulberry.app.Config.get('app');
+        mulberry.app.Config.set('app', dojo.mixin(oldConfig,
+        {
+          ads : {
+          phone : 'phone',
+          tablet : 'tablet'
+          },
+          ad_mob: {
+            publisher_id: "2342343242"
+          }
+        }));
+        mulberry.app.PhoneGap.present = false;
+
+        ui = createUI();
+       
+        var spy = spyOn(toura.AdMob.prototype, 'loadBanner');
+        var spy2 = spyOn(mulberry.app.UI, 'addPersistentComponent');
+        mulberry.app.UI.showPage();
+        dojo.publish('/page/transition/end');
+        
+        expect(spy).not.toHaveBeenCalled();
+        expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeTruthy();
+        expect(spy2.mostRecentCall.args[0]).toBe(toura.components.AdTag);
     });
 
   });
