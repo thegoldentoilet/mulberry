@@ -265,7 +265,7 @@ describe("toura ui", function() {
           tablet : 'tablet'
           },
           ad_mob: {
-            publisher_id: "2342343242"
+            publisher_id: "23423432421"
           }
         }));
         mulberry.app.PhoneGap.present = false;
