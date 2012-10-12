@@ -30,7 +30,7 @@
     
     if([options objectForKey:@"siteId"])
     {
-        NSLog(@"Setting site Id");
+        
         self.siteId=[[options objectForKey:@"siteId"] description];
     }
     
@@ -38,38 +38,36 @@
     // creative to request. 
     //Initialize the banner off the screen so that it animates up when displaying
     self.adBanner = [[[GADBannerView alloc] initWithFrame:[self createRectangle:options]] autorelease];
-    // Note: Edit SampleConstants.h to provide a definition for kSampleAdUnitID
-    // before compiling.
-    NSLog(@"after createRectangle");
+
+   
     self.adBanner.adUnitID = self.siteId;
     self.adBanner.delegate = self;
     [self.adBanner setRootViewController:self.viewController];
     [self.webView.superview addSubview:self.adBanner];
-    NSLog(@"end of createBanner");
+   
 }
 
 - (void) loadBanner:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {    
-    NSLog(@"Load banner executed");
+    
     if(!self.adBanner)
         [self createBanner:arguments withDict:options];
     
     GADRequest *request = [self createRequest];
-    request.testing = YES;
-     NSLog(@"b4 location");
-    [self setLocation:&request withDict:options];
-     NSLog(@"after location");
+    request.testing = NO;
+    
+    [self setLocation:&request withDict:options];    
     [self.adBanner loadRequest:request];
 }
 
 - (void) moveBanner:(NSMutableArray *) arguments withDict: (NSMutableDictionary *) options 
-{
+{ 
     if(!self.adBanner)
         [self createBanner:arguments withDict:options];
     
     [UIView animateWithDuration:1.0 animations:^{
         self.adBanner.frame = [self createRectangle:options]; 
-    }];
+    }];    
 }
 
 - (void) deleteBanner:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
@@ -83,14 +81,13 @@
 {
     CGFloat latitude = 0.0f;
     CGFloat longitude = 0.0f;
-     NSLog(@"in location");
+   
     if([options objectForKey:@"latitude"] && [options objectForKey:@"longitude"])
     {
         latitude=[[options objectForKey:@"latitude"] floatValue];
         longitude=[[options objectForKey:@"longitude"] floatValue];
         [*request setLocationWithLatitude:longitude longitude:latitude accuracy:1.0f];
     }
-     NSLog(@"end of setLocation");
 }
 
 - (CGRect) createRectangle:(NSMutableDictionary *) options 
@@ -99,7 +96,7 @@
     CGFloat positionY = self.webView.superview.frame.size.height - (GAD_SIZE_320x50.height);
     CGFloat width = GAD_SIZE_320x50.width;
     CGFloat height = GAD_SIZE_320x50.height;
-     NSLog(@"mid createRectangle");
+ 
     if([options objectForKey:@"positionX"])
     {
         positionX=[[options objectForKey:@"positionX"] floatValue];
@@ -116,7 +113,6 @@
     {
         height=[[options objectForKey:@"height"] floatValue];
     }
-     NSLog(@"end of createRectangle");
     return CGRectMake(positionX, positionY, width, height);
 }
 
@@ -137,7 +133,7 @@
 - (void)adViewDidReceiveAd:(GADBannerView *)view
 {
     NSLog(@"Received ad");
-    [self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewDidReceiveAdCallback();"];
+    //[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewDidReceiveAdCallback();"];
     
 }
 
@@ -149,9 +145,9 @@
 didFailToReceiveAdWithError:(GADRequestError *)error
 {
     NSLog(@"Failed to receive ad with error: %@", [error localizedFailureReason]);
-    NSString* jsString = [NSString stringWithFormat:@"window.plugins.AdMob.didFailToReceiveAdWithErrorCallback(%@);", 
-                          [error localizedFailureReason]];
-	[self.webView stringByEvaluatingJavaScriptFromString:jsString];
+    // NSString* jsString = [NSString stringWithFormat:@"window.plugins.AdMob.didFailToReceiveAdWithErrorCallback(%@);", 
+    //                     [error localizedFailureReason]];
+	//[self.webView stringByEvaluatingJavaScriptFromString:jsString];
 
 }
 
@@ -169,21 +165,21 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 // after that adViewWillLeaveApplication: is called.
 - (void)adViewWillPresentScreen:(GADBannerView *)adView
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewWillPresentScreenCallback();"];
+	//[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewWillPresentScreenCallback();"];
 
 }
 
 // Sent just before dismissing a full screen view.
 - (void)adViewWillDismissScreen:(GADBannerView *)adView
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewWillDismissScreenAdCallback();"];
+	//[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewWillDismissScreenAdCallback();"];
 }
 
 // Sent just after dismissing a full screen view.  Use this opportunity to
 // restart anything you may have stopped as part of adViewWillPresentScreen:.
 - (void)adViewDidDismissScreen:(GADBannerView *)adView
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewDidDismissScreenCallback();"];
+	//[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewDidDismissScreenCallback();"];
 }
 
 // Sent just before the application will background or terminate because the
@@ -192,7 +188,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 // applicationDidEnterBackground:, will be called immediately before this.
 - (void)adViewWillLeaveApplication:(GADBannerView *)adView
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewWillLeaveApplicationCallback();"];
+	//[self.webView stringByEvaluatingJavaScriptFromString:@"window.plugins.AdMob.adViewWillLeaveApplicationCallback();"];
 
 }
 

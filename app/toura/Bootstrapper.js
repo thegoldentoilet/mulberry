@@ -2,7 +2,7 @@ dojo.provide('toura.Bootstrapper');
 
 dojo.require('mulberry.app.PhoneGap');
 dojo.require('mulberry.app.DeviceStorage');
-dojo.require('toura.adapters.tourjs');
+dojo.require('toura.models.Tour');
 
 dojo.requireLocalization('mulberry', 'mulberry');
 
@@ -17,14 +17,10 @@ var bootstrapper = function() {
     app.DeviceStorage.set('tour-version', null);
   }
 
-  tour = new toura.adapters.tourjs({
+  tour = new toura.models.Tour({
     remoteDataUrl : app.Config.get('updateUrl'),
-    remoteVersionUrl : app.Config.get('versionUrl'),
-    source : 'main'
+    remoteVersionUrl : app.Config.get('versionUrl')
   });
-
-  // initialize the table
-  mulberry.app.DeviceStorage.set('tour', null, tour);
 
   if (mulberry.Device.environment === 'native') {
     // only do midstream OTAs on devices

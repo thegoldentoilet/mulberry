@@ -126,9 +126,8 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
           end
         end
 
-        java_src_files = Dir.glob(File.join(new_java_dir, '**', '*.java'))
+        java_src_files = Dir.glob(File.join(android_dir, '**', '*.java'))
         safe_name = project_settings[:name].split(%r{[^\w]+}).join
-
         manifest_file = File.join(android_dir, 'AndroidManifest.xml')
         build_file = File.join(android_dir, 'build.xml')
 
@@ -145,7 +144,7 @@ see http://developer.android.com/guide/publishing/app-signing.html for instructi
         end
 
         # use the proper id in all java files
-        java_src_files.each do |java_file|
+        java_src_files.each do |java_file|          
           text = File.read(java_file)
           text.gsub!("com.toura.www", app_id)
 

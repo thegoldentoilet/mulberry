@@ -13,14 +13,15 @@ mulberry.app.PhoneGap.admob = function (pg, device) {
           AdMob.prototype.callbackMap = {};
           AdMob.prototype.callbackIdx = 0;
 
-          AdMob.prototype.createBanner = function (siteId, deviceType) {
-              var options = {siteId : siteId};
+          AdMob.prototype.createBanner = function (siteId, deviceType, successCallback, failureCallback) {
+              var options = {siteId : siteId,
+                             deviceType : deviceType};
 
               PhoneGap.exec("AdMob.createBanner", options);
               PhoneGap.exec("AdMob.loadBanner", options);
           };
 
-          AdMob.prototype.moveBanner = function (siteId, deviceType, positionX, positionY, height, width) {
+          AdMob.prototype.moveBanner = function (siteId, deviceType, positionX, positionY, height, width, successCallback, failureCallback) {
               var options = {siteId : siteId,
                 positionX : positionX,
                 positionY : positionY,
@@ -31,7 +32,7 @@ mulberry.app.PhoneGap.admob = function (pg, device) {
               PhoneGap.exec("AdMob.moveBanner", options);
           };
 
-          AdMob.prototype.deleteBanner = function () {
+          AdMob.prototype.deleteBanner = function (successCallback, failureCallback) {
               PhoneGap.exec("AdMob.deleteBanner", []);
           };
 
@@ -55,7 +56,7 @@ mulberry.app.PhoneGap.admob = function (pg, device) {
               PhoneGap.exec(successCallback, failureCallback, "AdMob", "deleteBanner", []);
           };
 
-          AdMob.prototype.moveBanner = function (siteId, deviceType) {
+          AdMob.prototype.moveBanner = function (siteId, deviceType, positionX, positionY, height, width, successCallback, failureCallback) {
            // not needed in Android
           };
 
