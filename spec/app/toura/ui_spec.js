@@ -148,7 +148,7 @@ describe("toura ui", function() {
 
     it("should create the adTag container if it is enabled and no admobid", function() {
       toura.features.ads = true;
-      var spy = spyOn(mulberry.app.UI, 'addPersistentComponent');
+      var spy = spyOn(mulberry.app.UI, 'addPersistentComponent').andCallThrough();
       
       ui = createUI();
 
@@ -168,7 +168,7 @@ describe("toura ui", function() {
     });
 
     it("should pass the device-specific config to the ad tag component", function() {
-      var spy = spyOn(mulberry.app.UI, 'addPersistentComponent'),
+      var spy = spyOn(mulberry.app.UI, 'addPersistentComponent').andCallThrough(),
           appConfig = mulberry.app.Config.get('app');
 
       allDevices(function(d) {
@@ -273,7 +273,7 @@ describe("toura ui", function() {
         ui = createUI();
        
         var spy = spyOn(toura.AdMob.prototype, 'loadBanner');
-        var spy2 = spyOn(mulberry.app.UI, 'addPersistentComponent');
+        var spy2 = spyOn(mulberry.app.UI, 'addPersistentComponent').andCallThrough();
         mulberry.app.UI.showPage();
         dojo.publish('/page/transition/end');
         
