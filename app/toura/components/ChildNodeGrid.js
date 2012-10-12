@@ -5,10 +5,11 @@ dojo.require('toura.components._ChildNodeFeaturedImages');
 
 dojo.declare('toura.components.ChildNodeGrid', toura.components._ChildNodeFeaturedImages, {
   templateString : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGrid.haml'),
+  tabletItemTemplate : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGridItemTablet.haml'),
+  phoneItemTemplate : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGridItemPhone.haml'),
 
   postCreate : function() {
-    var templateName = this.isTablet ? 'ChildNodeGridItemTablet.haml' : 'ChildNodeGridItemPhone.haml';
-    this.itemTemplate = Haml(dojo.cache('toura.components', 'ChildNodeGrid/' + templateName));
+    this.itemTemplate = this.isTablet ? Haml(this.tabletItemTemplate) : Haml(this.phoneItemTemplate);
 
     this.inherited(arguments);
   },
