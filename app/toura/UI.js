@@ -113,8 +113,6 @@ dojo.declare('toura.UI', dojo.Stateful, {
   _setupAdTag : function () {
     var currentPage = m.app.UI.currentPage;
 
-   
-
     this._queuedAdTag = dojo.hitch(this, function () {
       if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
         if (currentPage) {
