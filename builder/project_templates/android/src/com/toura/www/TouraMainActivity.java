@@ -1,18 +1,26 @@
 package com.toura.www;
 
 import org.apache.cordova.DroidGap;
-
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-
+import com.google.ads.*;
 import com.toura.www.push.IntentReceiver;
+import android.widget.LinearLayout;
+import android.content.res.Configuration;
+import android.util.Log;
+import java.util.Vector;
+import java.util.List;
 
 public class TouraMainActivity extends DroidGap {
   private boolean isInForeground;
+  private List pcListeners;
+  public final static String PROP_ORIENTATION = "orientation";
 
   public WebView getAppView() {
     return appView;
@@ -83,4 +91,64 @@ public class TouraMainActivity extends DroidGap {
   private String createShowAlertScript(String message) {
     return "mulberry.app.Notifications.notify({alert:'" + message.replace("'", "\\'") + "'});";
   }
+
+  public LinearLayout getLayout() {
+    return super.root;
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    // Checks the orientation of the screen
+    
+    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        Object oldOrientation = "portrait";
+        Object newOrientation = "landscape";
+        firePropertyChange(PROP_ORIENTATION, oldOrientation, newOrientation);
+    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        Object oldOrientation = "landscape";
+        Object newOrientation = "portrait";
+        firePropertyChange(PROP_ORIENTATION, oldOrientation, newOrientation);
+    }
+    
+  }
+
+  public void addPropertyChangeListener(PropertyChangeListener listen) {
+    if( listen != null ) {
+      if( pcListeners == null ) {
+        pcListeners = new Vector();
+      }
+      
+      //add the listener if it has not already been added.
+      if( pcListeners.contains(listen) == false ) {
+        pcListeners.add(listen);
+      }
+    }
+  }
+
+  public void removePropertyChangeListener(PropertyChangeListener listen) {
+    if( listen != null && pcListeners != null ) {
+      pcListeners.remove(listen);
+    }
+  }
+
+  protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    if( pcListeners != null && pcListeners.size() > 0 ) {
+      PropertyChangeEvent evt = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
+      for( int ndx=0; ndx < pcListeners.size(); ndx++) {
+        PropertyChangeListener listener = (PropertyChangeListener)pcListeners.get(ndx);
+        listener.propertyChange(evt);
+      }
+    }
+  }
+
+  public String getOrientation() {
+    if(super.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+      return "landscape";
+    } else {
+      return "portrait";
+    }
+  }
+
+
 }

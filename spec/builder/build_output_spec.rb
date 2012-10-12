@@ -444,6 +444,11 @@ describe Builder::Build do
         html.should include 'tour.js.jet'
       end
 
+      it "should properly include app_id for AdMob" do
+        admob_controller = File.read(File.join(@bundle[:location],'android','src', 'com', 'phonegap', 'plugins', 'adMob', 'AdMobController.java'))
+        admob_controller.should include 'com.toura.app2_fake.TouraMainActivity'
+      end
+
       after do
         @b.cleanup
       end

@@ -4,6 +4,7 @@ dojo.require('dojo.Stateful');
 
 dojo.require('toura.components.SiblingNav');
 dojo.require('toura.components.AdTag');
+dojo.require('toura.AdMob');
 
 (function(m) {
 
@@ -33,7 +34,7 @@ dojo.declare('toura.UI', dojo.Stateful, {
       this.siblingNav.set('node', node);
     }
 
-    this._setupAdTag();
+    this._setupAds();
   },
 
   _setupFeatureClasses : function() {
@@ -78,41 +79,55 @@ dojo.declare('toura.UI', dojo.Stateful, {
     }
   },
 
-  _setupAdTag : function() {
+  _setupAds : function () {
+    var isHomeNode = m.app.UI.currentPage && m.app.UI.currentPage.baseObj.isHomeNode;
+    
     if (!toura.features.ads) { return; }
-
-    var currentPage = m.app.UI.currentPage,
-        isHomeNode = currentPage && currentPage.baseObj.isHomeNode,
-        b = dojo.body();
-
+    if (this.AdMobAd) {
+      // need to destroy and delete existing ad
+      this.AdMobAd.destroy();
+      this.AdMobAd = null;
+    }
     if (this.adTag) {
       this.adTag.destroy();
     }
+    if (isHomeNode) {
+      return;
+    }
 
-    if (isHomeNode) { return; }
+    mulberry.app.PhoneGap.network.isReachable().then(dojo.hitch(this, function (isReachable) {
+      if (!isReachable) { return; }
+      // this is for testing only:
+      // adMobId = 'a15050ddd2ed539';
+      // adMobId = 'a15023ce3c0593c';
+      
+      if (this.appConfig.ad_mob && this.appConfig.ad_mob.publisher_id && mulberry.app.PhoneGap.present) {
+        this.AdMobAd = new toura.AdMob(this.appConfig.ad_mob.publisher_id);
+        this.AdMobAd.loadBanner(this.appConfig.ad_mob.publisher_id, mulberry.Device.type);
+      } else {
+        this._setupAdTag();
+      }
+    }));
+  },
 
-    this._queuedAdTag = dojo.hitch(this, function() {
-      mulberry.app.PhoneGap.network.isReachable()
-        .then(dojo.hitch(this, function(isReachable) {
-          if (!isReachable) { return; }
+  _setupAdTag : function () {
+    var currentPage = m.app.UI.currentPage;
 
-          if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
-            if (currentPage) {
-              currentPage.addClass(adsClass);
-            }
+    this._queuedAdTag = dojo.hitch(this, function () {
+      if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
+        if (currentPage) {
+          currentPage.addClass(adsClass);
+        }
 
-            this.adTag = m.app.UI.addPersistentComponent(
-              toura.components.AdTag,
-              { adConfig : this.appConfig.ads[m.Device.type] },
-              'last'
-            );
-
-            this.adTag.startup();
-          }
-        }));
+        this.adTag = m.app.UI.addPersistentComponent(
+          toura.components.AdTag,
+          { adConfig : this.appConfig.ads[m.Device.type] },
+          'last'
+        );
+        this.adTag.startup();
+      }
     });
   }
-
 });
 
 dojo.subscribe('/ui/ready', function() {
