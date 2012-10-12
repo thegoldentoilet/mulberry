@@ -56,7 +56,7 @@ mulberry.app.PhoneGap.admob = function (pg, device) {
               PhoneGap.exec(successCallback, failureCallback, "AdMob", "deleteBanner", []);
           };
 
-          AdMob.prototype.moveBanner = function (siteId, deviceType, successCallback, failureCallback) {
+          AdMob.prototype.moveBanner = function (siteId, deviceType, positionX, positionY, height, width, successCallback, failureCallback) {
            // not needed in Android
           };
 

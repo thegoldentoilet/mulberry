@@ -79,12 +79,41 @@ dojo.declare('toura.UI', dojo.Stateful, {
     }
   },
 
-  _setupAdTag : function () {
-    var currentPage = m.app.UI.currentPage;
-
+  _setupAds : function () {
+    var isHomeNode = m.app.UI.currentPage && m.app.UI.currentPage.baseObj.isHomeNode;
+    
+    if (!toura.features.ads) { return; }
+    if (this.AdMobAd) {
+      // need to destroy and delete existing ad
+      this.AdMobAd.destroy();
+      this.AdMobAd = null;
+    }
     if (this.adTag) {
       this.adTag.destroy();
     }
+    if (isHomeNode) {
+      return;
+    }
+
+    mulberry.app.PhoneGap.network.isReachable().then(dojo.hitch(this, function (isReachable) {
+      if (!isReachable) { return; }
+      // this is for testing only:
+      // adMobId = 'a15050ddd2ed539';
+      // adMobId = 'a15023ce3c0593c';
+      
+      if (this.appConfig.ad_mob && this.appConfig.ad_mob.publisher_id && mulberry.app.PhoneGap.present) {
+        this.AdMobAd = new toura.AdMob(this.appConfig.ad_mob.publisher_id);
+        this.AdMobAd.loadBanner(this.appConfig.ad_mob.publisher_id, mulberry.Device.type);
+      } else {
+        this._setupAdTag();
+      }
+    }));
+  },
+
+  _setupAdTag : function () {
+    var currentPage = m.app.UI.currentPage;
+
+   
 
     this._queuedAdTag = dojo.hitch(this, function () {
       if (this.appConfig.ads && this.appConfig.ads[m.Device.type]) {
@@ -97,49 +126,10 @@ dojo.declare('toura.UI', dojo.Stateful, {
           { adConfig : this.appConfig.ads[m.Device.type] },
           'last'
         );
-
-        //this.adTag.startup();
+        this.adTag.startup();
       }
     });
-  },
-
-  _setupAds : function () {
-    var isHomeNode = m.app.UI.currentPage && m.app.UI.currentPage.baseObj.isHomeNode;
-    
-    if (!toura.features.ads) { return; }
-    
-    if (isHomeNode) {
-      if (this.AdMobAd) {
-          // need to destroy and delete existing ad
-          this.AdMobAd.destroy();
-          this.AdMobAd = null;
-      }
-      return;
-    }
-
-    mulberry.app.PhoneGap.network.isReachable().then(dojo.hitch(this, function (isReachable) {
-      if (!isReachable) { return; }
-      // this is for testing only:
-      // adMobId = 'a15050ddd2ed539';
-      // adMobId = 'a15023ce3c0593c';
-      
-      if (this.appConfig.ad_mob && this.appConfig.ad_mob.publisher_id && mulberry.app.PhoneGap.present) {
-        if (this.AdMobAd) {
-          // need to destroy and delete existing ad
-          this.AdMobAd.destroy();
-          this.AdMobAd = null;
-        }
-        // perhaps need to set up default ad properties? not sure.
-        this.AdMobAd = new toura.AdMob(this.appConfig.ad_mob.publisher_id);
-        
-        this.AdMobAd.loadBanner(this.appConfig.ad_mob.publisher_id, mulberry.Device.type);
-      } else {
-        this._setupAdTag();
-      }
-  }));
-
   }
-
 });
 
 dojo.subscribe('/ui/ready', function() {
