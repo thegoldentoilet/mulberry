@@ -42,6 +42,7 @@ describe("toura ui", function() {
     };
 
     dojo.require('toura.UI');
+    dojo.require('toura.AdMob');
 
     createUI = function() {
       return new toura.UI();
@@ -240,6 +241,20 @@ describe("toura ui", function() {
       expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
     });
 
+    it("should create admob ad if admob is enabled", function() {
+        toura.features.ads = true;
+        mulberry.app.Config.set('app', {ad_mob: { publisher_id: '234234234'}});
+        mulberry.app.PhoneGap.present = true;
+
+        ui = createUI();
+        mulberry.app.UI.showPage();
+        var spy = spyOn(ui.AdMobAd, 'loadBanner');
+        ui._setupAds();
+        
+        
+        expect(spy).toHaveBeenCalled();
+        expect(mulberry.app.UI.currentPage.hasClass('has-ads')).toBeFalsy();
+    });
 
   });
 });
