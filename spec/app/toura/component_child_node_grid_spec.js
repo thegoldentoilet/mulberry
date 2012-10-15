@@ -7,6 +7,8 @@ describe("child node grid component", function() {
     dojo.require('mulberry.app.PhoneGap');
     dojo.require('toura.components.ChildNodeGrid');
     dojo.require('mulberry.ui.BackgroundImage');
+    dojo.require('dojo.store.Memory');
+    dojo.require('dojo.store.Observable');
 
     nodes = [];
 
@@ -28,7 +30,7 @@ describe("child node grid component", function() {
     t = dojo.byId('test');
 
     node = {
-      children : [ ],
+      children : dojo.store.Observable(new dojo.store.Memory()),
       populateChildren : function() {}
     };
   });
@@ -46,8 +48,14 @@ describe("child node grid component", function() {
   });
 
   it("should set the grid size to large on tablet for less than 12 items", function() {
-    node.children = makeMockNodes(11, { featuredImage : { small : {}, large : {} } });
-    var c = new C({
+    var mockChildren = makeMockNodes(11, { featuredImage : { small : {}, large : {} } }),
+        c, i, l = mockChildren.length;
+
+    for(i = 0; i < l; ++i) {
+      node.children.put(mockChildren[i]);
+    }
+
+    c = new C({
       node : node,
       device : { type : 'tablet', os : 'fake' }
     }).placeAt(t);
@@ -56,8 +64,14 @@ describe("child node grid component", function() {
   });
 
   it("should set the grid size to medium on tablet for less than 24 items", function() {
-    node.children = makeMockNodes(23, { featuredImage : { small : {}, large : {} } });
-    var c = new C({
+    var mockChildren = makeMockNodes(23, { featuredImage : { small : {}, large : {} } }),
+        c, i, l = mockChildren.length;
+
+    for(i = 0; i < l; ++i) {
+      node.children.put(mockChildren[i]);
+    }
+
+    c = new C({
       node : node,
       device : { type : 'tablet', os : 'fake' }
     }).placeAt(t);
@@ -85,7 +99,6 @@ describe("child node grid component", function() {
       });
 
       expect(dojo.byId('component-css-child-node-grid')).toBeTruthy();
-      expect(toura.components.ChildNodeGrid.placedCSS).toBeTruthy();
     });
 
     it("should not insert child node grid component css for ios", function() {
@@ -95,7 +108,6 @@ describe("child node grid component", function() {
       });
 
       expect(dojo.byId('component-css-child-node-grid')).toBeFalsy();
-      expect(toura.components.ChildNodeGrid.placedCSS).toBeFalsy();
     });
   });
 });

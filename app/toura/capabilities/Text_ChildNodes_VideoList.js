@@ -9,9 +9,19 @@ dojo.declare('toura.capabilities.Text_ChildNodes_VideoList', mulberry._Capabilit
     videoList: 'VideoList'
   },
 
+  connects : [
+    [ 'childNodes', 'updated', 'checkChildNodesCount' ]
+  ],
+
   init: function() {
-    if (this.childNodes.children.length === 0 && this.videoList.assets.length <= 1) {
+    this.checkChildNodesCount();
+  },
+
+  checkChildNodesCount : function() {
+    if (this.childNodes.storeData.length === 0 && this.videoList.assets.length <= 1) {
       dojo.addClass(this.childNodes.region.domNode, 'empty');
+    } else {
+      dojo.removeClass(this.childNodes.region.domNode, 'empty');
     }
   }
 });
