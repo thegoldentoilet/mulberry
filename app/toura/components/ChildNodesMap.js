@@ -32,7 +32,7 @@ dojo.declare('toura.components.ChildNodesMap', [toura.components.GoogleMap, tour
 
   clearItems : function() {
     if (!this.isBuilt) { return false; }
-    if (window.google && window.google.maps && window.google.maps.event) {
+    if (dojo.exists("window.google.maps.event")) {
       dojo.forEach(this.markers, function (marker) {
         google.maps.event.clearInstanceListeners(marker);
         marker.setMap(null);
@@ -45,7 +45,6 @@ dojo.declare('toura.components.ChildNodesMap', [toura.components.GoogleMap, tour
     var pin = new toura.models.GoogleMapPin(this.node.store, item.googleMapPins[0]);
     pin.node = item;
     if(this.isBuilt) {
-      console.log("adding pin", pin);
       this.addPin(pin);
     }
 
