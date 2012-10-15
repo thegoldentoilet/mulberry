@@ -41,6 +41,11 @@ dojo.declare('toura.models.Node', null, {
     this._dataCache = {};
 
     var getAssets = function(assetKey, Model) {
+      if (item[assetKey] && (!dojo.isArray(item[assetKey]) || item[assetKey][0] instanceof Model)) {
+        // we already fetched this
+        return item[assetKey];
+      }
+
       return dojo.map(
         store.getValues(item, assetKey) || [],
         function(asset) { return new Model(store, asset); }
