@@ -13,6 +13,8 @@ dojo.require('toura.models.Data');
 dojo.require('toura.models.TextAsset');
 dojo.require('toura.models.GoogleMapPin');
 dojo.require('toura.models.Feed');
+dojo.require('dojo.store.Memory');
+dojo.require('dojo.store.Observable');
 
 (function(){
 
@@ -39,6 +41,11 @@ dojo.declare('toura.models.Node', null, {
     this._dataCache = {};
 
     var getAssets = function(assetKey, Model) {
+      if (item[assetKey] && (!dojo.isArray(item[assetKey]) || item[assetKey][0] instanceof Model)) {
+        // we already fetched this
+        return item[assetKey];
+      }
+
       return dojo.map(
         store.getValues(item, assetKey) || [],
         function(asset) { return new Model(store, asset); }
@@ -62,7 +69,6 @@ dojo.declare('toura.models.Node', null, {
 
       featuredImage : getAssets('featuredImage', toura.models.FeaturedImage)[0],
 
-      children : store.getValues(item, 'children'),
       bodyText : store.getValue(item, 'bodyText'),
 
       images : getAssets('images', toura.models.Image),
@@ -75,11 +81,18 @@ dojo.declare('toura.models.Node', null, {
 
       feeds : getAssets('feeds', toura.models.Feed),
 
+      // TODO: add tests!!!!!!!!!!
+      externalContent : getAssets('externalContent', toura.models.ExternalContent),
+
       pageDef : store.getValue(item, 'pageController'),
       sharingURL : store.getValue(item, 'sharingUrl'),
       sharingText : store.getValue(item, 'sharingText'),
       parent : store.getValue(item, 'parent')
     });
+
+    this.children = dojo.store.Observable(new dojo.store.Memory({
+      data: store.getValues(item, 'children')
+    }));
 
     dojo.mixin(this, {
       url : toura.URL.node(this.id),
@@ -97,7 +110,11 @@ dojo.declare('toura.models.Node', null, {
       this.pageDef = 'default';
     }
 
-    this.siblings = this.parent ? dojo.map(this.parent.children, function(c) {
+    // TODO: make promise-compatible
+    // I *think* siblings does not need to be updated according to ExternalContent
+    // because it will only be calculated after relevant ExternalContents have been
+    // loaded, but this should be tested at some point
+    this.siblings = this.parent ? dojo.map(this.parent.children.query(), function(c) {
       return new toura.models.SimpleNode(this.store, c);
     }, this) : [];
 
@@ -108,6 +125,10 @@ dojo.declare('toura.models.Node', null, {
     }, this);
 
     cache[id] = this;
+
+    dojo.forIn(this.externalContent, function(ec) {
+      ec.load(this);
+    });
   },
 
   _pluralize : function(type) {
@@ -164,6 +185,12 @@ dojo.declare('toura.models.Node', null, {
       return new toura.models.Node(this.store, c);
     }, this);
     this.childrenPopulated = true;
+  },
+
+  addExternalChildren : function(newChildren) {
+    dojo.forEach(newChildren, dojo.hitch(this, function(c) {
+      this.children.put(c);
+    }));
   },
 
   getData : function(type) {

@@ -3,7 +3,7 @@ dojo.provide('toura.models.FeaturedImage');
 dojo.require('toura.models._StorableAsset');
 
 dojo.declare('toura.models.FeaturedImage', toura.models._StorableAsset, {
-constructor :  function(store, item) {
+  constructor :  function(store, item) {
     /* Check whether featuredImage has an image property. This is how we're
      * handling featured images in Mulberry, as opposed to MAP where _reference
      * is directly a property of the featuredImage node */
