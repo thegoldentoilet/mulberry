@@ -1,9 +1,11 @@
-describe("Updateable", function() {
-  var instance, Updateable, ajaxMocks, networkIsReachable,
-      config, mockjax, newerRemoteData, appMajorVersion;
+describe('toura.adapters.Tour', function() {
+  var t, mockjax, deviceStorageInit = false, tableName = 'adapterTourTest';
 
   beforeEach(function() {
-    dojo.require('toura.models._Updateable');
+    dojo.require('toura.adapters.Tour');
+    dojo.require('mulberry.app.DeviceStorage');
+    mulberry.app.DeviceStorage.drop();
+    mulberry.app.DeviceStorage.init('foo');
 
     mockjax = function (args) {
       var dfd = new dojo.Deferred();
@@ -55,23 +57,27 @@ describe("Updateable", function() {
       bundleDataUrl : 'bundle',
       remoteDataUrl : 'remote',
       remoteVersionUrl : 'version',
-      storageKey : 'key'
+      storageKey : 'key',
+      tableName : tableName,
+      source : 'foo',
+      primaryTour: true
     };
 
     networkIsReachable = true;
 
-    Updateable = toura.models._Updateable;
+    Tour = toura.adapters.Tour;
   });
 
   describe("bootstrapping", function() {
     it("should indicate when the remote was last checked", function() {
-      var u = new Updateable(config),
-          dfd = new dojo.Deferred();
+      var u = new Tour(config),
+          flag;
 
       expect(u.lastChecked).toBeDefined();
-      u.bootstrap().then(dfd.resolve);
 
-      waitsFor(function() { return dfd.fired; });
+      u.getData().then(function() { flag = true; });
+
+      waitsFor(function() { return flag; });
 
       runs(function() {
         expect(u.lastChecked).toBeTruthy();
@@ -91,7 +97,7 @@ describe("Updateable", function() {
         window.localStorage.clear();
         networkIsReachable = false;
 
-        var simulatePreviousBoot = new Updateable(config).bootstrap(),
+        var t = new Tour(config), simulatePreviousBoot = t.getData(),
             flag;
 
         simulatePreviousBoot.then(function() {
@@ -102,17 +108,24 @@ describe("Updateable", function() {
         waitsFor(function() { return flag; });
 
         runs(function() {
-          var u = new Updateable(config),
-              dfd = u.bootstrap(),
-              flag;
+          var u = new Tour(config), dfd, flag;
+
+          u.getBundleData = function() {
+            var dfd = new dojo.Deferred();
+            dfd.resolve(newerBundleData);
+            return dfd.promise;
+          };
+          dfd = u.getData();
 
           dfd.then(function() { flag = true; });
 
           waitsFor(function() { return flag; });
 
           runs(function() {
-            expect(u.getItems().length).toBe(1);
-            expect(u.getItems()[0].id).toBe(newerBundleData.items[0].id);
+            u.getItems().then(function(result) {
+              expect(result.length).toBe(1);
+              expect(result[0].id).toBe(newerBundleData.items[0].id);
+            });
           });
         });
       });
@@ -124,8 +137,8 @@ describe("Updateable", function() {
       });
 
       it("should resolve the deferred with a falsy value", function() {
-        var u = new Updateable(config),
-            dfd = u.bootstrap(),
+        var u = new Tour(config),
+            dfd = u.getData(),
             flag, bootstrapperResult;
 
         dfd.then(function(result) {
@@ -142,8 +155,8 @@ describe("Updateable", function() {
       });
 
       it("should not try to contact the remote", function() {
-        var u = new Updateable(config),
-            dfd = u.bootstrap(),
+        var u = new Tour(config),
+            dfd = u.getData(),
             spy = spyOn(dojo, 'xhrGet'),
             flag;
 
@@ -167,8 +180,8 @@ describe("Updateable", function() {
       function itShouldLoadTheRemoteData() {
 
         it("should store the remote data in memory", function() {
-          var u = new Updateable(config),
-              dfd = u.bootstrap(),
+          var u = new Tour(config),
+              dfd = u.getData(),
               flag;
 
           dfd.then(function(result) {
@@ -180,14 +193,16 @@ describe("Updateable", function() {
           });
 
           runs(function() {
-            expect(u.getItems().length).toBe(1);
-            expect(u.getItems()[0].id).toBe(newerRemoteData.items[0].id);
+            u.getItems().then(function(result) {
+              expect(result.length).toBe(1);
+              expect(result[0].id).toBe(newerRemoteData.items[0].id);
+            });
           });
         });
 
         it("should resolve the deferred true", function() {
-          var u = new Updateable(config),
-              dfd = u.bootstrap(),
+          var u = new Tour(config),
+              dfd = u.getData(),
               bootstrapperResult;
 
           dfd.then(function(result) {
@@ -204,9 +219,9 @@ describe("Updateable", function() {
         });
 
         it("should run the _store method, which can be implemented by subclasses", function() {
-          var u = Updateable(config),
+          var u = Tour(config),
               spy = spyOn(u, '_store'),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               flag;
 
           dfd.then(function() {
@@ -225,9 +240,9 @@ describe("Updateable", function() {
       function itShouldNotLoadTheRemoteData() {
 
         it("should not load the remote data", function() {
-          var u = new Updateable(config),
+          var u = new Tour(config),
               spy = spyOn(u, '_getRemoteData'),
-              dfd = u.bootstrap(),
+              dfd = u.getData(),
               flag;
 
           dfd.then(function() {
@@ -244,8 +259,8 @@ describe("Updateable", function() {
         });
 
         it("should resolve the deferred false", function() {
-          var u = new Updateable(config),
-              dfd = u.bootstrap(),
+          var u = new Tour(config),
+              dfd = u.getData(),
               bootstrapperResult,
               flag;
 
@@ -288,16 +303,19 @@ describe("Updateable", function() {
           itShouldNotLoadTheRemoteData();
         });
 
-        describe("and the data has a newer app version", function() {
+        describe("and the remote data has a newer app version", function() {
           beforeEach(function() {
             ajaxMocks.remote.appVersion = (appMajorVersion+1) + ".0";
           });
 
           it("should not store the remote data", function() {
-            var u = new Updateable(config),
-                spy = spyOn(u, '_store'),
-                dfd = u.bootstrap(),
-                flag;
+            var u = new Tour(config),
+                dfd, flag;
+
+            // first make sure the bundle data is handled...
+            networkIsReachable = false;
+
+            dfd = u.getData();
 
             dfd.then(function() {
               flag = true;
@@ -307,8 +325,22 @@ describe("Updateable", function() {
               return flag;
             });
 
+            // now set up our spy, turn the network "on" and check remote...
             runs(function() {
-              expect(spy).not.toHaveBeenCalled();
+              var spy = spyOn(u, '_store'),
+                  dfd, flag;
+
+              networkIsReachable = true;
+
+              dfd = u.getData();
+
+              dfd.then(function() { flag = true; });
+
+              waitsFor(function() { return flag; });
+
+              runs(function() {
+                expect(spy).not.toHaveBeenCalled();
+              });
             });
           });
 
@@ -323,6 +355,45 @@ describe("Updateable", function() {
 
         itShouldNotLoadTheRemoteData();
 
+      });
+    });
+  });
+
+  describe("getters", function() {
+    beforeEach(function() {
+      t = new Tour(config);
+      mulberry.app.DeviceStorage.set(t.source, null, t);
+    });
+
+    describe("getItems", function() {
+      it("should return a promise", function() {
+        var flag, bootstrap;
+
+        bootstrap = t.getData();
+
+        bootstrap.then(function() { flag = true; });
+
+        waitsFor(function() { return flag; });
+
+        runs(function() {
+           expect(t.getItems().then).toBeDefined();
+        });
+      });
+    });
+
+    describe("getRootNodes", function() {
+      it("should get the children of the home node", function() {
+        var flag, bootstrap;
+
+        bootstrap = t.getData();
+
+        bootstrap.then(function() { flag = true; });
+
+        waitsFor(function() { return flag; });
+
+        runs(function() {
+          expect(t.getRootNodes()).toEqual(toura.Data.getModel('node-home').children);
+        });
       });
     });
   });

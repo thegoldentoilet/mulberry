@@ -112,5 +112,17 @@ describe("node model", function() {
     expect(api.getModel('node-single_image_gallery').pageDef).toBe('default');
   });
 
+  it("should add children to the node when externalContent prompts it to", function() {
+    var external = [
+      api.getModel('node-grid_child_five'),
+      api.getModel('node-node_gallery_child_1')
+    ];
+
+    node.addExternalChildren(external);
+
+    expect(node.children.get(['node-grid_child_five'])).toBeTruthy();
+    expect(node.children.get(['node-node_gallery_child_1'])).toBeTruthy();
+  });
+
 });
 

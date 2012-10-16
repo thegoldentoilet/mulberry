@@ -1,29 +1,35 @@
 dojo.provide('toura.components.ChildNodeGrid');
 
 dojo.require('mulberry.ui.BackgroundImage');
-dojo.require('toura.components.ChildNodes');
+dojo.require('toura.components._ChildNodeFeaturedImages');
 
-dojo.declare('toura.components.ChildNodeGrid', toura.components.ChildNodes, {
+dojo.declare('toura.components.ChildNodeGrid', toura.components._ChildNodeFeaturedImages, {
   templateString : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGrid.haml'),
-  widgetsInTemplate : true,
+  tabletItemTemplate : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGridItemTablet.haml'),
+  phoneItemTemplate : dojo.cache('toura.components', 'ChildNodeGrid/ChildNodeGridItemPhone.haml'),
 
-  prepareData : function() {
-    this.node.populateChildren();
-    // TODO: MAP should enforce this restraint
-    this.children = dojo.filter(this.node.children || [], function(child) {
-      return child.featuredImage !== undefined;
-    });
+  postCreate : function() {
+    this.itemTemplate = this.isTablet ? Haml(this.tabletItemTemplate) : Haml(this.phoneItemTemplate);
+
+    this.inherited(arguments);
+  },
+
+  _checkLength : function() {
+    this.inherited(arguments);
 
     if (this.isTablet) {
-      var num = this.children.length,
+      var num = this.storeData.length,
           size = num > 11 ? 'medium' : 'large';
 
-      this['class'] = 'size-' + size;
+      this.removeClass(['size-medium', 'size-large']);
+      this.addClass('size-' + size);
     }
 
     if (this.device.os === 'ios') { return ; }
 
-    if (toura.components.ChildNodeGrid.placedCSS) { return; }
+    var addedCSS = dojo.byId('component-css-child-node-grid');
+
+    dojo.destroy(addedCSS);
 
     var tpl = dojo.cache('toura.components.ChildNodeGrid', 'child-node-grid.css.tpl'),
         aspectRatio = 3/4,
@@ -37,6 +43,5 @@ dojo.declare('toura.components.ChildNodeGrid', toura.components.ChildNodes, {
         });
 
     dojo.place(css, document.querySelector('head'));
-    toura.components.ChildNodeGrid.placedCSS = true;
   }
 });

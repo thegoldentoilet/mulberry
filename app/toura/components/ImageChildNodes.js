@@ -1,16 +1,9 @@
 dojo.provide('toura.components.ImageChildNodes');
 
-dojo.require('toura.components.ChildNodes');
-dojo.require('mulberry.ui.BackgroundImage');
+dojo.require('toura.components._ChildNodeFeaturedImages');
 
-dojo.declare('toura.components.ImageChildNodes', toura.components.ChildNodes, {
+dojo.declare('toura.components.ImageChildNodes', toura.components._ChildNodeFeaturedImages, {
   templateString : dojo.cache('toura.components', 'ImageChildNodes/ImageChildNodes.haml'),
-  widgetsInTemplate : true,
+  itemTemplate : Haml(dojo.cache('toura.components', 'ImageChildNodes/ImageChildNodesItem.haml'))
 
-  prepareData : function() {
-    this.node.populateChildren();
-    this.children = dojo.filter(this.node.children || [], function(child) {
-      return child.featuredImage !== undefined;
-    });
-  }
 });
