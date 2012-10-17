@@ -126,6 +126,29 @@
     return request;
 }
 
+-(CGRect)getScreenBoundsForCurrentOrientation {
+    return [self getScreenBoundsForOrientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
+-(CGRect)getScreenBoundsForOrientation:(UIInterfaceOrientation)orientation {
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    CGRect fullScreenRect = screen.bounds; //implicitly in Portrait orientation.
+    
+    if(orientation == UIInterfaceOrientationLandscapeRight || orientation ==  UIInterfaceOrientationLandscapeLeft){
+        CGRect temp = CGRectZero;
+        temp.size.width = fullScreenRect.size.height;
+        temp.size.height = fullScreenRect.size.width;
+        fullScreenRect = temp;
+    }
+    //NSLog(@"fullscreenrect: %@",NSStringFromCGRect(fullScreenRect));
+    NSLog(@"orientation: %d", orientation);
+    NSLog(@"width %f height: %f", fullScreenRect.size.width, fullScreenRect.size.height);
+    return fullScreenRect;
+}
+
+
+
 // Sent when an ad request loaded an ad.  This is a good opportunity to add this
 // view to the hierarchy if it has not yet been added.  If the ad was received
 // as a part of the server-side auto refreshing, you can examine the

@@ -22,11 +22,11 @@ mulberry.app.PhoneGap.admob = function (pg, device) {
           };
 
           AdMob.prototype.moveBanner = function (siteId, deviceType, positionX, positionY, height, width, successCallback, failureCallback) {
-              var options = {siteId : siteId,
-                positionX : positionX,
-                positionY : positionY,
-                height : height,
-                width : width
+              var options = {siteId : siteId//,
+                //positionX : positionX,
+                //positionY : positionY,
+                //height : height,
+                //width : width
               };
 
               PhoneGap.exec("AdMob.moveBanner", options);
